@@ -11,49 +11,51 @@ public class Wald {
     private float co2Vorrat; //in Tonnen t
     private float ausfall;// in %
     private float zuwachs;// in Festmetern fm
+    private int[] counter;
 
     public Wald(ArrayList<Float> as, float bB, float zb){
         altersStruktur = as;
         baumBestand = bB;
         zielbestand = zb;
-        gesundheit = calcGesundheit();
+        calcGesundheit();
         ernte = 0.0f;
         co2Vorrat = baumBestand;
         ausfall = 0.0f;
         zuwachs = 0.0f;
+        counter = new int[]{0};
     }
 
-    private float calcGesundheit(){
-        int counter = 0;
+    public void calcGesundheit(){
+        int space = 0;
         for (Float f: altersStruktur) {
             if(f <= 0.0000001){
-                counter++;
+                space++;
             }
         }
-        return 0.25f + (0.75f/251)*counter;
+        gesundheit = 0.25f + (0.75f/altersStruktur.size())*space;
     }
 
-    private void calcAusfall(float afaktor){
+    public void calcAusfall(float afaktor){
         ausfall = afaktor*gesundheit;
     }
 
-    private void calcZuwachs(float zfaktor){
+    public void calcZuwachs(float zfaktor){
         zuwachs = zielbestand*zfaktor - ausfall*baumBestand;
     }
 
-    private void updateBaumbestand(){
+    public void updateBaumbestand(){
        baumBestand += zuwachs;
     }
 
-    private void altersStrukturPlusOneYear(){
+    public void altersStrukturPlusOneYear(){
         for (Float f:altersStruktur) {
             f *= (1-ausfall);
         }
         altersStruktur.add(0,ausfall);
-        altersStruktur.remove(251);
+        altersStruktur.remove(altersStruktur.size()-1);
     }
 
-    private void adaptNaturZielbestand(){
+    public void adaptNaturZielbestand(){
         if(ausfall >= 0.3){
             zielbestand*=(1-ausfall);
         }else if(Float.compare(zielbestand,245.0f) <= 0){
@@ -63,7 +65,7 @@ public class Wald {
         }
     }
 
-    private void adaptBewZielbestand(){
+    public void adaptBewZielbestand(){
         if(ausfall >= 0.3){
             zielbestand*=(1-ausfall);
         }else if(Float.compare(zielbestand,345.0f) <= 0){
@@ -73,7 +75,7 @@ public class Wald {
         }
     }
 
-    private void calcCO2(){
+    public void calcCO2(){
         co2Vorrat+=zuwachs;
         if(ausfall < 0.3){
             co2Vorrat+=baumBestand*ausfall/3;
@@ -82,7 +84,7 @@ public class Wald {
         }
     }
 
-    private void ernteBew(int[] counter, float afaktor){ //counter zählt in der simulation mit
+    public void ernteBew(float afaktor){ //counter zählt in der simulation mit
         if(ausfall >= 0.1 && ausfall < 0.3){
             float sumAnteil = 0.0f;
             for (int i = 0; i < altersStruktur.size() ; i++) {
@@ -93,8 +95,9 @@ public class Wald {
             }
             ernte += (sumAnteil*baumBestand + ausfall*baumBestand)/2;
             baumBestand -= sumAnteil*baumBestand;
-            gesundheit = calcGesundheit();
+            calcGesundheit();
             calcAusfall(afaktor);
+            counter[0]=0;
         }else if(ausfall < 0.1 && counter[0] == 11){
             float sumAnteil = 0.0f;
             for (int i = 0; i < altersStruktur.size() ; i++) {
@@ -105,8 +108,12 @@ public class Wald {
             }
             ernte += (sumAnteil*baumBestand*2)/3;
             baumBestand -= sumAnteil*baumBestand;
-            gesundheit = calcGesundheit();
+            calcGesundheit();
             calcAusfall(afaktor);
+            counter[0] = 0;
+        }else if(ausfall < 0.1 && counter[0] < 11){
+            counter[0]++;
+        }else if(ausfall >= 0.3){
             counter[0] = 0;
         }
     }
