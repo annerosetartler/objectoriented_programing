@@ -25,14 +25,27 @@ public class Wald {
         counter = new int[]{0};
     }
 
+    public Wald(Wald w){
+        this.baumBestand = w.baumBestand;
+        this.altersStruktur = w.altersStruktur;
+        this.gesundheit = w.gesundheit;
+        this.zielbestand = w.zielbestand;
+        this.ernte = w.ernte;
+        this.co2Vorrat = w.co2Vorrat;
+        this.ausfall = w.ausfall;
+        this.zuwachs = w.zuwachs;
+        this.counter = w.counter;
+    }
+
     public void calcGesundheit(){
         int space = 0;
+        float idealValue = 1.0f/altersStruktur.size();
         for (Float f: altersStruktur) {
-            if(f <= 0.0000001){
+            if(f < idealValue){
                 space++;
             }
         }
-        gesundheit = 0.25f + (0.75f/altersStruktur.size())*space;
+        gesundheit = 0.25f + (0.75f/(float)(altersStruktur.size()))*(float)(space);
     }
 
     public void calcAusfall(float afaktor){
@@ -120,13 +133,17 @@ public class Wald {
 
     @Override
     public String toString() {
-        return "{" +
-                "baumBestand=" + baumBestand +
-                ", altersStruktur=" + altersStruktur +
-                ", gesundheit=" + gesundheit +
-                ", zielbestand=" + zielbestand +
-                ", ernte=" + ernte +
-                ", co2Vorrat=" + co2Vorrat +
-                '}';
+        String s = "[ Baumbestand: " + baumBestand + "; Altersstruktur: [ ";
+        for (int i = 0; i < altersStruktur.size() ; i++) {
+            float fm = altersStruktur.get(i)*baumBestand;
+            if(i == altersStruktur.size()-1){
+                s += ""+fm+ " ]; ";
+            }else{
+                s += ""+fm+", ";
+            }
+
+        }
+        s += "Gesundheit: " + gesundheit + "; Zielbestand: " + zielbestand  + "; Ernte: " + ernte +  "; CO2-Vorrat: " + co2Vorrat + " ]";
+        return s;
     }
 }
