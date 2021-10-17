@@ -14,7 +14,7 @@ public class Simulation {
 
     //inv: ausfallsFaktor e [0.0,1.0]
     private void calcAFaktor (){
-        if(Math.random()<0.95){
+        if(Math.random()<0.965){
             ausfallsFaktor = (float) (Math.random()*0.08);
         }else{
             ausfallsFaktor = 0.08f + (float) (Math.random()*(1-0.08));
