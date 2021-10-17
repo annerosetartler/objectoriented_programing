@@ -12,7 +12,7 @@ public class Simulation {
     }
 
     private void calcAFaktor (){
-        if(Math.random()<0.75){
+        if(Math.random()<0.95){
             ausfallsFaktor = (float) (Math.random()*0.08);
         }else{
             ausfallsFaktor = 0.08f + (float) (Math.random()*(1-0.08));
@@ -33,10 +33,23 @@ public class Simulation {
             calcZFaktor();
             natur.plusOneYear(ausfallsFaktor,zuwachsFaktor);
             bew.plusOneYear(ausfallsFaktor,zuwachsFaktor);
+            System.out.println("Year: "+ i + ": " + natur.toString());
+            System.out.println("Year: "+ i + ": " + bew.toString());
             if(i%100 == 0){
                 System.out.println("Year: "+ i + ": " + natur.toString());
                 System.out.println("Year: "+ i + ": " + bew.toString());
             }
         }
+    }
+
+    public void testSimLoop(float aFaktor, float zFaktor){
+        Modell natur = new Naturbelassen(w1);
+        Modell bew = new Bewirtschaftet(w2);
+        System.out.println("Year: "+ 0 + ": " + natur.toString());
+        System.out.println("Year: "+ 0 + ": " + bew.toString());
+        natur.plusOneYear(ausfallsFaktor,aFaktor);
+        bew.plusOneYear(ausfallsFaktor,zFaktor);
+        System.out.println("Year: "+ 1 + ": " + natur.toString());
+        System.out.println("Year: "+ 1 + ": " + bew.toString());
     }
 }

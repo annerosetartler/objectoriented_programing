@@ -1,3 +1,4 @@
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Wald {
@@ -11,7 +12,6 @@ public class Wald {
     private float co2Vorrat; //in Tonnen t
     private float ausfall;// in %
     private float zuwachs;// in Festmetern fm
-    private int[] counter;
 
     public Wald(ArrayList<Float> as, float bB, float zb) {
         altersStruktur = as;
@@ -22,41 +22,42 @@ public class Wald {
         co2Vorrat = baumBestand;
         ausfall = 0.0f;
         zuwachs = 0.0f;
-        counter = new int[]{0};
     }
 
     public Wald(Wald w) {
         this.baumBestand = w.baumBestand;
-        this.altersStruktur = w.altersStruktur;
+        altersStruktur = new ArrayList<Float>();
+        for (int i = 0; i < w.altersStruktur.size(); i++) {
+            float f = w.altersStruktur.get(i);
+            altersStruktur.add(f);
+        }
         this.gesundheit = w.gesundheit;
         this.zielbestand = w.zielbestand;
         this.ernte = w.ernte;
         this.co2Vorrat = w.co2Vorrat;
         this.ausfall = w.ausfall;
         this.zuwachs = w.zuwachs;
-        this.counter = w.counter;
     }
 
-    public void annualCalcNat(float afaktor, float zfaktor, float systemVar) {
+    public void annualCalcNat(float afaktor, float zfaktor, float maxZielb) {
         calcAusfall(afaktor);
         calcZuwachs(zfaktor);
         updateBaumbestand();
         altersStrukturPlusOneYear();
         calcGesundheit();
-        adaptZielbestand(systemVar);
+        updateZielbestand(maxZielb);
         calcCO2();
     }
 
-    public void annualCalcBew(float afaktor, float zfaktor, float systemVar) {
-        annualCalcNat(afaktor, zfaktor, systemVar);
-        ernteBew(afaktor);
-        adaptZielbestand(systemVar); //Nochmal durchdenken, kanns nicht sein, dass wir dann den einfach zweimal hochsetzen? Sollte nicht passieren...
+    public void annualCalcBew(float afaktor, float zfaktor, float maxZielb, int[] c) {
+        annualCalcNat(afaktor, zfaktor, maxZielb);
+        ernteBew(afaktor,c,maxZielb);
         calcCO2();
     }
 
     private void calcGesundheit() {
         int space = 0;
-        float idealValue = 1.0f / altersStruktur.size();
+        float idealValue = 1.0f / (altersStruktur.size()*2);
         for (Float f : altersStruktur) {
             if (f < idealValue) {
                 space++;
@@ -78,20 +79,24 @@ public class Wald {
     }
 
     private void altersStrukturPlusOneYear() { ///
-        for (Float f : altersStruktur) {
-            f *= (1 - ausfall);
-        }
-        altersStruktur.add(0, ausfall);
         altersStruktur.remove(altersStruktur.size() - 1);
+        float sumBestand = 0.0f;
+        for (int i = 0; i < altersStruktur.size(); i++) {
+            float f = altersStruktur.get(i);
+            f *= (1.0f - ausfall);
+            sumBestand += f;
+            altersStruktur.set(i,f);
+        }
+        altersStruktur.add(0, 1.0f-sumBestand);
     }
 
-    private void adaptZielbestand(float systemVar) {
+    private void updateZielbestand(float maxZielb) {
         if (ausfall >= 0.3) {
             zielbestand *= (1 - ausfall);
-        } else if (Float.compare(zielbestand, systemVar-5) <= 0) {
+        } else if (Float.compare(zielbestand, maxZielb-5) <= 0) {
             zielbestand += 5.0f;
         } else {
-            zielbestand = systemVar;
+            zielbestand = maxZielb;
         }
     }
 
@@ -104,57 +109,52 @@ public class Wald {
         }
     }
 
-    private void ernteBew(float afaktor) { //counter zählt in der simulation mit
+    private void ernteBew(float afaktor,int[] c, float maxZielb) { //counter zählt in der simulation mit
         if (ausfall >= 0.1 && ausfall < 0.3) {
-            float sumAnteil = 0.0f;
-
-            updateAltersstruktur(46, sumAnteil);
+            float sumAnteil = updateAltersstruktur(46);
 
             ernte += (sumAnteil * baumBestand + ausfall * baumBestand) / 2;
 
-            adapt(sumAnteil, afaktor);
+            updateBaumGesAusfall(sumAnteil, afaktor, maxZielb);
 
-            resetCounter();
-        } else if (ausfall < 0.1 && counter[0] == 11) {
-            float sumAnteil = 0.0f;
-
-            updateAltersstruktur(75, sumAnteil);
+            c[0] = 0;
+        } else if (ausfall < 0.1 && c[0] == 11) {
+            float sumAnteil = updateAltersstruktur(75);
 
             ernte += (sumAnteil * baumBestand * 2) / 3;
 
-            adapt(sumAnteil, afaktor);
+            updateBaumGesAusfall(sumAnteil, afaktor, maxZielb);
 
-            resetCounter();
+            c[0] = 0;
         }
-        else if (ausfall < 0.1 && counter[0] < 11) {
-            counter[0]++;
+        else if (ausfall < 0.1 && c[0] < 11) {
+            c[0]++;
         } else if (ausfall >= 0.3) {
-            resetCounter();
+            c[0] = 0;
         }
     }
 
-    private void updateAltersstruktur(int limitAge, float sumAnteil){ //Name?
+    private float updateAltersstruktur(int limitAge){ //Name?
+        float sA = 0.0f;
         for (int i = 0; i < altersStruktur.size(); i++) {
             if (i >= limitAge) {
-                sumAnteil += altersStruktur.get(i);
+                sA += altersStruktur.get(i);
                 altersStruktur.set(i, 0.0f);
             }
         }
+        return sA;
     }
 
-    private void adapt(float sumAnteil, float afaktor) { //Name????
+    private void updateBaumGesAusfall(float sumAnteil, float afaktor, float maxZielb) { //Name????
         baumBestand -= sumAnteil * baumBestand;
         calcGesundheit();
         calcAusfall(afaktor);
-    }
-
-    private void resetCounter(){
-        counter[0] = 0;
+        updateZielbestand(maxZielb);
     }
 
     @Override
     public String toString() {
-        String s = "[ Baumbestand: " + baumBestand + "; Altersstruktur: [ ";
+        String s = "[ Baumbestand: " + baumBestand + " Ausfall: " + ausfall + " Zuwachs: " + zuwachs + " Gesundheit: " + gesundheit + "; Zielbestand: " + zielbestand + "; Ernte: " + ernte + "; CO2-Vorrat: " + co2Vorrat + "; Altersstruktur: [ ";
         for (int i = 0; i < altersStruktur.size(); i++) {
             float fm = altersStruktur.get(i) * baumBestand;
             if (i == altersStruktur.size() - 1) {
@@ -164,7 +164,7 @@ public class Wald {
             }
 
         }
-        s += "Gesundheit: " + gesundheit + "; Zielbestand: " + zielbestand + "; Ernte: " + ernte + "; CO2-Vorrat: " + co2Vorrat + " ]";
+        s += " ]";
         return s;
     }
 }
