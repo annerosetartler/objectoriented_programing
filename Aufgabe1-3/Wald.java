@@ -50,7 +50,7 @@ public class Wald {
     public void annualCalcBew(float afaktor, float zfaktor, float systemVar) {
         annualCalcNat(afaktor, zfaktor, systemVar);
         ernteBew(afaktor);
-        adaptZielbestand(350.0f); //Nochmal durchdenken, kanns nicht sein, dass wir dann den einfach zweimal hochsetzen? Sollte nicht passieren...
+        adaptZielbestand(systemVar); //Nochmal durchdenken, kanns nicht sein, dass wir dann den einfach zweimal hochsetzen? Sollte nicht passieren...
         calcCO2();
     }
 
