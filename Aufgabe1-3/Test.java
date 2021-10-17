@@ -11,7 +11,7 @@ public class Test {
         //System.out.println(altersS.toString());
         Wald testWald1 = new Wald(altersS,100.0f,250.0f);
         Wald testWald2 = new Wald(testWald1);
-        Simulation testSim = new Simulation(20,testWald1,testWald2);
+        Simulation testSim = new Simulation(1000,testWald1,testWald2);
         testSim.simLoop();
     }
 }

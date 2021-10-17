@@ -5,12 +5,14 @@ public class Simulation {
     private Wald w1, w2;
     private int years;
 
+    //pre: y >= 0 & w1 != null & w2 != null
     public Simulation(int y, Wald w1, Wald w2){
         this.w1 = w1;
         this.w2 = w2;
         years = y;
     }
 
+    //inv: ausfallsFaktor e [0.0,1.0]
     private void calcAFaktor (){
         if(Math.random()<0.95){
             ausfallsFaktor = (float) (Math.random()*0.08);
@@ -19,6 +21,7 @@ public class Simulation {
         }
     }
 
+    //inv: zuwachsFaktor e [0.0,0.08]
     private void calcZFaktor (){
         zuwachsFaktor = (float) (Math.random()*0.08);
     }
@@ -26,22 +29,20 @@ public class Simulation {
     public void simLoop(){
         Modell natur = new Naturbelassen(w1);
         Modell bew = new Bewirtschaftet(w2);
-        System.out.println("Year: "+ 0 + ": " + natur.toString());
-        System.out.println("Year: "+ 0 + ": " + bew.toString());
+        System.out.println("Year: 0" + "\n----------------------------------------" + "\n"+ natur.toString() + "\n" + bew.toString() + "\n----------------------------------------");
         for (int i = 1; i <= years; i++) {
             calcAFaktor();
             calcZFaktor();
             natur.plusOneYear(ausfallsFaktor,zuwachsFaktor);
             bew.plusOneYear(ausfallsFaktor,zuwachsFaktor);
-            System.out.println("Year: "+ i + ": " + natur.toString());
-            System.out.println("Year: "+ i + ": " + bew.toString());
             if(i%100 == 0){
-                System.out.println("Year: "+ i + ": " + natur.toString());
-                System.out.println("Year: "+ i + ": " + bew.toString());
+                System.out.println("Year: " + i + "\n----------------------------------------" + "\n"+ natur.toString() + "\n" + bew.toString() + "\n----------------------------------------");
             }
         }
     }
 
+    //pre: ausfallsFaktor e [0.0,1.0] & zuwachsFaktor e [0.0,0.08]
+    // Methode nur zum testen!
     public void testSimLoop(float aFaktor, float zFaktor){
         Modell natur = new Naturbelassen(w1);
         Modell bew = new Bewirtschaftet(w2);
