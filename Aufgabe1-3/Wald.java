@@ -5,7 +5,7 @@ public class Wald {
 
     //Waldparameter
     private float baumBestand;//in Festmetern fm
-    private ArrayList<Float> altersStruktur;// jeder Index repräsentiert ein Alter und jeder Eintrag den Anteil der Bäume diesen Alters; Wertebereich = [0.0,1.0]
+    private ArrayList<Float> altersStruktur;// jeder Index repräsentiert ein Alter und jeder Eintrag den Anteil der Bäume dieses Alters; Wertebereich = [0.0,1.0]
     private float gesundheit; //wertebereich [0.25,1.0], klein besser
     private float zielbestand;//in Festmetern fm
     private float ernte; //in Festmetern fm
@@ -61,9 +61,8 @@ public class Wald {
     //pre: afaktor e [0.0,1.0] & zfaktor e [0.0,0.08] & maxZielb > 0 & c != null & c.length > 0
     //post: gesundheit e [0.25,1.0] & baumBestand >= 0 & zielbestand > 0 & co2Vorrat >= 0 & altersStruktur != null & altersStruktur.size() > 0
     public void annualCalcBew(float afaktor, float zfaktor, float maxZielb, int[] c) {
-        int count = c.length;
         annualCalcNat(afaktor, zfaktor, maxZielb);
-        ernteBew(afaktor,c,maxZielb);
+        ernteBew(afaktor, c, maxZielb);
         calcCO2();
     }
 
@@ -75,7 +74,7 @@ public class Wald {
     //post: gesundheit e [0.25,1.0] & altersStruktur != null & altersStruktur.size() > 0
     private void calcGesundheit() {
         int space = 0;
-        float idealValue = 1.0f / (altersStruktur.size()*2);
+        float idealValue = 1.0f / (altersStruktur.size() * 2);
         for (Float f : altersStruktur) {
             if (f < idealValue) {
                 space++;
@@ -112,9 +111,9 @@ public class Wald {
             float f = altersStruktur.get(i);
             f *= (1.0f - ausfall);
             sumBestand += f;
-            altersStruktur.set(i,f);
+            altersStruktur.set(i, f);
         }
-        altersStruktur.add(0, 1.0f-sumBestand);
+        altersStruktur.add(0, 1.0f - sumBestand);
     }
 
     //der zielbestand wird abhängig vom ausfall aktualisiert
@@ -123,7 +122,7 @@ public class Wald {
     private void updateZielbestand(float maxZielb) {
         if (ausfall >= 0.3) {
             zielbestand *= (1 - ausfall);
-        } else if (Float.compare(zielbestand, maxZielb-5) <= 0) {
+        } else if (Float.compare(zielbestand, maxZielb - 5) <= 0) {
             zielbestand += 5.0f;
         } else {
             zielbestand = maxZielb;
@@ -142,7 +141,7 @@ public class Wald {
 
     //für einen Wald mit Ernte wird hier abhängig vom Ausfall der Wald verändert
     //pre: afaktor e [0.0,1.0] & c != null & c.length == 1 & maxZieb >= 0
-    private void ernteBew(float afaktor,int[] c, float maxZielb) { //in int[] c werden die Jahre in Folge gezählt mit ausfall < 0.1
+    private void ernteBew(float afaktor, int[] c, float maxZielb) { //in int[] c werden die Jahre in Folge gezählt mit ausfall < 0.1
         if (ausfall >= 0.1 && ausfall < 0.3) {
             float sumAnteil = updateAltersstruktur(46);
 
@@ -159,8 +158,7 @@ public class Wald {
             updateBaumGesAusfall(sumAnteil, afaktor, maxZielb);
 
             c[0] = 0;
-        }
-        else if (ausfall < 0.1 && c[0] < 11) {
+        } else if (ausfall < 0.1 && c[0] < 11) {
             c[0]++;
         } else if (ausfall >= 0.3) {
             c[0] = 0;
@@ -172,7 +170,7 @@ public class Wald {
     //pre: limitAge >= 0
     //inv: altersStruktur.size() bleibt unverändert
     //post: sA e [0.0,1.0]
-    private float updateAltersstruktur(int limitAge){
+    private float updateAltersstruktur(int limitAge) {
         float sA = 0.0f;
         for (int i = 0; i < altersStruktur.size(); i++) {
             if (i >= limitAge) {
@@ -196,7 +194,7 @@ public class Wald {
     // gibt Zustand des Waldes aus
     //die Ausgabe der Altersstruktur wurde zum Zweck der Leserlichkeit auskommentiert
     public String toString() {
-        String s = "Baumbestand: " + String.format("%6.2f",baumBestand) + "\t\tGesundheit: " + String.format("%6.2f",gesundheit) + "\t\tZielbestand: " + String.format("%6.2f",zielbestand) + "\t\tErnte: " + String.format("%6.2f",ernte) + "\t\tCO2-Vorrat: " + String.format("%6.2f",co2Vorrat);
+        String s = "Baumbestand: " + String.format("%6.2f", baumBestand) + "\t\tGesundheit: " + String.format("%6.2f", gesundheit) + "\t\tZielbestand: " + String.format("%6.2f", zielbestand) + "\t\tErnte: " + String.format("%6.2f", ernte) + "\t\tCO2-Vorrat: " + String.format("%6.2f", co2Vorrat);
         /*
         s += "\t\tAusfall: " + ausfall + "\t\tZuwachs: " + zuwachs;
         s += "; Altersstruktur: [ ";

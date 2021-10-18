@@ -12,7 +12,7 @@ public class Bewirtschaftet implements Modell {
     @Override
     //pre: afaktor e [0.0,1.0] & zfaktor e [0.0,0.08]
     public void plusOneYear(float afaktor, float zfaktor) {
-        w.annualCalcBew(afaktor, zfaktor, 350.0f,counter);
+        w.annualCalcBew(afaktor, zfaktor, 350.0f, counter);
     }
 
     @Override
