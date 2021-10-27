@@ -7,4 +7,8 @@ public class Wind extends Einflüsse{
     public Wind(float[] mW){
         super(mW,normW);
     }
+
+    public float Sturm(){
+        return Faktor(1.15f,1.3f);
+    }
 }

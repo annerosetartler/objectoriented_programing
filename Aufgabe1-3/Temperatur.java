@@ -8,4 +8,8 @@ public class Temperatur extends Einflüsse{
         super(mW,normW);
     }
 
+    public float Hitze(){
+        return Faktor(1.1f,1.2f);
+    }
+
 }

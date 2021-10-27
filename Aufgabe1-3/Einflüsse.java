@@ -1,14 +1,13 @@
 public class Einflüsse {
     protected float[] monatlicheWerte;//hat Länge 12
     protected float[] normWerte;//hat Länge 12
-    //protected float durchschnitt;
 
     public Einflüsse(float[] mW, float[] nW){
         monatlicheWerte = mW;
         normWerte = nW;
     }
 
-    protected void Plus1Jahr(float[] abweichungen){
+    public void Plus1Jahr(float[] abweichungen){
         for (int i = 0; i < monatlicheWerte.length; i++) {
             monatlicheWerte[i] = normWerte[i] * abweichungen[i];
         }
@@ -32,15 +31,30 @@ public class Einflüsse {
         }
     }
 
-    /*
-    protected float Durchschnitt(){
+    protected float VerhältnisZu(Einflüsse ei, float min, float max){
+        float verhSum = 0.0f;
+        for (int i = 0; i < monatlicheWerte.length; i++) {
+            verhSum += monatlicheWerte[i]/ei.monatlicheWerte[i];
+        }
+        float durchschnittV = verhSum/12.0f;
+        float mitte = (min + max)/2.0f;
+        if(durchschnittV < min || durchschnittV > max){
+            return 0.0f;
+        }else if(durchschnittV >= min && durchschnittV < mitte){
+            return (durchschnittV - min)/(mitte-min);
+        }else if(durchschnittV == mitte){
+            return 1.0f;
+        }else{
+            return 1.0f - (durchschnittV-mitte)/(max-mitte);
+        }
+    }
+
+    protected float Summe(){
         float sum = 0.0f;
         for (int i = 0; i < monatlicheWerte.length; i++) {
             sum += monatlicheWerte[i];
         }
-        sum /= 12.0f;
         return sum;
     }
-     */
 
 }

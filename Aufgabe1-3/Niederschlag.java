@@ -7,4 +7,12 @@ public class Niederschlag extends Einflüsse {
     public Niederschlag(float[] mW){
         super(mW,normW);
     }
+
+    public float Mure(){
+        return Faktor(1.5f,3.0f);
+    }
+
+    public float Wasser(){
+        return Summe();
+    }
 }

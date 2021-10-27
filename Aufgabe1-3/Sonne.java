@@ -8,5 +8,7 @@ public class Sonne extends Einflüsse{
         super(mW,normW);
     }
 
-
+    public float SonneZuRegen(Einflüsse e){
+        return VerhältnisZu(e,1.5f,2.5f);
+    }
 }
