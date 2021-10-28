@@ -20,7 +20,7 @@ public class Bewirtschaftet implements Modell {
 
     @Override
     public void plusOneYear(float[] einflussArray) {
-        //w.annualCalcBew(einflussArray, 350.0f, counter); //Implementieren
+        w.annualCalcBew(einflussArray, 350.0f, counter); //Implementieren
     }
 
     @Override

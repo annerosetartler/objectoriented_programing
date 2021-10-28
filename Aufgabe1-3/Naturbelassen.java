@@ -18,7 +18,7 @@ public class Naturbelassen implements Modell {
 
     @Override
     public void plusOneYear(float[] einflussArray) {
-        //w.annualCalcNat(einflussArray, 250.0f); //Implementieren
+        w.annualCalcNat(einflussArray, 250.0f); //Implementieren
     }
 
         @Override
