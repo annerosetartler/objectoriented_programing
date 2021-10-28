@@ -11,5 +11,4 @@ public class Temperatur extends Einflüsse{
     public float Hitze(){
         return Faktor(1.1f,1.2f);
     }
-
 }
