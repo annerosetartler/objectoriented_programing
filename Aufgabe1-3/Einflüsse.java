@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class Einflüsse {
     protected float[] monatlicheWerte;//hat Länge 12
     protected float[] normWerte;//hat Länge 12
@@ -22,6 +24,9 @@ public class Einflüsse {
                 zähler++;
                 sumAbw += abweichung;
             }
+        }
+        if(sumAbw <= 0.0000001f){
+            return 0.0f;
         }
         float totAbw = sumAbw/zähler;
         if(totAbw >= grenzwertAbw){
@@ -57,4 +62,7 @@ public class Einflüsse {
         return sum;
     }
 
+    public String toString(){
+        return Arrays.toString(monatlicheWerte);
+    }
 }

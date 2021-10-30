@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.Random;
 
 public class EinflussVerw {
@@ -25,6 +26,9 @@ public class EinflussVerw {
         Random r = new Random();
         for (int i = 0; i < abweichungen.length; i++) {
             abweichungen[i] = (float) (r.nextGaussian() * 0.5 + kw);
+            if(abweichungen[i] <= 0.5f){
+                abweichungen[i] = 0.5f;
+            }
         }
     }
 
@@ -44,8 +48,13 @@ public class EinflussVerw {
         temp.Plus1Jahr(abweichungen);
         GeneriereAbweichungen(klimawandel);
         wind.Plus1Jahr(abweichungen);
-        klimawandel += 0.01f;
+        klimawandel += 0.001f;
         AktualisiereFaktoren();
         return faktoren;
     }
+
+    public String toString(){
+        return "Sonne: " + sonne + "\n" + "Niederschlag: " + regen + "\n" + "Temperatur: " + regen + "\n" + "Wind: " + wind + "\n" + "Faktoren [Hitze, Mure, Sturm, Zuwachs]: " + Arrays.toString(faktoren);
+    }
+
 }

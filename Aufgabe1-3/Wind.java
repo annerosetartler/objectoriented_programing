@@ -9,6 +9,6 @@ public class Wind extends Einflüsse{
     }
 
     public float Sturm(){
-        return Faktor(1.15f,1.3f);
+        return Faktor(1.15f,1.5f);
     }
 }
