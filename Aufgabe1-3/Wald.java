@@ -43,51 +43,33 @@ public class Wald {
         this.zuwachs = w.zuwachs;
     }
 
-    //!!!!!!!!!!!!
-    //LÖSCHEN, SOBALD WIR WAS TUN UND FIXEN, WAS DANN NICHT MEHR GEHT
-    //!!!!!!!!!!!!
-
     //simuliert alle Veränderungen in einem Wald ohne Ernte nach 1 Jahr
-    //pre: afaktor e [0.0,1.0] & zfaktor e [0.0,0.08] & maxZielb > 0
-    //post: gesundheit e [0.25,1.0] & baumBestand >= 0 & zielbestand > 0 & co2Vorrat >= 0 & altersStruktur != null & altersStruktur.size() > 0
-    public void annualCalcNat(float afaktor, float zfaktor, float maxZielb) {
-        calcAusfall(afaktor);
-        calcZuwachs(zfaktor);
-        updateBaumbestand();
-        altersStrukturPlusOneYear();
-        calcGesundheit();
-        updateZielbestand(maxZielb);
-        calcCO2();
-    }
-
+    //pre: alle Stellen des einflussArray [0.0, 1.0] & maxZielb > 0
+    //post: gesundheit e [0.25,1.0] & baumBestand >= 0 & zielbestand > 0 & co2Vorrat >= 0
+    // & altersStruktur != null & altersStruktur.size() > 0
     public void annualCalcNat(float[] einflussArray, float maxZielb){
-        calcAusfall(einflussArray); //Andere calculations
-        calcZuwachs(einflussArray); //Andere calculations
+        calcAusfall(einflussArray);
+        calcZuwachs(einflussArray[3]);
         updateBaumbestand();
         altersStrukturPlusOneYear();
         calcGesundheit();
         updateZielbestand(maxZielb);
         calcCO2();
     }
-
-
-    //!!!!!!!!!!!!
-    //LÖSCHEN, SOBALD WIR WAS TUN UND FIXEN, WAS DANN NICHT MEHR GEHT
-    //!!!!!!!!!!!!
 
     //simuliert alle Veränderungen in einem Wald mit Ernte nach 1 Jahr
-    //pre: afaktor e [0.0,1.0] & zfaktor e [0.0,0.08] & maxZielb > 0 & c != null & c.length > 0
-    //post: gesundheit e [0.25,1.0] & baumBestand >= 0 & zielbestand > 0 & co2Vorrat >= 0 & altersStruktur != null & altersStruktur.size() > 0
-    public void annualCalcBew(float afaktor, float zfaktor, float maxZielb, int[] c) {
-        annualCalcNat(afaktor, zfaktor, maxZielb);
-        ernteBew(afaktor, c, maxZielb);
-        calcCO2();
-    }
-
     public void annualCalcBew(float[] einflussArray,float maxZielb, int[] c) {
         annualCalcNat(einflussArray, maxZielb);
         ernteBew(einflussArray, c, maxZielb);
         calcCO2();
+    }
+
+    public void annualCalcPlW(float[] einflussArray, float zielbestand, int[] counter){
+        //ToDo: Implementieren
+    }
+
+    public void annualCalcErhG(float[] einflussArray, float zielbestand, int[] counter){
+        //ToDo: Implementieren
     }
 
     //errechnet die Gesundheit des Waldes aus seiner Altersstruktur:
@@ -107,31 +89,25 @@ public class Wald {
         gesundheit = 0.25f + ((0.75f / (float) (altersStruktur.size())) * (float) (space));
     }
 
-    //!!!!!!!!!!!
-    //LÖSCHEN
-    //!!!!!!!!!!!
-    //pre: afaktor e [0.0,1.0] & ausfall >= 0.0f
+    //pre: einflussArray jeweils zwischen [0.0, 1.0] & ausfall >= 0.0f
     //inv: gesundheit e [0.25,1.0]
     //post: ausfall >= 0.0f
-    private void calcAusfall(float afaktor) {
-        ausfall = afaktor * gesundheit;
-    }
-
     private void calcAusfall(float[] einflussArray){
-        //Implementieren
+       ausfall = calcAusfallsfaktor(einflussArray) * gesundheit;
     }
 
-    //!!!!!!!!!!!!
-    //LÖSCHEN
-    //!!!!!!!!!!!!
-    //pre: zfaktor e [0.0,0.08] & ausfall >= 0.0f
+    //ToDo implementieren
+    private float calcAusfallsfaktor(float[] einflussArray){
+        //Methode, die noch geschrieben werden muss und die vmtl. in jedem Wald und zusammenspiel mit Modell
+        //anders funktioniert
+        return 0.0f; //ToDo: Berechnung
+    }
+
+    //ToDo: Abgleichen, ob die Berechnung mit den neuen Werten noch Sinn macht!?
+    //pre zfaktor e [0.0,0.08] & ausfall >= 0.0f
     //inv: baumBestand & zielbestand bleiben unverändert
-    private void calcZuwachs(float zfaktor) {
-        zuwachs = zielbestand * zfaktor - ausfall * baumBestand;
-    }
-
-    private void calcZuwachs(float[] einflussArray){
-        //IMPLEMENTIEREN
+    private void calcZuwachs(float zFaktor){
+        zuwachs = zielbestand * zFaktor - ausfall * baumBestand;
     }
 
     //post:baumBestand >= 0
@@ -177,20 +153,14 @@ public class Wald {
         }
     }
 
-
-    //!!!!!!!!!!!!
-    //LÖSCHEN
-    //!!!!!!!!!!!!
-
     //für einen Wald mit Ernte wird hier abhängig vom Ausfall der Wald verändert
-    //pre: afaktor e [0.0,1.0] & c != null & c.length == 1 & maxZieb >= 0
-    private void ernteBew(float afaktor, int[] c, float maxZielb) { //in int[] c werden die Jahre in Folge gezählt mit ausfall < 0.1
+    private void ernteBew(float[] einflussArray, int[] c, float maxZielb) {
         if (ausfall >= 0.1 && ausfall < 0.3) {
             float sumAnteil = updateAltersstruktur(46);
 
             ernte += (sumAnteil * baumBestand + ausfall * baumBestand) / 2;
 
-            updateBaumGesAusfall(sumAnteil, afaktor, maxZielb);
+            updateBaumGesAusfall(sumAnteil, einflussArray, maxZielb);
 
             c[0] = 0;
         } else if (ausfall < 0.1 && c[0] == 11) {
@@ -198,7 +168,7 @@ public class Wald {
 
             ernte += (sumAnteil * baumBestand * 2) / 3;
 
-            updateBaumGesAusfall(sumAnteil, afaktor, maxZielb);
+            updateBaumGesAusfall(sumAnteil, einflussArray, maxZielb);
 
             c[0] = 0;
         } else if (ausfall < 0.1 && c[0] < 11) {
@@ -206,10 +176,6 @@ public class Wald {
         } else if (ausfall >= 0.3) {
             c[0] = 0;
         }
-    }
-
-    private void ernteBew(float[] einflussArray, int[] c, float maxZielb) {
-        //IMPLEMENTIEREN
     }
 
     //Hier werden alle Bäume ab (inkl.) einem bestimmten Alter (=limitAge) gefällt
@@ -228,16 +194,15 @@ public class Wald {
         return sA;
     }
 
-    ///HIER MUSS AUCH EINE NEUE
-
     //Baumbestand, Gesundheit, Ausfall und Zielbestand werden gemäß einem anteiligen Wegfall aktualisiert
     //pre: wegfall e [0.0,1.0] & afaktor e [0.0,1.0] & maxZielb >= 0
-    private void updateBaumGesAusfall(float wegfall, float afaktor, float maxZielb) {
+    private void updateBaumGesAusfall(float wegfall, float[] einflussArray, float maxZielb) {
         baumBestand -= wegfall * baumBestand;
         calcGesundheit();
-        calcAusfall(afaktor);
+        calcAusfall(einflussArray);
         updateZielbestand(maxZielb);
     }
+
 
     @Override
     // gibt Zustand des Waldes aus
@@ -260,4 +225,6 @@ public class Wald {
          */
         return s;
     }
+
+
 }

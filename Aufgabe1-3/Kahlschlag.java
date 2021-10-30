@@ -1,4 +1,6 @@
 public class Kahlschlag extends Bewirtschaftet {
+    private int[] counter;
+
     public Kahlschlag(Wald w) {
         super(w);
     }

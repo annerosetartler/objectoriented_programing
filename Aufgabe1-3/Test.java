@@ -57,14 +57,3 @@ public class Test {
         }
     }
 }
-
-
-/*
-Arbeitsteilung:
-Konzeption der Faktorisierung und Methoden: Annerose, David und Maria
-Implementierung der Klasse Wald: Annerose, David und Maria
-Implementierung der Klassen Test, Simulation, Modell, Naturbelassen & Bewirtschaftet: David und Maria
-Überarbeitung der Klasse Wald: Annerose
-Kommentare und Ausgabe: Maria
-Inputgenerierung in Testklasse: David
- */
