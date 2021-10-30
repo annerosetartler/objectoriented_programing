@@ -9,6 +9,6 @@ public class Sonne extends Einflüsse{
     }
 
     public float SonneZuRegen(Einflüsse e){
-        return VerhältnisZu(e,1.5f,2.5f);
+        return VerhältnisZu(e,3.0f,6.0f);
     }
 }
