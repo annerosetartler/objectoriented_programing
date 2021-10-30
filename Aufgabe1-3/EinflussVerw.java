@@ -24,7 +24,7 @@ public class EinflussVerw {
     private void GeneriereAbweichungen(float kw){
         Random r = new Random();
         for (int i = 0; i < abweichungen.length; i++) {
-            abweichungen[i] = (float) (r.nextGaussian() * 0.4 + kw);
+            abweichungen[i] = (float) (r.nextGaussian() * 0.5 + kw);
         }
     }
 
