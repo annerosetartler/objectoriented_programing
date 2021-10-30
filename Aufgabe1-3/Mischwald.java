@@ -9,6 +9,11 @@ public class Mischwald extends Wald {
         super(w);
     }
 
+    //ToDo Implementieren
+    @Override
+    protected float calcAusfallsfaktor(float[] einflussArray, float[] wirtschaftsfaktoren){
+        return 0.0f;
+    }
 
-    //Einige Funktionen werden hier anders implementiert werden, iat dem/der Implementierenden überlassen
+    //Einige weitere Funktionen werden hier anders implementiert werden, iat dem/der Implementierenden überlassen
 }

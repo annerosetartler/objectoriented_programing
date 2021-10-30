@@ -7,9 +7,4 @@ public class Bewirtschaftet extends Bewirtschaftungsmodell {
         super(w);
         counter = new int[]{0};
     }
-
-    @Override
-    public void plusOneYear(float[] einflussArray) {
-        getWald().annualCalcBew(einflussArray, 350.0f, counter);
-    }
 }

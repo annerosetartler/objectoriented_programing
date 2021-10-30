@@ -43,33 +43,30 @@ public class Wald {
         this.zuwachs = w.zuwachs;
     }
 
-    //simuliert alle Veränderungen in einem Wald ohne Ernte nach 1 Jahr
-    //pre: alle Stellen des einflussArray [0.0, 1.0] & maxZielb > 0
+    //Wird von der Simulation aus mit den zwei zuvor berechneten Arrays aufgerufen und regelt den Alterungsprozess
+    //des Waldes um ein Jahr unter Berücksichtigung der hinzukommenden Katastrophen/des Zuwachses und der angewandten
+    //Wirtschaftsstrategie
+    //Der Wald "weiß" also nicht mehr genau, welches Modell an ihm ausgeübt wird, sondern nur, was tatsächlich
+    //getan werden muss
+
+    //pre: alle Stellen des einflussArray [0.0, 1.0], wirtschaftsfaktoren[0] ist 0 oder 1, wirtschaftsfaktoren[1] bis [3] e [0.0, 1.0]  & maxZielb > 0
     //post: gesundheit e [0.25,1.0] & baumBestand >= 0 & zielbestand > 0 & co2Vorrat >= 0
     // & altersStruktur != null & altersStruktur.size() > 0
-    public void annualCalcNat(float[] einflussArray, float maxZielb){
-        calcAusfall(einflussArray);
+    public void plusOneYear(float[] einflussArray, float[] wirtschaftsfaktoren,float maxZielb){
+        //Alle Bewirtschaftungsmodelle tun:
+        calcAusfall(einflussArray, wirtschaftsfaktoren);
         calcZuwachs(einflussArray[3]);
         updateBaumbestand();
         altersStrukturPlusOneYear();
         calcGesundheit();
         updateZielbestand(maxZielb);
         calcCO2();
-    }
 
-    //simuliert alle Veränderungen in einem Wald mit Ernte nach 1 Jahr
-    public void annualCalcBew(float[] einflussArray,float maxZielb, int[] c) {
-        annualCalcNat(einflussArray, maxZielb);
-        ernteBew(einflussArray, c, maxZielb);
+        //Wenn das Modell eine Ernte beinhaltet passiert zusätzlich
+        if (wirtschaftsfaktoren[0] != 0 && wirtschaftsfaktoren[3] != 0){
+        ernteBew(einflussArray, wirtschaftsfaktoren, maxZielb); //hab hier den counter raus gegeben, der gehört ins Modell
         calcCO2();
-    }
-
-    public void annualCalcPlW(float[] einflussArray, float zielbestand, int[] counter){
-        //ToDo: Implementieren
-    }
-
-    public void annualCalcErhG(float[] einflussArray, float zielbestand, int[] counter){
-        //ToDo: Implementieren
+        }
     }
 
     //errechnet die Gesundheit des Waldes aus seiner Altersstruktur:
@@ -92,24 +89,25 @@ public class Wald {
     //pre: einflussArray jeweils zwischen [0.0, 1.0] & ausfall >= 0.0f
     //inv: gesundheit e [0.25,1.0]
     //post: ausfall >= 0.0f
-    private void calcAusfall(float[] einflussArray){
-       ausfall = calcAusfallsfaktor(einflussArray) * gesundheit;
+    private void calcAusfall(float[] einflussArray, float[] wirtschaftsfaktoren){ //da ich noch unsicher bin, was man braucht für die Ausfall-Calculation
+       ausfall = calcAusfallsfaktor(einflussArray, wirtschaftsfaktoren) * gesundheit;
     }
 
-    //ToDo implementieren
-    private float calcAusfallsfaktor(float[] einflussArray){
+    //ToDo implementieren, ist jetzt eine protected class, damit sie überschiedeben werden kann!
+    protected float calcAusfallsfaktor(float[] einflussArray, float[] wirtschaftsfaktoren){
         //Methode, die noch geschrieben werden muss und die vmtl. in jedem Wald und zusammenspiel mit Modell
         //anders funktioniert
         return 0.0f; //ToDo: Berechnung
     }
 
-    //ToDo: Abgleichen, ob die Berechnung mit den neuen Werten noch Sinn macht!?
+    //ToDo: Abgleichen, ob die Berechnung mit den neuen Werten noch Sinn macht. Wie spielt "Marias" Zuwachs in Gesamtzuwachs?
     //pre zfaktor e [0.0,0.08] & ausfall >= 0.0f
     //inv: baumBestand & zielbestand bleiben unverändert
     private void calcZuwachs(float zFaktor){
         zuwachs = zielbestand * zFaktor - ausfall * baumBestand;
     }
 
+    //ToDo: muss nicht erst der neue Zuwachs berechnet werden? passiert das?
     //post:baumBestand >= 0
     private void updateBaumbestand() {
         baumBestand += zuwachs;
@@ -153,14 +151,17 @@ public class Wald {
         }
     }
 
-    //für einen Wald mit Ernte wird hier abhängig vom Ausfall der Wald verändert
-    private void ernteBew(float[] einflussArray, int[] c, float maxZielb) {
+    //ToDo IMPLEMENTIEREN //sollen Gezeiten da hineinspielen, wenn ja wie?
+    private void ernteBew(float[] einflussArray, float[] wirtschaftsfaktoren, float maxZielb) {
+
+        /*
+        //counter ist jetzt im Modell
         if (ausfall >= 0.1 && ausfall < 0.3) {
             float sumAnteil = updateAltersstruktur(46);
 
             ernte += (sumAnteil * baumBestand + ausfall * baumBestand) / 2;
 
-            updateBaumGesAusfall(sumAnteil, einflussArray, maxZielb);
+            updateBaumGesAusfall(sumAnteil, einflussArray, wirtschaftsfaktoren, maxZielb);
 
             c[0] = 0;
         } else if (ausfall < 0.1 && c[0] == 11) {
@@ -168,7 +169,7 @@ public class Wald {
 
             ernte += (sumAnteil * baumBestand * 2) / 3;
 
-            updateBaumGesAusfall(sumAnteil, einflussArray, maxZielb);
+            updateBaumGesAusfall(sumAnteil, einflussArray, wirtschaftsfaktoren, maxZielb);
 
             c[0] = 0;
         } else if (ausfall < 0.1 && c[0] < 11) {
@@ -176,6 +177,7 @@ public class Wald {
         } else if (ausfall >= 0.3) {
             c[0] = 0;
         }
+         */
     }
 
     //Hier werden alle Bäume ab (inkl.) einem bestimmten Alter (=limitAge) gefällt
@@ -196,10 +198,10 @@ public class Wald {
 
     //Baumbestand, Gesundheit, Ausfall und Zielbestand werden gemäß einem anteiligen Wegfall aktualisiert
     //pre: wegfall e [0.0,1.0] & afaktor e [0.0,1.0] & maxZielb >= 0
-    private void updateBaumGesAusfall(float wegfall, float[] einflussArray, float maxZielb) {
+    private void updateBaumGesAusfall(float wegfall, float[] einflussArray, float[] wirtschaftsfaktoren, float maxZielb) {
         baumBestand -= wegfall * baumBestand;
         calcGesundheit();
-        calcAusfall(einflussArray);
+        calcAusfall(einflussArray, wirtschaftsfaktoren);
         updateZielbestand(maxZielb);
     }
 

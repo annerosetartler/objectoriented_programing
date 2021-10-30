@@ -9,16 +9,17 @@ public class Bewirtschaftungsmodell {
         this.w = w;
     }
 
-    public void plusOneYear(float[] einflussArray) {
-        w.annualCalcNat(einflussArray, 250.0f);
-    }
-
     public String toString() {
         return getClass() + ":\n" + w.getClass() + w;
     }
 
+    public float[] plusOneYear(Wald w){
+        float[] array = new float[4];
+        //ToDo Implementieren
+        return array;
+    }
 
-    public Wald getWald() {
+    protected Wald getWald() {
         return w;
     }
 }
