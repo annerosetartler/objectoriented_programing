@@ -19,7 +19,6 @@ public class Test {
         istWertInBereich(t.Hitze(),0.0f,1.0f);
         istWertInBereich(n.Mure(),0.0f,1.0f);
         istWertInBereich(w.Sturm(),0.0f,1.0f);
-        //istWertInBereich(w.Sturm(),0.0f,1.0f);
 
         /*
         ArrayList<Float> Übergabelist = new ArrayList<Float>();
