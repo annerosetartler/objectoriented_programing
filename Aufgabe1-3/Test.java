@@ -43,7 +43,7 @@ public class Test {
 
     public static void istWertInBereich(float erhalten, float min, float max) {
         if (erhalten >= min && erhalten <= max) {
-            System.out.println("Test erfolgreich!");
+            System.out.println("Test erfolgreich! Erhalten:" + erhalten);
         } else {
             System.out.println("Test NICHT erfolgreich! Erwartet Wert in: [" + min + ", " + max + "] / Erhalten: " + erhalten);
         }
