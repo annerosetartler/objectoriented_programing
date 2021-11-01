@@ -63,7 +63,7 @@ public class Wald {
         calcCO2();
 
         //Wenn das Modell eine Ernte beinhaltet passiert zusätzlich
-        if (wirtschaftsfaktoren[0] != 0 && wirtschaftsfaktoren[3] != 0){
+        if (wirtschaftsfaktoren[0] != 0.0f && wirtschaftsfaktoren[3] != 0.0f){
         ernteBew(einflussArray, wirtschaftsfaktoren, maxZielb); //hab hier den counter raus gegeben, der gehört ins Modell
         calcCO2();
         }
@@ -93,11 +93,11 @@ public class Wald {
        ausfall = calcAusfallsfaktor(einflussArray, wirtschaftsfaktoren) * gesundheit;
     }
 
-    //ToDo implementieren, ist jetzt eine protected class, damit sie überschiedeben werden kann!
+    //Wie in UE1: Ausfallfaktor meist zwischen 0 und 0.08, mit Durchschnitt 0.04
+    //In Katastrophenjahren bis zu 1
+    //Methode hier in Oberklasse wird nie aufgerufen werden
     protected float calcAusfallsfaktor(float[] einflussArray, float[] wirtschaftsfaktoren){
-        //Methode, die noch geschrieben werden muss und die vmtl. in jedem Wald und zusammenspiel mit Modell
-        //anders funktioniert
-        return 0.0f; //ToDo: Berechnung
+        return 1.0f;
     }
 
     //ToDo: Abgleichen, ob die Berechnung mit den neuen Werten noch Sinn macht. Wie spielt "Marias" Zuwachs in Gesamtzuwachs?
@@ -151,33 +151,37 @@ public class Wald {
         }
     }
 
-    //ToDo IMPLEMENTIEREN //sollen Gezeiten da hineinspielen, wenn ja wie?
+    //ToDo IMPLEMENTIEREN
     private void ernteBew(float[] einflussArray, float[] wirtschaftsfaktoren, float maxZielb) {
-
-        /*
-        //counter ist jetzt im Modell
-        if (ausfall >= 0.1 && ausfall < 0.3) {
-            float sumAnteil = updateAltersstruktur(46);
-
-            ernte += (sumAnteil * baumBestand + ausfall * baumBestand) / 2;
-
+        if (wirtschaftsfaktoren[0] == 1){
+            float sumAnteil = updateAltersstruktur(0);
+            ernte += (sumAnteil * baumBestand); //Alles wird aus dem Wald genommen, also kein Ausfall*Baumbestand mehr
             updateBaumGesAusfall(sumAnteil, einflussArray, wirtschaftsfaktoren, maxZielb);
-
-            c[0] = 0;
-        } else if (ausfall < 0.1 && c[0] == 11) {
-            float sumAnteil = updateAltersstruktur(75);
-
-            ernte += (sumAnteil * baumBestand * 2) / 3;
-
-            updateBaumGesAusfall(sumAnteil, einflussArray, wirtschaftsfaktoren, maxZielb);
-
-            c[0] = 0;
-        } else if (ausfall < 0.1 && c[0] < 11) {
-            c[0]++;
-        } else if (ausfall >= 0.3) {
-            c[0] = 0;
+            return;
         }
-         */
+        float fmProAS = wirtschaftsfaktoren[1];
+        if (fmProAS < berechneStrukturverteilung() + 0.1){ //Faktor => David nochmal fragen
+            //ToDo: wie wird jetzt geholzt?
+        }
+        else if (fmProAS > berechneStrukturverteilung() - 0.1){ //Faktor => David nochmal fragen
+
+        }
+        if (wirtschaftsfaktoren[2] != 0 && this.isMischwald()){
+            ///
+        }
+        //Passiert die Fällung in Festmetern extra, oder gibt es einflüsse von zB. wirtschaftsfaktoren 2?
+        }
+
+    //ToDo: Was genau bewirkt der Altersstruktur-Faktor und dementsprechend wie berechne ich das? Haben Mischwälder nur eine, oder zwei Altersstrukturen?
+    private float berechneStrukturverteilung(){
+        for (float alter : altersStruktur) {
+
+        }
+        return 0.0f;
+    }
+
+    protected boolean isMischwald(){
+        return false;
     }
 
     //Hier werden alle Bäume ab (inkl.) einem bestimmten Alter (=limitAge) gefällt
