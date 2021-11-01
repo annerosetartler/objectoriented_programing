@@ -5,5 +5,4 @@ public class Naturbelassen extends Bewirtschaftungsmodell {
         super(w);
     }
 
-    //Hier steht jetzt nichts, weil der Obertyp gerade den Methoden von Naturbelassen entspricht
 }

@@ -7,16 +7,29 @@ public class Bewirtschaftungsmodell {
     //pre: w != null
     public Bewirtschaftungsmodell(Wald w) {
         this.w = w;
+
     }
 
     public String toString() {
         return getClass() + ":\n" + w.getClass() + w;
     }
 
-    public float[] plusOneYear(Wald w){
-        float[] array = new float[4];
-        //ToDo Implementieren
-        return array;
+    public float[] plusOneYear(int Modell) {
+        if (Modell == 1){
+            Kahlschlag modellK = new Kahlschlag(w);
+            modellK.plusOneYear();
+            return modellK.getWirtschaftsfaktoren();
+        }else if (Modell == 2){
+            Erholungsgebiet modellE = new Erholungsgebiet(w);
+            modellE.plusOneYear();
+            return modellE.getWirtschaftsfaktoren();
+        }else if (Modell == 3){
+            Plenterwirtschaft modellP = new Plenterwirtschaft(w);
+            modellP.plusoneyear();
+            return modellP.getWirtschaftsfaktoren();
+        }else{
+            return null;
+        }
     }
 
     protected Wald getWald() {

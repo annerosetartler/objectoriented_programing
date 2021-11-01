@@ -4,6 +4,7 @@ public class Simulation {
     private float[] einflussArray; //[Hitze, Mure, Sturm, Zuwachs], jeweils Faktoren zwischen [0.0, 1.0]
     private Wald w1, w2;
     private int years;
+    private int Modell; // 0 steht für Naturbelassen, 1 steht für Kahlschlag, 2 steht für Erholungsgebiet und 3 für PLenterwirtschaft
 
     //pre: y >= 0 & w1 != null & w2 != null
     public Simulation(int y, Wald w1, Wald w2) {
@@ -20,8 +21,8 @@ public class Simulation {
 
             //einfluss-Array-Übergabe einbauen (Maria)
             //ToDo: herauskommende Arrays müssen gespeichert werden und der Wald-OneYear jährlich übergeben werden, ebenso die Einflüsse im Einfluss-Array
-            natur.plusOneYear(w1);
-            bew.plusOneYear(w2);
+            natur.plusOneYear(0);
+            bew.plusOneYear(Modell);
             if (i % 100 == 0) {
                 System.out.println("Year: " + i + "\n----------------------------------------" + "\n" + natur.toString() + "\n" + bew.toString() + "\n----------------------------------------");
             }
@@ -34,8 +35,8 @@ public class Simulation {
         Bewirtschaftungsmodell bew = new Bewirtschaftet(w2);
         System.out.println("Year: " + 0 + ": " + natur.toString());
         System.out.println("Year: " + 0 + ": " + bew.toString());
-        natur.plusOneYear(w1);
-        bew.plusOneYear(w2);
+        natur.plusOneYear(0);
+        bew.plusOneYear(Modell);
         System.out.println("Year: " + 1 + ": " + natur.toString());
         System.out.println("Year: " + 1 + ": " + bew.toString());
     }

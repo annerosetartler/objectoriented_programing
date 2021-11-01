@@ -1,9 +1,28 @@
 public class Kahlschlag extends Bewirtschaftet {
     private int[] counter;
+    /*
+    wirtschaftsfaktoren[0] ist 1 wenn durch einen Kahlschlag geerntet werden soll ansonsten ist er 0
+    wirtschaftsfaktoren[1] ist ein Faktor in Prozent der sagt wie hoch der Anteil an Festmetern pro Altersstruktur sein darf
+    wirtschaftsfaktoren[2] ist ein Faktor in Prozent der bestimmt ab wann im Mischwald begonnen werden muss Baumarten zu fällen
+                            also bei Faktor 0,4 würde man sobald eine Baumart weniger als 40% der Festmeter im Wald ausmacht beginnen
+                            die andere Baumart zu fällen sodass nach der Fällung wieder 50% Laub- sowie Nadelbäume im Wald sind
+    wirtschaftsfaktoren[3] ist ein Prozentwert der aussagt wie viel Prozent Festmeter gefällt werden müssen.
+                           Dieser Wert ergibt sich aus Pflegung alter Wege, Anschaffung neuer, Pflegung alter Hütten und Bauung neuer
+     */
+    private float[] wirtschaftsfaktoren;
 
     public Kahlschlag(Wald w) {
         super(w);
+        counter = new int[]{0};
     }
 
-    //bleibt so, da wir hier unser "normales" bewirtschaftetes Modell nutzen
+    public void plusOneYear() {
+        if (counter[0] == 11){
+            wirtschaftsfaktoren[0] = 1;
+            counter[0] = 0;
+        }else{
+            counter[0]++;
+        }
+    }
+
 }
