@@ -15,14 +15,14 @@ public class Simulation {
 
     public void simLoop() {
         Bewirtschaftungsmodell natur = new Naturbelassen(w1);
-        Bewirtschaftungsmodell bew = new Bewirtschaftet(w2);
+        Kahlschlag bew = new Kahlschlag(w2);
         System.out.println("Year: 0" + "\n----------------------------------------" + "\n" + natur.toString() + "\n" + bew.toString() + "\n----------------------------------------");
         for (int i = 1; i <= years; i++) {
 
             //einfluss-Array-Übergabe einbauen (Maria)
             //ToDo: herauskommende Arrays müssen gespeichert werden und der Wald-OneYear jährlich übergeben werden, ebenso die Einflüsse im Einfluss-Array
-            natur.plusOneYear(0);
-            bew.plusOneYear(Modell);
+            natur.plusEinJahr();
+            bew.plusEinJahr();
             if (i % 100 == 0) {
                 System.out.println("Year: " + i + "\n----------------------------------------" + "\n" + natur.toString() + "\n" + bew.toString() + "\n----------------------------------------");
             }
@@ -35,8 +35,8 @@ public class Simulation {
         Bewirtschaftungsmodell bew = new Bewirtschaftet(w2);
         System.out.println("Year: " + 0 + ": " + natur.toString());
         System.out.println("Year: " + 0 + ": " + bew.toString());
-        natur.plusOneYear(0);
-        bew.plusOneYear(Modell);
+        natur.plusEinJahr();
+        bew.plusEinJahr();
         System.out.println("Year: " + 1 + ": " + natur.toString());
         System.out.println("Year: " + 1 + ": " + bew.toString());
     }

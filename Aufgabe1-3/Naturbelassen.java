@@ -4,5 +4,4 @@ public class Naturbelassen extends Bewirtschaftungsmodell {
     public Naturbelassen(Wald w) {
         super(w);
     }
-
 }
