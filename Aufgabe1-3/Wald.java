@@ -3,14 +3,14 @@ import java.util.ArrayList;
 public class Wald {
 
     //Waldparameter
-    private float baumBestand;//in Festmetern fm
-    private ArrayList<Float> altersStruktur;// jeder Index repräsentiert ein Alter und jeder Eintrag den Anteil der Bäume dieses Alters; Wertebereich = [0.0,1.0]
-    private float gesundheit; //wertebereich [0.25,1.0], klein besser
-    private float zielbestand;//in Festmetern fm
-    private float ernte; //in Festmetern fm
-    private float co2Vorrat; //in Tonnen t
-    private float ausfall;// in %
-    private float zuwachs;// in Festmetern fm
+    protected float baumBestand;//in Festmetern fm
+    protected ArrayList<Float> altersStruktur;// jeder Index repräsentiert ein Alter und jeder Eintrag den Anteil der Bäume dieses Alters; Wertebereich = [0.0,1.0]
+    protected float gesundheit; //wertebereich [0.25,1.0], klein besser
+    protected float zielbestand;//in Festmetern fm
+    protected float ernte; //in Festmetern fm
+    protected float co2Vorrat; //in Tonnen t
+    protected float ausfall;// in %
+    protected float zuwachs;// in Festmetern fm
 
     // erzeugt Wald im Anfangszustand
     //pre: as != null & as.size() > 0 & bB > 0 & zb > 0
@@ -94,20 +94,19 @@ public class Wald {
     }
 
     //Wie in UE1: Ausfallfaktor meist zwischen 0 und 0.08, mit Durchschnitt 0.04
-    //In Katastrophenjahren bis zu 1
+    //ToDo Normal: Durchschnitt der ersten drei Stellen * 0.08. In Katastrophenjahren (= mind 2 der 3 sind 1.0f)
+    // //bis zu 1 (= nicht nochmal * 0.08, sondern stattdessen * 0.75)
     //Methode hier in Oberklasse wird nie aufgerufen werden
     protected float calcAusfallsfaktor(float[] einflussArray, float[] wirtschaftsfaktoren){
         return 1.0f;
     }
 
-    //ToDo: Abgleichen, ob die Berechnung mit den neuen Werten noch Sinn macht. Wie spielt "Marias" Zuwachs in Gesamtzuwachs?
     //pre zfaktor e [0.0,0.08] & ausfall >= 0.0f
     //inv: baumBestand & zielbestand bleiben unverändert
     private void calcZuwachs(float zFaktor){
-        zuwachs = zielbestand * zFaktor - ausfall * baumBestand;
+        zuwachs = zielbestand * zFaktor * 0.08f - ausfall * baumBestand;
     }
 
-    //ToDo: muss nicht erst der neue Zuwachs berechnet werden? passiert das?
     //post:baumBestand >= 0
     private void updateBaumbestand() {
         baumBestand += zuwachs;
@@ -159,7 +158,7 @@ public class Wald {
             updateBaumGesAusfall(sumAnteil, einflussArray, wirtschaftsfaktoren, maxZielb);
             return;
         }
-        float fmProAS = wirtschaftsfaktoren[1];
+        float fmProAS = wirtschaftsfaktoren[1]; //derzeit immer 1/250
         if (fmProAS < berechneStrukturverteilung() + 0.1){ //Faktor => David nochmal fragen
             //ToDo: wie wird jetzt geholzt?
         }
@@ -169,8 +168,9 @@ public class Wald {
         if (wirtschaftsfaktoren[2] != 0 && this.isMischwald()){
             ///
         }
+
         //Passiert die Fällung in Festmetern extra, oder gibt es einflüsse von zB. wirtschaftsfaktoren 2?
-        }
+    }
 
     //ToDo: Was genau bewirkt der Altersstruktur-Faktor und dementsprechend wie berechne ich das? Haben Mischwälder nur eine, oder zwei Altersstrukturen?
     private float berechneStrukturverteilung(){
