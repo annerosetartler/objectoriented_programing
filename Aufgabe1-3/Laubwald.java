@@ -9,10 +9,10 @@ public class Laubwald extends Wald {
         super(w);
     }
 
-    //ToDo Implementieren
+    //Faktoren evtl. noch anpassen!? derzeit: für Laubwald ist Hitze okay, aber keine Muren oder Sturm
     @Override
     protected float calcAusfallsfaktor(float[] einflussArray, float[] wirtschaftsfaktoren){
-        return 0.0f;
+        return (einflussArray[0] * 0.9f + einflussArray[1] * 1.1f + einflussArray[2] * 1.1f)/3;
     }
 
     //Einige weitere Funktionen werden hier anders implementiert werden, iat dem/der Implementierenden überlassen
