@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Wald {
+public class Population {
 
     //Waldparameter
     protected float baumBestand;//in Festmetern fm
@@ -11,15 +11,16 @@ public class Wald {
     protected float co2Vorrat; //in Tonnen t
     protected float ausfall;// in %
     protected float zuwachs;// in Festmetern fm
+    protected boolean istMischwald;
 
     // erzeugt Wald im Anfangszustand
     //pre: as != null & as.size() > 0 & bB > 0 & zb > 0
     //pre: Summe aller Werte in as ergibt 1.0 & Werte in as liegen in [0.0,1.0]
-    public Wald(ArrayList<Float> as, float bB, float zb) {
+    public Population(ArrayList<Float> as, float bB, float zb) {
         altersStruktur = as;
         baumBestand = bB;
         zielbestand = zb;
-        calcGesundheit();
+        berGesundheit();
         ernte = 0.0f;
         co2Vorrat = baumBestand;
         ausfall = 0.0f;
@@ -28,7 +29,7 @@ public class Wald {
 
     //erzeugt ein Objekt von Wald als tiefe Kopie von w
     //pre: w != null
-    public Wald(Wald w) {
+    public Population(Population w) {
         this.baumBestand = w.baumBestand;
         altersStruktur = new ArrayList<Float>();
         for (int i = 0; i < w.altersStruktur.size(); i++) {
@@ -52,20 +53,21 @@ public class Wald {
     //pre: alle Stellen des einflussArray [0.0, 1.0], wirtschaftsfaktoren[0] ist 0 oder 1, wirtschaftsfaktoren[1] bis [3] e [0.0, 1.0]  & maxZielb > 0
     //post: gesundheit e [0.25,1.0] & baumBestand >= 0 & zielbestand > 0 & co2Vorrat >= 0
     // & altersStruktur != null & altersStruktur.size() > 0
-    public void plusOneYear(float[] einflussArray, float[] wirtschaftsfaktoren,float maxZielb){
+    public void plusEinJahr(float[] einflussArray, float[] wirtschaftsfaktoren, float maxZielb, boolean istMischwald){
         //Alle Bewirtschaftungsmodelle tun:
-        calcAusfall(einflussArray, wirtschaftsfaktoren);
-        calcZuwachs(einflussArray[3]);
+        berAusfall(einflussArray, wirtschaftsfaktoren);
+        berZuwachs(einflussArray[3]);
         updateBaumbestand();
-        altersStrukturPlusOneYear();
-        calcGesundheit();
+        altersStrukturPlusEinJahr();
+        berGesundheit();
         updateZielbestand(maxZielb);
-        calcCO2();
+        berCO2();
+        this.istMischwald = istMischwald;
 
         //Wenn das Modell eine Ernte beinhaltet passiert zusätzlich
         if (wirtschaftsfaktoren[0] != 0.0f && wirtschaftsfaktoren[3] != 0.0f){
         ernteBew(einflussArray, wirtschaftsfaktoren, maxZielb); //hab hier den counter raus gegeben, der gehört ins Modell
-        calcCO2();
+        berCO2();
         }
     }
 
@@ -75,11 +77,11 @@ public class Wald {
     //entsprechend der Anzahl der Lücken wird die Gesundheit zwischen 0.25 und 1.0 errechnet
     //pre: altersStruktur != null & altersStruktur.size() > 0
     //post: gesundheit e [0.25,1.0] & altersStruktur != null & altersStruktur.size() > 0
-    private void calcGesundheit() {
+    private void berGesundheit() {
         int space = 0;
-        float idealValue = 1.0f / (altersStruktur.size() * 2);
+        float idealwert = 1.0f / (altersStruktur.size() * 2);
         for (Float f : altersStruktur) {
-            if (f < idealValue) {
+            if (f < idealwert) {
                 space++;
             }
         }
@@ -89,21 +91,21 @@ public class Wald {
     //pre: einflussArray jeweils zwischen [0.0, 1.0] & ausfall >= 0.0f
     //inv: gesundheit e [0.25,1.0]
     //post: ausfall >= 0.0f
-    private void calcAusfall(float[] einflussArray, float[] wirtschaftsfaktoren){ //da ich noch unsicher bin, was man braucht für die Ausfall-Calculation
-       ausfall = calcAusfallsfaktor(einflussArray, wirtschaftsfaktoren) * gesundheit;
+    private void berAusfall(float[] einflussArray, float[] wirtschaftsfaktoren){ //da ich noch unsicher bin, was man braucht für die Ausfall-Calculation
+       ausfall = berAusfallsfaktor(einflussArray, wirtschaftsfaktoren) * gesundheit;
     }
 
     //Wie in UE1: Ausfallfaktor meist zwischen 0 und 0.08, mit Durchschnitt 0.04
     //ToDo Normal: Durchschnitt der ersten drei Stellen * 0.08. In Katastrophenjahren (= mind 2 der 3 sind 1.0f)
     // //bis zu 1 (= nicht nochmal * 0.08, sondern stattdessen * 0.75)
     //Methode hier in Oberklasse wird nie aufgerufen werden
-    protected float calcAusfallsfaktor(float[] einflussArray, float[] wirtschaftsfaktoren){
+    protected float berAusfallsfaktor(float[] einflussArray, float[] wirtschaftsfaktoren){
         return 1.0f;
     }
 
     //pre zfaktor e [0.0,0.08] & ausfall >= 0.0f
     //inv: baumBestand & zielbestand bleiben unverändert
-    private void calcZuwachs(float zFaktor){
+    protected void berZuwachs(float zFaktor){
         zuwachs = zielbestand * zFaktor * 0.08f - ausfall * baumBestand;
     }
 
@@ -115,7 +117,7 @@ public class Wald {
     //simuliert das Älterwerden der Bäume im Wald
     //pre: altersStruktur != null & altersStruktur.size() > 0
     //inv: altersStruktur.size() bleibt unverändert & Summe aller Einträge ergibt 1.0
-    private void altersStrukturPlusOneYear() {
+    private void altersStrukturPlusEinJahr() {
         altersStruktur.remove(altersStruktur.size() - 1);
         float sumBestand = 0.0f;
         for (int i = 0; i < altersStruktur.size(); i++) {
@@ -141,7 +143,7 @@ public class Wald {
     }
 
     //inv: baumBestand & ausfall bleiben unverändert & co2Vorrat >= 0
-    private void calcCO2() {
+    protected void berCO2() {
         co2Vorrat += zuwachs;
         if (ausfall < 0.3) {
             co2Vorrat += baumBestand * ausfall / 3;
@@ -165,7 +167,7 @@ public class Wald {
         else if (fmProAS > berechneStrukturverteilung() - 0.1){ //Faktor => David nochmal fragen
 
         }
-        if (wirtschaftsfaktoren[2] != 0 && this.isMischwald()){
+        if (wirtschaftsfaktoren[2] != 0 && istMischwald){
             ///
         }
 
@@ -180,19 +182,15 @@ public class Wald {
         return 0.0f;
     }
 
-    protected boolean isMischwald(){
-        return false;
-    }
-
     //Hier werden alle Bäume ab (inkl.) einem bestimmten Alter (=limitAge) gefällt
     //der Gesamtanteil der gefällten Bäume wird zurückgegeben
     //pre: limitAge >= 0
     //inv: altersStruktur.size() bleibt unverändert
     //post: sA e [0.0,1.0]
-    private float updateAltersstruktur(int limitAge) {
+    private float updateAltersstruktur(int alterslimit) {
         float sA = 0.0f;
         for (int i = 0; i < altersStruktur.size(); i++) {
-            if (i >= limitAge) {
+            if (i >= alterslimit) {
                 sA += altersStruktur.get(i);
                 altersStruktur.set(i, 0.0f);
             }
@@ -204,8 +202,8 @@ public class Wald {
     //pre: wegfall e [0.0,1.0] & afaktor e [0.0,1.0] & maxZielb >= 0
     private void updateBaumGesAusfall(float wegfall, float[] einflussArray, float[] wirtschaftsfaktoren, float maxZielb) {
         baumBestand -= wegfall * baumBestand;
-        calcGesundheit();
-        calcAusfall(einflussArray, wirtschaftsfaktoren);
+        berGesundheit();
+        berAusfall(einflussArray, wirtschaftsfaktoren);
         updateZielbestand(maxZielb);
     }
 

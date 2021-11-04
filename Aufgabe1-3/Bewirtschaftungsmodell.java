@@ -12,11 +12,11 @@ public class Bewirtschaftungsmodell {
                            Dieser Wert ergibt sich aus Pflegung alter Wege, Anschaffung neuer, Pflegung alter Hütten und Bauung neuer
      */
     protected float[] wirtschaftsfaktoren = new float[4];
-    protected Wald w;
+    protected Population w;
 
 
     //pre: w != null
-    public Bewirtschaftungsmodell(Wald w) {
+    public Bewirtschaftungsmodell(Population w) {
         this.w = w;
     }
 

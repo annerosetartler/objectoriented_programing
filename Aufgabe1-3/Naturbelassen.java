@@ -1,7 +1,7 @@
 public class Naturbelassen extends Bewirtschaftungsmodell {
 
     //pre: w != null
-    public Naturbelassen(Wald w) {
+    public Naturbelassen(Population w) {
         super(w);
     }
 }

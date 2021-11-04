@@ -1,17 +1,17 @@
 import java.util.ArrayList;
 
-public class Laubwald extends Wald {
-    public Laubwald(ArrayList<Float> as, float bB, float zb) {
+public class Buche extends Population {
+    public Buche(ArrayList<Float> as, float bB, float zb) {
         super(as, bB, zb);
     }
 
-    public Laubwald(Wald w) {
+    public Buche(Population w) {
         super(w);
     }
 
     //Faktoren evtl. noch anpassen!? derzeit: für Laubwald ist Hitze okay, aber keine Muren oder Sturm
     @Override
-    protected float calcAusfallsfaktor(float[] einflussArray, float[] wirtschaftsfaktoren){
+    protected float berAusfallsfaktor(float[] einflussArray, float[] wirtschaftsfaktoren){
         return (einflussArray[0] * 0.9f + einflussArray[1] * 1.1f + einflussArray[2] * 1.1f)/3;
     }
 

@@ -4,7 +4,7 @@ public class Erholungsgebiet extends Bewirtschaftet {
     private int neuH;
     private int neuW;
 
-    public Erholungsgebiet(Wald w) {
+    public Erholungsgebiet(Population w) {
         super(w);
     }
 

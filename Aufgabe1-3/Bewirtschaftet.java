@@ -1,6 +1,6 @@
 public class Bewirtschaftet extends Bewirtschaftungsmodell {
     //pre: w != null
-    public Bewirtschaftet(Wald w) {
+    public Bewirtschaftet(Population w) {
         super(w);
     }
 

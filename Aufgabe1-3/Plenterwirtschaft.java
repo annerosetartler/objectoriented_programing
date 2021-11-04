@@ -1,7 +1,7 @@
 public class Plenterwirtschaft extends Bewirtschaftet {
 
     //pre: w != null
-    public Plenterwirtschaft(Wald w) {
+    public Plenterwirtschaft(Population w) {
         super(w);
 
     }
