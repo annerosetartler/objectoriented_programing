@@ -54,10 +54,7 @@ public class Forst {
             wald2.plusEinJahr(einflussArray, wirtschaftsfaktoren, maxZielb/2, true);
 
             berGesamtAS();
-            berGesamtGesundheit();
-
-            wald1.setGesundheit(baumGes); //Gesundheit, die für die einzelnen Teile gelten würde, wird hier überschrieben!!!
-            wald2.setGesundheit(baumGes);
+            setzeGesamtGesundheit(); //Gesundheit, die für die einzelnen Teile gelten würde, wird hier überschrieben!!!
         }
     }
 
@@ -67,7 +64,8 @@ public class Forst {
         return "Ihr Waldbestand: " + (b ? "2 " : "1 ") + "Komponente" + (b ? "n:" : ":") + wald1.getClass() + (b ? wald2.getClass() + "." : ".") + "\n" + wald1.toString() + (b ? "\n" + wald2.toString() + "." : ".");
        */
         //Oder, wenn ich den Gesamtwald ausgeben will:
-        String s = "Ihr Waldbestand:" + (b ? "2 " : "1 ") + "Komponente" + (b ? "n:" : ":") + wald1.getClass() + (b ? "und " + wald2.getClass() + "." : ".") + "\n";
+        String s = "Ihr Waldbestand:" + (b ? "2 " : "1 ") + "Komponente" + (b ? "n:" : ":") + wald1.getClass() +
+                (b ? "und " + wald2.getClass() + "." : ".");
         if (!b){
             s += wald1.toString();
         }
@@ -77,7 +75,7 @@ public class Forst {
                     "\t\tCO2-Vorrat: " + String.format("%6.2f", wald1.co2Vorrat + wald2.co2Vorrat);
             /*
             s += "; Altersstruktur: [ ";
-            for (int i = 0; i < gesAS.size(); i++) {
+            for (int i = 0; i < gesAS.size() - 1; i++) {
                 float fm = gesAS.get(i) * wald1.baumBestand + wald2.baumBestand;
                 if (i == gesAS.size() - 1) {
                     s += "" + fm + " ]; ";
@@ -97,7 +95,7 @@ public class Forst {
         }
     }
 
-    private void berGesamtGesundheit(){
+    private void setzeGesamtGesundheit(){
         int space = 0;
         float idealwert = 1.0f / (gesAS.size() * 2);
         for (Float f : gesAS) {
@@ -106,6 +104,9 @@ public class Forst {
             }
         }
         baumGes = 0.25f + ((0.75f / (float) (gesAS.size())) * (float) (space));
+
+        wald1.setGesundheit(baumGes);
+        wald2.setGesundheit(baumGes);
     }
 
 
