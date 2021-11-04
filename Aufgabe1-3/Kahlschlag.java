@@ -1,8 +1,8 @@
 public class Kahlschlag extends Bewirtschaftet {
     private int[] Zähler;
 
-    public Kahlschlag(Population w) {
-        super(w);
+    public Kahlschlag(int altersKlassen) {
+        super(altersKlassen);
         Zähler = new int[]{0};
     }
 

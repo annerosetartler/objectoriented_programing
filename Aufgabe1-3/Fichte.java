@@ -12,8 +12,18 @@ public class Fichte extends Population {
     }
 
     @Override
-    protected float berAusfallsfaktor(float[] einflussArray, float[] wirtschaftsfaktoren){
-        return (einflussArray[0] * 1.1f + einflussArray[1] + einflussArray[2] *0.9f)/3;
+    protected float berAusfallsfaktor(float[] einflussArray){
+        float[] einflussArrayKopie = new float[einflussArray.length];
+        for (int i = 0; i < einflussArray.length - 1; i++) {
+            einflussArrayKopie[i] = einflussArray[i];
+        }
+        einflussArrayKopie[0] *= 1.1f;
+        if (einflussArrayKopie[0] >= 1.0f){
+            einflussArrayKopie[0] = 1.0f;
+        }
+        einflussArrayKopie[2] *= 0.9f;
+
+        return ausfallHilfe(einflussArrayKopie);
     }
 
     @Override

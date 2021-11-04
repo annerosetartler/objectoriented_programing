@@ -3,7 +3,7 @@ public class Simulation {
 
     private float[] einflussArray; //[Hitze, Mure, Sturm, Zuwachs], jeweils Faktoren zwischen [0.0, 1.0]
     private float[] wirtschaftsArray; //
-    private Population w1, w2, w3;
+    private Population w1, w2;
     private int years;
     private int Modell; // 0 steht für Naturbelassen, 1 steht für Kahlschlag, 2 steht für Erholungsgebiet und 3 für PLenterwirtschaft
 
@@ -14,15 +14,20 @@ public class Simulation {
         years = y;
     }
 
-    public void simLoop() {
-        Population population1 = new Buche(w1); //Derzeit kann der Wald seine Art ändern!?
-        Population population2 = new Fichte(w2);
-        Forst testForst = new Forst(w1);
+    public void simLoop(EinflussVerw e, Bewirtschaftungsmodell m, boolean mischwald) {
+        Forst testForst;
+        if (mischwald){
+            testForst = new Forst(w1, w2);
+        }
+        else {
+             testForst = new Forst(w1);
+        }
+
 
         System.out.println("Year: 0" + "\n----------------------------------------" + "\n" + testForst.toString() + "\n----------------------------------------"); //Bewirtschaftungsmodell-Name?
         for (int i = 1; i <= years; i++) {
-            float[] einflussfaktoren = einflussArray; //stattdessen Berechnung von Maria;
-            float[] wirtschaftsfaktoren = wirtschaftsArray; //stattdessen Berechnung von David;
+            float[] einflussfaktoren =  e.Plus1Jahr();
+            float[] wirtschaftsfaktoren = m.plusEinJahr();
 
             testForst.plusEinJahr(einflussfaktoren, wirtschaftsfaktoren, wirtschaftsfaktoren[3]); //ISt wirtschaftsfaktoren[3] zielbestand?
             if (i % 100 == 0) {
@@ -47,17 +52,14 @@ public class Simulation {
          */
     }
 
+    /*
     public String toString(){
         return "Relevante Komponenten auf das Modell in diesem Jahr: " + "\n" + "Bewirtschaftungsmodell: " + modellName()  + "\n" + "Witterungseinflüsse: " + starkeEinflüsse();
     }
 
     private String modellName(){
         String s = "";
-        /* ToDo Noch schreiben, welches Modell es wann ist, und das hier füttern
-        if (wirtschaftsArray[0] == 0 && wirtschaftsArray[3] > 0){
 
-        }
-        */
         return s;
     }
 
@@ -77,11 +79,15 @@ public class Simulation {
         }
         return s;
     }
+   */
 
+
+
+    /*
     // Methode nur zum testen!
     public void testSimLoop(float[] einflussArray) {
-        Bewirtschaftungsmodell natur = new Naturbelassen(w1);
-        Bewirtschaftungsmodell bew = new Bewirtschaftet(w2);
+        Bewirtschaftungsmodell natur = new Naturbelassen(5);
+        Bewirtschaftungsmodell bew = new Bewirtschaftet(5);
         System.out.println("Year: " + 0 + ": " + natur.toString());
         System.out.println("Year: " + 0 + ": " + bew.toString());
         natur.plusEinJahr();
@@ -89,4 +95,5 @@ public class Simulation {
         System.out.println("Year: " + 1 + ": " + natur.toString());
         System.out.println("Year: " + 1 + ": " + bew.toString());
     }
+     */
 }

@@ -67,8 +67,17 @@ public class Test {
             System.out.println("\n");
         }
 
+        float[] sonneA = new float[]{69.0f,108.0f,202.0f,312.0f,222.0f,193.0f,286.0f,240.0f,224.0f,88.0f,58.0f,29.0f};
+        Sonne sA = new Sonne(sonneA);
+        float[] tempA = new float[]{1.4f,6.6f,7.3f,12.5f,14.5f,19.0f,21.6f,21.9f,16.9f,11.2f,6.1f,3.3f};
+        Temperatur tA = new Temperatur(tempA);
+        float[] regenA = new float[]{19.0f,52.0f,21.0f,9.0f,83.0f,94.0f,77.0f,99.0f,75.0f,130.0f,17.0f,23.0f};
+        Niederschlag nA = new Niederschlag(regenA);
+        float[] windA = new float[]{10.8f,18.0f,14.4f,10.4f,14.0f,14.8f,10.4f,10.8f,11.5f,13.0f,9.7f,12.6f};
+        Wind wA = new Wind(windA);
 
-        /*
+        EinflussVerw eA = new EinflussVerw(sA,nA,tA,wA);
+
         ArrayList<Float> Übergabelist = new ArrayList<Float>();
         ArrayList<Float> altersS = new ArrayList<Float>();
         Random rando = new Random();
@@ -82,11 +91,14 @@ public class Test {
         for (Float f : Übergabelist) {
             altersS.add(f / sum);
         }
-        Wald testWald1 = new Wald(altersS, 100.0f, 250.0f);
-        Wald testWald2 = new Wald(testWald1);
+
+        Bewirtschaftungsmodell modell = new Naturbelassen(altersS.size());
+
+        Population testWald1 = new Buche(altersS, 100.0f, 250.0f);
+        Population testWald2 = new Fichte(testWald1);
         Simulation testSim = new Simulation(1000, testWald1, testWald2);
-        testSim.simLoop();
-         */
+
+        testSim.simLoop(eA, modell, false);
     }
 
     public static void istWertInBereich(float erhalten, float min, float max) {

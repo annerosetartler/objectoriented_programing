@@ -16,7 +16,7 @@ public class Population {
     // erzeugt Wald im Anfangszustand
     //pre: as != null & as.size() > 0 & bB > 0 & zb > 0
     //pre: Summe aller Werte in as ergibt 1.0 & Werte in as liegen in [0.0,1.0]
-    public Population(ArrayList<Float> as, float bB, float zb) {
+    protected Population(ArrayList<Float> as, float bB, float zb) {
         altersStruktur = as;
         baumBestand = bB;
         zielbestand = zb;
@@ -29,7 +29,7 @@ public class Population {
 
     //erzeugt ein Objekt von Wald als tiefe Kopie von w
     //pre: w != null
-    public Population(Population w) {
+    protected Population(Population w) {
         this.baumBestand = w.baumBestand;
         altersStruktur = new ArrayList<Float>();
         for (int i = 0; i < w.altersStruktur.size(); i++) {
@@ -92,15 +92,30 @@ public class Population {
     //inv: gesundheit e [0.25,1.0]
     //post: ausfall >= 0.0f
     private void berAusfall(float[] einflussArray, float[] wirtschaftsfaktoren) { //da ich noch unsicher bin, was man braucht für die Ausfall-Calculation
-        ausfall = berAusfallsfaktor(einflussArray, wirtschaftsfaktoren) * gesundheit;
+        ausfall = berAusfallsfaktor(einflussArray) * gesundheit;
     }
 
     //Wie in UE1: Ausfallfaktor meist zwischen 0 und 0.08, mit Durchschnitt 0.04
-    //ToDo Normal: Durchschnitt der ersten drei Stellen * 0.08. In Katastrophenjahren (= mind 2 der 3 sind 1.0f)
-    // //bis zu 1 (= nicht nochmal * 0.08, sondern stattdessen * 0.75)
     //Methode hier in Oberklasse wird nie aufgerufen werden
-    protected float berAusfallsfaktor(float[] einflussArray, float[] wirtschaftsfaktoren) {
-        return 1.0f;
+    protected float berAusfallsfaktor(float[] einflussArray) {
+        return 0.0f;
+    }
+
+    protected float ausfallHilfe(float[] einflussArray){
+        int zähler = 0;
+        for (int i = 0; i < einflussArray.length - 1; i++) {
+            if (einflussArray[i] == 1.0f){
+                zähler++;
+            }
+        }
+        float durchschnitt = (einflussArray[0] + einflussArray[1] + einflussArray[2]) / 3.0f;
+        switch (zähler){
+            case 0: return durchschnitt * 0.08f;
+            case 1:
+            case 2:
+                return durchschnitt * 0.75f;
+            default: return durchschnitt;
+        }
     }
 
     //pre zfaktor e [0.0,0.08] & ausfall >= 0.0f
@@ -179,14 +194,6 @@ public class Population {
 
     public void plenterernte(float neuerbaumbestand){
         this.baumBestand = neuerbaumbestand;
-    }
-
-    //ToDo: Was genau bewirkt der Altersstruktur-Faktor und dementsprechend wie berechne ich das? Haben Mischwälder nur eine, oder zwei Altersstrukturen?
-    private float berechneStrukturverteilung() {
-        for (float alter : altersStruktur) {
-
-        }
-        return 0.0f;
     }
 
     //Hier werden alle Bäume ab (inkl.) einem bestimmten Alter (=limitAge) gefällt

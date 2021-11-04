@@ -1,7 +1,7 @@
 public class Bewirtschaftet extends Bewirtschaftungsmodell {
     //pre: w != null
-    public Bewirtschaftet(Population w) {
-        super(w);
+    public Bewirtschaftet(int altersKlassen) {
+        super(altersKlassen);
     }
 
     public float[] getWirtschaftsfaktoren() {

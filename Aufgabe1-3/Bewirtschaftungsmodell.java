@@ -12,17 +12,18 @@ public class Bewirtschaftungsmodell {
                            Dieser Wert ergibt sich aus Pflegung alter Wege, Anschaffung neuer, Pflegung alter Hütten und Bauung neuer
      */
     protected float[] wirtschaftsfaktoren = new float[4];
-    protected Population w;
+    protected int altersKlassen;
 
 
     //pre: w != null
-    public Bewirtschaftungsmodell(Population w) {
-        this.w = w;
+    public Bewirtschaftungsmodell(int altersKlassen) {
+        this.altersKlassen = altersKlassen;
     }
 
-    public String toString() {
+    /*public String toString() {
         return getClass() + ":\n" + w.getClass() + w;
     }
+     */
 
     public float[] plusEinJahr() {
         return wirtschaftsfaktoren;
