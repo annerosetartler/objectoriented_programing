@@ -7,7 +7,7 @@ public class Plenterwirtschaft extends Bewirtschaftet {
     }
 
     public float[] plusEinJahr(){
-        wirtschaftsfaktoren[1] = 100.0f/250.0f;
+        wirtschaftsfaktoren[1] = 1/250.0f;
         wirtschaftsfaktoren[2] = 0.45f;
         return super.plusEinJahr();
     }
