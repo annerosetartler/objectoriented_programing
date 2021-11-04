@@ -215,7 +215,9 @@ public class Population {
     // gibt Zustand des Waldes aus
     //die Ausgabe der Altersstruktur wurde zum Zweck der Leserlichkeit auskommentiert
     public String toString() {
-        String s = "Baumbestand: " + String.format("%6.2f", baumBestand) + "\t\tGesundheit: " + String.format("%6.2f", gesundheit) + "\t\tZielbestand: " + String.format("%6.2f", zielbestand) + "\t\tErnte: " + String.format("%6.2f", ernte) + "\t\tCO2-Vorrat: " + String.format("%6.2f", co2Vorrat);
+        String s = "Baumbestand: " + String.format("%6.2f", baumBestand) + "\t\tGesundheit: " + String.format("%6.2f", gesundheit) +
+                "\t\tZielbestand: " + String.format("%6.2f", zielbestand) + "\t\tErnte: " + String.format("%6.2f", ernte) +
+                "\t\tCO2-Vorrat: " + String.format("%6.2f", co2Vorrat);
         /*
         s += "\t\tAusfall: " + ausfall + "\t\tZuwachs: " + zuwachs;
         s += "; Altersstruktur: [ ";
