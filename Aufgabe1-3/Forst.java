@@ -48,7 +48,7 @@ public class Forst {
     //ich gebe derzeit hier jedem den halben zielbestand, wenn es zwei Waldteile gibt... => evtl. ändern?
     public void plusEinJahr(float[] einflussArray, float[] wirtschaftsfaktoren,float maxZielb){
 
-        wald1.plusEinJahr(einflussArray, wirtschaftsfaktoren, maxZielb / (wald2 != null? 1 : 2), (wald2 != null));
+        wald1.plusEinJahr(einflussArray, wirtschaftsfaktoren, maxZielb / (wald2 == null? 1 : 2), (wald2 != null));
 
         if (wald2 != null){
             wald2.plusEinJahr(einflussArray, wirtschaftsfaktoren, maxZielb/2, true);

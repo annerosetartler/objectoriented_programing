@@ -36,7 +36,7 @@ public class Einflüsse {
         }
     }
 
-    protected float VerhältnisZu(Einflüsse ei, float min, float max){
+    protected float VerhältnisZu(Einflüsse ei, float min, float max){ //zFaktor nochmal ansehen!!
         float verhSum = 0.0f;
         for (int i = 0; i < monatlicheWerte.length; i++) {
             verhSum += monatlicheWerte[i]/ei.monatlicheWerte[i];
@@ -44,7 +44,7 @@ public class Einflüsse {
         float durchschnittV = verhSum/12.0f;
         float mitte = (min + max)/2.0f;
         if(durchschnittV < min || durchschnittV > max){
-            return 0.0f;
+            return 0.1f;
         }else if(durchschnittV >= min && durchschnittV < mitte){
             return (durchschnittV - min)/(mitte-min);
         }else if(durchschnittV == mitte){

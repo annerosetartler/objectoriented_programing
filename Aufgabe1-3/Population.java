@@ -55,7 +55,7 @@ public class Population {
     // & altersStruktur != null & altersStruktur.size() > 0
     public void plusEinJahr(float[] einflussArray, float[] wirtschaftsfaktoren, float maxZielb, boolean istMischwald) {
         //Alle Bewirtschaftungsmodelle tun:
-        berAusfall(einflussArray, wirtschaftsfaktoren);
+        berAusfall(einflussArray);
         berZuwachs(einflussArray[3]);
         updateBaumbestand();
         altersStrukturPlusEinJahr();
@@ -91,7 +91,7 @@ public class Population {
     //pre: einflussArray jeweils zwischen [0.0, 1.0] & ausfall >= 0.0f
     //inv: gesundheit e [0.25,1.0]
     //post: ausfall >= 0.0f
-    private void berAusfall(float[] einflussArray, float[] wirtschaftsfaktoren) { //da ich noch unsicher bin, was man braucht für die Ausfall-Calculation
+    private void berAusfall(float[] einflussArray) { //da ich noch unsicher bin, was man braucht für die Ausfall-Calculation
         ausfall = berAusfallsfaktor(einflussArray) * gesundheit;
     }
 
@@ -121,7 +121,7 @@ public class Population {
     //pre zfaktor e [0.0,0.08] & ausfall >= 0.0f
     //inv: baumBestand & zielbestand bleiben unverändert
     protected void berZuwachs(float zFaktor) {
-        zuwachs = zielbestand * zFaktor * 0.08f - ausfall * baumBestand;
+        zuwachs = zielbestand * zFaktor * 0.08f - ausfall * baumBestand; //zFaktor nochmal anschauen!!
     }
 
     //post:baumBestand >= 0
@@ -172,7 +172,7 @@ public class Population {
         if (wirtschaftsfaktoren[0] == 1) {
             float sumAnteil = updateAltersstruktur(0);
             ernte += (sumAnteil * baumBestand); //Alles wird aus dem Wald genommen, also kein Ausfall*Baumbestand mehr
-            updateBaumGesAusfall(sumAnteil, einflussArray, wirtschaftsfaktoren, maxZielb);
+            updateBaumGesAusfall(sumAnteil, einflussArray, maxZielb);
             return;
         }
         if (wirtschaftsfaktoren[1] != 0) {
@@ -214,10 +214,10 @@ public class Population {
 
     //Baumbestand, Gesundheit, Ausfall und Zielbestand werden gemäß einem anteiligen Wegfall aktualisiert
     //pre: wegfall e [0.0,1.0] & afaktor e [0.0,1.0] & maxZielb >= 0
-    private void updateBaumGesAusfall(float wegfall, float[] einflussArray, float[] wirtschaftsfaktoren, float maxZielb) {
+    private void updateBaumGesAusfall(float wegfall, float[] einflussArray, float maxZielb) {
         baumBestand -= wegfall * baumBestand;
         berGesundheit();
-        berAusfall(einflussArray, wirtschaftsfaktoren);
+        berAusfall(einflussArray);
         updateZielbestand(maxZielb);
     }
 

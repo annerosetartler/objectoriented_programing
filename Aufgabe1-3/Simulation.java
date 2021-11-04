@@ -29,7 +29,7 @@ public class Simulation {
             float[] einflussfaktoren =  e.Plus1Jahr();
             float[] wirtschaftsfaktoren = m.plusEinJahr();
 
-            testForst.plusEinJahr(einflussfaktoren, wirtschaftsfaktoren, wirtschaftsfaktoren[3]); //ISt wirtschaftsfaktoren[3] zielbestand?
+            testForst.plusEinJahr(einflussfaktoren, wirtschaftsfaktoren, 250.0f); //ISt wirtschaftsfaktoren[3] zielbestand?
             if (i % 100 == 0) {
                 System.out.println("Year: " + i + "\n----------------------------------------" + "\n" + testForst.toString() + "\n----------------------------------------"
                         + toString()) ;
