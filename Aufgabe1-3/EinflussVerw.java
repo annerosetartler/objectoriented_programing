@@ -48,7 +48,7 @@ public class EinflussVerw {
         temp.Plus1Jahr(abweichungen);
         GeneriereAbweichungen(klimawandel);
         wind.Plus1Jahr(abweichungen);
-        klimawandel += 0.001f;
+        klimawandel += 0.0001f;
         AktualisiereFaktoren();
         return faktoren;
     }
