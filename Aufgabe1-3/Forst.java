@@ -2,6 +2,8 @@ import java.util.ArrayList;
 
 public class Forst {
     private Population wald1, wald2;
+    private ArrayList<Float> gesAS;
+    private float baumGes;
 
     //Initialisiert einen Forst, der eine Waldart hat
     public Forst(ArrayList<Float> as, float bB, float zB, int baumart){
@@ -48,13 +50,48 @@ public class Forst {
         wald1.plusEinJahr(einflussArray, wirtschaftsfaktoren, maxZielb / (wald2 != null? 1 : 2), (wald2 != null));
         if (wald2 != null){
             wald2.plusEinJahr(einflussArray, wirtschaftsfaktoren, maxZielb/2, true);
+            berGesamtAS();
+            berGesamtGesundheit();
+            wald1.setGesundheit(baumGes); //Gesundheit, die für die einzelnen Teile gelten würde wird hier überschrieben!!!
+            wald2.setGesundheit(baumGes);
         }
     }
 
     public String toString() {
         boolean b = wald2 != null;
+        /*
         return "Ihr Waldbestand: " + (b ? "2 " : "1 ") + "Komponente" + (b ? "n:" : ":") + wald1.getClass() + (b ? wald2.getClass() + "." : ".") + "\n" + wald1.toString() + (b ? "\n" + wald2.toString() + "." : ".");
+       */
+        //Oder, wenn ich den Gesamtwald ausgeben will:
+        String s = (b ? "2 " : "1 ") + "Komponente" + (b ? "n:" : ":") + wald1.getClass() + (b ? wald2.getClass() + "." : ".") + "\n";
+        if (!b){
+            s += wald1.toString();
+        }
+        else {
+            s += "Baumbestand: " + String.format("%6.2f", wald1.baumBestand + wald2.baumBestand) + "\t\tGesundheit: " + String.format("%6.2f", baumGes) +
+                    "\t\tZielbestand: " + String.format("%6.2f", wald1.zielbestand + wald2.zielbestand) + "\t\tErnte: " + String.format("%6.2f", wald1.ernte + wald2. ernte) +
+                    "\t\tCO2-Vorrat: " + String.format("%6.2f", wald1.co2Vorrat + wald2.co2Vorrat);
+            //+ gesamt-Altersstruktur
+        }
+        return s;
+    }
 
+    //ToDo: Maria Fragen: stimmt die Rechnung?
+    private void berGesamtAS(){
+        for (int i = 0; i < wald1.altersStruktur.size(); i++) {
+            gesAS.set(i, (wald1.altersStruktur.get(i) * wald1.baumBestand + wald2.altersStruktur.get(i) * wald2.baumBestand) / (wald1.baumBestand + wald2.baumBestand));
+        }
+    }
+
+    private void berGesamtGesundheit(){
+        int space = 0;
+        float idealwert = 1.0f / (gesAS.size() * 2);
+        for (Float f : gesAS) {
+            if (f < idealwert) {
+                space++;
+            }
+        }
+        baumGes = 0.25f + ((0.75f / (float) (gesAS.size())) * (float) (space));
     }
 
 

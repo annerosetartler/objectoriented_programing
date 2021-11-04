@@ -59,7 +59,7 @@ public class Population {
         berZuwachs(einflussArray[3]);
         updateBaumbestand();
         altersStrukturPlusEinJahr();
-        berGesundheit();
+        berGesundheit(); //VORSICHT: Diese Gesundheit kann für Mischwälder nicht verwendet werden, sondern wird vor Beginn des neuen Jahres vom Forst überschrieben!!!
         updateZielbestand(maxZielb);
         berCO2();
         this.istMischwald = istMischwald;
@@ -207,6 +207,9 @@ public class Population {
         updateZielbestand(maxZielb);
     }
 
+    public void setGesundheit(float gesundheit) {
+        this.gesundheit = gesundheit;
+    }
 
     @Override
     // gibt Zustand des Waldes aus
