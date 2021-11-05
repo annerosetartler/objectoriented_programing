@@ -92,7 +92,7 @@ public class Test {
             altersS.add(f / sum);
         }
 
-        Bewirtschaftungsmodell modell = new Plenterwirtschaft(altersS.size());
+        Bewirtschaftungsmodell modell = new Kahlschlag(altersS.size());
 
         Population testWald1 = new Buche(altersS, 100.0f, 250.0f);
         Population testWald2 = new Fichte(testWald1);

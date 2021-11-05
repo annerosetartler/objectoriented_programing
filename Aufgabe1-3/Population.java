@@ -195,6 +195,7 @@ public class Population {
     }
 
     public void plenterernte(float neuerbaumbestand){
+        ernte += baumBestand - neuerbaumbestand;
         this.baumBestand = neuerbaumbestand;
     }
 
