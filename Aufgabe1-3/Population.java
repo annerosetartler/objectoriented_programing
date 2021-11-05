@@ -65,7 +65,7 @@ public class Population {
         this.istMischwald = istMischwald;
 
         //Wenn das Modell eine Ernte beinhaltet passiert zusätzlich
-        if (wirtschaftsfaktoren[0] != 0.0f && wirtschaftsfaktoren[3] != 0.0f) {
+        if (wirtschaftsfaktoren[0] != 0.0f || wirtschaftsfaktoren[3] != 0.0f) {
             ernteBew(einflussArray, wirtschaftsfaktoren, maxZielb); //hab hier den counter raus gegeben, der gehört ins Modell
             berCO2();
         }
