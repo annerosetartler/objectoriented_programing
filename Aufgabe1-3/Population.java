@@ -65,7 +65,7 @@ public class Population {
         this.istMischwald = istMischwald;
 
         //Wenn das Modell eine Ernte beinhaltet passiert zusätzlich
-        if (wirtschaftsfaktoren[0] != 0.0f || wirtschaftsfaktoren[3] != 0.0f) {
+        if (wirtschaftsfaktoren[0] != 0.0f || wirtschaftsfaktoren[3] != 0.0f || wirtschaftsfaktoren[1] != 0.0f || wirtschaftsfaktoren[2] != 0.0f) {
             ernteBew(einflussArray, wirtschaftsfaktoren, maxZielb); //hab hier den counter raus gegeben, der gehört ins Modell
             berCO2();
         }
@@ -141,6 +141,7 @@ public class Population {
             sumBestand += f;
             altersStruktur.set(i, f);
         }
+
         altersStruktur.add(0, 1.0f - sumBestand);
     }
 
@@ -177,13 +178,14 @@ public class Population {
         }
         if (wirtschaftsfaktoren[1] != 0) {
             float sumBestand = 0.0f;
-            for (int i = 0; i < altersStruktur.size()-1; i++) {
-                if(altersStruktur.get(i) < altersStruktur.get(i+1) *1.5f){
-                    altersStruktur.set(i+1, altersStruktur.get(i+1) * 0.97f);
-                    sumBestand += altersStruktur.get(i);
+            for (int i = 0; i < altersStruktur.size()-1; i++ ){
+                if (altersStruktur.get(i) < altersStruktur.get(i+1) * 1.5f){
+                    sumBestand = altersStruktur.get(i+1) * 0.02f;
+                    altersStruktur.set(i+1, altersStruktur.get(i+1) + 0.98f);
                 }
             }
-            altersStruktur.add(0, 1.0f - (sumBestand + altersStruktur.get(altersStruktur.size()-1)));
+            ernte += sumBestand * baumBestand;
+            altersStruktur.set(0, altersStruktur.get(0) + sumBestand);
         }
         if (wirtschaftsfaktoren[3] != 0) {
             baumBestand = baumBestand - (baumBestand * wirtschaftsfaktoren[3]);
