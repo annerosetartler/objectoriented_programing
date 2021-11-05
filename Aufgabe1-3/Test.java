@@ -98,7 +98,7 @@ public class Test {
         Population testWald2 = new Fichte(testWald1);
         Simulation testSim = new Simulation(1000, testWald1, testWald2);
 
-        testSim.simLoop(eA, modell, false);
+        testSim.simLoop(eA, modell, true);
     }
 
     public static void istWertInBereich(float erhalten, float min, float max) {

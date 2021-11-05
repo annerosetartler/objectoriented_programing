@@ -124,11 +124,9 @@ public class Forst {
 
     private void plenter(float[] wirtschaftsfaktoren){
         if (wald1.baumBestand < wald1.baumBestand + wald2.baumBestand * wirtschaftsfaktoren[2]){
-            wald1.plenterernte((wald1.baumBestand + wald2.baumBestand) /2);
-            wald2.plenterernte((wald1.baumBestand + wald2.baumBestand) /2);
+            wald2.plenterernte((wald1.baumBestand));
         }else if (wald2.baumBestand < wald1.baumBestand + wald2.baumBestand * wirtschaftsfaktoren[2]){
-            wald1.plenterernte((wald1.baumBestand + wald2.baumBestand) /2);
-            wald2.plenterernte((wald1.baumBestand + wald2.baumBestand) /2);
+            wald1.plenterernte((wald2.baumBestand));
         }
     }
 
