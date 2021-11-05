@@ -24,7 +24,7 @@ public class Erholungsgebiet extends Bewirtschaftet {
             neuH++;
         }
 
-        wirtschaftsfaktoren[3] = neuH * 0.0001f + neuW + 0.001f + AnzahlHütten * 0.00001f + AnzahlWege * 0.00001f;
+        wirtschaftsfaktoren[3] = neuH * 0.001f + neuW + 0.01f + AnzahlHütten * 0.0001f + AnzahlWege * 0.0001f;
 
         return super.plusEinJahr();
     }

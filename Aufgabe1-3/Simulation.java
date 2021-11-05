@@ -14,7 +14,7 @@ public class Simulation {
         years = y;
     }
 
-    public void simLoop(EinflussVerw e, Bewirtschaftungsmodell m, boolean mischwald) {
+    public void simLoop(EinflussVerw e, Bewirtschaftungsmodell m, boolean mischwald, float zB) {
         Forst testForst;
         if (mischwald){
             testForst = new Forst(w1, w2);
@@ -29,7 +29,7 @@ public class Simulation {
             float[] einflussfaktoren =  e.Plus1Jahr();
             float[] wirtschaftsfaktoren = m.plusEinJahr();
 
-            testForst.plusEinJahr(einflussfaktoren, wirtschaftsfaktoren, 250.0f); //ISt wirtschaftsfaktoren[3] zielbestand?
+            testForst.plusEinJahr(einflussfaktoren, wirtschaftsfaktoren, zB); //ISt wirtschaftsfaktoren[3] zielbestand?
 
             if (i % 100 == 0) {
                 System.out.println("Year: " + i + "\n----------------------------------------" + "\n" + testForst.toString() + "\n----------------------------------------"
@@ -82,19 +82,11 @@ public class Simulation {
     }
    */
 
-
-
-    /*
     // Methode nur zum testen!
-    public void testSimLoop(float[] einflussArray) {
-        Bewirtschaftungsmodell natur = new Naturbelassen(5);
-        Bewirtschaftungsmodell bew = new Bewirtschaftet(5);
-        System.out.println("Year: " + 0 + ": " + natur.toString());
-        System.out.println("Year: " + 0 + ": " + bew.toString());
-        natur.plusEinJahr();
-        bew.plusEinJahr();
-        System.out.println("Year: " + 1 + ": " + natur.toString());
-        System.out.println("Year: " + 1 + ": " + bew.toString());
+    public void testSimLoop(float[] einflussArray, float[] wirtschaftsFaktoren,float zB) {
+        Forst testForst = new Forst(w1);
+        System.out.println("Year: " + 0 + ": " + testForst.toString());
+        testForst.plusEinJahr(einflussArray, wirtschaftsFaktoren, zB);
+        System.out.println("Year: " + 1 + ": " + testForst.toString());
     }
-     */
 }

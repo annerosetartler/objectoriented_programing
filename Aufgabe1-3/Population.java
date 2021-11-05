@@ -171,7 +171,7 @@ public class Population {
 
     private void ernteBew(float[] einflussArray, float[] wirtschaftsfaktoren, float maxZielb) {
         if (wirtschaftsfaktoren[0] == 1) {
-            float sumAnteil = updateAltersstruktur(0);
+            float sumAnteil = updateAltersstruktur((int)(altersStruktur.size()/2.0f));
             ernte += (sumAnteil * baumBestand); //Alles wird aus dem Wald genommen, also kein Ausfall*Baumbestand mehr
             updateBaumGesAusfall(sumAnteil, einflussArray, maxZielb);
             return;
@@ -180,8 +180,8 @@ public class Population {
             float sumBestand = 0.0f;
             for (int i = 0; i < altersStruktur.size()-1; i++ ){
                 if (altersStruktur.get(i) < altersStruktur.get(i+1) * 1.5f){
-                    sumBestand = altersStruktur.get(i+1) * 0.02f;
-                    altersStruktur.set(i+1, altersStruktur.get(i+1) + 0.98f);
+                    sumBestand += altersStruktur.get(i+1) * 0.02f;
+                    altersStruktur.set(i+1, altersStruktur.get(i+1) * 0.98f);
                 }
             }
             ernte += sumBestand * baumBestand;
@@ -250,6 +250,11 @@ public class Population {
         s += " ]";
          */
         return s;
+    }
+
+    public float[] zustandPop(){
+        float[] zustand = new float[]{baumBestand,zielbestand,gesundheit,ernte,co2Vorrat,zuwachs};
+        return zustand;
     }
 
 
