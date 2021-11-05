@@ -31,6 +31,12 @@ public class Forst {
         else {
             wald2 = new Buche(as2, bB2, zB2);
         }
+        gesAS = new ArrayList<Float>();
+        for (int i = 0; i < wald1.altersStruktur.size(); i++) {
+            gesAS.add(0.0f);
+        }
+        berGesamtAS();
+        setzeGesamtGesundheit();
     }
 
     //Initialisiert einen Forst, der eine Waldart hat
@@ -43,6 +49,12 @@ public class Forst {
     public Forst(Population w1, Population w2){
         wald1 = w1;
         wald2 = w2;
+        gesAS = new ArrayList<Float>();
+        for (int i = 0; i < wald1.altersStruktur.size(); i++) {
+            gesAS.add(0.0f);
+        }
+        berGesamtAS();
+        setzeGesamtGesundheit();
     }
 
     //ich gebe derzeit hier jedem den halben zielbestand, wenn es zwei Waldteile gibt... => evtl. ändern?

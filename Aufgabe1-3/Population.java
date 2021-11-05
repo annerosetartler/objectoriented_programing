@@ -113,7 +113,7 @@ public class Population {
             case 0: return durchschnitt * 0.08f;
             case 1:
             case 2:
-                return durchschnitt * 0.75f;
+                return durchschnitt * 0.6f;
             default: return durchschnitt;
         }
     }

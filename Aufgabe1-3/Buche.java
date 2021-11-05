@@ -16,12 +16,12 @@ public class Buche extends Population {
         for (int i = 0; i < einflussArray.length - 1; i++) {
             einflussArrayKopie[i] = einflussArray[i];
         }
-        einflussArrayKopie[0] *= 0.9f;
-        einflussArrayKopie[1] *= 1.1f;
+        einflussArrayKopie[0] *= 0.8f;
+        einflussArrayKopie[1] *= 1.05f;
         if (einflussArrayKopie[1] >= 1.0f){
             einflussArrayKopie[1] = 1.0f;
         }
-        einflussArrayKopie[2] *= 1.1f;
+        einflussArrayKopie[2] *= 1.05f;
         if (einflussArrayKopie[2] >= 1.0f){
             einflussArrayKopie[2] = 1.0f;
         }

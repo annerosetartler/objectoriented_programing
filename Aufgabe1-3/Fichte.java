@@ -17,11 +17,11 @@ public class Fichte extends Population {
         for (int i = 0; i < einflussArray.length - 1; i++) {
             einflussArrayKopie[i] = einflussArray[i];
         }
-        einflussArrayKopie[0] *= 1.1f;
+        einflussArrayKopie[0] *= 1.05f;
         if (einflussArrayKopie[0] >= 1.0f){
             einflussArrayKopie[0] = 1.0f;
         }
-        einflussArrayKopie[2] *= 0.9f;
+        einflussArrayKopie[2] *= 0.8f;
 
         return ausfallHilfe(einflussArrayKopie);
     }

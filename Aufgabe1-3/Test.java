@@ -92,13 +92,13 @@ public class Test {
             altersS.add(f / sum);
         }
 
-        Bewirtschaftungsmodell modell = new Naturbelassen(altersS.size());
+        Bewirtschaftungsmodell modell = new Erholungsgebiet(altersS.size());
 
         Population testWald1 = new Buche(altersS, 100.0f, 250.0f);
         Population testWald2 = new Fichte(testWald1);
         Simulation testSim = new Simulation(1000, testWald1, testWald2);
 
-        testSim.simLoop(eA, modell, false);
+        testSim.simLoop(eA, modell, true);
     }
 
     public static void istWertInBereich(float erhalten, float min, float max) {
