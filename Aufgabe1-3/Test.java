@@ -194,14 +194,17 @@ public class Test {
             altersS.add(f / sum);
         }
 
+
         Bewirtschaftungsmodell modell = new Plenterwirtschaft(altersS.size());
 
         float zielBestand = 250.0f;
         Population testWald1 = new Buche(altersS, 100.0f, zielBestand);
         Population testWald2 = new Fichte(testWald1);
-        Simulation testSim = new Simulation(1000, testWald1, testWald2);
 
-        testSim.simLoop(eA, modell, true,zielBestand);
+        Simulation testSim = new Simulation(1000, testWald1, testWald2);
+        testSim.simLoop(eA, modell, true, zielBestand);
+
+
     }
 
     public static void istWertInBereich(float erhalten, float min, float max) {

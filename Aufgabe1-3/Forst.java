@@ -31,6 +31,10 @@ public class Forst {
         else {
             wald2 = new Buche(as2, bB2, zB2);
         }
+
+        wald1.setzeMischwaldVar();
+        wald2.setzeMischwaldVar();
+
         gesAS = new ArrayList<Float>();
         for (int i = 0; i < wald1.altersStruktur.size(); i++) {
             gesAS.add(0.0f);
@@ -49,6 +53,10 @@ public class Forst {
     public Forst(Population w1, Population w2){
         wald1 = w1;
         wald2 = w2;
+
+        wald1.setzeMischwaldVar();
+        wald2.setzeMischwaldVar();
+
         gesAS = new ArrayList<Float>();
         for (int i = 0; i < wald1.altersStruktur.size(); i++) {
             gesAS.add(0.0f);
@@ -73,12 +81,8 @@ public class Forst {
 
     public String toString() {
         boolean b = wald2 != null;
-        /*
-        return "Ihr Waldbestand: " + (b ? "2 " : "1 ") + "Komponente" + (b ? "n:" : ":") + wald1.getClass() + (b ? wald2.getClass() + "." : ".") + "\n" + wald1.toString() + (b ? "\n" + wald2.toString() + "." : ".");
-       */
-        //Oder, wenn ich den Gesamtwald ausgeben will:
-        String s = "Ihr Waldbestand:" + (b ? "2 " : "1 ") + "Komponente" + (b ? "n:" : ":") + wald1.getClass() +
-                (b ? "und " + wald2.getClass() + "." : ".");
+        String s = "Ihr Forst beinhaltet " + (b ? "zwei " : "eine ") + "Population" + (b ? "en: " : ": ") + wald1.getName() +
+                (b ? " und " + wald2.getName() + "." : ".") + "\n";
         if (!b){
             s += wald1.toString();
         }

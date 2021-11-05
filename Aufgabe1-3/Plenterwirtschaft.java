@@ -10,5 +10,4 @@ public class Plenterwirtschaft extends Bewirtschaftet {
         wirtschaftsfaktoren[2] = 0.45f;
         return super.plusEinJahr();
     }
-
 }

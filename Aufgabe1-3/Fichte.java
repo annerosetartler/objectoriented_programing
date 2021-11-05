@@ -42,4 +42,9 @@ public class Fichte extends Population {
         }
         co2Vorrat *= 0.98; //Nadelwald-Penalty
     }
+
+    @Override
+    public String getName(){
+        return "Fichten";
+    }
 }

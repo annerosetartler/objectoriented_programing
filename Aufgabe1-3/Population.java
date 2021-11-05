@@ -25,6 +25,7 @@ public class Population {
         co2Vorrat = baumBestand;
         ausfall = 0.0f;
         zuwachs = 0.0f;
+        istMischwald = false;
     }
 
     //erzeugt ein Objekt von Wald als tiefe Kopie von w
@@ -42,6 +43,7 @@ public class Population {
         this.co2Vorrat = w.co2Vorrat;
         this.ausfall = w.ausfall;
         this.zuwachs = w.zuwachs;
+        istMischwald = false;
     }
 
     //Wird von der Simulation aus mit den zwei zuvor berechneten Arrays aufgerufen und regelt den Alterungsprozess
@@ -228,6 +230,10 @@ public class Population {
         this.gesundheit = gesundheit;
     }
 
+    public void setzeMischwaldVar(){
+        istMischwald = true;
+    }
+
     @Override
     // gibt Zustand des Waldes aus
     //die Ausgabe der Altersstruktur wurde zum Zweck der Leserlichkeit auskommentiert
@@ -257,5 +263,7 @@ public class Population {
         return zustand;
     }
 
-
+    public String getName(){
+        return "Fichten";
+    }
 }

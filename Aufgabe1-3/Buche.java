@@ -29,4 +29,9 @@ public class Buche extends Population {
         return ausfallHilfe(einflussArrayKopie);
     }
 
+    @Override
+    public String getName(){
+        return "Buchen";
+    }
+
 }

@@ -1,8 +1,8 @@
 public class Simulation {
 
 
-    private float[] einflussArray; //[Hitze, Mure, Sturm, Zuwachs], jeweils Faktoren zwischen [0.0, 1.0]
-    private float[] wirtschaftsArray; //
+    private float[] einflussfaktoren; //[Hitze, Mure, Sturm, Zuwachs], jeweils Faktoren zwischen [0.0, 1.0]
+    private float[] wirtschaftsfaktoren; //
     private Population w1, w2;
     private int years;
     private int Modell; // 0 steht für Naturbelassen, 1 steht für Kahlschlag, 2 steht für Erholungsgebiet und 3 für PLenterwirtschaft
@@ -26,10 +26,10 @@ public class Simulation {
 
         System.out.println("Year: 0" + "\n----------------------------------------" + "\n" + testForst.toString() + "\n----------------------------------------"); //Bewirtschaftungsmodell-Name?
         for (int i = 1; i <= years; i++) {
-            float[] einflussfaktoren =  e.Plus1Jahr();
-            float[] wirtschaftsfaktoren = m.plusEinJahr();
+            einflussfaktoren =  e.Plus1Jahr();
+            wirtschaftsfaktoren = m.plusEinJahr();
 
-            testForst.plusEinJahr(einflussfaktoren, wirtschaftsfaktoren, zB); //ISt wirtschaftsfaktoren[3] zielbestand?
+            testForst.plusEinJahr(einflussfaktoren, wirtschaftsfaktoren, zB);
 
             if (i % 100 == 0) {
                 System.out.println("Year: " + i + "\n----------------------------------------" + "\n" + testForst.toString() + "\n----------------------------------------"
@@ -53,26 +53,36 @@ public class Simulation {
          */
     }
 
-    /*
+
     public String toString(){
-        return "Relevante Komponenten auf das Modell in diesem Jahr: " + "\n" + "Bewirtschaftungsmodell: " + modellName()  + "\n" + "Witterungseinflüsse: " + starkeEinflüsse();
+        return "\n" + "Relevante Komponenten auf das Modell in diesem Jahr: " + "\n" + "Bewirtschaftungsmodell: " + modellName()  + "\n" +
+                "Witterungseinflüsse: " + starkeEinflüsse() + "\n---------------------------------------- \n";
     }
 
     private String modellName(){
         String s = "";
-
-        return s;
+        if (wirtschaftsfaktoren[0] > 0.8f){
+            s = "Kahlschlag-";
+        }
+        else if (wirtschaftsfaktoren[1] > 0.8f){
+            s = "Plenterwirtschafts-";
+        }
+        else {
+            s = "Naturbelassenes ";
+        }
+        return s + "Modell";
     }
+
 
     private String starkeEinflüsse(){
         String s = "";
-        if (einflussArray[0] > 0.6) { //ToDo: welchen Wert?
+        if (einflussfaktoren[0] > 0.6f) {
             s += "Hitze ";
         }
-        if (einflussArray[0] > 0.6) { //ToDo: welchen Wert?
+        if (einflussfaktoren[1] > 0.6f) {
             s += "Mure ";
         }
-        if (einflussArray[0] > 0.6) { //ToDo: welchen Wert?
+        if (einflussfaktoren[2] > 0.6f) {
             s += "Sturm ";
         }
         else {
@@ -80,7 +90,7 @@ public class Simulation {
         }
         return s;
     }
-   */
+
 
     // Methode nur zum testen!
     public void testSimLoop(float[] einflussArray, float[] wirtschaftsFaktoren,float zB) {
