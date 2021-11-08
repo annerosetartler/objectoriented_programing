@@ -231,3 +231,38 @@ public class Test {
         }
     }
 }
+
+/*
+    PROGRAMM GROBSTRUKTUR:
+
+    WALD:
+    Population ist der Obertyp, von dem Fichte (=Nadelwald) und Buche(=Laubwald) Untertypen sind.
+    Population ist also der Wald.
+    Forst ist ein Wrapper, der entweder eine Population oder zwei Populationen besitzt.
+    Wenn der Forst aus zwei Populationen besteht, dann handelt es sich um einen Mischwald.
+    Ein Mischwald hat also 2 Populationen. In unserem Fall wäre das ein Buchenwald und ein Fichtenwald.
+
+    BEWIRTSCHAFTUNGSMODELLE:
+    Es gibt Berwirtschaftungsmodelle (Bewirtschaftungsmodell ist der Obertyp), die unterteilt sind in Naturbelassen
+    und Bewirtschaftet. Bewirtschaftet ist dann weiter unterteilt in Kahlschlag, Plenterwirtschaft und Erholungsgebiet.
+    Alle Bewirtschaftungsmodelle definieren sich über ein Array mit Wirtschaftsfaktoren. Für jede Art von
+    Bewirtschaftungsmodell ist das Array entsprechend anders belegt und löst andere Ereignisse aus.
+
+    EINFLÜSSE:
+    Dann gibt es noch Einflüsse (= Obertyp), von denen Sonne, Niederschlag, Wind und Temperatur Untertypen sind.
+    Wir haben hier Normwerte genommen, die über einen Zeitraum von 19 Jahren beobachtet wurden (Quelle findet sich im
+    jeweiligen Untertyp). EinflussVerw verwaltet dann so ein Einflüssepaket. Basierend auf den Normwerten wird unter
+    Verwendung eines Klimawandelfaktors und Gaußverteilten Zufallswerte die nächstjährlichen Werte für Sonne, Niederschlag,
+    Wind und Temperatur errechnet.
+    Aus der Gesamtheit dieser Werte wird ein Einflüssearray generiert, das in die jährlichen Berechnungen der Population
+    in Kombination mit dem Bewirtschaftungsmodell einfließt. Die Werte des Einflüssearrays sind folgende Faktoren:
+    [Hitze, Mure, Sturm, Zuwachs]. Zuwachs errechnet sich dabei aus dem Verhältnis der Sonnenstunden zu Niederschlag.
+
+
+    ARBEITSAUFTEILUNG:
+    Konzept Programmstruktur: Annerose, David & Maria
+    Wald: Annerose
+    Bewirtschaftungsmodelle: David
+    Einflüsse: Maria
+    Tests und Debugging: Annerose, David & Maria
+ */

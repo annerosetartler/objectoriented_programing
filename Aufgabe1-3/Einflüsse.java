@@ -2,19 +2,22 @@ import java.util.Arrays;
 
 public class Einflüsse {
     protected float[] monatlicheWerte;//hat Länge 12
-    protected float[] normWerte;//hat Länge 12
+    protected float[] normWerte;//hat Länge 12, sind Referenzwerte zur Errechnung zukünftiger Werte
 
+    //pre: mw.length == 12 & nW.length == 12
     public Einflüsse(float[] mW, float[] nW){
         monatlicheWerte = mW;
         normWerte = nW;
     }
 
+    //pre: abweichungen.length == 12
     public void Plus1Jahr(float[] abweichungen){
         for (int i = 0; i < monatlicheWerte.length; i++) {
             monatlicheWerte[i] = normWerte[i] * abweichungen[i];
         }
     }
 
+    //post: gibt einen Wert in [0.0,1.0] zurück
     protected float Faktor(float abweichungsgrad, float grenzwertAbw){
         int zähler = 0;
         float sumAbw = 0.0f;
@@ -36,7 +39,8 @@ public class Einflüsse {
         }
     }
 
-    protected float VerhältnisZu(Einflüsse ei, float min, float max){ //zFaktor nochmal ansehen!!
+    //post: gibt einen Wert in [0.0,1.0] zurück
+    protected float VerhältnisZu(Einflüsse ei, float min, float max){
         float verhSum = 0.0f;
         for (int i = 0; i < monatlicheWerte.length; i++) {
             verhSum += monatlicheWerte[i]/ei.monatlicheWerte[i];
@@ -52,14 +56,6 @@ public class Einflüsse {
         }else{
             return 1.0f - (durchschnittV-mitte)/(max-mitte);
         }
-    }
-
-    protected float Summe(){
-        float sum = 0.0f;
-        for (int i = 0; i < monatlicheWerte.length; i++) {
-            sum += monatlicheWerte[i];
-        }
-        return sum;
     }
 
     public String toString(){

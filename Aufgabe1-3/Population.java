@@ -103,6 +103,7 @@ public class Population {
         return 0.0f;
     }
 
+    //pre: einflussArray.length == 4
     protected float ausfallHilfe(float[] einflussArray){
         int zähler = 0;
         for (int i = 0; i < einflussArray.length - 1; i++) {
@@ -160,7 +161,7 @@ public class Population {
         }
     }
 
-    //inv: baumBestand & ausfall bleiben unverändert & co2Vorrat >= 0
+    //inv: baumBestand & ausfall bleiben unverändert
     protected void berCO2() {
         co2Vorrat += zuwachs;
         if (ausfall < 0.3) {
@@ -241,23 +242,10 @@ public class Population {
         String s = "Baumbestand: " + String.format("%6.2f", baumBestand) + "\t\tGesundheit: " + String.format("%6.2f", gesundheit) +
                 "\t\tZielbestand: " + String.format("%6.2f", zielbestand) + "\t\tErnte: " + String.format("%6.2f", ernte) +
                 "\t\tCO2-Vorrat: " + String.format("%6.2f", co2Vorrat);
-        /*
-        s += "\t\tAusfall: " + ausfall + "\t\tZuwachs: " + zuwachs;
-        s += "; Altersstruktur: [ ";
-        for (int i = 0; i < altersStruktur.size(); i++) {
-            float fm = altersStruktur.get(i) * baumBestand;
-            if (i == altersStruktur.size() - 1) {
-                s += "" + fm + " ]; ";
-            } else {
-                s += "" + fm + ", ";
-            }
-
-        }
-        s += " ]";
-         */
         return s;
     }
 
+    //zum testen
     public float[] zustandPop(){
         float[] zustand = new float[]{baumBestand,zielbestand,gesundheit,ernte,co2Vorrat,zuwachs};
         return zustand;

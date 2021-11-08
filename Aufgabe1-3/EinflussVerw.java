@@ -8,7 +8,7 @@ public class EinflussVerw {
     private Wind wind;
     private float klimawandel;
     private float[] faktoren = new float[4]; //[Hitze,Mure,Sturm,Zuwachs]
-    private float[] abweichungen = new float[12];
+    private float[] abweichungen = new float[12];// hat Länge 12
 
     public EinflussVerw(Sonne s, Niederschlag n, Temperatur t, Wind w){
         sonne = s;
@@ -22,6 +22,7 @@ public class EinflussVerw {
         faktoren[3] = sonne.SonneZuRegen(regen);
     }
 
+    //pre: kw >= 1.0f
     private void GeneriereAbweichungen(float kw){
         Random r = new Random();
         for (int i = 0; i < abweichungen.length; i++) {

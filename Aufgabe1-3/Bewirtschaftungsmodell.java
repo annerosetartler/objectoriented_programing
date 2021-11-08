@@ -1,7 +1,4 @@
 public class Bewirtschaftungsmodell {
-    //Input für plusOneYear: ein Array mit [Hitze,Mure,Sturm,Zuwachs] mit jeweils Werten zwischen [0.0,1.0]
-    //vll ist das eine Objekteigenschaft von dem jeweiligen Modell?
-
     /*
     wirtschaftsfaktoren[0] ist 1 wenn durch einen Kahlschlag geerntet werden soll ansonsten ist er 0
     wirtschaftsfaktoren[1] 1 wenn Plenterwirtschaft betrieben wird sonst 0
@@ -19,11 +16,6 @@ public class Bewirtschaftungsmodell {
     public Bewirtschaftungsmodell(int altersKlassen) {
         this.altersKlassen = altersKlassen;
     }
-
-    /*public String toString() {
-        return getClass() + ":\n" + w.getClass() + w;
-    }
-     */
 
     public float[] plusEinJahr() {
         return wirtschaftsfaktoren;

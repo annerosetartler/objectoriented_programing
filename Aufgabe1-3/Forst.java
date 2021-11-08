@@ -90,18 +90,6 @@ public class Forst {
             s += "Baumbestand: " + String.format("%6.2f", wald1.baumBestand + wald2.baumBestand) + "\t\tGesundheit: " + String.format("%6.2f", baumGes) +
                     "\t\tZielbestand: " + String.format("%6.2f", wald1.zielbestand + wald2.zielbestand) + "\t\tErnte: " + String.format("%6.2f", wald1.ernte + wald2. ernte) +
                     "\t\tCO2-Vorrat: " + String.format("%6.2f", wald1.co2Vorrat + wald2.co2Vorrat);
-            /*
-            s += "; Altersstruktur: [ ";
-            for (int i = 0; i < gesAS.size() - 1; i++) {
-                float fm = gesAS.get(i) * wald1.baumBestand + wald2.baumBestand;
-                if (i == gesAS.size() - 1) {
-                    s += "" + fm + " ]; ";
-                } else {
-                    s += "" + fm + ", ";
-                }
-            }
-            s += " ]";
-             */
         }
         return s;
     }
