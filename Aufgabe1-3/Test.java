@@ -262,7 +262,7 @@ public class Test {
     ARBEITSAUFTEILUNG:
     Konzept Programmstruktur: Annerose, David & Maria
     Wald: Annerose
-    Bewirtschaftungsmodelle: David
+    Bewirtschaftungsmodelle, Erntefunktion: David
     Einflüsse: Maria
     Tests und Debugging: Annerose, David & Maria
  */
