@@ -2,14 +2,19 @@ import java.util.Arrays;
 import java.util.Random;
 
 public class EinflussVerw {
+    //SCHLECHT: kein dynamisches Binden der Einflüsse, Verbesserung: aus Einflüsse ein Interface machen, das von Sonne,
+    //          Wind, Temperatur & Niederschlag implementiert wird
+    //INV: faktoren.length == 4 & abweichungen.length == 12 & klimawandel >= 1.0f & abweichungen[i] >= 0.5f
     private Sonne sonne;
     private Niederschlag regen;
     private Temperatur temp;
     private Wind wind;
     private float klimawandel;
-    private float[] faktoren = new float[4]; //[Hitze,Mure,Sturm,Zuwachs]
-    private float[] abweichungen = new float[12];// hat Länge 12
+    //KOMMENTAR: faktoren[] steht für [Hitze,Mure,Sturm,Zuwachs]
+    private float[] faktoren = new float[4];
+    private float[] abweichungen = new float[12];
 
+    //VORB: s != null & n != null & t != null & w != null
     public EinflussVerw(Sonne s, Niederschlag n, Temperatur t, Wind w){
         sonne = s;
         regen = n;
@@ -22,7 +27,9 @@ public class EinflussVerw {
         faktoren[3] = sonne.SonneZuRegen(regen);
     }
 
-    //pre: kw >= 1.0f
+    //VORB: kw >= 1.0f
+    //NACHB: abweichungen[i] >= 0.5f
+    //ERROR: kw ist redundant, könnte direkt auf die Objektvariable klimawandel zugreifen
     private void GeneriereAbweichungen(float kw){
         Random r = new Random();
         for (int i = 0; i < abweichungen.length; i++) {
@@ -33,6 +40,7 @@ public class EinflussVerw {
         }
     }
 
+    //NACHB: faktoren[i] in [0.0,1.0]
     private void AktualisiereFaktoren(){
         faktoren[0] = temp.Hitze();
         faktoren[1] = regen.Mure();
@@ -40,6 +48,7 @@ public class EinflussVerw {
         faktoren[3] = sonne.SonneZuRegen(regen);
     }
 
+    //SERVER-CONSTRAINTS: klimawandel wird mit jedem Jahr um 0.0001f erhöht
     public float[] Plus1Jahr(){
         GeneriereAbweichungen(klimawandel);
         sonne.Plus1Jahr(abweichungen);
@@ -54,8 +63,9 @@ public class EinflussVerw {
         return faktoren;
     }
 
+    //VORB: sonne != null & regen != null & temp != null & wind != null
     public String toString(){
-        return "Sonne: " + sonne + "\n" + "Niederschlag: " + regen + "\n" + "Temperatur: " + regen + "\n" + "Wind: " + wind + "\n" + "Faktoren [Hitze, Mure, Sturm, Zuwachs]: " + Arrays.toString(faktoren);
+        return "Sonne: " + sonne + "\n" + "Niederschlag: " + regen + "\n" + "Temperatur: " + temp + "\n" + "Wind: " + wind + "\n" + "Faktoren [Hitze, Mure, Sturm, Zuwachs]: " + Arrays.toString(faktoren);
     }
 
 }

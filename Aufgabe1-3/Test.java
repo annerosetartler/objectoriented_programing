@@ -5,7 +5,6 @@ import java.util.Random;
 public class Test {
 
     public static void main(String[] args) {
-        //Tests zu Einflüsse und EinflussVerw
         System.out.println("Tests zu Einflüsse:" + "\n");
         float[] sonne = new float[]{69.0f,108.0f,202.0f,312.0f,222.0f,193.0f,286.0f,240.0f,224.0f,88.0f,58.0f,29.0f};
         Sonne s = new Sonne(sonne);
@@ -78,7 +77,7 @@ public class Test {
         float[] naturbelassen = new float[]{0.0f,0.0f,0.0f,0.0f};
         float[] kahlschlag = new float[]{1.0f,0.0f,0.0f,0.0f};
         float[] plenter = new float[]{0.0f,1.0f,0.45f,0.0f};
-        float[] erholung = new float[]{0.0f,0.0f,0.0f,0.01145f};//1 neue Hütte + 1 neuer Weg + Bestand: 5 Hütten + 4 Wege
+        float[] erholung = new float[]{0.0f,0.0f,0.0f,0.01145f}; //KOMMENTAR: Bestand: 5 Hütten + 4 Wege Plus: 1 neue Hütte + 1 neuer Weg
 
         ArrayList<Float> aSTEST = new ArrayList<Float>();
         for (int i = 0; i < 5; i++) {
@@ -109,28 +108,28 @@ public class Test {
 
         System.out.println("Tests zu Buchenwald (= Laubwald):" + "\n");
 
-        Simulation testbuche1 = new Simulation(1, buche1,fichte1);//fichte1 wird nicht verwendet
+        Simulation testbuche1 = new Simulation(1, buche1,fichte1);//KOMMENTAR: fichte1 wird nicht verwendet
         testbuche1.testSimLoop(einflussTest1,naturbelassen,zielBTest);
         float[] buche1Zustand = buche1.zustandPop();
         testeWerte(bucheZustand_0[0],buche1Zustand[0]);
 
-        Simulation testbuche2 = new Simulation(1, buche2,fichte1);//fichte1 wird nicht verwendet
+        Simulation testbuche2 = new Simulation(1, buche2,fichte1);//KOMMENTAR: fichte1 wird nicht verwendet
         testbuche2.testSimLoop(einflussTest2,naturbelassen,zielBTest);
         float[] buche2Zustand = buche2.zustandPop();
         testeWerte(buche2Zustand[0],bucheZustand_0[0]);
 
-        Simulation testbuche3 = new Simulation(1, buche3,fichte1);//fichte1 wird nicht verwendet
+        Simulation testbuche3 = new Simulation(1, buche3,fichte1);//KOMMENTAR: fichte1 wird nicht verwendet
         testbuche3.testSimLoop(einflussTest3,kahlschlag,zielBTest);
         float[] buche3Zustand = buche3.zustandPop();
         testeWerte(bucheZustand_0[0],buche3Zustand[0]);
         testeWerte(buche3Zustand[3],bucheZustand_0[3]);
 
-        Simulation testbuche4 = new Simulation(1, buche4,fichte1);//fichte1 wird nicht verwendet
+        Simulation testbuche4 = new Simulation(1, buche4,fichte1);//KOMMENTAR: fichte1 wird nicht verwendet
         testbuche4.testSimLoop(einflussTest3,plenter,zielBTest);
         float[] buche4Zustand = buche4.zustandPop();
         testeWerte(buche4Zustand[3],bucheZustand_0[3]);
 
-        Simulation testbuche5 = new Simulation(1, buche5,fichte1);//fichte1 wird nicht verwendet
+        Simulation testbuche5 = new Simulation(1, buche5,fichte1);//KOMMENTAR: fichte1 wird nicht verwendet
         testbuche5.testSimLoop(einflussTest3,erholung,zielBTest);
         float[] buche5Zustand = buche5.zustandPop();
         testeWerte(buche5Zustand[3],bucheZustand_0[3]);
@@ -138,28 +137,28 @@ public class Test {
 
         System.out.println("Tests zu Fichtenwald (= Nadelwald):" + "\n");
 
-        Simulation testfichte1 = new Simulation(1, fichte1,buche1);//buche1 wird nicht verwendet
+        Simulation testfichte1 = new Simulation(1, fichte1,buche1);//KOMMENTAR: buche1 wird nicht verwendet
         testfichte1.testSimLoop(einflussTest1,naturbelassen,zielBTest);
         float[] fichte1Zustand = fichte1.zustandPop();
         testeWerte(fichteZustand_0[0],fichte1Zustand[0]);
 
-        Simulation testfichte2 = new Simulation(1, fichte2,buche1);//buche1 wird nicht verwendet
+        Simulation testfichte2 = new Simulation(1, fichte2,buche1);//KOMMENTAR: buche1 wird nicht verwendet
         testfichte2.testSimLoop(einflussTest2,naturbelassen,zielBTest);
         float[] fichte2Zustand = fichte2.zustandPop();
         testeWerte(fichte2Zustand[0],fichteZustand_0[0]);
 
-        Simulation testfichte3 = new Simulation(1, fichte3,buche1);//buche1 wird nicht verwendet
+        Simulation testfichte3 = new Simulation(1, fichte3,buche1);//KOMMENTAR: buche1 wird nicht verwendet
         testfichte3.testSimLoop(einflussTest3,kahlschlag,zielBTest);
         float[] fichte3Zustand = fichte3.zustandPop();
         testeWerte(fichteZustand_0[0],fichte3Zustand[0]);
         testeWerte(fichte3Zustand[3],fichteZustand_0[3]);
 
-        Simulation testfichte4 = new Simulation(1, fichte4,buche1);//buche1 wird nicht verwendet
+        Simulation testfichte4 = new Simulation(1, fichte4,buche1);//KOMMENTAR: buche1 wird nicht verwendet
         testfichte4.testSimLoop(einflussTest3,plenter,zielBTest);
         float[] fichte4Zustand = fichte4.zustandPop();
         testeWerte(fichte4Zustand[3],fichteZustand_0[3]);
 
-        Simulation testfichte5 = new Simulation(1, fichte5,buche1);//buche1 wird nicht verwendet
+        Simulation testfichte5 = new Simulation(1, fichte5,buche1);//KOMMENTAR: buche1 wird nicht verwendet
         testfichte5.testSimLoop(einflussTest3,erholung,zielBTest);
         float[] fichte5Zustand = fichte5.zustandPop();
         testeWerte(fichte5Zustand[3],fichteZustand_0[3]);
@@ -207,6 +206,8 @@ public class Test {
 
     }
 
+    //VORB: max > min
+    //NACHB: Test erfolgreich wenn erhalten in [min, max], sonst Test nicht erfolgreich
     public static void istWertInBereich(float erhalten, float min, float max) {
         if (erhalten >= min && erhalten <= max) {
             System.out.println("Test erfolgreich! Erhalten:" + erhalten);
@@ -215,6 +216,7 @@ public class Test {
         }
     }
 
+    //NACHB: Test erfolgreich wenn erhalten in [erwartet - delta, erwartet + delta], sonst Test nicht erfolgreich
     public static void testeWerte(float erhalten, float erwartet, float delta) {
         if (erhalten - delta <= erwartet && erhalten + delta >= erwartet) {
             System.out.println("Test erfolgreich! Erhalten:" + erhalten);
@@ -223,6 +225,7 @@ public class Test {
         }
     }
 
+    //NACHB: Test erfolgreich wenn erhalten2 < erhalten1, sonst Test nicht erfolgreich
     public static void testeWerte(float erhalten1, float erhalten2) {
         if (erhalten2 < erhalten1) {
             System.out.println("Test erfolgreich!");
@@ -259,10 +262,13 @@ public class Test {
     [Hitze, Mure, Sturm, Zuwachs]. Zuwachs errechnet sich dabei aus dem Verhältnis der Sonnenstunden zu Niederschlag.
 
 
-    ARBEITSAUFTEILUNG:
+    ARBEITSAUFTEILUNG AUFGABE 2:
     Konzept Programmstruktur: Annerose, David & Maria
     Wald: Annerose
     Bewirtschaftungsmodelle, Erntefunktion: David
     Einflüsse: Maria
     Tests und Debugging: Annerose, David & Maria
+
+    ARBEITSAUFTEILUNG AUFGABE 3:
+    ...
  */
