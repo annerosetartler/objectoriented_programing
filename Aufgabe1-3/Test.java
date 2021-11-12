@@ -193,7 +193,6 @@ public class Test {
             altersS.add(f / sum);
         }
 
-
         Bewirtschaftungsmodell modell = new Plenterwirtschaft(altersS.size());
 
         float zielBestand = 250.0f;
@@ -202,8 +201,6 @@ public class Test {
 
         Simulation testSim = new Simulation(1000, testWald1, testWald2);
         testSim.simLoop(eA, modell, true, zielBestand);
-
-
     }
 
     //VORB: max > min

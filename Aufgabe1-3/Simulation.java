@@ -1,18 +1,21 @@
 public class Simulation {
 
-
-    private float[] einflussfaktoren; //[Hitze, Mure, Sturm, Zuwachs], jeweils Faktoren zwischen [0.0, 1.0]
-    private float[] wirtschaftsfaktoren; //
+    //INV: einflussfaktoren.length == 4 & Werte in [0.0,1.0]
+    //     wirtschaftsfaktoren.length == 4 & Werte in [0.0,1.0]
+    //     years >= 0
+    private float[] einflussfaktoren; //KOMMENTAR: [Hitze, Mure, Sturm, Zuwachs]
+    private float[] wirtschaftsfaktoren;
     private Population w1, w2;
     private int years;
 
-    //pre: y >= 0 & w1 != null & w2 != null
+    //VORB: y >= 0 & w1 != null & w2 != null
     public Simulation(int y, Population w1, Population w2) {
         this.w1 = w1;
         this.w2 = w2;
         years = y;
     }
 
+    //VORB: e != null & m != null & zB > 0
     public void simLoop(EinflussVerw e, Bewirtschaftungsmodell m, boolean mischwald, float zB) {
         Forst testForst;
         if (mischwald){
@@ -55,7 +58,6 @@ public class Simulation {
         return s + "Modell";
     }
 
-
     private String starkeEinflüsse(){
         String s = "";
         if (einflussfaktoren[0] > 0.6f) {
@@ -73,8 +75,9 @@ public class Simulation {
         return s;
     }
 
-
-    // Methode nur zum testen!
+    //VORB: einflussArray.length == 4 & Werte in einflussArray in [0.0,1.0]
+    //      wirtschaftsFaktoren.length == 4 & Werte in wirtschaftsFaktoren in [0.0,1.0]
+    //      zB > 0
     public void testSimLoop(float[] einflussArray, float[] wirtschaftsFaktoren,float zB) {
         Forst testForst = new Forst(w1);
         System.out.println("Year: " + 0 + ": " + testForst.toString());
