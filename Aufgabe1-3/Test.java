@@ -5,7 +5,7 @@ import java.util.Random;
 public class Test {
 
     public static void main(String[] args) {
-        System.out.println("Tests zu Einflüsse:" + "\n");
+        System.out.println("Tests zu Einfluesse:" + "\n");
         float[] sonne = new float[]{69.0f,108.0f,202.0f,312.0f,222.0f,193.0f,286.0f,240.0f,224.0f,88.0f,58.0f,29.0f};
         Sonne s = new Sonne(sonne);
         float[] temp = new float[]{1.4f,6.6f,7.3f,12.5f,14.5f,19.0f,21.6f,21.9f,16.9f,11.2f,6.1f,3.3f};
@@ -252,7 +252,7 @@ public class Test {
     Bewirtschaftungsmodell ist das Array entsprechend anders belegt und löst andere Ereignisse aus.
 
     EINFLÜSSE:
-    Dann gibt es noch Einflüsse (= Obertyp), von denen Sonne, Niederschlag, Wind und Temperatur Untertypen sind.
+    Dann gibt es noch Einfluesse (= Obertyp), von denen Sonne, Niederschlag, Wind und Temperatur Untertypen sind.
     Wir haben hier Normwerte genommen, die über einen Zeitraum von 19 Jahren beobachtet wurden (Quelle findet sich im
     jeweiligen Untertyp). EinflussVerw verwaltet dann so ein Einflüssepaket. Basierend auf den Normwerten wird unter
     Verwendung eines Klimawandelfaktors und Gaußverteilten Zufallswerte die nächstjährlichen Werte für Sonne, Niederschlag,
@@ -266,7 +266,7 @@ public class Test {
     Konzept Programmstruktur: Annerose, David & Maria
     Wald: Annerose
     Bewirtschaftungsmodelle, Erntefunktion: David
-    Einflüsse: Maria
+    Einfluesse: Maria
     Tests und Debugging: Annerose, David & Maria
 
     ARBEITSAUFTEILUNG AUFGABE 3:

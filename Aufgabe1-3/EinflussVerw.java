@@ -2,7 +2,7 @@ import java.util.Arrays;
 import java.util.Random;
 
 public class EinflussVerw {
-    //SCHLECHT: kein dynamisches Binden der Einflüsse, Verbesserung: aus Einflüsse ein Interface machen, das von Sonne,
+    //SCHLECHT: kein dynamisches Binden der Einfluesse, Verbesserung: aus Einfluesse ein Interface machen, das von Sonne,
     //          Wind, Temperatur & Niederschlag implementiert wird
     //INV: faktoren.length == 4 & abweichungen.length == 12 & klimawandel >= 1.0f & abweichungen[i] >= 0.5f
     private Sonne sonne;

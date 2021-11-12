@@ -1,20 +1,20 @@
 import java.util.Arrays;
 
-public class Einflüsse {
+public class Einfluesse {
     //INV: monatlicheWerte.length == 12 & normWerte.length == 12
     //SCHLECHT: protected Objektvariablen: können von überall verändert werden, dadurch Bedingung der Invariante gefährdet!
-    //          Verbesserung: aus Einflüsse ein Interface machen und in den Untertypen private Objektvariablen anlegen
+    //          Verbesserung: aus Einfluesse ein Interface machen und in den Untertypen private Objektvariablen anlegen
     //KOMMENTAR: normWerte beinhaltet Referenzwerte zur Errechnung zukünftiger Werte
     //CLIENT-CONSTRAINT: Faktor() || VerhältnisZu() darf nicht vor Plus1Jahr() aufgerufen werden
     //                   Plus1Jahr() muss einmal aufgerufen werden vor entweder Faktor() oder VerhältnisZu()
     //SCHLECHT: ERROR: Da Plus1Jahr(), Faktor() & VehältnisZu() public/protected sind, kann CLIENT-CONSTRAINT gebrochen werden!
     //                 Verbesserung: Methoden private machen und eine public-Methode machen, die Reihenfolge sicherstellt
-    //          ERROR: In den Untertypen wird das gleiche Problem entstehen. Verbesserung: aus Einflüsse Interface machen
+    //          ERROR: In den Untertypen wird das gleiche Problem entstehen. Verbesserung: aus Einfluesse Interface machen
     protected float[] monatlicheWerte;
     protected float[] normWerte;
 
     //VORB: mw.length == 12 & nW.length == 12
-    public Einflüsse(float[] mW, float[] nW){
+    public Einfluesse(float[] mW, float[] nW){
         monatlicheWerte = mW;
         normWerte = nW;
     }
@@ -53,7 +53,7 @@ public class Einflüsse {
 
     //VORB: min >= 0.0f & max > min & ei != null
     //NACHB: gibt einen Wert in [0.0,1.0] zurück
-    protected float VerhältnisZu(Einflüsse ei, float min, float max){
+    protected float VerhältnisZu(Einfluesse ei, float min, float max){
         float verhSum = 0.0f;
         for (int i = 0; i < monatlicheWerte.length; i++) {
             verhSum += monatlicheWerte[i]/ei.monatlicheWerte[i];
