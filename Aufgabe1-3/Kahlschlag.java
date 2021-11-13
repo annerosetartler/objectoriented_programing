@@ -1,6 +1,9 @@
 public class Kahlschlag extends Bewirtschaftet {
+    //INV:  wirtschaftsfaktoren.length == 4 & Werte in wirtschaftsfaktoren in [0.0,1.0]
+    //      altersKlassen > 0
     private int[] Zähler;
 
+    //Vorb: altersKlassen > 0
     public Kahlschlag(int altersKlassen) {
         super(altersKlassen);
         Zähler = new int[]{0};

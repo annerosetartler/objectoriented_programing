@@ -1,12 +1,16 @@
 public class Erholungsgebiet extends Bewirtschaftet {
+    //INV:  wirtschaftsfaktoren.length == 4 & Werte in wirtschaftsfaktoren in [0.0,1.0]
+    //      altersKlassen > 0
     private int AnzahlWege;
     private int AnzahlHütten;
     private int neuH;
     private int neuW;
 
+    //Vorb: altersKlassen > 0
     public Erholungsgebiet(int altersKlassen) {
         super(altersKlassen);
     }
+
 
     public float[] plusEinJahr() {
         neuH = 0;
