@@ -143,12 +143,14 @@ public class Forst {
     }
 
     //VORB: wirtschaftsfaktoren.length == 4 & Werte in wirtschaftsfaktoren in [0.0,1.0]
+    //NACHB: wenn wald1.baumBestand < als Anteil wirtschaftsfaktoren[2] des gesamten Waldes ist dann: wald2.baumBestand = wald1.baumbestand
+    //       wenn wald2.baumBestand < als Anteil wirtschaftsfaktoren[2] des gesamten Waldes ist dann: wald1.baumBestand = wald2.baumbestand
     //SCHLECHT: greift von hier auf protected Variable zu
     //          Es wird zu viel übergeben: nur Übergabe von wirtschaftsfaktoren[2] nötig
     private void plenter(float[] wirtschaftsfaktoren){
-        if (wald1.baumBestand < wald1.baumBestand + wald2.baumBestand * wirtschaftsfaktoren[2]){
+        if (wald1.baumBestand < (wald1.baumBestand + wald2.baumBestand) * wirtschaftsfaktoren[2]){
             wald2.plenterernte((wald1.baumBestand));
-        }else if (wald2.baumBestand < wald1.baumBestand + wald2.baumBestand * wirtschaftsfaktoren[2]){
+        }else if (wald2.baumBestand < (wald1.baumBestand + wald2.baumBestand) * wirtschaftsfaktoren[2]){
             wald1.plenterernte((wald2.baumBestand));
         }
     }
