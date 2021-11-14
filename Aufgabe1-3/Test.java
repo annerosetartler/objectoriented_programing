@@ -242,9 +242,9 @@ public class Test {
     ARBEITSAUFTEILUNG AUFGABE 3:
     Kommentare in Einfluesse (samt aller Untertypen & Einflussverw): Maria
     Kommentare in Bewirtschaftungsmodelle (samt aller Untertypen) : David
-    Kommentare in Population (samt aller Untertypen): Annerose, David, Maria
+    Kommentare in Population (samt aller Untertypen): David, Maria
     Kommentare in Forst: Annerose, David, Maria
-    Kommentare in Simulation, Test: Annerose, David, Maria
+    Kommentare in Simulation, Test: David, Maria
 
     AUFGABE 2:
     PROGRAMM GROBSTRUKTUR:
@@ -279,4 +279,13 @@ public class Test {
     Bewirtschaftungsmodelle, Erntefunktion: David
     Einfluesse: Maria
     Tests und Debugging: Annerose, David & Maria
- */
+
+
+    Arbeitsteilung Aufgabe 1:
+    Konzeption der Faktorisierung und Methoden: Annerose, David und Maria
+    Implementierung der Klasse Wald: Annerose, David und Maria
+    Implementierung der Klassen Test, Simulation, Modell, Naturbelassen & Bewirtschaftet: David und Maria
+    Überarbeitung der Klasse Wald: Annerose
+    Kommentare und Ausgabe: Maria
+    Inputgenerierung in Testklasse: David
+    */
