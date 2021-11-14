@@ -233,6 +233,20 @@ public class Test {
 }
 
 /*
+    AUFGABE 3:
+
+    ERLÄUTERUNG ZU MEHR GUT ALS SCHLECHT: Wir haben mehr SCHLECHT-Kommentare, da wir in der Umsetzung der Programmstruktur
+    zu sehr mit Vererbung gearbeitet und Subtyping zu wenig angewandt haben. Das führt zu den in "SCHLECHT:" beschriebenen
+    Problemen. Zudem haben wir hier abstrakte Obertypen, die aber theoretisch instanzierbar wären.
+
+    ARBEITSAUFTEILUNG AUFGABE 3:
+    Kommentare in Einfluesse (samt aller Untertypen & Einflussverw): Maria
+    Kommentare in Bewirtschaftungsmodelle (samt aller Untertypen) : David
+    Kommentare in Population (samt aller Untertypen): Annerose, David, Maria
+    Kommentare in Forst: Annerose, David, Maria
+    Kommentare in Simulation, Test: Annerose, David, Maria
+
+    AUFGABE 2:
     PROGRAMM GROBSTRUKTUR:
 
     WALD:
@@ -265,7 +279,4 @@ public class Test {
     Bewirtschaftungsmodelle, Erntefunktion: David
     Einfluesse: Maria
     Tests und Debugging: Annerose, David & Maria
-
-    ARBEITSAUFTEILUNG AUFGABE 3:
-    ...
  */

@@ -1,8 +1,6 @@
 public class Simulation {
 
-    //INV: einflussfaktoren.length == 4 & Werte in [0.0,1.0]
-    //     wirtschaftsfaktoren.length == 4 & Werte in [0.0,1.0]
-    //     years >= 0
+    //INV: years >= 0
     private float[] einflussfaktoren; //KOMMENTAR: [Hitze, Mure, Sturm, Zuwachs]
     private float[] wirtschaftsfaktoren;
     private Population w1, w2;
@@ -16,6 +14,8 @@ public class Simulation {
     }
 
     //VORB: e != null & m != null & zB > 0
+    //NACHB: einflussfaktoren != null & wirtschaftsfaktoren != null & (einflussfaktoren.length == 4 & Werte in [0.0,1.0])
+    //       & (wirtschaftsfaktoren.length == 4 & Werte in [0.0,1.0])
     public void simLoop(EinflussVerw e, Bewirtschaftungsmodell m, boolean mischwald, float zB) {
         Forst testForst;
         if (mischwald){
@@ -44,6 +44,7 @@ public class Simulation {
                 "Witterungseinflüsse: " + starkeEinflüsse() + "\n---------------------------------------- \n";
     }
 
+    //VORB: wirtschaftsfaktorn != null & wirtschaftsfaktorn.length == 4 & Werte in [0.0,1.0]
     private String modellName(){
         String s = "";
         if (wirtschaftsfaktoren[0] > 0.8f){
@@ -58,6 +59,7 @@ public class Simulation {
         return s + "Modell";
     }
 
+    //VORB: einflussfaktorn != null & einflussfaktoren.length == 4 & Werte in [0.0,1.0]
     private String starkeEinflüsse(){
         String s = "";
         if (einflussfaktoren[0] > 0.6f) {
