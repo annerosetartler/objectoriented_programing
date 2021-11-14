@@ -2,9 +2,13 @@ import java.util.ArrayList;
 
 public class Forst {
     //SCHLECHT: Benennungskonflikt zwischen wald (alt) und population (neu)
-    //INV: ToDo: Hier einfach nichts, oder?
-    //      Es wäre ein: Wenn as != null: Werte in altersStruktur in [0.0,1.0] & Summe aller Werte in altersStruktur ergibt 1.0 & altersStruktur.size > 0
+    //SCHLECHT: Objektvariablen haben nur in bestimmten Wäldern (= in Wäldern, in denen es einen wald2 gibt) eine Funktionalität
+    //ANM.: Dies ist ein Problem in der Definition der Invarianten im Einzelnen, da es dadurch zwei "Fälle" gibt: wald2 == oder != null.
+    //      Bestimmte Funktionen werden nur aufgerufen, wenn gesAS und baumGes relevant sind, also wenn wald2 != null (A).
+    //INV: A) Wenn wald2 != null: gesAS != null && Werte in altersStruktur in [0.0,1.0] & Summe aller Werte in altersStruktur ergibt 1.0 & altersStruktur.size > 0
     //                  dann auch Wert für baumGes in [0.25,1.0], sonst 0.
+    //     B) Sonst: wald2 == null, gesAS == null und baumGes = 0. ANM.: Werden dann jedoch gar nicht verwendet.
+    //mgl. LÖSUNG: Wenn es nur einen Wald gibt trotzdem gesAS = wald1.as und baumGes = wald1.ges
     private Population wald1, wald2;
     private ArrayList<Float> gesAS;
     private float baumGes;
@@ -26,9 +30,7 @@ public class Forst {
     //KOMMENTAR: Initialisiert einen Forst, der zwei Waldarten hat
     //VORB: as1 != null & as1.size() > 0 & bB1 > 0 & zb1 > 0 && as2 != null & as2.size() > 0 & bB2 > 0 & zb2 > 0
     //      Summe aller Werte in as1 und as2 ergibt jeweils 1.0 & Werte in as liegen in [0.0,1.0]
-    //NACHB: istMischwald == true in wald1 und wald2 //ToDo sind das Nachbedingungen?
-    //      Werte in gesAS in [0.0,1.0] & Summe aller Werte in altersStruktur ergibt 1.0 & altersStruktur.size > 0
-    //      Wert für gesamtGesundheit in [0.25,1.0]
+    //NACHB: istMischwald == true in wald1 und wald2
     public Forst(ArrayList<Float> as1, float bB1, float zB1, int baumart1, ArrayList<Float> as2, float bB2, float zB2, int baumart2){
         if (baumart1 == 0){
             wald1 = new Fichte(as1, bB1, zB1);
@@ -63,9 +65,7 @@ public class Forst {
 
     //Initialisiert einen Forst, der zwei Waldarten hat
     //VORB: w1 != null && w2 != null;
-    //NACHB: istMischwald == true in wald1 und wald2 //ToDo: Sind das Nachbedingungen?
-    //      Werte in gesAS in [0.0,1.0] & Summe aller Werte in altersStruktur ergibt 1.0 & altersStruktur.size > 0
-    //      Wert für gesamtGesundheit in [0.25,1.0]
+    //NACHB: istMischwald == true in wald1 und wald2
     public Forst(Population w1, Population w2){
         wald1 = w1;
         wald2 = w2;
@@ -81,12 +81,10 @@ public class Forst {
         setzeGesamtGesundheit();
     }
 
-    //KOMMENTAR: ich gebe derzeit hier jedem den halben zielbestand, wenn es zwei Waldteile gibt
+    //KOMMENTAR: ich gebe derzeit hier jedem den halben Zielbestand, wenn es zwei Waldteile gibt
     //VORB: einflussArray.length == 4 & Werte in einflussArray in [0.0,1.0]
     //      wirtschaftsfaktoren.length == 4 & Werte in wirtschaftsfaktoren in [0.0,1.0]
     //      maxZielb >= 0
-    //INVAR: Werte in gesAS in [0.0,1.0] & Summe aller Werte in altersStruktur ergibt 1.0 & altersStruktur.size > 0 //ToDo ist das jetzt eine Invariante?
-    //       Wert für gesamtGesundheit in [0.25,1.0]
     public void plusEinJahr(float[] einflussArray, float[] wirtschaftsfaktoren,float maxZielb){
 
         wald1.plusEinJahr(einflussArray, wirtschaftsfaktoren, maxZielb / (wald2 == null? 1 : 2), (wald2 != null));
@@ -96,7 +94,7 @@ public class Forst {
             plenter(wirtschaftsfaktoren);
 
             berGesamtAS();
-            setzeGesamtGesundheit(); //Gesundheit, die für die einzelnen Teile gelten würde, wird hier überschrieben!!!
+            setzeGesamtGesundheit(); //KOMMENTAR: Gesundheit, die für die einzelnen Teile gelten würde, wird hier überschrieben!!!
         }
     }
 
@@ -115,15 +113,15 @@ public class Forst {
         return s;
     }
 
-    //INVAR: Werte in gesAS in [0.0,1.0] & Summe aller Werte in altersStruktur ergibt 1.0 & altersStruktur.size > 0 //ToDo ist das jetzt eine Invariante?
+    //VORB: wald2 und damit gesAS != null (vgl. zweites SCHLECHT/Invariante oben)
     private void berGesamtAS(){
         for (int i = 0; i < wald1.altersStruktur.size(); i++) {
             gesAS.set(i, (wald1.altersStruktur.get(i) * wald1.baumBestand + wald2.altersStruktur.get(i) * wald2.baumBestand) / (wald1.baumBestand + wald2.baumBestand));
         }
     }
 
-    //INVAR: Wert für gesamtGesundheit in [0.25,1.0]
-    //SCHLECHT: gesundheit der einzelnen populationen wird hier "von außen" verändert //ToDo: SO schlecht? Wüsse nicht, wie anders...
+    //VORB: wald2 und damit gesAS != null (vgl. zweites SCHLECHT/Invariante oben)
+    //SCHLECHT: gesundheit der einzelnen populationen wird hier "von außen" verändert
     private void setzeGesamtGesundheit(){
         int space = 0;
         float idealwert = 1.0f / (gesAS.size() * 2);
@@ -138,9 +136,9 @@ public class Forst {
         wald2.setGesundheit(baumGes);
     }
 
-    //ToDo: Stimmt das (Vorb) überhaupt? Ist das mit dem Zugriff separat als schlecht zu nennen?
-    //VORB: wirtschaftsfaktoren.length > 3 & Wert in wirtschaftsfaktoren[2] [0.0,1.0]
-    //SCHLECHT: greift von hier auf protected Variable zu. VERBESSERUNG: getter
+    //VORB: wirtschaftsfaktoren.length == 4 & Wert in wirtschaftsfaktoren [0.0,1.0]
+    //SCHLECHT: greift von hier auf protected Variable zu
+    //          Es wird zu viel übergeben: nur Übergabe von wirtschaftsfaktoren[2] nötig
     private void plenter(float[] wirtschaftsfaktoren){
         if (wald1.baumBestand < wald1.baumBestand + wald2.baumBestand * wirtschaftsfaktoren[2]){
             wald2.plenterernte((wald1.baumBestand));
