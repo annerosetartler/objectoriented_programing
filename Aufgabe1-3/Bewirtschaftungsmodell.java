@@ -20,9 +20,7 @@ public class Bewirtschaftungsmodell {
     protected int altersKlassen;
 
     //Vorb: altersKlassen > 0
-    public Bewirtschaftungsmodell(int altersKlassen) {
-        this.altersKlassen = altersKlassen;
-    }
+    public Bewirtschaftungsmodell(int altersKlassen) { this.altersKlassen = altersKlassen; }
     //GUT:  Methode ist dynamisch gebunden
     public float[] plusEinJahr() {
         return wirtschaftsfaktoren;

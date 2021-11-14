@@ -241,6 +241,7 @@ public class Population {
         return zustand;
     }
 
+    //SCHLECHT: wenn es Instanzen von Population selbst gäbe, würde an dieser Stelle suggeriert, dass es sich um Fichten handelt
     public String getName(){
         return "Fichten";
     }
