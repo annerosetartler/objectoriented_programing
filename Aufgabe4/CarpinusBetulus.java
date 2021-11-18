@@ -1,17 +1,20 @@
 public class CarpinusBetulus implements ContinentalClimate {
 
     //INV: size > 0
+    //INV: Carpinus Betulus ist in Mitteleuropa verbreitet
+    //     longitude in [2.0f,25.0f]
+    //     latitude in [45.0f,58.0f]
     private float size;
     private float longitude;
     private float latitude;
-    private float incidence;
+    private static final float incidence = 3.0f;
     private static final String name = "Carpinus Betulus";
 
-    public CarpinusBetulus(float s, float longitude, float latitude, float incidence){
+    //VORB: s > 0 & longitude in [2.0f,25.0f] & latitude in [45.0f,58.0f]
+    public CarpinusBetulus(float s, float longitude, float latitude){
         this.size = s;
         this.longitude = longitude;
         this.latitude = latitude;
-        this.incidence = incidence;
     }
 
     @Override
@@ -25,9 +28,7 @@ public class CarpinusBetulus implements ContinentalClimate {
     }
 
     @Override
-    public float latitude() {
-        return latitude;
-    }
+    public float latitude() { return latitude; }
 
     @Override
     public String species() {
@@ -35,11 +36,10 @@ public class CarpinusBetulus implements ContinentalClimate {
     }
 
     @Override
-    public float size() {
-        return size;
-    }
+    public float size() { return size; }
 
     @Override
+    //VORB: size + change > 0
     public void changeSize(float change) {
         size += change;
     }

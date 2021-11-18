@@ -1,20 +1,23 @@
 public class QuercusRobur implements Quercus, LightDemanding, ContinentalClimate {
 
     //INV: size > 0
+    //INV: QuercusRobur ist im westlichen Mitteleuropa bis weiter nach Osteuropa verbreitet
+    //     longitude in [-8.0f,60.0f]
+    //     latitude in [38.0f,66.0f]
     private float size;
     private float longitude;
     private float latitude;
-    private float incidence;
-    private static float trunkSlope = 0.75f;
+    private static final float incidence = 1.5f;
+    private static final float trunkSlope = 0.75f;
     private static final String genus = "Quercus";
     private static final String family = "Fagaceae";
     private static final String name = "Quercus Robur";
 
-    public QuercusRobur(float s, float longitude, float latitude, float incidence){
+    //VORB: s > 0 & longitude in [-8.0f,60.0f] & latitude in [38.0f,66.0f]
+    public QuercusRobur(float s, float longitude, float latitude){
         this.size = s;
         this.longitude = longitude;
         this.latitude = latitude;
-        this.incidence = incidence;
     }
 
     @Override
@@ -43,6 +46,7 @@ public class QuercusRobur implements Quercus, LightDemanding, ContinentalClimate
     }
 
     @Override
+    //VORB: size + change > 0
     public void changeSize(float change) {
         size += change;
     }
