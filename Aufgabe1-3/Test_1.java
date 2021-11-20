@@ -244,7 +244,7 @@ public class Test_1 {
     Kommentare in Bewirtschaftungsmodelle (samt aller Untertypen) : David
     Kommentare in Population (samt aller Untertypen): David, Maria
     Kommentare in Forst: Annerose, David, Maria
-    Kommentare in Simulation, Test: David, Maria
+    Kommentare in Simulation, Test: Annerose, David, Maria
 
     AUFGABE 2:
     PROGRAMM GROBSTRUKTUR:
