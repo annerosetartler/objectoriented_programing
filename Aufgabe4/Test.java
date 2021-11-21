@@ -111,7 +111,7 @@ public class Test {
         System.out.println("Methode: incidence()\nGibt true aus wenn Nachbedingung im Obertyp auch im Untertyp stärker bzw. gleich ist: " + isvalidlatitude(CarpinusTestContinentalClimate.incidence()));
 
 
-        System.out.println("\n \n Test zum Forbidden Tree als Paradebeispiel für Missachtung der Untertypbeziehungen");
+        System.out.println("\nTest zum Forbidden Tree als Paradebeispiel für Missachtung der Untertypbeziehungen");
 
         System.out.println("Test zu Obertyp Tree\n");
 
