@@ -292,6 +292,9 @@ Domestic:
 
     Domestic ist kein Untertyp von LightDemanding, weil nicht alle hemischen Baumarten zu den Lichtbäumen zählen (zum Bsp CarpinusBetulus).
 
+    Domestic ist kein Untertyp von ContinentalClimate, weil es in Österreich heimische Baumarten gibt, die sich ohne
+    menschliche Unterstützung auch unter ozeanischem Klima ausbreiten.
+
 ContinentalClimate:
     ContinentalClimate ist kein Untertyp von Fagaceae, da es mindestens eine Baumart gibt (= CarpinusBetulus), die nicht der Familie
     der Fagaceae angehört und trotzdem heimisch ist.
@@ -300,6 +303,9 @@ ContinentalClimate:
 
     ContinentalClimate ist kein Untertyp von LightDemanding, da nicht alle Baumarten, die unter kontinentalem Einfluss heimisch sind,
     Lichtbaumarten sind (zum Bsp CarpinusBetulus).
+
+    ContinentalClimate ist kein Untertyp von Domestic, weil nicht alle Baumarten, die unter kontinentalem Einfluss heimisch
+    sind nur in Österreich heimisch sind.
 
 LightDemanding:
     LightDemanding ist kein Untertyp von Domestic, da LightDemanding laut Angabe nur besagt, dass ein Baum ein Lichtbaum ist,
@@ -311,4 +317,13 @@ LightDemanding:
     als Lichtbaum kategorisiert werden könnten.
 
     LightDemanding ist kein Untertyp von Quercus, da das transitiv aus dem vorigen Satz folgt.
+
+************************************************************************************************************************
+Arbeitsaufteilung:
+Aufbau der Untertypbeziehungen: Annerose, David, Maria
+Implementierung der Untertypbeziehungen: Annerose, David, Maria
+Begründung zu nicht vorhandenen Untertypbeziehungen: Annerose, Maria
+Zusicherungen: Annerose, David, Maria
+Tests: Annerose, David
+************************************************************************************************************************
  */

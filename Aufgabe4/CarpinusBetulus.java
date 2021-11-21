@@ -1,4 +1,4 @@
-public class CarpinusBetulus implements ContinentalClimate {
+public class CarpinusBetulus implements ContinentalClimate, Domestic {
 
     //INV: size > 0
     //INV: Carpinus Betulus ist in Mitteleuropa verbreitet

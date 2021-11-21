@@ -1,4 +1,4 @@
-public class QuercusRobur implements Quercus, LightDemanding, ContinentalClimate {
+public class QuercusRobur implements Quercus, LightDemanding, ContinentalClimate, Domestic{
 
     //INV: size > 0
     //INV: QuercusRobur ist im westlichen Mitteleuropa bis weiter nach Osteuropa verbreitet

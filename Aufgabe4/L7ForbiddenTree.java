@@ -1,4 +1,4 @@
-public class L7ForbiddenTree implements Quercus, LightDemanding, ContinentalClimate {
+public class L7ForbiddenTree implements Quercus, LightDemanding, ContinentalClimate, Domestic {
     //ERKLÄRUNG: Dieser Baum existiert lediglich im Code dreier OOP-Studierender und dient
     //der Visualisierung der Richtigkeit ihrer Tests, indem hier absichtlich ein
     //(unmöglicher und nicht in Untertypbeziehung stehender) Baum erzeugt wird, der von unseren
@@ -80,7 +80,7 @@ public class L7ForbiddenTree implements Quercus, LightDemanding, ContinentalClim
         return genus;
     }
 
-    //NACHB: gibt den Namen des Baumes Zurück
+    //NACHB: gibt den Namen des Baumes zurück
     @Override
     public String species() {
         return name;

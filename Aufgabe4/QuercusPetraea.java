@@ -1,4 +1,4 @@
-public class QuercusPetraea implements Quercus, LightDemanding, ContinentalClimate{
+public class QuercusPetraea implements Quercus, LightDemanding, ContinentalClimate, Domestic{
 
     //INV: size > 0
     //INV: QuercusPetraea ist im westlichen Mitteleuropa verbreitet
