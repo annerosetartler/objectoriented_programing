@@ -9,11 +9,9 @@ public class L7ForbiddenTree implements Quercus, LightDemanding, ContinentalClim
     // Probleme mit den Typbeziehungen auftreten, manche Variablen ändern sich jedoch durch
     //Methoden im Verlauf.
 
-    //INV: size(= geschätzte Baumhöhe) > -1
-
-    //ToDo: Kann ich die Var static deklarieren, wenn das Objekt nicht
     //KOMM: Variablen stehen hier links, rechts die vom Obertyp verlangte (und missachtete) Einschränkung
-    private float size = -1; //muss >0 sein
+    //INV: size(= geschätzte Baumhöhe) > -1.5 //muss > 0 sein
+    private float size;
     private static final float longitude = -185.0f; //muss in [-180.0f,+180.0f] liegen
     private static final float latitude = -100.8f; //muss in [-90.0f,+90.0f] liegen
     private static final float trunkSlope = 1.2f; //muss in [0.0, 1.0] liegen
@@ -22,8 +20,10 @@ public class L7ForbiddenTree implements Quercus, LightDemanding, ContinentalClim
     private static final String name = "Forbidden Tree"; //muss immer Lateinisch sein (bzw. einer der vier als Latein akzeptierten Möglichkeiten)
     private static final float incidence = -0.5f; //muss eine positive Zahl > 0 sein
 
-   public L7ForbiddenTree(){
-   }
+    //VORB: s > -1.5
+    public L7ForbiddenTree(float s){
+        size = s;
+    }
 
     //NACHB: gibt die geschätzte Baumhöhe in Metern zurück
     @Override
@@ -32,7 +32,7 @@ public class L7ForbiddenTree implements Quercus, LightDemanding, ContinentalClim
     }
 
     @Override
-    //KOMMENTAR: Hier ist die Vorb. absichtlich stärker gewählt -> falsch! //ToDo Test
+    //KOMMENTAR: Hier ist die Vorb. absichtlich stärker gewählt -> falsch!
     //VORB: size + change > 1
     //NACHB: ändert die geschätzte Höhe: wenn change > 0: Höhe wird vergrößert
     //                                   wenn change < 0: Höhe wird verringert

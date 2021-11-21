@@ -5,91 +5,91 @@ public class Test {
 
         System.out.println("\nTest zu Obertyp Tree, Untertyp FagusSylvatica\n");
         Tree FagusTestTree = new FagusSylvatica(10, 20, 50);
-        System.out.println("Gibt true aus wenn Nachbedingung im Obertyp auch im Untertyp stärker bzw. gleich ist: " +  islatinName(FagusTestTree.species()));
-        System.out.println("Gibt true zurück wenn die Invariante im Obertyp auch im Untertyp stärker oder gleich ist: " + isvalidSize(FagusTestTree.size()));
-        System.out.println("Gibt true zurück wenn die Vorbedingung im Untertyp schwächer oder gleich ist: " + isvalidchange(9, FagusTestTree.size()));
-        float presize = FagusTestTree.size();
-        FagusTestTree.changeSize(3);
-        System.out.println("Gibt true aus wenn Nachbedingung im Obertyp auch im Untertyp stärker bzw. gleich ist: " + ischange(presize, FagusTestTree.size()));
+        System.out.println("Methode: species()\nGibt true aus wenn Nachbedingung im Obertyp auch im Untertyp stärker bzw. gleich ist: " +  islatinName(FagusTestTree.species()));
+        System.out.println("Methode: size()\nGibt true zurück wenn die Invariante im Obertyp auch im Untertyp stärker oder gleich ist: " + isvalidSize(FagusTestTree.size()));
+        //VORB: Vorbedingung im Obertyp: size + change > 0 wird eingehalten: 10 - 9.5 = 0.5 -> eingehalten
+        System.out.println("Methode: changeSize()\nGibt true zurück wenn die Vorbedingung im Untertyp schwächer oder gleich ist: " + isvalidchange(-9.5f, FagusTestTree.size(),1));
+        FagusTestTree.changeSize(-9.5f);
+        System.out.println("Methode: changeSize()\nGibt true zurück wenn die Invariante im Obertyp auch im Untertyp stärker oder gleich ist: " + isvalidSize(FagusTestTree.size()));
 
         System.out.println("\nTest zu Obertyp Tree, Untertyp Quercus Petraea\n");
         Tree QuercusPTestTree = new QuercusPetraea(10, 20, 50);
-        System.out.println("Gibt true aus wenn Nachbedingung im Obertyp auch im Untertyp stärker bzw. gleich ist: " +  islatinName(QuercusPTestTree.species()));
-        System.out.println("Gibt true zurück wenn die Invariante im Obertyp auch im Untertyp stärker oder gleich ist: " + isvalidSize(QuercusPTestTree.size()));
-        System.out.println("Gibt true zurück wenn die Vorbedingung im Untertyp schwächer oder gleich ist: " + isvalidchange(9, QuercusPTestTree.size()));
-        presize = QuercusPTestTree.size();
-        QuercusPTestTree.changeSize(3);
-        System.out.println("Gibt true aus wenn Nachbedingung im Obertyp auch im Untertyp stärker bzw. gleich ist: " + ischange(presize, QuercusPTestTree.size()));
+        System.out.println("Methode: species()\nGibt true aus wenn Nachbedingung im Obertyp auch im Untertyp stärker bzw. gleich ist: " +  islatinName(QuercusPTestTree.species()));
+        System.out.println("Methode: size()\nGibt true zurück wenn die Invariante im Obertyp auch im Untertyp stärker oder gleich ist: " + isvalidSize(QuercusPTestTree.size()));
+        //VORB: Vorbedingung im Obertyp: size + change > 0 wird eingehalten: 10 - 9.5 = 0.5 -> eingehalten
+        System.out.println("Methode: changeSize()\nGibt true zurück wenn die Vorbedingung im Untertyp schwächer oder gleich ist: " + isvalidchange(-9.5f, QuercusPTestTree.size(),1));
+        QuercusPTestTree.changeSize(-9.5f);
+        System.out.println("Methode: changeSize()\nGibt true zurück wenn die Invariante im Obertyp auch im Untertyp stärker oder gleich ist: " + isvalidSize(QuercusPTestTree.size()));
 
         System.out.println("\nTest zu Obertyp Tree, Untertyp Quercus Robur\n");
         Tree QuercusRTestTree = new QuercusRobur(10, 20, 50);
-        System.out.println("Gibt true aus wenn Nachbedingung im Obertyp auch im Untertyp stärker bzw. gleich ist: " +  islatinName(QuercusRTestTree.species()));
-        System.out.println("Gibt true zurück wenn die Invariante im Obertyp auch im Untertyp stärker oder gleich ist: " + isvalidSize(QuercusRTestTree.size()));
-        System.out.println("Gibt true zurück wenn die Vorbedingung im Untertyp schwächer oder gleich ist: " + isvalidchange(9, QuercusRTestTree.size()));
-        presize = QuercusRTestTree.size();
-        QuercusRTestTree.changeSize(3);
-        System.out.println("Gibt true aus wenn Nachbedingung im Obertyp auch im Untertyp stärker bzw. gleich ist: " + ischange(presize, QuercusRTestTree.size()));
+        System.out.println("Methode: species()\nGibt true aus wenn Nachbedingung im Obertyp auch im Untertyp stärker bzw. gleich ist: " +  islatinName(QuercusRTestTree.species()));
+        System.out.println("Methode: size()\nGibt true zurück wenn die Invariante im Obertyp auch im Untertyp stärker oder gleich ist: " + isvalidSize(QuercusRTestTree.size()));
+        //VORB: Vorbedingung im Obertyp: size + change > 0 wird eingehalten: 10 - 9.5 = 0.5 -> eingehalten
+        System.out.println("Methode: changeSize()\nGibt true zurück wenn die Vorbedingung im Untertyp schwächer oder gleich ist: " + isvalidchange(-9.5f, QuercusRTestTree.size(),1));
+        QuercusRTestTree.changeSize(-9.5f);
+        System.out.println("Methode: changeSize()\nGibt true zurück wenn die Invariante im Obertyp auch im Untertyp stärker oder gleich ist: " + isvalidSize(QuercusRTestTree.size()));
 
         System.out.println("\nTest zu Obertyp Tree, Untertyp Carpinus Betulus\n");
         Tree CarpinusTestTree = new CarpinusBetulus(10, 20, 50);
-        System.out.println("Gibt true aus wenn Nachbedingung im Obertyp auch im Untertyp stärker bzw. gleich ist: " +  islatinName(CarpinusTestTree.species()));
-        System.out.println("Gibt true zurück wenn die Invariante im Obertyp auch im Untertyp stärker oder gleich ist: " + isvalidSize(CarpinusTestTree.size()));
-        System.out.println("Gibt true zurück wenn die Vorbedingung im Untertyp schwächer oder gleich ist: " + isvalidchange(9, CarpinusTestTree.size()));
-        presize = CarpinusTestTree.size();
-        CarpinusTestTree.changeSize(3);
-        System.out.println("Gibt true aus wenn Nachbedingung im Obertyp auch im Untertyp stärker bzw. gleich ist: " + ischange(presize, CarpinusTestTree.size()));
+        System.out.println("Methode: species()\nGibt true aus wenn Nachbedingung im Obertyp auch im Untertyp stärker bzw. gleich ist: " +  islatinName(CarpinusTestTree.species()));
+        System.out.println("Methode: size()\nGibt true zurück wenn die Invariante im Obertyp auch im Untertyp stärker oder gleich ist: " + isvalidSize(CarpinusTestTree.size()));
+        //VORB: Vorbedingung im Obertyp: size + change > 0 wird eingehalten: 10 - 9.5 = 0.5 -> eingehalten
+        System.out.println("Methode: changeSize()\nGibt true zurück wenn die Vorbedingung im Untertyp schwächer oder gleich ist: " + isvalidchange(-9.5f, CarpinusTestTree.size(),1));
+        CarpinusTestTree.changeSize(-9.5f);
+        System.out.println("Methode: changeSize()\nGibt true aus wenn Nachbedingung im Obertyp auch im Untertyp stärker bzw. gleich ist: " + isvalidSize(CarpinusTestTree.size()));
 
         System.out.println("\nTest zum Obertyp Fagaceae\nMethoden vom Obertyp werden im Interface Fagaceae nicht überschrieben und müssen deswegen nicht nochmal überprüft werden");
 
         System.out.println("\nTest zu Obertyp Fagaceae, Untertyp FagusSylvatica\n");
         Fagaceae FagusTestFagacea = new FagusSylvatica(10, 20, 50);
-        System.out.println("Gibt true aus wenn Nachbedingung im Obertyp auch im Untertyp stärker bzw. gleich ist: " + isFamilyFagaceae(FagusTestFagacea.family()));
+        System.out.println("Methode: family()\nGibt true aus wenn Nachbedingung im Obertyp auch im Untertyp stärker bzw. gleich ist: " + isFamilyFagaceae(FagusTestFagacea.family()));
 
         System.out.println("\nTest zu Obertyp Fagaceae, Untertyp Quercus Petraea\n");
         Fagaceae QuercusPTestFagaceae = new QuercusPetraea(10, 20, 50);
-        System.out.println("Gibt true aus wenn Nachbedingung im Obertyp auch im Untertyp stärker bzw. gleich ist: " + isFamilyFagaceae(QuercusPTestFagaceae.family()));
+        System.out.println("Methode: family()\nGibt true aus wenn Nachbedingung im Obertyp auch im Untertyp stärker bzw. gleich ist: " + isFamilyFagaceae(QuercusPTestFagaceae.family()));
 
         System.out.println("\nTest zu Obertyp Fagaceae, Untertyp Quercus Robur\n");
         Fagaceae QuercusRTestFagaceae = new QuercusRobur(10, 20, 50);
-        System.out.println("Gibt true aus wenn Nachbedingung im Obertyp auch im Untertyp stärker bzw. gleich ist: " + isFamilyFagaceae(QuercusRTestFagaceae.family()));
+        System.out.println("Methode: family()\nGibt true aus wenn Nachbedingung im Obertyp auch im Untertyp stärker bzw. gleich ist: " + isFamilyFagaceae(QuercusRTestFagaceae.family()));
 
         System.out.println("\nTest zum Obertyp Quercus\nMethoden vom Obertypen werden im Interface Quercus nicht überschrieben und müssen deswegen nicht nochmal überprüft werden");
 
         System.out.println("\nTest zu Obertyp Quercus, Untertyp Quercus Petraea\n");
         Quercus QuercusPTestQuercus = new QuercusPetraea(10, 20, 50);
-        System.out.println("Gibt true aus wenn Nachbedingung im Obertyp auch im Untertyp stärker bzw. gleich ist: " + isGenusQuercus(QuercusPTestQuercus.genus()));
+        System.out.println("Methode: genus()\nGibt true aus wenn Nachbedingung im Obertyp auch im Untertyp stärker bzw. gleich ist: " + isGenusQuercus(QuercusPTestQuercus.genus()));
 
         System.out.println("\nTest zu Obertyp Quercus, Untertyp Quercus Robur\n");
         Quercus QuercusRTestQuercus = new QuercusRobur(10, 20, 50);
-        System.out.println("Gibt true aus wenn Nachbedingung im Obertyp auch im Untertyp stärker bzw. gleich ist: " + isGenusQuercus(QuercusRTestQuercus.genus()));
+        System.out.println("Methode: genus()\nGibt true aus wenn Nachbedingung im Obertyp auch im Untertyp stärker bzw. gleich ist: " + isGenusQuercus(QuercusRTestQuercus.genus()));
 
         System.out.println("\nTest zum Obertyp LightDemanding\nMethoden vom Obertypen werden im Interface LightDemanding nicht überschrieben und müssen deswegen nicht nochmal überprüft werden");
 
         System.out.println("\nTest zu Obertyp LightDemanding, Untertyp Quercus Petraea\n");
         LightDemanding QuercusPTestLightDemanding = new QuercusPetraea(10, 20, 50);
-        System.out.println("Gibt true aus wenn Nachbedingung im Obertyp auch im Untertyp stärker bzw. gleich ist: " + isvalidtrunkSlope(QuercusPTestLightDemanding.trunkSlope()));
+        System.out.println("Methode: trunkSlope()\nGibt true aus wenn Nachbedingung im Obertyp auch im Untertyp stärker bzw. gleich ist: " + isvalidtrunkSlope(QuercusPTestLightDemanding.trunkSlope()));
 
         System.out.println("\nTest zu Obertyp LightDemanding, Untertyp Quercus Robur\n");
         LightDemanding QuercusRTestLightDemanding = new QuercusRobur(10, 20, 50);
-        System.out.println("Gibt true aus wenn Nachbedingung im Obertyp auch im Untertyp stärker bzw. gleich ist: " + isvalidtrunkSlope(QuercusRTestLightDemanding.trunkSlope()));
+        System.out.println("Methode: trunkSlope()\nGibt true aus wenn Nachbedingung im Obertyp auch im Untertyp stärker bzw. gleich ist: " + isvalidtrunkSlope(QuercusRTestLightDemanding.trunkSlope()));
 
         System.out.println("\nTest zum Obertyp Domestic\nMethoden vom Obertypen werden im Interface LightDemanding nicht überschrieben und müssen deswegen nicht nochmal überprüft werden");
 
         System.out.println("\nTest zu Obertyp Domestic, Untertyp FagusSylvatica\n");
         Domestic FagusTestDomestic = new FagusSylvatica(10, 20, 50);
-        System.out.println("Gibt true aus wenn Nachbedingung im Obertyp auch im Untertyp stärker bzw. gleich ist: " + isvalidlatitude(FagusTestDomestic.latitude()));
-        System.out.println("Gibt true aus wenn Nachbedingung im Obertyp auch im Untertyp stärker bzw. gleich ist: " + isvalidlongitude(FagusTestDomestic.longitude()));
+        System.out.println("Methode: latitude()\nGibt true aus wenn Nachbedingung im Obertyp auch im Untertyp stärker bzw. gleich ist: " + isvalidlatitude(FagusTestDomestic.latitude()));
+        System.out.println("Methode: longitude()\nGibt true aus wenn Nachbedingung im Obertyp auch im Untertyp stärker bzw. gleich ist: " + isvalidlongitude(FagusTestDomestic.longitude()));
 
 
         System.out.println("\nTest zu Obertyp Domestic, Untertyp Quercus Petraea\n");
         Domestic QuercusPTestDomestic = new QuercusPetraea(10, 20, 50);
-        System.out.println("Gibt true aus wenn Nachbedingung im Obertyp auch im Untertyp stärker bzw. gleich ist: " + isvalidlatitude(QuercusPTestDomestic.latitude()));
-        System.out.println("Gibt true aus wenn Nachbedingung im Obertyp auch im Untertyp stärker bzw. gleich ist: " + isvalidlongitude(QuercusPTestDomestic.longitude()));
+        System.out.println("Methode: latitude()\nGibt true aus wenn Nachbedingung im Obertyp auch im Untertyp stärker bzw. gleich ist: " + isvalidlatitude(QuercusPTestDomestic.latitude()));
+        System.out.println("Methode: longitude()\nGibt true aus wenn Nachbedingung im Obertyp auch im Untertyp stärker bzw. gleich ist: " + isvalidlongitude(QuercusPTestDomestic.longitude()));
 
         System.out.println("\nTest zu Obertyp Domestic, Untertyp Quercus Robur\n");
         Domestic QuercusRTestDomestic = new QuercusRobur(10, 20, 50);
-        System.out.println("Gibt true aus wenn Nachbedingung im Obertyp auch im Untertyp stärker bzw. gleich ist: " + isvalidlatitude(QuercusRTestDomestic.latitude()));
-        System.out.println("Gibt true aus wenn Nachbedingung im Obertyp auch im Untertyp stärker bzw. gleich ist: " + isvalidlongitude(QuercusRTestDomestic.longitude()));
+        System.out.println("Methode: latitude()\nGibt true aus wenn Nachbedingung im Obertyp auch im Untertyp stärker bzw. gleich ist: " + isvalidlatitude(QuercusRTestDomestic.latitude()));
+        System.out.println("Methode: longitude()\nGibt true aus wenn Nachbedingung im Obertyp auch im Untertyp stärker bzw. gleich ist: " + isvalidlongitude(QuercusRTestDomestic.longitude()));
 
         System.out.println("\nTest zu Obertyp Domestic, Untertyp Carpinus Betulus\n");
         Domestic CarpinusTestDomestic = new CarpinusBetulus(10, 20, 50);
@@ -100,15 +100,15 @@ public class Test {
 
         System.out.println("\nTest zu Obertyp ContinentalClimate, Untertyp Quercus Petraea\n");
         ContinentalClimate QuercusPTestContinentalClimate = new QuercusPetraea(10, 20, 50);
-        System.out.println("Gibt true aus wenn Nachbedingung im Obertyp auch im Untertyp stärker bzw. gleich ist: " + isvalidincidence(QuercusPTestContinentalClimate.incidence()));
+        System.out.println("Methode: incidence()\nGibt true aus wenn Nachbedingung im Obertyp auch im Untertyp stärker bzw. gleich ist: " + isvalidincidence(QuercusPTestContinentalClimate.incidence()));
 
         System.out.println("\nTest zu Obertyp ContinentalClimate, Untertyp Quercus Robur\n");
         ContinentalClimate QuercusRTestContinentalClimate = new QuercusRobur(10, 20, 50);
-        System.out.println("Gibt true aus wenn Nachbedingung im Obertyp auch im Untertyp stärker bzw. gleich ist: " + isvalidlatitude(QuercusRTestContinentalClimate.incidence()));
+        System.out.println("Methode: incidence()\nGibt true aus wenn Nachbedingung im Obertyp auch im Untertyp stärker bzw. gleich ist: " + isvalidlatitude(QuercusRTestContinentalClimate.incidence()));
 
         System.out.println("\nTest zu Obertyp ContinentalClimate, Untertyp Carpinus Betulus\n");
         ContinentalClimate CarpinusTestContinentalClimate = new CarpinusBetulus(10, 20, 50);
-        System.out.println("Gibt true aus wenn Nachbedingung im Obertyp auch im Untertyp stärker bzw. gleich ist: " + isvalidlatitude(CarpinusTestContinentalClimate.incidence()));
+        System.out.println("Methode: incidence()\nGibt true aus wenn Nachbedingung im Obertyp auch im Untertyp stärker bzw. gleich ist: " + isvalidlatitude(CarpinusTestContinentalClimate.incidence()));
 
 
         System.out.println("\n \n Test zum Forbidden Tree als Paradebeispiel für Missachtung der Untertypbeziehungen");
@@ -116,44 +116,44 @@ public class Test {
         System.out.println("Test zu Obertyp Tree\n");
 
         System.out.println("\nTest zu Obertyp Tree, Untertyp L7ForbiddenTree\n");
-        Tree ForbiddenTestTree = new L7ForbiddenTree();
-        System.out.println("Gibt true aus wenn Nachbedingung im Obertyp auch im Untertyp stärker bzw. gleich ist: " +  islatinName(ForbiddenTestTree.species()));
-        System.out.println("Gibt true zurück wenn die Invariante im Obertyp auch im Untertyp stärker oder gleich ist: " + isvalidSize(ForbiddenTestTree.size()));
-        System.out.println("Gibt true zurück wenn die Vorbedingung im Untertyp schwächer oder gleich ist: " + isvalidchange(9, ForbiddenTestTree.size())); //ToDo: das ist das mit der Vorbedingung
-        presize = ForbiddenTestTree.size();
-        ForbiddenTestTree.changeSize(3); //ToDo: das ist das mit der Vorbedingung!
-        System.out.println("Gibt true aus wenn Nachbedingung im Obertyp auch im Untertyp stärker bzw. gleich ist: " + ischange(presize, ForbiddenTestTree.size()));
+        Tree ForbiddenTestTree = new L7ForbiddenTree(-1.0f);
+        System.out.println("Methode: species()\nGibt true aus wenn Nachbedingung im Obertyp auch im Untertyp stärker bzw. gleich ist: " +  islatinName(ForbiddenTestTree.species()));
+        System.out.println("Methode: size()\nGibt true zurück wenn die Invariante im Obertyp auch im Untertyp stärker oder gleich ist: " + isvalidSize(ForbiddenTestTree.size()));
+        //VORB: Vorbedingung im Obertyp: size + change > 0 wird eingehalten: -1.0f + 1.2 = 0.2 -> eingehalten
+        System.out.println("Methode: changeSize()\nGibt true zurück wenn die Vorbedingung im Untertyp schwächer oder gleich ist: " + isvalidchange(1.2f, ForbiddenTestTree.size(),2));
+        ForbiddenTestTree.changeSize(2.0f);//durch Einhaltung der VORB im Untertyp (size + change > 1), wird Invariante in Obertyp wieder erfüllt
+        System.out.println("Methode: changeSize()\nGibt true aus wenn die Invariante im Obertyp auch im Untertyp stärker bzw. gleich ist: " + isvalidSize(ForbiddenTestTree.size()));
 
         System.out.println("\nTest zum Obertyp Fagaceae\nMethoden vom Obertyp werden im Interface Fagaceae nicht überschrieben und müssen deswegen nicht nochmal überprüft werden");
 
         System.out.println("\nTest zu Obertyp Fagaceae, Untertyp L7ForbiddenTree\n");
-        Fagaceae ForbiddenTestFagacea = new L7ForbiddenTree();
-        System.out.println("Gibt true aus wenn Nachbedingung im Obertyp auch im Untertyp stärker bzw. gleich ist: " + isFamilyFagaceae(ForbiddenTestFagacea.family()));
+        Fagaceae ForbiddenTestFagacea = new L7ForbiddenTree(-0.8f);
+        System.out.println("Methode: family()\nGibt true aus wenn Nachbedingung im Obertyp auch im Untertyp stärker bzw. gleich ist: " + isFamilyFagaceae(ForbiddenTestFagacea.family()));
 
         System.out.println("\nTest zum Obertyp Quercus\nMethoden vom Obertypen werden im Interface Quercus nicht überschrieben und müssen deswegen nicht nochmal überprüft werden");
 
         System.out.println("\nTest zu Obertyp Quercus, Untertyp L7ForbiddenTree\n");
-        Quercus ForbiddenTestQuercus = new L7ForbiddenTree();
-        System.out.println("Gibt true aus wenn Nachbedingung im Obertyp auch im Untertyp stärker bzw. gleich ist: " + isGenusQuercus(ForbiddenTestQuercus.genus()));
+        Quercus ForbiddenTestQuercus = new L7ForbiddenTree(-0.8f);
+        System.out.println("Methode: genus()\nGibt true aus wenn Nachbedingung im Obertyp auch im Untertyp stärker bzw. gleich ist: " + isGenusQuercus(ForbiddenTestQuercus.genus()));
 
         System.out.println("\nTest zum Obertyp LightDemanding\nMethoden vom Obertypen werden im Interface LightDemanding nicht überschrieben und müssen deswegen nicht nochmal überprüft werden");
 
         System.out.println("\nTest zu Obertyp LightDemanding, Untertyp L7ForbiddenTree\n");
-        LightDemanding ForbiddenTestLightDemanding = new L7ForbiddenTree();
-        System.out.println("Gibt true aus wenn Nachbedingung im Obertyp auch im Untertyp stärker bzw. gleich ist: " + isvalidtrunkSlope(ForbiddenTestLightDemanding.trunkSlope()));
+        LightDemanding ForbiddenTestLightDemanding = new L7ForbiddenTree(-0.8f);
+        System.out.println("Methode: trunkSlope()\nGibt true aus wenn Nachbedingung im Obertyp auch im Untertyp stärker bzw. gleich ist: " + isvalidtrunkSlope(ForbiddenTestLightDemanding.trunkSlope()));
 
         System.out.println("\nTest zum Obertyp Domestic\nMethoden vom Obertypen werden im Interface LightDemanding nicht überschrieben und müssen deswegen nicht nochmal überprüft werden");
 
         System.out.println("\nTest zu Obertyp Domestic, Untertyp L7ForbiddenTree\n");
-        Domestic ForbiddenTestDomestic = new L7ForbiddenTree();
-        System.out.println("Gibt true aus wenn Nachbedingung im Obertyp auch im Untertyp stärker bzw. gleich ist: " + isvalidlatitude(ForbiddenTestDomestic.latitude()));
-        System.out.println("Gibt true aus wenn Nachbedingung im Obertyp auch im Untertyp stärker bzw. gleich ist: " + isvalidlongitude(ForbiddenTestDomestic.longitude()));
+        Domestic ForbiddenTestDomestic = new L7ForbiddenTree(-0.8f);
+        System.out.println("Methode: latitude()\nGibt true aus wenn Nachbedingung im Obertyp auch im Untertyp stärker bzw. gleich ist: " + isvalidlatitude(ForbiddenTestDomestic.latitude()));
+        System.out.println("Methode: longitude()\nGibt true aus wenn Nachbedingung im Obertyp auch im Untertyp stärker bzw. gleich ist: " + isvalidlongitude(ForbiddenTestDomestic.longitude()));
 
         System.out.println("\nTest zum Obertyp ContinentalClimate\nMethoden vom Obertypen werden im Interface LightDemanding nicht überschrieben und müssen deswegen nicht nochmal überprüft werden");
 
         System.out.println("\nTest zu Obertyp ContinentalClimate, Untertyp L7ForbiddenTree\n");
-        ContinentalClimate ForbiddenTestContinentalClimate = new L7ForbiddenTree();
-        System.out.println("Gibt true aus wenn Nachbedingung im Obertyp auch im Untertyp stärker bzw. gleich ist: " + isvalidincidence(ForbiddenTestContinentalClimate.incidence()));
+        ContinentalClimate ForbiddenTestContinentalClimate = new L7ForbiddenTree(-0.8f);
+        System.out.println("Methode: incidence()\nGibt true aus wenn Nachbedingung im Obertyp auch im Untertyp stärker bzw. gleich ist: " + isvalidincidence(ForbiddenTestContinentalClimate.incidence()));
     }
 
     //KOMMENTAR: Testet die Invariante von Tree
@@ -176,21 +176,23 @@ public class Test {
     }
 
     //KOMMENTAR: Testet Vorbedingung von changeSize
-    //NACHB: true wenn change + size größer als 0 ist, sonst false
-    public static boolean isvalidchange(float change, float size){
-        if (size + change > 0){
-            return true;
+    //VORB: type = 1 oder type = 2
+    //NACHB: wenn type = 1: dann lautet die Vorbedingung im Untertyp: size+change > 0
+    //                      es wird true zurückgegeben, wenn size + change > 0, sonst Rüchgabe false
+    //       wenn type = 2: dann lautet die Vorbedingung im Untertyp: size+change > 1
+    //                      es wird true zurückgegeben, wenn size + change > 1, sonst Rüchgabe false
+    public static boolean isvalidchange(float change, float size, int type){
+        if(type == 1){
+            if (size + change > 0){
+                return true;
+            }
+            return false;
+        }else{
+            if (size + change > 1){
+                return true;
+            }
+            return false;
         }
-        return false;
-    }
-
-    //KOMMENTAR: Testet Nachbedingung von changeSize
-    //NACHB: true wenn prechange ungleich postchange, false sonst
-    public static boolean ischange(float prechange, float postchange){
-        if (Float.compare(prechange, postchange) != 0){
-            return true;
-        }
-        return false;
     }
 
     //KOMMENTAR: Testet die Nachbedingung von family
