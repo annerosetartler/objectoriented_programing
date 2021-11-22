@@ -102,7 +102,6 @@ public class Buche implements Population {
         ausfall = berAusfallsfaktor(einflussArray) * gesundheit;
     }
 
-    @Override
     //VORB: einflussArray.length == 4 & Werte in einflussArray in [0.0,1.0] ///////////////////DONE
     //NACHB: gibt einen Wert in [0.0,1.0] zurück
     private float berAusfallsfaktor(float[] einflussArray){
@@ -278,7 +277,7 @@ public class Buche implements Population {
         return ausfall;
     }
 
-    public float getBaumBestand(){ //ToDo: Habe ich nochmal extra gemacht, damit ich nciht iummer das ganze array brauceh => noch überlegen
+    public float getBaumbestand(){ //ToDo: Habe ich nochmal extra gemacht, damit ich nciht iummer das ganze array brauceh => noch überlegen. Ohne Getter wär eigentlich generell toller...
         return baumBestand;
     }
 

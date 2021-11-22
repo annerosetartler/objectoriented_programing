@@ -104,7 +104,6 @@ public class Fichte implements Population {
     }
 
     //ToDo: muss jetzt eig. keine eigene Methode mehr sein, weil wir nciht mehr erben. so trotzdem schöner?
-    @Override
     //VORB: einflussArray.length == 4 & Werte in einflussArray in [0.0,1.0] ////////////////DONE
     //NACHB: gibt einen Wert in [0.0,1.0] zurück
     private float berAusfallsfaktor(float[] einflussArray){
@@ -140,7 +139,6 @@ public class Fichte implements Population {
         }
     }
 
-    @Override
     //VORB: Wert von zfaktor in [0.0,1.0]
     private void berZuwachs(float zFaktor){
         zuwachs = zielbestand * zFaktor * 0.08f * (istMischwald? 0.95f : 1) - ausfall * baumBestand;
@@ -174,7 +172,6 @@ public class Fichte implements Population {
         }
     }
 
-    @Override
     private void berCO2() {
         co2Vorrat += zuwachs;
         if (ausfall < 0.3) {
@@ -277,7 +274,8 @@ public class Fichte implements Population {
         return ausfall;
     }
 
-    public float getBaumBestand(){ //ToDo: Habe ich nochmal extra gemacht, damit ich nciht iummer das ganze array brauceh => noch überlegen
+    @Override
+    public float getBaumbestand() { //ToDo: Habe ich nochmal extra gemacht, damit ich nciht iummer das ganze array brauceh => noch überlegen
         return baumBestand;
     }
 
