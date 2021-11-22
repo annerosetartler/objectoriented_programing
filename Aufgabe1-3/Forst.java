@@ -46,7 +46,7 @@ public class Forst {
         wald2.setzeMischwaldVar();
 
         gesAS = new ArrayList<Float>();
-        for (int i = 0; i < wald1.altersStruktur.size(); i++) {
+        for (int i = 0; i < wald1.getAltersstruktur().size(); i++) {
             gesAS.add(0.0f);
         }
         berGesamtAS();
@@ -74,7 +74,7 @@ public class Forst {
         wald2.setzeMischwaldVar();
 
         gesAS = new ArrayList<Float>();
-        for (int i = 0; i < wald1.altersStruktur.size(); i++) {
+        for (int i = 0; i < wald1.getAltersstruktur().size(); i++) {
             gesAS.add(0.0f);
         }
         berGesamtAS();
@@ -110,9 +110,12 @@ public class Forst {
             s += wald1.toString();
         }
         else {
-            s += "Baumbestand: " + String.format("%6.2f", wald1.baumBestand + wald2.baumBestand) + "\t\tGesundheit: " + String.format("%6.2f", baumGes) +
-                    "\t\tZielbestand: " + String.format("%6.2f", wald1.zielbestand + wald2.zielbestand) + "\t\tErnte: " + String.format("%6.2f", wald1.ernte + wald2. ernte) +
-                    "\t\tCO2-Vorrat: " + String.format("%6.2f", wald1.co2Vorrat + wald2.co2Vorrat);
+            //ToDo: hierfür evtl. stattdessen eine Methode schreiben?
+            float[] w1Zustand = wald1.zustandPop();
+            float[] w2Zustand = wald2.zustandPop();
+            s += "Baumbestand: " + String.format("%6.2f", w1Zustand[0] + w2Zustand[0]) + "\t\tGesundheit: " + String.format("%6.2f", baumGes) +
+                    "\t\tZielbestand: " + String.format("%6.2f", w1Zustand[1] + w2Zustand[1]) + "\t\tErnte: " + String.format("%6.2f", w1Zustand[3] + w2Zustand[3]) +
+                    "\t\tCO2-Vorrat: " + String.format("%6.2f", w1Zustand[4] + w2Zustand[4]);
         }
         return s;
     }
@@ -120,8 +123,10 @@ public class Forst {
     //VORB: wald2 != null & gesAS != null & gesAS.size = wald1.altersStruktur.size = wald2.altersStruktur.size
     //NACHB: gesAS != null & gesAS.size = wald1.altersStruktur.size = wald2.altersStruktur.size & alle Werte in gesAS in [0.0,1.0] & Summe aller Werte in gesAS ergibt 1.0
     private void berGesamtAS(){
-        for (int i = 0; i < wald1.altersStruktur.size(); i++) {
-            gesAS.set(i, (wald1.altersStruktur.get(i) * wald1.baumBestand + wald2.altersStruktur.get(i) * wald2.baumBestand) / (wald1.baumBestand + wald2.baumBestand));
+        ArrayList<Float> wald1AS = wald1.getAltersstruktur();
+        ArrayList<Float> wald2AS = wald2.getAltersstruktur();
+        for (int i = 0; i < wald1.getAltersstruktur().size(); i++) {
+            gesAS.set(i, (wald1AS.get(i) * wald1.getBaumbestand() + wald2AS.get(i) * wald2.getBaumbestand()) / (wald1.getBaumbestand() + wald2.getBaumbestand()));
         }
     }
 
@@ -148,10 +153,12 @@ public class Forst {
     //SCHLECHT: greift von hier auf protected Variable zu
     //          Es wird zu viel übergeben: nur Übergabe von wirtschaftsfaktoren[2] nötig
     private void plenter(float[] wirtschaftsfaktoren){
-        if (wald1.baumBestand < (wald1.baumBestand + wald2.baumBestand) * wirtschaftsfaktoren[2]){
-            wald2.plenterernte((wald1.baumBestand));
-        }else if (wald2.baumBestand < (wald1.baumBestand + wald2.baumBestand) * wirtschaftsfaktoren[2]){
-            wald1.plenterernte((wald2.baumBestand));
+        float wald1BB = wald1.getBaumbestand();
+        float wald2BB = wald2.getBaumbestand();
+        if (wald1BB < (wald1BB + wald2BB) * wirtschaftsfaktoren[2]){
+            wald2.plenterernte((wald1BB));
+        }else if (wald2BB < (wald1BB + wald2BB) * wirtschaftsfaktoren[2]){
+            wald1.plenterernte((wald2BB));
         }
     }
 }

@@ -1,0 +1,55 @@
+Änderungen für die Finalabgabe:
+
+* Simulation:
+    -
+
+* Test:
+    -
+
+*************
+
+* Population:
+    - Umstellung als Interface
+    - Methoden in die das Interface implementierenden Klassen ausgelagert
+    - Beschreibungen dementsprechend geändert (ToDo)
+    -
+
+* Fichte & Buche:
+    - Variablen auf private umgeändert und dementsprechende auftretende Probleme gelöst
+    - Methoden von protected auf private, da nun keine Vererbungsbeziehungen, bei denen Methoden überschrieben werden müssen, bedacht werden (müssen)
+
+**************
+
+* Forst:
+    -
+
+**************
+
+* Bewirtschaftungsmodell:
+
+* Naturbelassen:
+
+* Bewirtschaftet:
+
+* Erholungsgebiet:
+
+* Kahlschlag:
+
+* Plenterwirtschaft:
+
+***************
+
+* EinflussVerw:
+
+***************
+
+* Einfluesse:
+
+* Sonne:
+
+* Temperatur
+
+* Wind:
+
+* Niederschlag:
+
