@@ -1,10 +1,8 @@
-import java.lang.Integer;
-
-public class Numeric<Integer> implements Relation<Integer, Integer> {
-    private float c;
+public class Numeric implements Relation<Integer, Integer> {
+    private int c;
     private int invoked;
 
-    public Numeric(float c){
+    public Numeric(int c){
         this.c = c;
         invoked = 0;
     }
@@ -12,7 +10,7 @@ public class Numeric<Integer> implements Relation<Integer, Integer> {
     @Override
     public boolean related(Integer x, Integer y) {
         invoked++;
-        return Math.abs() < c;
+        return Math.abs(x - y) <= c;
     }
 
     @Override
