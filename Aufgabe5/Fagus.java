@@ -7,18 +7,14 @@ public class Fagus implements Tree {
         this.shadowLeaves = shadowLeaves;
     }
 
-    public static <A extends Relation> A relation(){
+    public static Relation<Fagus, Fagus> relation(){ //oder <--->?
         return new FagusRelation();
     }
 
     @Override
     public Integer height() {
-        return null;
+        return height;
     }
-
-
-
-
 
     static class FagusRelation implements Relation<Fagus, Fagus>{
         private int invoked;

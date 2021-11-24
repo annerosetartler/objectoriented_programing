@@ -1,24 +1,66 @@
 import java.util.Iterator;
 
 public class SingleGroup<X> implements Group<X, X> {
+    private Node head = null;
+    private Node tail = null;
+    private int invoked;
+
+    public SingleGroup(){
+        invoked = 0;
+    }
+
 
     @Override
-    public void add(X e) {
+    public void add(X x) {
+        if (head == null) {
+            tail = head = new Node(x);
+        }
+        else {
+            for (X value : this) {
+                if (value == x) {
+                    return;
+                }
+            }
+            tail = tail.next = new Node(x);
+        }
+    }
 
+    public Iterator<X> iterator() {
+        return new ListIter();
     }
 
     @Override
     public boolean related(X x, X y) {
+        invoked++;
         return x == y;
     }
 
     @Override
     public int invoked() {
-        return 0;
+        return invoked;
     }
 
-    @Override
-    public Iterator<X> iterator() {
-        return null;
+    private class Node {
+        private X elem;
+        private Node next = null;
+        private Node(X elem) {
+            this.elem = elem;
+        }
+    }
+
+    private class ListIter implements Iterator<X> {
+        private Node p = head;
+
+        public X next() {
+            if (p == null)
+                return null;
+            X elem = p.elem;
+            p = p.next;
+            return elem;
+        }
+
+        public boolean hasNext() {
+            return p != null;
+        }
     }
 }
