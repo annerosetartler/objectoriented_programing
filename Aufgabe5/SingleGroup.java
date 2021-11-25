@@ -50,17 +50,34 @@ public class SingleGroup<X> implements Group<X, X> {
 
     private class ListIter implements Iterator<X> {
         private Node p = head;
+        private Node last = null, prelast = null;
 
         public X next() {
             if (p == null)
                 return null;
             X elem = p.elem;
+            prelast = last;
+            last = p;
             p = p.next;
             return elem;
         }
 
         public boolean hasNext() {
             return p != null;
+        }
+
+        public void remove(){
+            if(prelast == null){
+                head = p;
+                last = null;
+            }else if(p == null){
+                prelast.next = null;
+                tail = prelast;
+            }else{
+                prelast.next = p;
+                last = prelast;
+            }
+
         }
     }
 }
