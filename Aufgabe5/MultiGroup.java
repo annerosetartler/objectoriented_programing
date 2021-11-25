@@ -32,18 +32,21 @@ public class MultiGroup<X, Y> implements Group<X, Y> {
         return null;
     }
 
-    private class MultiIter implements Iterator<Group>{
-
+    //wird so noch nicht funktionieren
+    private class MultiIter implements Iterator<X>{
+        Iterator<X> iter = list.iterator();
         @Override
         public boolean hasNext() {
-            return false;
+            return iter.hasNext();
         }
 
         @Override
-        public Object next() {
-            return null;
+        public X next() {
+            while(iter.hasNext()){
+                return iter.next();
+            }
+            iter = a.iterator();
+            return iter.next();
         }
     }
-
-
 }
