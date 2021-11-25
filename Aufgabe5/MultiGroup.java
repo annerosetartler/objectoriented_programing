@@ -36,8 +36,8 @@ public class MultiGroup<X, Y> implements Group<X, Y> {
     }
 
     private class MultiIter implements Iterator<X>{
-        Iterator<X> iter = list.iterator();
-        Iterator<X> delIter;
+        private Iterator<X> iter = list.iterator();
+        private Iterator<X> delIter;
         boolean removed = false;
 
         @Override
