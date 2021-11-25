@@ -9,7 +9,6 @@ public class SingleGroup<X> implements Group<X, X> {
         invoked = 0;
     }
 
-
     @Override
     public void add(X x) {
         if (head == null) {
@@ -77,7 +76,6 @@ public class SingleGroup<X> implements Group<X, X> {
                 prelast.next = p;
                 last = prelast;
             }
-
         }
     }
 }
