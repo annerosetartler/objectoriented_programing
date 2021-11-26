@@ -20,7 +20,7 @@ public class Quercus implements Tree {
         return trunkHeight;
     }
 
-    static class QuercusRelation <A extends Quercus, B extends Tree> implements Relation<A, B>{
+    static class QuercusRelation <X extends Quercus, Y extends Tree> implements Relation<X, Y>{
         private int invoked;
 
         public QuercusRelation(){
@@ -28,7 +28,7 @@ public class Quercus implements Tree {
         }
 
         @Override
-        public boolean related(A quercus, B tree) {
+        public boolean related(X quercus, Y tree) {
             invoked++;
             return quercus.trunkHeight() >= tree.height();
         }
@@ -39,4 +39,3 @@ public class Quercus implements Tree {
         }
     }
 }
-//kommentar
