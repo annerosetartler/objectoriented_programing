@@ -5,7 +5,7 @@ public class SingleGroup<X> implements Group<X, X> {
     private Node tail = null;
     private int invoked;
 
-    public SingleGroup(){
+    public SingleGroup() {
         invoked = 0;
     }
 
@@ -13,8 +13,7 @@ public class SingleGroup<X> implements Group<X, X> {
     public void add(X x) {
         if (head == null) {
             tail = head = new Node(x);
-        }
-        else {
+        } else {
             for (X value : this) {
                 if (value == x) {
                     return;
@@ -42,6 +41,7 @@ public class SingleGroup<X> implements Group<X, X> {
     private class Node {
         private X elem;
         private Node next = null;
+
         private Node(X elem) {
             this.elem = elem;
         }
@@ -65,14 +65,14 @@ public class SingleGroup<X> implements Group<X, X> {
             return p != null;
         }
 
-        public void remove(){
-            if(prelast == null){
+        public void remove() {
+            if (prelast == null) {
                 head = p;
                 last = null;
-            }else if(p == null){
+            } else if (p == null) {
                 prelast.next = null;
                 tail = prelast;
-            }else{
+            } else {
                 prelast.next = p;
                 last = prelast;
             }
