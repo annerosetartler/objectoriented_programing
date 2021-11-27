@@ -1,6 +1,12 @@
+import java.util.Iterator;
+
 public class Test {
     public static void main(String[] args) {
         //KOMMENTAR: Erzeugung von Trees
+        //ToDo: Sollen wir noch mehr Tests machen? Wie findest du die Ausgabe?
+        //      Ich weiß noch immer nicht, warum es problemlos funktioniert Untertypen in Obertypgruppen einzufügen
+        //      zum Beispiel kann ich in SingleGroup<Quercus> problemlos auch QuercusRobur-Objekte einfügen...dabei
+        //      haben wir das bei den Typparametern nicht wirklich bewusst mitbedacht
         Fagus f1 = new Fagus(2, 0.9f);
         Fagus f2 = new Fagus(4, 0.8f);
         Fagus f3 = new Fagus(6, 0.7f);
@@ -8,8 +14,8 @@ public class Test {
         Fagus f5 = new Fagus(10, 0.5f);
         Fagus f6 = new Fagus(12, 0.4f);
         Fagus f7 = new Fagus(14, 0.3f);
-        Fagus f8 = new Fagus(16, 0.2f);
-        Fagus f9 = new Fagus(18, 0.1f);
+        Fagus f8 = new Fagus(5, 0.2f);
+        Fagus f9 = new Fagus(6, 0.1f);
         Fagus f10 = new Fagus(20, 0.5f);
 
         Quercus q1 = new Quercus(2, 1);
@@ -68,7 +74,8 @@ public class Test {
         SingleGroup<Tree> sTree1 = new SingleGroup<Tree>();
         sTree1.add(t1);
         sTree1.add(t3);
-        sTree1.add(f5);
+        sTree1.add(t5);
+        sTree1.add(t9);
         System.out.println("SingleGroup<Tree>: " + sTree1);
 
         SingleGroup<Integer> sInt1 = new SingleGroup<Integer>();
@@ -142,26 +149,128 @@ public class Test {
 
         //ii2 = <Integer,Integer>
         Relation<Integer,Integer> iRel2 = new Numeric(5);
-        MultiGroup<Integer,Integer> ii2 = new MultiGroup<Integer,Integer>(ii1,iRel1);
+        MultiGroup<Integer,Integer> ii2 = new MultiGroup<Integer,Integer>(ii1,iRel2);
         ii2.add(10); ii2.add(5); ii2.add(2); ii2.add(15);
         System.out.println("MultiGroup<Integer,Integer>: " + ii2);
         System.out.println("\n");
 
         System.out.println("Tests: Iterator, add() & remove()" + "\n");
-        System.out.println("MultiGroup<Fagus,Fagus>: " + fm1 + "\n");
-        System.out.println("iterator: ");
+
+        //KOMMENTAR: Test für die "einfache" Multigroup: fm1
+        System.out.println("MultiGroup<Fagus,Fagus>: " + "\n" + fm1);
+        System.out.println("Iterator: ");
         for (Fagus f: fm1) {
             System.out.print(f.toString() + " ");
         }
-        System.out.println("\n");
+        System.out.println("\n" + "REMOVE erstes vom Iterator zurückgegebene Element: ");
+        Iterator<Fagus> fIter = fm1.iterator();
+        Fagus fRemove = null;
+        if(fIter.hasNext()){
+            fRemove = fIter.next();
+        }
+        fIter.remove();
+        System.out.println("entfernt: " + fRemove);
+        System.out.println("MultiGroup<Fagus,Fagus>: " + fm1);
+        System.out.println("ADD entferntes Element wieder einfügen: ");
+        fm1.add(fRemove);
+        System.out.println("MultiGroup<Fagus,Fagus>: " + fm1);
+        System.out.println("Iterator nach REMOVE und ADD fortsetzen: ");
+        while(fIter.hasNext()){
+            Fagus f = fIter.next();
+            System.out.print(f.toString() + " ");
+        }
+
+        System.out.println();
+        System.out.println();
+
+        //KOMMENTAR: Test für die verschachtelte Multigroup: qqr1
+        System.out.println("MultiGroup<Quercus,QuercusRobur>: " + "\n" + qqr1);
+        System.out.println("Iterator: ");
+        for (Quercus q: qqr1) {
+            System.out.print(q.toString() + " ");
+        }
+        System.out.println("\n" + "REMOVE erstes vom Iterator zurückgegebene Element: ");
+        Iterator<Quercus> qIter = qqr1.iterator();
+        Quercus qRemove = null;
+        if(qIter.hasNext()){
+            qRemove = qIter.next();
+        }
+        qIter.remove();
+        System.out.println("entfernt: " + qRemove);
+        System.out.println("MultiGroup<Quercus,QuercusRobur>: " + qqr1);
+        System.out.println("ADD entferntes Element wieder einfügen: ");
+        qqr1.add(qRemove);
+        System.out.println("MultiGroup<Quercus,QuercusRobur>: " + qqr1);
+        System.out.println("Iterator nach REMOVE und ADD fortsetzen: ");
+        while(qIter.hasNext()){
+            Quercus q = qIter.next();
+            System.out.print(q.toString() + " ");
+        }
+        System.out.println("\n" + "REMOVE letztes von Iterator zurückgegebene Element: ");
+        qIter.remove();
+        System.out.println("MultiGroup<Quercus,QuercusRobur>: " + qqr1);
+
+        //KOMMENTAR: Test für die verschachtelte Multigroup: ii2
+        System.out.println("MultiGroup<Integer,Integer>: " + "\n" + ii2);
+        System.out.println("Iterator: ");
         for (Integer i: ii2) {
             System.out.print(i.toString() + " ");
         }
+        System.out.println("\n" + "REMOVE erstes vom Iterator zurückgegebene Element: ");
+        Iterator<Integer> iIter = ii2.iterator();
+        Integer iRemove = null;
+        if(iIter.hasNext()){
+            iRemove = iIter.next();
+        }
+        iIter.remove();
+        System.out.println("entfernt: " + iRemove);
+        System.out.println("MultiGroup<Integer,Integer>: " + ii2);
+        System.out.println("ADD entferntes Element wieder einfügen: ");
+        ii2.add(iRemove);
+        System.out.println("MultiGroup<Integer,Integer>: " + ii2);
+        System.out.println("Iterator nach REMOVE und ADD fortsetzen: ");
+        while(iIter.hasNext()){
+            Integer i = iIter.next();
+            System.out.print(i.toString() + " ");
+        }
+        System.out.println("\n" + "REMOVE letztes von Iterator zurückgegebene Element: ");
+        iIter.remove();
+        System.out.println("MultiGroup<Integer,Integer>: " + ii2);
+        System.out.println("\n");
+
+        //KOMMENTAR: Ausgabe aller invoked() aller Relation<...>-Objekte
+        System.out.println("Test mit QuercusRobur:" + "\n");
+        System.out.println("U: MultiGroup<Quercus,Quercus>: " + "\n" + qq1);
+        System.out.println("V: SingleGroup<Tree>: " + "\n" + sTree1);
+        System.out.println("W: MultiGroup<QuercusRobur,QuercusRobur>: " + "\n" + qrqr1);
+        System.out.println("Iterator: ");
+        for (QuercusRobur qrW: qrqr1) {
+            System.out.print("resistance: " + qrW.resistance() + " --- ");
+            System.out.print("Object: " + qrW.toString() + " ");
+            System.out.println();
+            qq1.add(qrW);
+            sTree1.add(qrW);
+        }
+        System.out.println();
+        System.out.println("U: MultiGroup<Quercus,Quercus>: " + "\n" + qq1);
+        System.out.println("V: SingleGroup<Tree>: " + "\n" + sTree1);
 
 
+        //KOMMENTAR: Ausgabe aller invoked() aller Relation<...>-Objekte
+        System.out.println();
+        System.out.println();
+        System.out.println("Ausgabe aller invoked() aller Relation<...>-Objekte:" + "\n");
 
-
-
+        System.out.println("Relation von MultiGroup<Fagus,Fagus>: " + ffRel1.invoked());
+        System.out.println("Relation von MultiGroup<QuercusRobur,Fagus>: " + qrfRel1.invoked());
+        System.out.println("Relation von MultiGroup<Quercus,Fagus>: " + qfRel1.invoked());
+        System.out.println("Relation von MultiGroup<QuercusRobur,QuercusRobur>: " + qrqrRel1.invoked());
+        System.out.println("Relation von MultiGroup<QuercusRobur,Quercus>: " + qrqRel1.invoked());
+        System.out.println("Relation von MultiGroup<Quercus,QuercusRobur>: " + qqrRel1.invoked());
+        System.out.println("Relation von MultiGroup<Quercus,Quercus>: " + qqRel1.invoked());
+        System.out.println("Relation von MultiGroup<QuercusRobur,Tree>: " + qrtRel1.invoked());
+        System.out.println("Relation von MultiGroup<Quercus,Tree>: " + qtRel1.invoked());
+        System.out.println("Relation von MultiGroup<Integer,Integer>: " + iRel2.invoked());
     }
 
 }

@@ -182,8 +182,5 @@ public class MultiGroup<X, Y> implements Group<X, Y> {
             }
             return hasRelation;
         }
-
-
-
     }
 }
