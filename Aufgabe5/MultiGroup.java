@@ -6,12 +6,16 @@ public class MultiGroup<X, Y> implements Group<X, Y> {
     private Relation<X, Y> r;
 
     public MultiGroup(Group<Y, ?> a, Relation<X, Y> r) {
+        list = new SingleGroup<X>();
         this.a = a;
         this.r = r;
     }
 
     @Override
     public void add(X e) {
+        if (!list.iterator().hasNext()){
+            list.add(e);
+        }
         for (X elem : list) {
             if (e == elem) {
                 return;
