@@ -54,8 +54,14 @@ public class SingleGroup<X> implements Group<X, X> {
 
     private String elemString(){
         String s = "";
-        for (X e: this) {
-            s += e.toString();
+        if(head == null){
+            return s;
+        }
+        Node p = head;
+        s += p.elem.toString();
+        while(p.next != null){
+            p = p.next;
+            s += ", " + p.elem.toString();
         }
         return s;
     }

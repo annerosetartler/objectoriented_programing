@@ -46,51 +46,122 @@ public class Test {
         Tree t10 = f10;
 
         //KOMMENTAR: Erzeugung von SingleGroups
+        System.out.println("SingleGroups: " + "\n");
         SingleGroup<Fagus> sFagus1 = new SingleGroup<Fagus>();
         sFagus1.add(f1);
         sFagus1.add(f3);
         sFagus1.add(f5);
+        System.out.println("SingleGroup<Fagus>: " + sFagus1);
 
         SingleGroup<Quercus> sQuercus1 = new SingleGroup<Quercus>();
         sQuercus1.add(q1);
         sQuercus1.add(q3);
         sQuercus1.add(q5);
+        System.out.println("SingleGroup<Quercus>: " + sQuercus1);
 
         SingleGroup<QuercusRobur> sQuercusR1 = new SingleGroup<QuercusRobur>();
-        sQuercus1.add(qr1);
-        sQuercus1.add(qr3);
-        sQuercus1.add(qr5);
+        sQuercusR1.add(qr1);
+        sQuercusR1.add(qr3);
+        sQuercusR1.add(qr5);
+        System.out.println("SingleGroup<QuercusRobur>: " + sQuercusR1);
 
         SingleGroup<Tree> sTree1 = new SingleGroup<Tree>();
         sTree1.add(t1);
         sTree1.add(t3);
         sTree1.add(f5);
+        System.out.println("SingleGroup<Tree>: " + sTree1);
 
         SingleGroup<Integer> sInt1 = new SingleGroup<Integer>();
         sInt1.add(1);
         sInt1.add(3);
         sInt1.add(5);
+        System.out.println("SingleGroup<Integer>: " + sInt1);
+        System.out.println("\n");
 
         //KOMMENTAR: Erzeugung von Multigroups
+        System.out.println("MultiGroups: " + "\n");
+        //fm1 = <Fagus,Fagus>
         Relation<Fagus,Fagus> ffRel1 = Fagus.relation();
         MultiGroup<Fagus,Fagus> fm1 = new MultiGroup<Fagus,Fagus>(sFagus1,ffRel1);
-        fm1.add(f2); fm1.add(f5); fm1.add(f6);
+        fm1.add(f9); fm1.add(f8); fm1.add(f1);
+        System.out.println("MultiGroup<Fagus,Fagus>: " + fm1);
 
-        Relation<Quercus,Tree> qrRel1 = Quercus.relation();
-        MultiGroup<QuercusRobur,Fagus> qrf1 = new MultiGroup<QuercusRobur,Fagus>(fm1, qrRel1);
+        //qrf1 = <<QuercusRobur,Fagus>,<Fagus,Fagus>>
+        Relation<Quercus,Tree> qrfRel1 = Quercus.relation();
+        MultiGroup<QuercusRobur,Fagus> qrf1 = new MultiGroup<QuercusRobur,Fagus>(fm1, qrfRel1);
         qrf1.add(qr2); qrf1.add(qr5); qrf1.add(qr6);
+        System.out.println("MultiGroup<QuercusRobur,Fagus>: " + qrf1);
+
+        //qf1 = <<Quercus,Fagus>,<Fagus,Fagus>>
+        Relation<Quercus,Tree> qfRel1 = Quercus.relation();
+        MultiGroup<Quercus,Fagus> qf1 = new MultiGroup<Quercus,Fagus>(fm1, qfRel1);
+        qf1.add(q2); qf1.add(q5); qf1.add(q6);
+        System.out.println("MultiGroup<Quercus,Fagus>: " + qf1);
+
+        //qf1 = <<QuercusRobur,QuercusRobur>,<QuercusRobur,Fagus>,<Fagus,Fagus>>
+        Relation<Quercus,Tree> qrqrRel1 = Quercus.relation();
+        MultiGroup<QuercusRobur,QuercusRobur> qrqr1 = new MultiGroup<QuercusRobur,QuercusRobur>(qrf1, qrqrRel1);
+        qrqr1.add(qr2); qrqr1.add(qr8); qrqr1.add(qr10);
+        System.out.println("MultiGroup<QuercusRobur,QuercusRobur>: " + qrqr1);
+
+        //qrq1 = <<QuercusRobur,Quercus>,<QuercusRobur,Fagus>,<Fagus,Fagus>>
+        Relation<Quercus,Tree> qrqRel1 = Quercus.relation();
+        MultiGroup<QuercusRobur,Quercus> qrq1 = new MultiGroup<QuercusRobur,Quercus>(qrf1, qrqRel1);
+        qrq1.add(qr3); qrq1.add(qr8); qrq1.add(qr9);
+        System.out.println("MultiGroup<QuercusRobur,Quercus>: " + qrq1);
+
+        //qqr1 = <<Quercus,QuercusRobur>,<QuercusRobur,Fagus>,<Fagus,Fagus>>
+        Relation<Quercus,Tree> qqrRel1 = Quercus.relation();
+        MultiGroup<Quercus,QuercusRobur> qqr1 = new MultiGroup<Quercus,QuercusRobur>(qrf1, qqrRel1);
+        qqr1.add(q3); qqr1.add(q8); qqr1.add(q9);
+        System.out.println("MultiGroup<Quercus,QuercusRobur>: " + qqr1);
+
+        //qq1 = <<Quercus,Quercus>,<QuercusRobur,Fagus>,<Fagus,Fagus>>
+        Relation<Quercus,Tree> qqRel1 = Quercus.relation();
+        MultiGroup<Quercus,QuercusRobur> qq1 = new MultiGroup<Quercus,QuercusRobur>(qrf1, qqRel1);
+        qq1.add(q3); qq1.add(q8); qq1.add(q9);
+        System.out.println("MultiGroup<Quercus,QuercusRobur>: " + qq1);
+
+        //qrt1 = <QuercusRobur,Tree>
+        Relation<Quercus,Tree> qrtRel1 = Quercus.relation();
+        MultiGroup<QuercusRobur,Tree> qrt1 = new MultiGroup<QuercusRobur,Tree>(sTree1,qrtRel1);
+        qrt1.add(qr2); qrt1.add(qr5); qrt1.add(qr6); qrt1.add(qr10);
+        System.out.println("MultiGroup<QuercusRobur,Tree>: " + qrt1);
+
+        //qt1 = <Quercus,Tree>
+        Relation<Quercus,Tree> qtRel1 = Quercus.relation();
+        MultiGroup<Quercus,Tree> qt1 = new MultiGroup<Quercus,Tree>(sTree1,qtRel1);
+        qt1.add(q2); qt1.add(q5); qt1.add(q6); qt1.add(q10);
+        System.out.println("MultiGroup<Quercus,Tree>: " + qt1);
+
+        //ii1 = <Integer,Integer>
+        Relation<Integer,Integer> iRel1 = new Numeric(3);
+        MultiGroup<Integer,Integer> ii1 = new MultiGroup<Integer,Integer>(sInt1,iRel1);
+        ii1.add(10); ii1.add(1); ii1.add(4); ii1.add(3);
+        System.out.println("MultiGroup<Integer,Integer>: " + ii1);
+
+        //ii2 = <Integer,Integer>
+        Relation<Integer,Integer> iRel2 = new Numeric(5);
+        MultiGroup<Integer,Integer> ii2 = new MultiGroup<Integer,Integer>(ii1,iRel1);
+        ii2.add(10); ii2.add(5); ii2.add(2); ii2.add(15);
+        System.out.println("MultiGroup<Integer,Integer>: " + ii2);
+        System.out.println("\n");
+
+        System.out.println("Tests: Iterator, add() & remove()" + "\n");
+        System.out.println("MultiGroup<Fagus,Fagus>: " + fm1 + "\n");
+        System.out.println("iterator: ");
+        for (Fagus f: fm1) {
+            System.out.print(f.toString() + " ");
+        }
+        System.out.println("\n");
+        for (Integer i: ii2) {
+            System.out.print(i.toString() + " ");
+        }
 
 
-        //Relation<Quercus,Fagus> qfRel = Relation<Quercus, Fagus> Quercus.relation();
-        Relation<? extends Quercus, ? extends Tree> qfRel = Quercus.relation();
-        Relation<Fagus,Fagus> fRel2 = Fagus.relation();
 
 
 
-
-
-
-
-        System.out.println("Hello!");
     }
+
 }

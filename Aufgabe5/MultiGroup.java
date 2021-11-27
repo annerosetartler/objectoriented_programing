@@ -2,10 +2,10 @@ import java.util.Iterator;
 
 public class MultiGroup<X, Y> implements Group<X, Y> {
     private SingleGroup<X> list;
-    private Group<Y, ?> a;
+    private Group<? extends Y, ?> a;
     private Relation<? super X, ? super Y> r;
 
-    public MultiGroup(Group<Y, ?> a, Relation<? super X, ? super Y> r) {
+    public MultiGroup(Group<? extends Y, ?> a, Relation<? super X, ? super Y> r) {
         list = new SingleGroup<X>();
         this.a = a;
         this.r = r;
@@ -13,9 +13,6 @@ public class MultiGroup<X, Y> implements Group<X, Y> {
 
     @Override
     public void add(X e) {
-        if (!list.iterator().hasNext()){
-            list.add(e);
-        }
         for (X elem : list) {
             if (e == elem) {
                 return;
@@ -36,7 +33,7 @@ public class MultiGroup<X, Y> implements Group<X, Y> {
 
     @Override
     public String toString(){
-        return '{' + list.toString() + a.toString() + '}';
+        return '{' + list.toString() + "; " + a.toString() + '}';
     }
 
     @Override
@@ -44,6 +41,7 @@ public class MultiGroup<X, Y> implements Group<X, Y> {
         return new MultiIter();
     }
 
+    /*
     private class MultiIter implements Iterator<X> {
         private Iterator<X> iter;
         private Iterator<X> nextIter;
@@ -118,6 +116,73 @@ public class MultiGroup<X, Y> implements Group<X, Y> {
 
             return iterator;
         }
+
+
+    }
+
+     */
+    private class MultiIter implements Iterator<X> {
+        private Iterator<X> iter;
+        private Iterator<X> nextIter;
+        private X currentElement;
+        private boolean keepSearching;
+
+        public MultiIter(){
+            iter = list.iterator();
+            nextIter = list.iterator();
+            keepSearching = true;
+            currentElement = null;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return checkNext();
+        }
+
+        @Override
+        public void remove() {
+            iter.remove();
+        }
+
+        @Override
+        public X next() {
+            while (iter.hasNext() && keepSearching) {
+                currentElement = iter.next();
+                if(relationExists(currentElement)){
+                    keepSearching = false;
+                }
+            }
+            keepSearching = true;
+            return currentElement;
+        }
+
+        private boolean relationExists(X x) {
+            if (x == null) {
+                return false;
+            }
+            for (Y y : a) {
+                if (related(x, y)){
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private boolean checkNext() {
+            boolean loop = true;
+            boolean hasRelation = false;
+            X elem = null;
+            while(nextIter.hasNext() && loop){
+                elem = nextIter.next();
+                if(relationExists(elem)){
+                    loop = false;
+                    hasRelation = true;
+                }
+            }
+            return hasRelation;
+        }
+
 
 
     }
