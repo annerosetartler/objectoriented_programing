@@ -3,9 +3,9 @@ import java.util.Iterator;
 public class MultiGroup<X, Y> implements Group<X, Y> {
     private SingleGroup<X> list;
     private Group<Y, ?> a;
-    private Relation<X, Y> r;
+    private Relation<? super X, ? super Y> r;
 
-    public MultiGroup(Group<Y, ?> a, Relation<X, Y> r) {
+    public MultiGroup(Group<Y, ?> a, Relation<? super X, ? super Y> r) {
         list = new SingleGroup<X>();
         this.a = a;
         this.r = r;

@@ -7,7 +7,7 @@ public class Quercus implements Tree {
         this.trunkHeight = trunkHeight;
     }
 
-    public static Relation<? extends Quercus, ? extends Tree> relation(){ //oder <--->?
+    public static Relation<Quercus, Tree> relation(){ //oder <--->?
         return new QuercusRelation();
     }
 

@@ -76,10 +76,10 @@ public class Test {
         MultiGroup<Fagus,Fagus> fm1 = new MultiGroup<Fagus,Fagus>(sFagus1,ffRel1);
         fm1.add(f2); fm1.add(f5); fm1.add(f6);
 
-        Relation<? extends Quercus, ? extends Tree> qrRel1 = Quercus.relation();
-        MultiGroup<QuercusRobur,Fagus> qrf1 = new MultiGroup<QuercusRobur,Fagus>(fm1, (Relation<QuercusRobur,Fagus>) qrRel1);
+        Relation<Quercus,Tree> qrRel1 = Quercus.relation();
+        MultiGroup<QuercusRobur,Fagus> qrf1 = new MultiGroup<QuercusRobur,Fagus>(fm1, qrRel1);
         qrf1.add(qr2); qrf1.add(qr5); qrf1.add(qr6);
-        
+
 
         //Relation<Quercus,Fagus> qfRel = Relation<Quercus, Fagus> Quercus.relation();
         Relation<? extends Quercus, ? extends Tree> qfRel = Quercus.relation();
