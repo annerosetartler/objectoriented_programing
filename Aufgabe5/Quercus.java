@@ -20,6 +20,14 @@ public class Quercus implements Tree {
         return trunkHeight;
     }
 
+    @Override
+    public String toString() {
+        return "Quercus(" +
+                "height=" + height +
+                ", trunkHeight=" + trunkHeight +
+                ')';
+    }
+
     static class QuercusRelation <X extends Quercus, Y extends Tree> implements Relation<X, Y>{
         private int invoked;
 

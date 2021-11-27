@@ -16,6 +16,13 @@ public class Fagus implements Tree {
         return height;
     }
 
+    public String toString() {
+        return "Fagus(" +
+                "height=" + height +
+                ", shadowLeaves=" + shadowLeaves +
+                ')';
+    }
+
     static class FagusRelation implements Relation<Fagus, Fagus>{
         private int invoked;
 
