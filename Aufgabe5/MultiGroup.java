@@ -31,6 +31,11 @@ public class MultiGroup<X, Y> implements Group<X, Y> {
     }
 
     @Override
+    public String toString(){
+        return '{' + list.toString() + a.toString() + '}';
+    }
+
+    @Override
     public Iterator<X> iterator() {
         return new MultiIter();
     }
@@ -84,7 +89,6 @@ public class MultiGroup<X, Y> implements Group<X, Y> {
             currentElement = iter.next();
             updateIterator(nextIter, currentElement);
 
-            //newNext = true;
             return el;
         }
 

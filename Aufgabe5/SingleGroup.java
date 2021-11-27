@@ -47,6 +47,19 @@ public class SingleGroup<X> implements Group<X, X> {
         }
     }
 
+    @Override
+    public String toString() {
+        return '{' + elemString() + '}';
+    }
+
+    private String elemString(){
+        String s = "";
+        for (X e: this) {
+            s += e.toString();
+        }
+        return s;
+    }
+
     private class ListIter implements Iterator<X> {
         private Node p = head;
         private Node last = null, prelast = null;
