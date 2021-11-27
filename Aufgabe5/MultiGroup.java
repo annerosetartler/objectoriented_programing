@@ -38,6 +38,7 @@ public class MultiGroup<X, Y> implements Group<X, Y> {
     private class MultiIter implements Iterator<X> {
         private Iterator<X> iter;
         private Iterator<X> nextIter;
+        private Iterator<X> nextFuncIter;
         boolean removed;
         private X currentElement;
         private X nextElement;
@@ -46,6 +47,7 @@ public class MultiGroup<X, Y> implements Group<X, Y> {
         public MultiIter(){
             iter = list.iterator();
             nextIter = list.iterator();
+            nextFuncIter = list.iterator();
             removed = false;
             currentElement = null;
             nextElement = null;
@@ -54,32 +56,36 @@ public class MultiGroup<X, Y> implements Group<X, Y> {
 
         @Override
         public boolean hasNext() {
-            if (!newNext){
-                return nextIter.hasNext();
-            }
-
             while (nextIter.hasNext() && !relationExists(nextElement)) {
                 nextElement = nextIter.next();
             }
 
-            newNext = false;
+            if (relationExists(nextElement)){
+                return true;
+            }
 
-            return nextIter.hasNext();
+            return false;
         }
 
         @Override
         public void remove() {
-            iter.remove();
+            nextFuncIter.remove();
         }
 
         @Override
         public X next() {
-            while (iter.hasNext() && !relationExists(currentElement)) {
-                currentElement = iter.next();
+            X el = currentElement;
+
+            while (iter.hasNext() && !relationExists(el)) {
+                el = iter.next();
             }
 
-            newNext = true;
-            return currentElement;
+            updateIterator(nextFuncIter, el);
+            currentElement = iter.next();
+            updateIterator(nextIter, currentElement);
+
+            //newNext = true;
+            return el;
         }
 
         private boolean relationExists(X x) {
@@ -93,6 +99,16 @@ public class MultiGroup<X, Y> implements Group<X, Y> {
             }
 
             return false;
+        }
+
+        private Iterator<X> updateIterator(Iterator<X> iterator, X el){
+            X thisElement = iterator.next();
+
+            while (thisElement != el){
+                thisElement = iterator.next();
+            }
+
+            return iterator;
         }
 
 
