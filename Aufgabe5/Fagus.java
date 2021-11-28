@@ -7,13 +7,13 @@ public class Fagus implements Tree {
 
     //VORB: height > 0
     //      shadoeLeaves > 0 & shadowLeaves < 1.0
-    public Fagus(Integer height, float shadowLeaves){
+    public Fagus(Integer height, float shadowLeaves) {
         this.height = height;
         this.shadowLeaves = shadowLeaves;
     }
 
     //NACHB: gibt ein neues Objekt von Relation<Fagus, Fagus> zurück
-    public static Relation<Fagus, Fagus> relation(){
+    public static Relation<Fagus, Fagus> relation() {
         return new FagusRelation();
     }
 
@@ -31,12 +31,12 @@ public class Fagus implements Tree {
     }
 
 
-    static class FagusRelation implements Relation<Fagus, Fagus>{
+    static class FagusRelation implements Relation<Fagus, Fagus> {
         //KOMMENTAR: Diese Klasse ist eine Hilfsklasse
         //INV: invoked >= 0
         private int invoked;
 
-        public FagusRelation(){
+        public FagusRelation() {
             invoked = 0;
         }
 

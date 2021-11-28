@@ -7,13 +7,13 @@ public class Quercus implements Tree {
 
     //VORB: height > 0
     //      trunkHeight > 0
-    public Quercus(Integer height, Integer trunkHeight){
+    public Quercus(Integer height, Integer trunkHeight) {
         this.height = height;
         this.trunkHeight = trunkHeight;
     }
 
     //NACHB: gibt ein neues Objekt von Relation<Quercus, tree> zurück
-    public static Relation<Quercus, Tree> relation(){
+    public static Relation<Quercus, Tree> relation() {
         return new QuercusRelation();
     }
 
@@ -36,12 +36,12 @@ public class Quercus implements Tree {
                 ')';
     }
 
-    static class QuercusRelation implements Relation<Quercus, Tree>{
+    static class QuercusRelation implements Relation<Quercus, Tree> {
         //KOMMENTAR: Diese Klasse ist eine Hilfsklasse
         //INV: invoked >= 0
         private int invoked;
 
-        public QuercusRelation(){
+        public QuercusRelation() {
             invoked = 0;
         }
 

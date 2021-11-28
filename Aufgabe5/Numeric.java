@@ -6,7 +6,7 @@ public class Numeric implements Relation<Integer, Integer> {
     private int invoked;
 
     //VORB: c > 0
-    public Numeric(int c){
+    public Numeric(int c) {
         this.c = c;
         invoked = 0;
     }

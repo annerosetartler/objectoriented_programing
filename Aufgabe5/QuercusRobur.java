@@ -16,7 +16,7 @@ public class QuercusRobur extends Quercus {
     }
 
     //NACHB: gibt den String resistance zurück
-    public String resistance(){
+    public String resistance() {
         return resistance;
     }
 
@@ -24,6 +24,6 @@ public class QuercusRobur extends Quercus {
         return "QuercusRobur(" +
                 "height=" + height +
                 ", trunkHeight=" + trunkHeight +
-                ", resistance=" + resistance +')';
+                ", resistance=" + resistance + ')';
     }
 }

@@ -13,7 +13,7 @@ public class MultiGroup<X, Y> implements Group<X, Y> {
 
     @Override
     public void add(X e) {
-        if (e == null){
+        if (e == null) {
             return;
         }
         for (X elem : list) {
@@ -40,7 +40,7 @@ public class MultiGroup<X, Y> implements Group<X, Y> {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return '{' + list.toString() + "; " + a.toString() + '}';
     }
 
@@ -55,7 +55,7 @@ public class MultiGroup<X, Y> implements Group<X, Y> {
         private X currentElement;
         private boolean keepSearching;
 
-        private MultiIter(){
+        private MultiIter() {
             iter = list.iterator();
             nextIter = list.iterator();
             keepSearching = true;
@@ -76,7 +76,7 @@ public class MultiGroup<X, Y> implements Group<X, Y> {
         public X next() {
             while (iter.hasNext() && keepSearching) {
                 currentElement = iter.next();
-                if(relationExists(currentElement)){
+                if (relationExists(currentElement)) {
                     keepSearching = false;
                 }
             }
@@ -89,7 +89,7 @@ public class MultiGroup<X, Y> implements Group<X, Y> {
                 return false;
             }
             for (Y y : a) {
-                if (related(x, y)){
+                if (related(x, y)) {
                     return true;
                 }
             }
@@ -100,9 +100,9 @@ public class MultiGroup<X, Y> implements Group<X, Y> {
             boolean loop = true;
             boolean hasRelation = false;
             X elem = null;
-            while(nextIter.hasNext() && loop){
+            while (nextIter.hasNext() && loop) {
                 elem = nextIter.next();
-                if(relationExists(elem)){
+                if (relationExists(elem)) {
                     loop = false;
                     hasRelation = true;
                 }

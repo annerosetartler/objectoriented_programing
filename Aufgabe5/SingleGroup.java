@@ -13,7 +13,7 @@ public class SingleGroup<X> implements Group<X, X> {
 
     @Override
     public void add(X x) {
-        if (x == null){
+        if (x == null) {
             return;
         }
         if (head == null) {
@@ -40,7 +40,7 @@ public class SingleGroup<X> implements Group<X, X> {
 
     @Override
     public boolean related(X x, X y) {
-        if (x == null || y == null){
+        if (x == null || y == null) {
             return false;
         }
         invoked++;
@@ -52,6 +52,25 @@ public class SingleGroup<X> implements Group<X, X> {
         return invoked;
     }
 
+    @Override
+    public String toString() {
+        return '{' + elemString() + '}';
+    }
+
+    private String elemString() {
+        String s = "";
+        if (head == null) {
+            return s;
+        }
+        Node p = head;
+        s += p.elem.toString();
+        while (p.next != null) {
+            p = p.next;
+            s += ", " + p.elem.toString();
+        }
+        return s;
+    }
+
     private class Node {
         private X elem;
         private Node next = null;
@@ -59,25 +78,6 @@ public class SingleGroup<X> implements Group<X, X> {
         private Node(X elem) {
             this.elem = elem;
         }
-    }
-
-    @Override
-    public String toString() {
-        return '{' + elemString() + '}';
-    }
-
-    private String elemString(){
-        String s = "";
-        if(head == null){
-            return s;
-        }
-        Node p = head;
-        s += p.elem.toString();
-        while(p.next != null){
-            p = p.next;
-            s += ", " + p.elem.toString();
-        }
-        return s;
     }
 
     private class ListIter implements Iterator<X> {
@@ -110,6 +110,7 @@ public class SingleGroup<X> implements Group<X, X> {
                 prelast.next = p;
                 last = prelast;
             }
+            size--;
         }
     }
 }
