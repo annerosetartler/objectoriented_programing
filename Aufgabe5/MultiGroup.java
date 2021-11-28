@@ -25,6 +25,11 @@ public class MultiGroup<X, Y> implements Group<X, Y> {
     }
 
     @Override
+    public int getSize() {
+        return list.getSize() + a.getSize();
+    }
+
+    @Override
     public boolean related(X x, Y y) {
         return r.related(x, y);
     }

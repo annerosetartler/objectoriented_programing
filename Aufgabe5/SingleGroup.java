@@ -4,9 +4,11 @@ public class SingleGroup<X> implements Group<X, X> {
     private Node head = null;
     private Node tail = null;
     private int invoked;
+    private int size;
 
     public SingleGroup() {
         invoked = 0;
+        size = 0;
     }
 
     @Override
@@ -24,6 +26,12 @@ public class SingleGroup<X> implements Group<X, X> {
             }
             tail = tail.next = new Node(x);
         }
+        size += 1;
+    }
+
+    @Override
+    public int getSize() {
+        return size;
     }
 
     public Iterator<X> iterator() {
