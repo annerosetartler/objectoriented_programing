@@ -13,7 +13,7 @@ public class Quercus implements Tree {
     }
 
     //NACHB: gibt ein neues Objekt von Relation<Quercus, tree> zurück
-    public static Relation<Quercus, Tree> relation(){ //oder <--->?
+    public static Relation<Quercus, Tree> relation(){
         return new QuercusRelation();
     }
 

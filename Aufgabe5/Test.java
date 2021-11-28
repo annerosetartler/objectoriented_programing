@@ -184,7 +184,7 @@ public class Test {
         System.out.println();
 
         //KOMMENTAR: Test für die verschachtelte Multigroup: qqr1
-        System.out.println("MultiGroup<Quercus,QuercusRobur>: " + "\n" + qqr1);
+        System.out.println("\n" +"MultiGroup<Quercus,QuercusRobur>: " + "\n" + qqr1);
         System.out.println("Iterator: ");
         for (Quercus q: qqr1) {
             System.out.print(q.toString() + " ");
@@ -208,7 +208,7 @@ public class Test {
         }
         System.out.println("\n" + "REMOVE letztes von Iterator zurückgegebene Element: ");
         qIter.remove();
-        System.out.println("MultiGroup<Quercus,QuercusRobur>: " + qqr1);
+        System.out.println("MultiGroup<Quercus,QuercusRobur>: " + qqr1 + "\n");
 
         //KOMMENTAR: Test für die verschachtelte Multigroup: ii2
         System.out.println("MultiGroup<Integer,Integer>: " + "\n" + ii2);
@@ -271,6 +271,9 @@ public class Test {
         System.out.println("Relation von MultiGroup<QuercusRobur,Tree>: " + qrtRel1.invoked());
         System.out.println("Relation von MultiGroup<Quercus,Tree>: " + qtRel1.invoked());
         System.out.println("Relation von MultiGroup<Integer,Integer>: " + iRel2.invoked());
+
+        //Tests zur
+
     }
 
 }

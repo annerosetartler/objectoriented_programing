@@ -13,6 +13,9 @@ public class MultiGroup<X, Y> implements Group<X, Y> {
 
     @Override
     public void add(X e) {
+        if (e == null){
+            return;
+        }
         for (X elem : list) {
             if (e == elem) {
                 return;
@@ -41,93 +44,13 @@ public class MultiGroup<X, Y> implements Group<X, Y> {
         return new MultiIter();
     }
 
-    /*
-    private class MultiIter implements Iterator<X> {
-        private Iterator<X> iter;
-        private Iterator<X> nextIter;
-        private Iterator<X> nextFuncIter;
-        boolean removed;
-        private X currentElement;
-        private X nextElement;
-        private boolean newNext;
-
-        public MultiIter(){
-            iter = list.iterator();
-            nextIter = list.iterator();
-            nextFuncIter = list.iterator();
-            removed = false;
-            currentElement = null;
-            nextElement = null;
-            newNext = true;
-        }
-
-        @Override
-        public boolean hasNext() {
-            while (nextIter.hasNext() && !relationExists(nextElement)) {
-                nextElement = nextIter.next();
-            }
-
-            if (relationExists(nextElement)){
-                return true;
-            }
-
-            return false;
-        }
-
-        @Override
-        public void remove() {
-            nextFuncIter.remove();
-        }
-
-        @Override
-        public X next() {
-            X el = currentElement;
-
-            while (iter.hasNext() && !relationExists(el)) {
-                el = iter.next();
-            }
-
-            updateIterator(nextFuncIter, el);
-            currentElement = iter.next();
-            updateIterator(nextIter, currentElement);
-
-            return el;
-        }
-
-        private boolean relationExists(X x) {
-            if (x == null) {
-                return false;
-            }
-            for (Y y : a) {
-                if (related(x, y)){
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        private Iterator<X> updateIterator(Iterator<X> iterator, X el){
-            X thisElement = iterator.next();
-
-            while (thisElement != el){
-                thisElement = iterator.next();
-            }
-
-            return iterator;
-        }
-
-
-    }
-
-     */
     private class MultiIter implements Iterator<X> {
         private Iterator<X> iter;
         private Iterator<X> nextIter;
         private X currentElement;
         private boolean keepSearching;
 
-        public MultiIter(){
+        private MultiIter(){
             iter = list.iterator();
             nextIter = list.iterator();
             keepSearching = true;
@@ -165,7 +88,6 @@ public class MultiGroup<X, Y> implements Group<X, Y> {
                     return true;
                 }
             }
-
             return false;
         }
 

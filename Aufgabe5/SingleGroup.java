@@ -11,6 +11,9 @@ public class SingleGroup<X> implements Group<X, X> {
 
     @Override
     public void add(X x) {
+        if (x == null){
+            return;
+        }
         if (head == null) {
             tail = head = new Node(x);
         } else {
@@ -29,6 +32,9 @@ public class SingleGroup<X> implements Group<X, X> {
 
     @Override
     public boolean related(X x, X y) {
+        if (x == null || y == null){
+            return false;
+        }
         invoked++;
         return x == y;
     }
@@ -71,8 +77,9 @@ public class SingleGroup<X> implements Group<X, X> {
         private Node last = null, prelast = null;
 
         public X next() {
-            if (p == null)
+            if (p == null) {
                 return null;
+            }
             X elem = p.elem;
             prelast = last;
             last = p;
