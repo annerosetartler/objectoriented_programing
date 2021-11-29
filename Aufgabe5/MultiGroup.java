@@ -5,8 +5,8 @@ public class MultiGroup<X, Y> implements Group<X, Y> {
     //           verglichen werden
 
     private SingleGroup<X> list;
-    private Group<? extends Y, ?> a;
-    private Relation<? super X, ? super Y> r;
+    private final Group<? extends Y, ?> a;
+    private final Relation<? super X, ? super Y> r;
 
     //VORB: a != null & r != null
     public MultiGroup(Group<? extends Y, ?> a, Relation<? super X, ? super Y> r) {
