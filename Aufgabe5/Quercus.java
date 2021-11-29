@@ -39,13 +39,13 @@ public class Quercus implements Tree {
                 ')';
     }
 
-    static class QuercusRelation implements Relation<Quercus, Tree> {
+    private static class QuercusRelation implements Relation<Quercus, Tree> {
         //KOMMENTAR: QuercusRelation ist ein Objekt von Relation<Quercus, Tree>
         //           Es vergleicht ein Objekt vom Typ Quercus mit einem anderen von Typ Tree
         //INV: invoked >= 0
         private int invoked;
 
-        public QuercusRelation() {
+        private QuercusRelation() {
             invoked = 0;
         }
 

@@ -31,13 +31,13 @@ public class Fagus implements Tree {
                 ')';
     }
 
-    static class FagusRelation implements Relation<Fagus, Fagus> {
+    private static class FagusRelation implements Relation<Fagus, Fagus> {
         //KOMMENTAR: FagusRelation ist ein Objekt von Relation<Fagus, Fagus>
         //           Es vergleicht zwei Objekte vom Typ Fagus
         //INV: invoked >= 0
         private int invoked;
 
-        public FagusRelation() {
+        private FagusRelation() {
             invoked = 0;
         }
 
