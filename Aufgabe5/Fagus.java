@@ -1,5 +1,6 @@
 public class Fagus implements Tree {
     //KOMMENTAR: Fagus ist ein Untertyp von Tree.
+    //           Fagus hat zusätzlich zur Baumhöhe auch noch eine Variable Schatenblätter
     //INV: height > 0
     //     shadowLeaves > 0 & shadowLeaves < 1.0
     private Integer height;

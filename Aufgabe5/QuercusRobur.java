@@ -1,5 +1,8 @@
 public class QuercusRobur extends Quercus {
     //KOMMENTAR: QuercusRobur ist ein Untertyp von Quercus
+    //           Zusätzlich zur Baumhöhe und Stammweite gibt es hier noch einen
+    //           String der eine textuelle Beschreibung der Wiederstandsfähigkeit
+    //           gegnüber Klimaschwankungen beinhaltet.
     //INV: height > 0
     //     trunkHeight > 0
     private Integer height;

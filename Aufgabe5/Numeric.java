@@ -1,5 +1,6 @@
 public class Numeric implements Relation<Integer, Integer> {
     //KOMMENTAR: die Klasse Numeric implementiert Relation<Integer, Integer>
+    //           zusätzlich zur Variable invokedmgibt es hier noch die variable c.
     //INV: c > 0
     //     invoked >= 0
     private int c;
