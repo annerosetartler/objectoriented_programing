@@ -90,42 +90,42 @@ public class Test {
         System.out.println("MultiGroup<Fagus,Fagus>: " + fm1);
         System.out.println("Check Anzahl aller in Liste eingefügter Elemente (unabhängig von Relation): " + fm1.getSize() + ". Erwartetes Ergebnis: 6. Check: "  + checkSize(fm1.getSize(), 6) );
 
-        //qrf1 = <<QuercusRobur,Fagus>,<Fagus,Fagus>>
+        //qrf1: Verkettung von <<QuercusRobur,Fagus>,<Fagus,Fagus>>
         Relation<Quercus,Tree> qrfRel1 = Quercus.relation();
         MultiGroup<QuercusRobur,Fagus> qrf1 = new MultiGroup<QuercusRobur,Fagus>(fm1, qrfRel1);
         qrf1.add(qr2); qrf1.add(qr5); qrf1.add(qr6);
         System.out.println("MultiGroup<QuercusRobur,Fagus>: " + qrf1);
         System.out.println("Check Anzahl aller in Liste eingefügter Elemente (unabhängig von Relation): " + qrf1.getSize() + ". Erwartetes Ergebnis: 9. Check: "  + checkSize(qrf1.getSize(), 9) );
 
-        //qf1 = <<Quercus,Fagus>,<Fagus,Fagus>> //Notation generell: Ist es nicht: <<Quercus,<Fagus, Fagus>>?
+        //qf1: Verkettung von <<Quercus,Fagus>,<Fagus,Fagus>>
         Relation<Quercus,Tree> qfRel1 = Quercus.relation();
         MultiGroup<Quercus,Fagus> qf1 = new MultiGroup<Quercus,Fagus>(fm1, qfRel1);
         qf1.add(q2); qf1.add(q5); qf1.add(q6);
         System.out.println("MultiGroup<Quercus,Fagus>: " + qf1);
         System.out.println("Check Anzahl aller in Liste eingefügter Elemente (unabhängig von Relation): " + qf1.getSize() + ". Erwartetes Ergebnis: 9. Check: "  + checkSize(qf1.getSize(), 9) );
 
-        //qf1 = <<QuercusRobur,QuercusRobur>,<QuercusRobur,Fagus>,<Fagus,Fagus>>
+        //qf1: Verkettung von <<QuercusRobur,QuercusRobur>,<QuercusRobur,Fagus>,<Fagus,Fagus>>
         Relation<Quercus,Tree> qrqrRel1 = Quercus.relation();
         MultiGroup<QuercusRobur,QuercusRobur> qrqr1 = new MultiGroup<QuercusRobur,QuercusRobur>(qrf1, qrqrRel1);
         qrqr1.add(qr2); qrqr1.add(qr8); qrqr1.add(qr10);
         System.out.println("MultiGroup<QuercusRobur,QuercusRobur>: " + qrqr1);
         System.out.println("Check Anzahl aller in Liste eingefügter Elemente (unabhängig von Relation): (" + qrqr1.getSize() + ". Erwartetes Ergebnis: 12. Check: "  + checkSize(qrqr1.getSize(), 12) );
 
-        //qrq1 = <<QuercusRobur,Quercus>,<QuercusRobur,Fagus>,<Fagus,Fagus>>
+        //qrq1: Verkettung von <<QuercusRobur,Quercus>,<QuercusRobur,Fagus>,<Fagus,Fagus>>
         Relation<Quercus,Tree> qrqRel1 = Quercus.relation();
         MultiGroup<QuercusRobur,Quercus> qrq1 = new MultiGroup<QuercusRobur,Quercus>(qrf1, qrqRel1);
         qrq1.add(qr3); qrq1.add(qr8); qrq1.add(qr9);
         System.out.println("MultiGroup<QuercusRobur,Quercus>: " + qrq1);
         System.out.println("Check Anzahl aller in Liste eingefügter Elemente (unabhängig von Relation): " + qrq1.getSize() + ". Erwartetes Ergebnis: 12. Check: "  + checkSize(qrq1.getSize(), 12) );
 
-        //qqr1 = <<Quercus,QuercusRobur>,<QuercusRobur,Fagus>,<Fagus,Fagus>>
+        //qqr1: Verkettung von <<Quercus,QuercusRobur>,<QuercusRobur,Fagus>,<Fagus,Fagus>>
         Relation<Quercus,Tree> qqrRel1 = Quercus.relation();
         MultiGroup<Quercus,QuercusRobur> qqr1 = new MultiGroup<Quercus,QuercusRobur>(qrf1, qqrRel1);
         qqr1.add(q3); qqr1.add(q8); qqr1.add(q9);
         System.out.println("MultiGroup<Quercus,QuercusRobur>: " + qqr1);
         System.out.println("Check Anzahl aller in Liste eingefügter Elemente (unabhängig von Relation): " + qqr1.getSize() + ". Erwartetes Ergebnis: 12. Check: "  + checkSize(qqr1.getSize(), 12) );
 
-        //qq1 = <<Quercus,Quercus>,<QuercusRobur,Fagus>,<Fagus,Fagus>>
+        //qq1: Verkettung von <<Quercus,Quercus>,<QuercusRobur,Fagus>,<Fagus,Fagus>>
         Relation<Quercus,Tree> qqRel1 = Quercus.relation();
         MultiGroup<Quercus,QuercusRobur> qq1 = new MultiGroup<Quercus,QuercusRobur>(qrf1, qqRel1);
         qq1.add(q3); qq1.add(q8); qq1.add(q9);
@@ -153,7 +153,7 @@ public class Test {
         System.out.println("MultiGroup<Integer,Integer>: " + ii1);
         System.out.println("Check Anzahl aller in Liste eingefügter Elemente (unabhängig von Relation): " + ii1.getSize() + ". Erwartetes Ergebnis: 7. Check: "  + checkSize(ii1.getSize(), 7) );
 
-        //ii2 = <Integer,Integer>
+        //ii2: Verkettung von <<Integer,Integer>, <Integer,Integer>>
         Relation<Integer,Integer> iRel2 = new Numeric(5);
         MultiGroup<Integer,Integer> ii2 = new MultiGroup<Integer,Integer>(ii1,iRel2);
         ii2.add(10); ii2.add(5); ii2.add(2); ii2.add(15);
@@ -165,7 +165,7 @@ public class Test {
 
         //KOMMENTAR: Test für die "einfache" Multigroup: fm1
         System.out.println("MultiGroup<Fagus,Fagus>: " + "\n" + fm1);
-        System.out.println("Anzahl aller in die Liste eingefügter Elemente: " + fm1.getSize() + ". Erwartetes Ergebnis: 6. Check: " + checkSize(fm1.getSize(), 6) );
+        System.out.println("Anzahl aller Elemente in der Liste: " + fm1.getSize() + ". Erwartetes Ergebnis: 6. Check: " + checkSize(fm1.getSize(), 6) );
         System.out.println("Iterator: ");
         int iterations= 0;
         for (Fagus f: fm1) {
@@ -183,7 +183,7 @@ public class Test {
         fIter.remove();
         System.out.println("entfernt: " + fRemove);
         System.out.println("MultiGroup<Fagus,Fagus>: " + fm1);
-        System.out.println("Anzahl aller in die Liste eingefügter Elemente nach Remove: " + fm1.getSize() + ". Erwartetes Ergebnis: 5. Check: " + checkSize(fm1.getSize(), 5) );
+        System.out.println("Anzahl aller Elemente in der Liste nach Remove: " + fm1.getSize() + ". Erwartetes Ergebnis: 5. Check: " + checkSize(fm1.getSize(), 5) );
         iterations= 0;
         for (Fagus f: fm1) {
             iterations++;
@@ -193,7 +193,7 @@ public class Test {
         System.out.println("\n" + "ADD entferntes Element wieder einfügen: ");
         fm1.add(fRemove);
         System.out.println("MultiGroup<Fagus,Fagus>: " + fm1);
-        System.out.println("Anzahl aller in die Liste eingefügter Elemente nach Wiedereinfügen: " + fm1.getSize() + ". Erwartetes Ergebnis: 6. Check: " + checkSize(fm1.getSize(), 6) );
+        System.out.println("Anzahl aller Elemente in der Liste nach Wiedereinfügen: " + fm1.getSize() + ". Erwartetes Ergebnis: 6. Check: " + checkSize(fm1.getSize(), 6) );
         System.out.println("Iterator nach REMOVE und ADD fortsetzen: ");
         while(fIter.hasNext()){
             Fagus f = fIter.next();
@@ -210,7 +210,7 @@ public class Test {
 
         //KOMMENTAR: Test für die verschachtelte Multigroup: qqr1
         System.out.println("MultiGroup<Quercus,QuercusRobur>: " + "\n" + qqr1);
-        System.out.println("Anzahl aller in die Liste eingefügter Elemente: " + qqr1.getSize() + ". Erwartetes Ergebnis: 12. Check: " + checkSize(qqr1.getSize(), 12) );
+        System.out.println("Anzahl aller Elemente in der Liste: " + qqr1.getSize() + ". Erwartetes Ergebnis: 12. Check: " + checkSize(qqr1.getSize(), 12) );
         System.out.println("Iterator: ");
         iterations= 0;
         for (Quercus q: qqr1) {
@@ -228,7 +228,7 @@ public class Test {
         qIter.remove();
         System.out.println("entfernt: " + qRemove);
         System.out.println("MultiGroup<Quercus,QuercusRobur>: " + qqr1);
-        System.out.println("Anzahl aller in die Liste eingefügter Elemente nach Remove: " + qqr1.getSize() + ". Erwartetes Ergebnis: 11. Check: " + checkSize(qqr1.getSize(), 11) );
+        System.out.println("Anzahl aller Elemente in der Liste nach Remove: " + qqr1.getSize() + ". Erwartetes Ergebnis: 11. Check: " + checkSize(qqr1.getSize(), 11) );
         iterations= 0;
         for (Quercus q: qqr1) {
             iterations++;
@@ -265,7 +265,7 @@ public class Test {
 
         //KOMMENTAR: Test für die verschachtelte Multigroup: ii2
         System.out.println("MultiGroup<Integer,Integer>: " + "\n" + ii2);
-        System.out.println("Anzahl aller in die Liste eingefügter Elemente: " + ii2.getSize() + ". Erwartetes Ergebnis: 11. Check: " + checkSize(ii2.getSize(), 11) );
+        System.out.println("Anzahl aller Elemente in der Liste: " + ii2.getSize() + ". Erwartetes Ergebnis: 11. Check: " + checkSize(ii2.getSize(), 11) );
         System.out.println("Iterator: ");
         iterations = 0;
         for (Integer i: ii2) {
@@ -282,7 +282,7 @@ public class Test {
         iIter.remove();
         System.out.println("entfernt: " + iRemove);
         System.out.println("MultiGroup<Integer,Integer>: " + ii2);
-        System.out.println("Anzahl aller in die Liste eingefügter Elemente nach Remove: " + ii2.getSize() + ". Erwartetes Ergebnis: 10. Check: " + checkSize(ii2.getSize(), 10) );
+        System.out.println("Anzahl aller Elemente in der Liste nach Remove: " + ii2.getSize() + ". Erwartetes Ergebnis: 10. Check: " + checkSize(ii2.getSize(), 10) );
         iterations= 0;
         for (Integer i: ii2) {
             iterations++;
@@ -297,15 +297,15 @@ public class Test {
             Integer i = iIter.next();
             System.out.print(i.toString() + " ");
         }
-        System.out.println("Anzahl aller in die Liste eingefügter Elemente nach Add: " + ii2.getSize() + ". Erwartetes Ergebnis: 11. Check: " + checkSize(ii2.getSize(), 11) );
-        System.out.println("\n" + "REMOVE letztes von Iterator zurückgegebene Element: ");
+        System.out.println("\n" + "Anzahl aller Elemente in der Liste nach Add: " + ii2.getSize() + ". Erwartetes Ergebnis: 11. Check: " + checkSize(ii2.getSize(), 11) );
+        System.out.println("REMOVE letztes von Iterator zurückgegebene Element: ");
         iIter.remove();
 
         System.out.println("MultiGroup<Integer,Integer>: " + ii2);
-        System.out.println("Anzahl aller in die Liste eingefügter Elemente nach neuem Remove: " + ii2.getSize() + ". Erwartetes Ergebnis: 10. Check: " + checkSize(ii2.getSize(), 10) );
+        System.out.println("Anzahl aller Elemente in der Liste nach neuem Remove: " + ii2.getSize() + ". Erwartetes Ergebnis: 10. Check: " + checkSize(ii2.getSize(), 10) );
         System.out.println("\n");
 
-        //KOMMENTAR: Ausgabe aller invoked() aller Relation<...>-Objekte
+        //KOMMENTAR: Tests zu QuercusRobur
         System.out.println("Test mit QuercusRobur:" + "\n");
         System.out.println("U: MultiGroup<Quercus,Quercus>: " + "\n" + qq1);
         System.out.println("V: SingleGroup<Tree>: " + "\n" + sTree1);
@@ -349,6 +349,15 @@ public class Test {
         return  sizeFunc == input;
     }
 
-
-
 }
+
+/*
+************************************************************************************************************************
+ARBEITSAUFTEILUNG AUFGABE 5:
+    Konzeption Programmaufbau: Annerose, David, Maria
+    Implementierung von Tree (samt aller Untertypen), Numeric & Relation: Annerose, David, Maria
+    Implementierung von Group (samt aller Untertypen): Annerose, Maria
+    Testklasse & Debugging: Annerose, Maria
+    Zusicherungen: David, Maria
+************************************************************************************************************************
+ */

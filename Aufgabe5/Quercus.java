@@ -1,19 +1,21 @@
 public class Quercus implements Tree {
     //KOMMENTAR: Quercus ist ein Untertyp von Tree.
-    //           zusätzlich zur Baumhöhe gibt es auch die Variable Stammhöhe.
+    //           zusätzlich zur Baumhöhe gibt es auch die Variable Stammhöhe (= trunkHeight).
     //INV: height > 0
     //     trunkHeight > 0
+    //     trunkHeight < height
     private Integer height;
     private Integer trunkHeight;
 
     //VORB: height > 0
     //      trunkHeight > 0
+    //      trunkHeight < height
     public Quercus(Integer height, Integer trunkHeight) {
         this.height = height;
         this.trunkHeight = trunkHeight;
     }
 
-    //NACHB: gibt ein neues Objekt von Relation<Quercus, tree> zurück
+    //NACHB: gibt ein neues Objekt von Relation<Quercus, Tree> zurück
     public static Relation<Quercus, Tree> relation() {
         return new QuercusRelation();
     }
@@ -38,7 +40,8 @@ public class Quercus implements Tree {
     }
 
     static class QuercusRelation implements Relation<Quercus, Tree> {
-        //KOMMENTAR: Diese Klasse ist eine Hilfsklasse
+        //KOMMENTAR: QuercusRelation ist ein Objekt von Relation<Quercus, Tree>
+        //           Es vergleicht ein Objekt vom Typ Quercus mit einem anderen von Typ Tree
         //INV: invoked >= 0
         private int invoked;
 
@@ -48,8 +51,9 @@ public class Quercus implements Tree {
 
         @Override
         //VORB: fagus != null & fagus2 != null
-        //NACHB: gibt true zurück wenn quercus.trunkheight minestens so groß wie tree.height ist
+        //NACHB: gibt true zurück wenn quercus.trunkheight mindestens so groß wie tree.height ist
         //       sonst false
+        //HISTORY-CONSTRAINT SERVER: invoked erhöht sich mit jedem Aufruf von related() um 1
         public boolean related(Quercus quercus, Tree tree) {
             invoked++;
             return quercus.trunkHeight() >= tree.height();

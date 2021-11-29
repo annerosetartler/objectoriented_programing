@@ -1,9 +1,9 @@
 public interface Relation<X, Y> {
-    //KOMMENTAR: Relation ist ein generisches Interface
+    //KOMMENTAR: Relation repräsentiert eine Beziehung zwischen zwei Typen
 
-    //VORB: x & y != null
+    //VORB: x != null & y != null
     boolean related(X x, Y y);
 
-    //NACHB: gibt die Anzahl der bissherigen Aufrufe von related in diesem Objekt zurück //ToDo: Kommentar dazu, dass wir zwei Iteratoren f. MultiIterator-Klasse haben
+    //NACHB: gibt die Anzahl der bisherigen Aufrufe von related in diesem Objekt zurück
     int invoked();
 }
