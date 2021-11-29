@@ -2,8 +2,8 @@ import java.util.Iterator;
 
 public class SingleGroup<X> implements Group<X, X> {
     //KOMMENTAR: Singlegroup ist ein als Liste implementierter Container mit Einträgen vom Typ X,
-    //           die "mit sich selbst verglichen werden". Auf den Vergleich wird hier allerdings verzichtet,
-    //           da dieser immer true zurückgibt.
+    //           die theoretisch mit allen Einträgen derselben Liste verglichen werden würden.
+    //           Auf den Vergleich wird hier allerdings (in Abstimmung mit der Angabe) verzichtet, da dieser immer true zurückgibt.
     //INV: size >= 0
     //     invoked >= 0
     private Node head = null;

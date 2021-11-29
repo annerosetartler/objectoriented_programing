@@ -1,8 +1,8 @@
 import java.util.Iterator;
 
 public class MultiGroup<X, Y> implements Group<X, Y> {
-    //KOMMENTAR: Multigroup ist ein als Singlegroup implementierter Container, dessen Werte mit Werten aus a (vom Typ Group <? extends Y, ?>)
-    //           verglichen werden
+    //KOMMENTAR: Multigroup ist ein als Singlegroup implementierter Container, dessen Werte mit Werten aus einem bei Objekterzeugung fixierten
+    //           a (vom Typ Group <? extends Y, ?>) unter einer bei Objekterzeugung fixierten Relation r verglichen werden
 
     private SingleGroup<X> list;
     private Group<? extends Y, ?> a;
@@ -30,7 +30,7 @@ public class MultiGroup<X, Y> implements Group<X, Y> {
     }
 
     @Override
-    //NACHB: gibt die Anzahl der Elemente zurück, die sowohl in list als auch in a enthalten sind
+    //NACHB: gibt die Gesamtanzahl der in list plus die Gesamtanzahl der in a enthaltenen Elemente zurück
     public int getSize() {
         return list.getSize() + a.getSize();
     }
@@ -62,8 +62,8 @@ public class MultiGroup<X, Y> implements Group<X, Y> {
 
     private class MultiIter implements Iterator<X> {
         //KOMMENTAR: MultIter iteriert über die Einträge von list, vergleicht jeden Eintrag mit allen zurückgegebenen
-        //          Einträgen aus a und gibt nur Einträge aus list zurück, die mit mindestens einem Eintrag aus a
-        //          related sind
+        //          Einträgen aus a und gibt nur Einträge aus list zurück, die mit mindestens einem durch den Iterator
+        //          von a ausgegebenen Eintrag aus a related sind
         //          invoked in r wird hier mehrfach erhöht, da zwei Iteratoren verwendet werden
 
         private Iterator<X> iter;
@@ -105,7 +105,7 @@ public class MultiGroup<X, Y> implements Group<X, Y> {
             return currentElement;
         }
 
-        //NACHB: gibt true zurück wenn x mit mindestens einem Element aus a "related" ist
+        //NACHB: gibt true zurück wenn x mit mindestens einem Element das durch den Iterator von a ausgegeben wird "related" ist
         //HISTORY-CONSTRAINT SERVER: invoked von r erhöht sich mit jedem Aufruf von relationExists() mehrfach, da related() aufgerufen wird
         private boolean relationExists(X x) {
             if (x == null) {
@@ -119,7 +119,7 @@ public class MultiGroup<X, Y> implements Group<X, Y> {
             return false;
         }
 
-        //NACHB: gibt true zurück wenn es noch ein Element in list gibt, das mit mindestens einem Element aus a "related" ist
+        //NACHB: gibt true zurück wenn es noch ein Element in list gibt, das mit mindestens einem Element das vom Iterator von a ausgegeben wird "related" ist
         //HISTORY-CONSTRAINT SERVER: invoked von r erhöht sich mit jedem Aufruf von checkNext() mehrfach, da relationExists() aufgerufen wird
         private boolean checkNext() {
             boolean loop = true;
