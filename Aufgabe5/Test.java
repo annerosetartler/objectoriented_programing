@@ -3,10 +3,6 @@ import java.util.Iterator;
 public class Test {
     public static void main(String[] args) {
         //KOMMENTAR: Erzeugung von Trees
-        //ToDo: Sollen wir noch mehr Tests machen? Wie findest du die Ausgabe?
-        //      Ich weiß noch immer nicht, warum es problemlos funktioniert Untertypen in Obertypgruppen einzufügen
-        //      zum Beispiel kann ich in SingleGroup<Quercus> problemlos auch QuercusRobur-Objekte einfügen...dabei
-        //      haben wir das bei den Typparametern nicht wirklich bewusst mitbedacht
         Fagus f1 = new Fagus(2, 0.9f);
         Fagus f2 = new Fagus(4, 0.8f);
         Fagus f3 = new Fagus(6, 0.7f);
