@@ -106,7 +106,7 @@ public class Test {
         MultiGroup<Quercus,Fagus> qf1 = new MultiGroup<Quercus,Fagus>(fm1, qfRel1);
         qf1.add(q2); qf1.add(q5); qf1.add(q6);
         System.out.println("MultiGroup<Quercus,Fagus>: " + qf1);
-        System.out.println("Check Anzahl aller in Liste eingefügter Elemente (unabhängig von Relation): " + qf1.getSize() + ". Erwartetes Ergebnis: 9. Check: "  + checkSize(qrf1.getSize(), 9) );
+        System.out.println("Check Anzahl aller in Liste eingefügter Elemente (unabhängig von Relation): " + qf1.getSize() + ". Erwartetes Ergebnis: 9. Check: "  + checkSize(qf1.getSize(), 9) );
 
         //qf1 = <<QuercusRobur,QuercusRobur>,<QuercusRobur,Fagus>,<Fagus,Fagus>>
         Relation<Quercus,Tree> qrqrRel1 = Quercus.relation();
@@ -345,6 +345,10 @@ public class Test {
 
     }
 
+    //KOMMENTAR: Checkt, ob die zwei Input-Werte gleich groß sind
+    //           Der erste Wert wird hierbei durch eine Methode (je nach Fall size() oder Durchlauf eines Iterators)
+    //           "berechnet", der zweite als richtiger Vergleichswert angegeben.
+    //NACHBEDINGUNG: True, wenn beide Werte gleich sind, false sonst.
     private static boolean checkSize(int sizeFunc, int input){
         return  sizeFunc == input;
     }
