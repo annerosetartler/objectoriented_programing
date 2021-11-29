@@ -1,5 +1,6 @@
 public class Quercus implements Tree {
     //KOMMENTAR: Quercus ist ein Untertyp von Tree.
+    //           zusätzlich zur Baumhöhe gibt es auch die Variable Stammhöhe.
     //INV: height > 0
     //     trunkHeight > 0
     private Integer height;
