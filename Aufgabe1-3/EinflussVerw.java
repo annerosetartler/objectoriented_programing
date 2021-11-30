@@ -21,10 +21,10 @@ public class EinflussVerw {
         temp = t;
         wind = w;
         klimawandel = 1.01f;
-        faktoren[0] = temp.Hitze();
-        faktoren[1] = regen.Mure();
-        faktoren[2] = wind.Sturm();
-        faktoren[3] = sonne.SonneZuRegen(regen);
+        faktoren[0] = temp.Faktor();
+        faktoren[1] = regen.Faktor();
+        faktoren[2] = wind.Faktor();
+        faktoren[3] = sonne.VerhältnisZu(regen);
     }
 
     //VORB: kw >= 1.0f
@@ -42,10 +42,10 @@ public class EinflussVerw {
 
     //NACHB: faktoren[i] in [0.0,1.0]
     private void AktualisiereFaktoren(){
-        faktoren[0] = temp.Hitze();
-        faktoren[1] = regen.Mure();
-        faktoren[2] = wind.Sturm();
-        faktoren[3] = sonne.SonneZuRegen(regen);
+        faktoren[0] = temp.Faktor();
+        faktoren[1] = regen.Faktor();
+        faktoren[2] = wind.Faktor();
+        faktoren[3] = sonne.VerhältnisZu(regen);
     }
 
     //SERVER-CONSTRAINTS: klimawandel wird mit jedem Jahr um 0.0001f erhöht

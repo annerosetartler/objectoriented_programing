@@ -16,36 +16,36 @@ public class Test_1 {
         Wind w1 = new Wind(wind1);
 
         System.out.println("Faktorenberechnung:");
-        istWertInBereich(s.SonneZuRegen(n),0.0f,1.0f);
-        istWertInBereich(t.Hitze(),0.0f,1.0f);
-        float mure = n.Mure();
+        istWertInBereich(s.VerhältnisZu(n),0.0f,1.0f);
+        istWertInBereich(t.Faktor(),0.0f,1.0f);
+        float mure = n.Faktor();
         istWertInBereich(mure,0.0f,1.0f);
         testeWerte(mure,1.0f,0.0000001f);
-        istWertInBereich(w1.Sturm(),0.0f,1.0f);
+        istWertInBereich(w1.Faktor(),0.0f,1.0f);
 
         Wind w2 = new Wind(new float[]{10.8f,18.0f,14.4f,10.4f,14.0f,14.8f,10.4f,10.8f,11.5f,13.0f,9.7f,12.6f});
         float[] abweichungen = new float[]{1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f, 1.5f};
         w2.Plus1Jahr(abweichungen);
-        float sturm = w2.Sturm();
+        float sturm = w2.Faktor();
         testeWerte(sturm,1.0f,0.0000001f);
         abweichungen = new float[]{1.05f, 1.05f, 1.05f, 1.05f, 1.05f, 1.05f, 1.05f, 1.05f, 1.05f, 1.05f, 1.05f, 1.05f};
         w2.Plus1Jahr(abweichungen);
-        sturm = w2.Sturm();
+        sturm = w2.Faktor();
         testeWerte(sturm,0.0f,0.0000001f);
 
         Sonne s1 = new Sonne(new float[]{100.0f,100.0f,100.0f,100.0f,100.0f,100.0f,100.0f,100.0f,100.0f,100.0f,100.0f,100.0f});
         Niederschlag n1 = new Niederschlag(new float[]{50.0f,50.0f,50.0f,50.0f,50.0f,50.0f,50.0f,50.0f,50.0f,50.0f,50.0f,50.0f});
-        float verh1 = s1.SonneZuRegen(n1);
+        float verh1 = s1.VerhältnisZu(n1);
         testeWerte(verh1,0.0f,0.0000001f);
 
         Sonne s2 = new Sonne(new float[]{200.0f,200.0f,200.0f,200.0f,200.0f,200.0f,200.0f,200.0f,200.0f,200.0f,200.0f,200.0f});
         Niederschlag n2 = new Niederschlag(new float[]{50.0f,50.0f,50.0f,50.0f,50.0f,50.0f,50.0f,50.0f,50.0f,50.0f,50.0f,50.0f});
-        float verh2 = s2.SonneZuRegen(n2);
+        float verh2 = s2.VerhältnisZu(n2);
         testeWerte(verh2,1.0f,0.0000001f);
 
         Sonne s3 = new Sonne(new float[]{300.0f,300.0f,300.0f,300.0f,300.0f,300.0f,300.0f,300.0f,300.0f,300.0f,300.0f,300.0f});
         Niederschlag n3 = new Niederschlag(new float[]{50.0f,50.0f,50.0f,50.0f,50.0f,50.0f,50.0f,50.0f,50.0f,50.0f,50.0f,50.0f});
-        float verh3 = s3.SonneZuRegen(n3);
+        float verh3 = s3.VerhältnisZu(n3);
         testeWerte(verh3,0.0f,0.0000001f);
 
         System.out.println("----");
