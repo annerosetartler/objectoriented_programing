@@ -1,17 +1,19 @@
-public class Plenterwirtschaft extends Bewirtschaftet {
+public class Plenterwirtschaft implements Bewirtschaftet {
     //INV:  wirtschaftsfaktoren.length == 4 & Werte in wirtschaftsfaktoren in [0.0,1.0]
     //      altersKlassen > 0
 
+    private float[] wirtschaftsfaktoren;
 
-    //Vorb: Altersklassen > 0
-    public Plenterwirtschaft(int altersKlassen) {
-        super(altersKlassen);
+
+    public Plenterwirtschaft() {
+        wirtschaftsfaktoren = new float[4];
     }
 
-
+    @Override
+    //NACHB: gibt ein Array mit Faktoren zurück
     public float[] plusEinJahr(){
         wirtschaftsfaktoren[1] = 1.0f;
         wirtschaftsfaktoren[2] = 0.45f;
-        return super.plusEinJahr();
+        return wirtschaftsfaktoren;
     }
 }

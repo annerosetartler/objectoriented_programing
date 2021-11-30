@@ -1,17 +1,23 @@
-public class Erholungsgebiet extends Bewirtschaftet {
+public class Erholungsgebiet implements Bewirtschaftet  {
     //INV:  wirtschaftsfaktoren.length == 4 & Werte in wirtschaftsfaktoren in [0.0,1.0]
     //      altersKlassen > 0
+    //      AnzahlWege >= 0
+    //      AnzahlHütten >= 0
+    //      neuH >= 0
+    //      neuW >= 0
     private int AnzahlWege;
     private int AnzahlHütten;
     private int neuH;
     private int neuW;
+    private float[] wirtschaftsfaktoren;
 
-    //Vorb: altersKlassen > 0
-    public Erholungsgebiet(int altersKlassen) {
-        super(altersKlassen);
+
+    public Erholungsgebiet() {
+        wirtschaftsfaktoren = new float[4];
     }
 
-
+    @Override
+    //NACHB: gibt ein Array mit Faktoren zurück
     public float[] plusEinJahr() {
         neuH = 0;
         neuW = 0;
@@ -30,7 +36,7 @@ public class Erholungsgebiet extends Bewirtschaftet {
 
         wirtschaftsfaktoren[3] = neuH * 0.001f + neuW + 0.01f + AnzahlHütten * 0.0001f + AnzahlWege * 0.0001f;
 
-        return super.plusEinJahr();
+        return wirtschaftsfaktoren;
     }
 
 }

@@ -1,8 +1,5 @@
-public class Bewirtschaftungsmodell {
-    //SCHLECHT: protected Objektvariablen: Haben in unserem Projekt die gleiche Sichtbarkeit wie public Objektvariablen
-    //          Verbesserung: protected durch privat ersetzen und aus der Klasse Bewirtschaftungsmodelle ein Interface machen
+public interface Bewirtschaftungsmodell {
     //INV:  wirtschaftsfaktoren.length == 4 & Werte in wirtschaftsfaktoren in [0.0,1.0]
-    //      altersKlassen > 0
 
 
     /*
@@ -15,15 +12,8 @@ public class Bewirtschaftungsmodell {
     wirtschaftsfaktoren[3] ist ein Prozentwert der aussagt wie viel Prozent Festmeter gefällt werden müssen.
                            Dieser Wert ergibt sich aus Pflegung alter Wege, Anschaffung neuer, Pflegung alter Hütten und Bauung neuer
      */
-    protected float[] wirtschaftsfaktoren = new float[4];
-    //ERROR:    die Variable ist ein überbleibsel welches in diesem Code keine Verwendung mehr findet
-    protected int altersKlassen;
 
-    //Vorb: altersKlassen > 0
-    public Bewirtschaftungsmodell(int altersKlassen) { this.altersKlassen = altersKlassen; }
-    //GUT:  Methode ist dynamisch gebunden
-    public float[] plusEinJahr() {
-        return wirtschaftsfaktoren;
-    }
+    //NACHB: gibt ein Array mit Faktoren zurück
+    float [] plusEinJahr();
 
 }

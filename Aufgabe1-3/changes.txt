@@ -1,10 +1,11 @@
 Änderungen für die Finalabgabe:
 
 * Simulation:
-    -
+
 
 * Test_4:
     - Umbenannt in Test_1, weil wir sonst zwei gleich heißende Klassen haben
+    - Simulationsdurchlauf für restlichen Bewirtschaftungsmodelle hinzugefügt
 
 *************
 
@@ -26,16 +27,27 @@
 **************
 
 * Bewirtschaftungsmodell:
+    - Umstellung als interface
+
 
 * Naturbelassen:
+    - Variablen von protected auf private umgestellt
+    - Zusicherungen ergänzt(ToDo)
 
 * Bewirtschaftet:
+    - Umstellung als Interface
 
 * Erholungsgebiet:
+    - Variablen von protected auf private umgestellt
+    -Zusicherungen ergänzt(ToDo)
 
 * Kahlschlag:
+    -Variablen von protected auf private umgestellt
+    -Zusicherungen ergänzt(ToDo)
 
 * Plenterwirtschaft:
+    -Variablen von protected auf private umgestellt
+    -Zusicherungen ergänzt(ToDo)
 
 ***************
 

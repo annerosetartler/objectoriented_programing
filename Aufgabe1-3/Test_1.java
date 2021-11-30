@@ -164,9 +164,7 @@ public class Test_1 {
         testeWerte(fichte5Zustand[3],fichteZustand_0[3]);
         testeWerte(fichteZustand_0[0] + fichte5Zustand[5],fichte5Zustand[0]);
 
-        System.out.println("----");
-        System.out.println("Testsimulation: Mischwald + Plenterwirtschaft:");
-        System.out.println("----");
+        System.out.println("----\nTestsimulation: Mischwald + Plenterwirtschaft:\n----\n");
 
         float[] sonneA = new float[]{69.0f,108.0f,202.0f,312.0f,222.0f,193.0f,286.0f,240.0f,224.0f,88.0f,58.0f,29.0f};
         Sonne sA = new Sonne(sonneA);
@@ -193,14 +191,46 @@ public class Test_1 {
             altersS.add(f / sum);
         }
 
-        Bewirtschaftungsmodell modell = new Plenterwirtschaft(altersS.size());
 
-        float zielBestand = 250.0f;
-        Population testWald1 = new Buche(altersS, 100.0f, zielBestand);
-        Population testWald2 = new Fichte(testWald1);
+        //Plenterwirtschaft
+        Bewirtschaftungsmodell modellP = new Plenterwirtschaft();
 
-        Simulation testSim = new Simulation(1000, testWald1, testWald2);
-        testSim.simLoop(eA, modell, true, zielBestand);
+        float zielBestandP = 250.0f;
+        Population testWald1P = new Buche(altersS, 100.0f, zielBestandP);
+        Population testWald2P = new Fichte(testWald1P);
+        Simulation testSimP = new Simulation(1000, testWald1P, testWald2P);
+        testSimP.simLoop(eA, modellP, true, zielBestandP);
+
+
+        System.out.println("----\nTestsimulation: Mischwald + Kahlschlag:\n----\n");
+        //Kahlschlag
+        Bewirtschaftungsmodell modellK = new Kahlschlag();
+
+        float zielBestandK = 250.0f;
+        Population testWald1K = new Buche(altersS, 100.0f, zielBestandK);
+        Population testWald2K = new Fichte(testWald1K);
+        Simulation testSimK = new Simulation(1000, testWald1K, testWald2K);
+        testSimK.simLoop(eA, modellK, true, zielBestandK);
+
+        System.out.println("----\nTestsimulation: Mischwald + Erholungsgebiet:\n----\n");
+        //Erholungsgebiet
+        Bewirtschaftungsmodell modellE = new Erholungsgebiet();
+
+        float zielBestandE = 250.0f;
+        Population testWald1E = new Buche(altersS, 100.0f, zielBestandE);
+        Population testWald2E = new Fichte(testWald1E);
+        Simulation testSimE = new Simulation(1000, testWald1E, testWald2E);
+        testSimE.simLoop(eA, modellE, true, zielBestandE);
+
+        System.out.println("----\nTestsimulation: Mischwald + Naturbelassen:\n----\n");
+        //Naturbelassen
+        Bewirtschaftungsmodell modellN = new Naturbelassen();
+
+        float zielBestandN = 250.0f;
+        Population testWald1N = new Buche(altersS, 100.0f, zielBestandN);
+        Population testWald2N = new Fichte(testWald1N);
+        Simulation testSimN = new Simulation(1000, testWald1N, testWald2N);
+        testSimN.simLoop(eA, modellN, true, zielBestandN);
     }
 
     //VORB: max > min
