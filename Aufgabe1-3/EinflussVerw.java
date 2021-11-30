@@ -2,38 +2,35 @@ import java.util.Arrays;
 import java.util.Random;
 
 public class EinflussVerw {
-    //SCHLECHT: kein dynamisches Binden der Einfluesse, Verbesserung: aus Einfluesse ein Interface machen, das von Sonne,
-    //          Wind, Temperatur & Niederschlag implementiert wird
     //INV: faktoren.length == 4 & abweichungen.length == 12 & klimawandel >= 1.0f & abweichungen[i] >= 0.5f
-    private Sonne sonne;
-    private Niederschlag regen;
-    private Temperatur temp;
-    private Wind wind;
+    private Einfluesse sonne;
+    private Einfluesse regen;
+    private Einfluesse temp;
+    private Einfluesse wind;
     private float klimawandel;
     //KOMMENTAR: faktoren[] steht für [Hitze,Mure,Sturm,Zuwachs]
     private float[] faktoren = new float[4];
     private float[] abweichungen = new float[12];
 
     //VORB: s != null & n != null & t != null & w != null
-    public EinflussVerw(Sonne s, Niederschlag n, Temperatur t, Wind w){
-        sonne = s;
-        regen = n;
-        temp = t;
-        wind = w;
+    public EinflussVerw(Einfluesse sonne, Einfluesse niederschlag, Einfluesse temperatur, Einfluesse wind){
+        this.sonne = sonne;
+        regen = niederschlag;
+        temp = temperatur;
+        this.wind = wind;
         klimawandel = 1.01f;
-        faktoren[0] = temp.Faktor();
-        faktoren[1] = regen.Faktor();
-        faktoren[2] = wind.Faktor();
-        faktoren[3] = sonne.VerhältnisZu(regen);
+        faktoren[0] = temp.getFaktor();
+        faktoren[1] = regen.getFaktor();
+        faktoren[2] = this.wind.getFaktor();
+        faktoren[3] = this.sonne.VerhaeltnisZu(regen);
     }
 
     //VORB: kw >= 1.0f
     //NACHB: abweichungen[i] >= 0.5f
-    //ERROR: kw ist redundant, könnte direkt auf die Objektvariable klimawandel zugreifen
-    private void GeneriereAbweichungen(float kw){
+    private void GeneriereAbweichungen(){
         Random r = new Random();
         for (int i = 0; i < abweichungen.length; i++) {
-            abweichungen[i] = (float) (r.nextGaussian() * 0.5 + kw);
+            abweichungen[i] = (float) (r.nextGaussian() * 0.5 + klimawandel);
             if(abweichungen[i] <= 0.5f){
                 abweichungen[i] = 0.5f;
             }
@@ -42,21 +39,21 @@ public class EinflussVerw {
 
     //NACHB: faktoren[i] in [0.0,1.0]
     private void AktualisiereFaktoren(){
-        faktoren[0] = temp.Faktor();
-        faktoren[1] = regen.Faktor();
-        faktoren[2] = wind.Faktor();
-        faktoren[3] = sonne.VerhältnisZu(regen);
+        faktoren[0] = temp.getFaktor();
+        faktoren[1] = regen.getFaktor();
+        faktoren[2] = wind.getFaktor();
+        faktoren[3] = sonne.VerhaeltnisZu(regen);
     }
 
     //SERVER-CONSTRAINTS: klimawandel wird mit jedem Jahr um 0.0001f erhöht
     public float[] Plus1Jahr(){
-        GeneriereAbweichungen(klimawandel);
+        GeneriereAbweichungen();
         sonne.Plus1Jahr(abweichungen);
-        GeneriereAbweichungen(klimawandel);
+        GeneriereAbweichungen();
         regen.Plus1Jahr(abweichungen);
-        GeneriereAbweichungen(klimawandel);
+        GeneriereAbweichungen();
         temp.Plus1Jahr(abweichungen);
-        GeneriereAbweichungen(klimawandel);
+        GeneriereAbweichungen();
         wind.Plus1Jahr(abweichungen);
         klimawandel += 0.0001f;
         AktualisiereFaktoren();
