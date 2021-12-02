@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 
 public class Fichte implements Population {
+    //KOMMENTAR: Fichte ist ein Untertyp von Population. //ToDo Kommentare und evtl. Variablen ändern
 
 
     //SCHLECHT: Objektvariablen alle protected; Verbesserung: Population als Interface und private Objektvariablen in Untertypen

@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 
 public class Buche implements Population {
+    //ToDo Kommentare und evtl. Variablen ändern
 
     //SCHLECHT: Objektvariablen alle protected; Verbesserung: Population als Interface und private Objektvariablen in Untertypen
     //INV: Werte in altersStruktur in [0.0,1.0] & Summe aller Werte in altersStruktur ergibt 1.0 & altersStruktur.size > 0

@@ -1,9 +1,11 @@
 import java.util.ArrayList;
 
 public interface Population {
+    //KOMMENTAR: Population ist ein Interface mit verschiedene Arten von Baum-Populationen (Fichte oder Buche) als Instanzen //ToDo Kommentare und evtl. Variablen ändern
+    //           Population hat ToDo ab hier weiter
 
 
-    //SCHLECHT: Objektvariablen alle protected; Verbesserung: Population als Interface und private Objektvariablen in Untertypen
+
     //INV: Werte in altersStruktur in [0.0,1.0] & Summe aller Werte in altersStruktur ergibt 1.0 & altersStruktur.size > 0
     //     Wert für gesundheit in [0.25,1.0]
     //     baumBestand >= 0
@@ -47,4 +49,8 @@ public interface Population {
 
 
 //ToDo Methodenbeschreibungen und noch schauen, ob Kommentare passen
+
+
+    //Verbesserte Anmerkungen (SCHLECHT):
+    //- ganz oben stand: Objektvariablen alle protected; Verbesserung: Population als Interface und private Objektvariablen in Untertypen
 }
