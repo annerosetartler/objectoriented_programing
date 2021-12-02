@@ -4,7 +4,7 @@ public class Niederschlag implements Einfluesse {
     //KOMMENTAR: Quelle: https://www.wien.gv.at/statistik/lebensraum/tabellen/niederschlag.html
     //           Normwerte: [37.9f,40.1f,51.4f,44.7f,69.0f,70.0f,70.0f,72.0f,60.8f,37.8f,48.6f,48.2f] Betrachtungszeitraum: 1981-2010 in mm Wasserhöhe
     //           Werte Jahr 2020: [19.0f,52.0f,21.0f,9.0f,83.0f,94.0f,77.0f,99.0f,75.0f,130.0f,17.0f,23.0f]
-    //INV: normW.length == 12 & normW[i] bleiben unverändert
+    //INV: monatlicheWerte.length == 12 & normWerte.length == 12 & faktor in [0.0,1.0]
     private float[] monatlicheWerte;
     private static final float[] normWerte = new float[]{37.9f,40.1f,51.4f,44.7f,69.0f,70.0f,70.0f,72.0f,60.8f,37.8f,48.6f,48.2f};
     private float faktor;
@@ -15,9 +15,10 @@ public class Niederschlag implements Einfluesse {
         Faktor();
     }
 
-    //VORB: abweichungen.length == 12 & abweichungen[i] > 0.0f
-    //NACHB: verändert die Werte in monatlicheWerte
-    //       entsprechend den dazugehörigen Werten in normWerte & in abweichungen
+    //VORB: abweichungen.length == 12 & abweichungen[i] >= 0.5f
+    //NACHB: simuliert das Vergehen eines Jahres
+    //       dabei werden die monatlichen Werte neu errechnet aus abweichungen und den Normwerten
+    //       anschließend wird der faktor aktualisiert
     public void Plus1Jahr(float[] abweichungen){
         for (int i = 0; i < monatlicheWerte.length; i++) {
             monatlicheWerte[i] = normWerte[i] * abweichungen[i];
@@ -25,7 +26,9 @@ public class Niederschlag implements Einfluesse {
         Faktor();
     }
 
-    //NACHB: gibt einen Wert in [0.0,1.0] zurück
+    //KOMMENTAR: abweichungsgrad legt fest ab wann eine Abweichung drastisch wird
+    //NACHB: setzt faktor neu
+    //       errechnet wie drastisch die diesjährigen Durchschnittswerte von den Normwerten abweichen
     public void Faktor(){
         float abweichungsgrad = 1.5f;
         float grenzwertAbw = 3.0f;
@@ -51,7 +54,11 @@ public class Niederschlag implements Einfluesse {
     }
 
     //VORB: ei != null
-    //NACHB: gibt einen Wert in [0.0,1.0] zurück
+    //NACHB: gibt Auskunft darüber, wie sehr sich this Einfluss und ei in einem guten Verhältnis zueinander befinden
+    //       bei einem idealen Verhältnis wird 1.0f zurückgegeben
+    //       je schlechter das Verhältnis, umso näher bei 0.0f
+    //       wenn das Verältnis zu stark vom idealen Verhältnis abweicht, wird 0.0f zurückgegeben
+    //       gibt einen Wert in [0.0,1.0] zurück
     public float VerhaeltnisZu(Einfluesse ei){
         float[] eiMw = ei.getMonatlicheWerte();
         float min = 2.0f;
@@ -73,14 +80,18 @@ public class Niederschlag implements Einfluesse {
         }
     }
 
+    //NACHB: gibt den Faktor des Einflusses zurück
     public float getFaktor() {
         return faktor;
     }
+
+    //NACHB: gibt das Array mit den monatlichen Werten zurück
     @Override
     public float[] getMonatlicheWerte() {
         return monatlicheWerte;
     }
 
+    //NACHB: gibt den Inhalt des monatlicheWerte-Arrays als String zurück
     public String toString(){
         return Arrays.toString(monatlicheWerte);
     }

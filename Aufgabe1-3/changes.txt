@@ -52,16 +52,39 @@
 ***************
 
 * EinflussVerw:
+    - verwendet jetzt Einfluesse
+    - Methodenaufrufe auf den Einfluessen werden nun dynamisch gebunden
+    - Zusicherungen korrigiert
 
 ***************
 
 * Einfluesse:
+    - aus Einfluesse ein Interface gemacht
+    - alle protected Variablen entfernt
+    - Typbeschreibung für Einfluesse angelegt
+    - Zusicherungen korrigiert
+    - Plus1Jahr() so verändert, dass der Client nicht mehr zuständig ist für das Aktualisieren des Faktors
 
 * Sonne:
+    - implementiert jetzt das Interface Einfluesse
+    - neue Objektvariable faktor (beschrieben in Einfluesse)
+    - neue private Methode zur Errechnung des faktors
+    - Zusicherungen korrigiert
 
 * Temperatur
+    - implementiert jetzt das Interface Einfluesse
+    - neue Objektvariable faktor (beschrieben in Einfluesse)
+    - neue private Methode zur Errechnung des faktors
+    - Zusicherungen korrigiert
 
 * Wind:
+    - implementiert jetzt das Interface Einfluesse
+    - neue Objektvariable faktor (beschrieben in Einfluesse)
+    - neue private Methode zur Errechnung des faktors
+    - Zusicherungen korrigiert
 
 * Niederschlag:
-
+    - implementiert jetzt das Interface Einfluesse
+    - neue Objektvariable faktor (beschrieben in Einfluesse)
+    - neue private Methode zur Errechnung des faktors
+    - Zusicherungen korrigiert

@@ -2,13 +2,17 @@ import java.util.Arrays;
 import java.util.Random;
 
 public class EinflussVerw {
-    //INV: faktoren.length == 4 & abweichungen.length == 12 & klimawandel >= 1.0f & abweichungen[i] >= 0.5f
+    //KOMMENTAR: verwaltet Werte aus 4 Einfluessen in einem Array faktoren[]
+    //           faktoren[] steht für [Hitze,Mure,Sturm,Zuwachs]
+    //INV:  faktoren.length == 4 & alle Werte in faktoren in [0.0,1.0]
+    //      abweichungen.length == 12 & abweichungen[i] >= 0.5f
+    //      klimawandel >= 1.0f
     private Einfluesse sonne;
     private Einfluesse regen;
     private Einfluesse temp;
     private Einfluesse wind;
     private float klimawandel;
-    //KOMMENTAR: faktoren[] steht für [Hitze,Mure,Sturm,Zuwachs]
+
     private float[] faktoren = new float[4];
     private float[] abweichungen = new float[12];
 
@@ -25,7 +29,6 @@ public class EinflussVerw {
         faktoren[3] = this.sonne.VerhaeltnisZu(regen);
     }
 
-    //VORB: kw >= 1.0f
     //NACHB: abweichungen[i] >= 0.5f
     private void GeneriereAbweichungen(){
         Random r = new Random();
@@ -45,6 +48,11 @@ public class EinflussVerw {
         faktoren[3] = sonne.VerhaeltnisZu(regen);
     }
 
+    //NACHB: simuliert das Vergehen eines Jahres
+    //       dabei werden für jeden Einfluss Abweichungen per Zufall(Gaußverteilt) generiert und mit diesen
+    //       errechneten Abweichungen die jeweiligen Einfluesse aktualisiert
+    //       die Werte in faktoren[] werden anschließend auch aktualisiert
+    //       zurückgegeben wird faktoren (entsprechend der Invariante)
     //SERVER-CONSTRAINTS: klimawandel wird mit jedem Jahr um 0.0001f erhöht
     public float[] Plus1Jahr(){
         GeneriereAbweichungen();

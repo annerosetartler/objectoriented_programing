@@ -4,7 +4,7 @@ public class Sonne implements Einfluesse {
     //KOMMENTAR: Quelle: https://www.wien.gv.at/statistik/lebensraum/tabellen/luftsonne.html
     //           Normwerte: [69.9f,100.3f,142.6f,197.1f,238.7f,236.2f,262.6f,251.4f,182.0f,132.6f,66.0f,51.3f] Betrachtungszeitraum: 1981-2010 in h
     //           Werte Jahr 2020: [69.0f,108.0f,202.0f,312.0f,222.0f,193.0f,286.0f,240.0f,224.0f,88.0f,58.0f,29.0f]
-    //INV: normW.length == 12 & normW[i] bleiben unverändert
+    //INV: monatlicheWerte.length == 12 & normWerte.length == 12 & faktor in [0.0,1.0]
     private float[] monatlicheWerte;
     private static final float[] normWerte = new float[]{69.9f,100.3f,142.6f,197.1f,238.7f,236.2f,262.6f,251.4f,182.0f,132.6f,66.0f,51.3f};
     private float faktor;
@@ -15,7 +15,20 @@ public class Sonne implements Einfluesse {
         Faktor();
     }
 
-    //NACHB: gibt einen Wert in [0.0,1.0] zurück
+    //VORB: abweichungen.length == 12 & abweichungen[i] >= 0.5f
+    //NACHB: simuliert das Vergehen eines Jahres
+    //       dabei werden die monatlichen Werte neu errechnet aus abweichungen und den Normwerten
+    //       anschließend wird der faktor aktualisiert
+    public void Plus1Jahr(float[] abweichungen){
+        for (int i = 0; i < monatlicheWerte.length; i++) {
+            monatlicheWerte[i] = normWerte[i] * abweichungen[i];
+        }
+        Faktor();
+    }
+
+    //KOMMENTAR: abweichungsgrad legt fest ab wann eine Abweichung drastisch wird
+    //NACHB: setzt faktor neu
+    //       errechnet wie drastisch die diesjährigen Durchschnittswerte von den Normwerten abweichen
     private void Faktor(){
         float abweichungsgrad = 1.5f;
         float grenzwertAbw = 2.0f;
@@ -41,7 +54,11 @@ public class Sonne implements Einfluesse {
     }
 
     //VORB: ei != null
-    //NACHB: gibt einen Wert in [0.0,1.0] zurück
+    //NACHB: gibt Auskunft darüber, wie sehr sich this Einfluss und ei in einem guten Verhältnis zueinander befinden
+    //       bei einem idealen Verhältnis wird 1.0f zurückgegeben
+    //       je schlechter das Verhältnis, umso näher bei 0.0f
+    //       wenn das Verältnis zu stark vom idealen Verhältnis abweicht, wird 0.0f zurückgegeben
+    //       gibt einen Wert in [0.0,1.0] zurück
     public float VerhaeltnisZu(Einfluesse ei){
         float[] eiMw = ei.getMonatlicheWerte();
         float min = 2.0f;
@@ -63,14 +80,10 @@ public class Sonne implements Einfluesse {
         }
     }
 
-    //VORB: abweichungen.length == 12 & abweichungen[i] > 0.0f
-    //NACHB: verändert die Werte in monatlicheWerte
-    //       entsprechend den dazugehörigen Werten in normWerte & in abweichungen
-    public void Plus1Jahr(float[] abweichungen){
-        for (int i = 0; i < monatlicheWerte.length; i++) {
-            monatlicheWerte[i] = normWerte[i] * abweichungen[i];
-        }
-        Faktor();
+    //NACHB: gibt den Faktor des Einflusses zurück
+    @Override
+    public float getFaktor() {
+        return faktor;
     }
 
     //NACHB: gibt das Array mit den monatlichen Werten zurück
@@ -78,11 +91,7 @@ public class Sonne implements Einfluesse {
         return monatlicheWerte;
     }
 
-    @Override
-    public float getFaktor() {
-        return faktor;
-    }
-
+    //NACHB: gibt den Inhalt des monatlicheWerte-Arrays als String zurück
     public String toString(){
         return Arrays.toString(monatlicheWerte);
     }
