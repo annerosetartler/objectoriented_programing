@@ -68,7 +68,7 @@ public abstract class Harvester {
 
     @Override
     public String toString() {
-        return "\nHarvester: " +
+        return "Harvester: " +
                 "\nharvesterNumber: " + harvesterNumber +
                 "\noperationTime: " + operationTime +
                 "\nworkingHead: " + workingHead.getClass();

@@ -24,4 +24,12 @@ public class WheelHarvester extends Harvester{
     public Float giveCoveredDistance(){
         return coveredMeters;
     }
+
+    @Override
+    public String toString() {
+        String s = "\nWheel-";
+        s += super.toString();
+        s += "\ncovered meters " + coveredMeters;
+        return s;
+    }
 }

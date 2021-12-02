@@ -25,4 +25,11 @@ public class StrideHarvester extends Harvester {
         return steps;
     }
 
+    @Override
+    public String toString() {
+        String s = "\nWheel-";
+        s += super.toString();
+        s += "\ncovered steps: " + steps;
+        return s;
+    }
 }
