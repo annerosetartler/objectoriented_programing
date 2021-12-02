@@ -1,18 +1,21 @@
-public abstract class Harvester<X> { //ToDo: Das geht so nicht, weil es ja nciht vom Harvester abhängt, welches Parameter es gibt...
-    //ToDo: checken ob das so eingeordnet richtig ist...
-    //KOMMENTAR: Ein Harvester hat eine Laufnummer (harvesterNumber) ... genau eine Aufgabe (einen Kopf) ToDo ergänzen
-    //Invarianten: nummerusCurrens & harvesterNumber > 0 //ToDo: aber erst sobald der erste initialisiert wird. ist das dann richtig?
-    //             inBetrieb >= 0
-    //             workingHead != null;
+public abstract class Harvester {
+    //KOMMENTAR: Ein Harvester hat eine eindeutige Laufnummer (harvesterNumber), die bei Initialisierung festgelegt wird.
+    //           zusätzlich verfügt er über eine Information, wie lange er aktiv war (operationTime) und genau einen
+    //           WorkingHead, der je nach Typ unterschiedliche Funktionen hat
     //HISTORY CONSTRAINT: numerusCurrens wird mit jeder initialisierung eines *Objekts vom Typ* Harvester um eins erhöht.
     //                    Die aktuelle Zahl ist die Laufnummer des letzten initialisierten Harvester
     //                    harvesterNumber wird mit initialisierung des Objekts zugewiesen und ist nicht veränderlich
+    //Invarianten: nummerusCurrens & harvesterNumber > 0 //ToDo: aber erst sobald der erste initialisiert wird. ist das dann richtig?
+    //             inBetrieb >= 0
+    //             workingHead != null;
 
     private static int numerusCurrens;
     private final int harvesterNumber;
     private float operationTime;
     private WorkingHead workingHead;
 
+    //KOMMENTAR: Erzeugt einen Harvester mit einem bestimmten workingHead, einer individuellen Laufnummer, sowie einer
+    //           "leeren" operationTime (operationTime = 0)
     //VORBEDINGUNG: head != null
     public Harvester(WorkingHead head){
         numerusCurrens++;
@@ -26,36 +29,49 @@ public abstract class Harvester<X> { //ToDo: Das geht so nicht, weil es ja nciht
         operationTime += 0.1f;
     }
 
-    //KOMMENTAR: Erhöht die Betriebszeit um einen durch die Eingabe definierten Wert
-    //VORBEDINGUNG: additionalTime >= 0;
-    public void increaseOpTime(float additionalTime){
-        operationTime += additionalTime;
-    }
-
     public float getOperationTime(){
         return operationTime;
     }
 
-    //Erhöht die zurückgelegte Distanz (wird in WheelHarvester und StrideHarvester überschrieben)
-    //Die Operation-Time wird einmal pro Aufruf erhöht ToDo: hab ich mir selbst überlegt, passt das so?
+    //KOMMENTAR: Erhöht die zurückgelegte Distanz (wird in WheelHarvester und StrideHarvester überschrieben)
+    //HISTORY CONSTRAINT: Die Operation-Time wird einmal pro Aufruf von raiseCoveredDistance erhöht /TODO: Ist das ein History Constraint?
     public void raiseCoveredDistance(){
         increaseOpTime();
     }
 
-    //Gibt die zurückgelegte Distanz aus (wird in WheelHarvester und StrideHarvester überschrieben) //ToDo: Schirch und noch falsch
-    public X giveCoveredDistance(){
+    public int getHarvesterNumber(){
+        return harvesterNumber;
+    }
+
+    //ToDo: Wird derzeit überschrieben, ist aber eigentlich nicht nötig, weil ja eh nichts hier passiert, abstrakte Klasse, die ich nicht verwende => nur Methode in den Unterklassen?
+    //      also anders machen: entweder Objekte dynamisch binden (denk sollte ich nicht), oder hier die Methode einfach weggeben (besser?)
+    //Gibt die zurückgelegte Distanz aus (wird in WheelHarvester und StrideHarvester überschrieben)
+    public Number giveCoveredDistance(){
         return null;
     }
 
-    //KOMMENTAR: Rüstet den Arbeitskopf eines Harvesters um, Informationen über frühere Einsatzarten gehen hierbei verloren
+    //KOMMENTAR: Rüstet den Arbeitskopf eines Harvesters um. Informationen über frühere Einsatzarten gehen hierbei verloren
     //VORBEDINGUNG: head != null
     public void changeHead(WorkingHead head){
         this.workingHead = head;
     }
 
-    //KOMMENTAR: Liest je nach Art des WorkingHead die maximalen Stücklänge oder die maximalen Baumdicke aus //ToDo: Schirch und noch falsch
-    public X readHeadInformation(){
-        return (X) workingHead.read();
+    //KOMMENTAR: Liest je nach Art des WorkingHead die maximalen Stücklänge oder die maximalen Baumdicke aus
+    public Number readHeadInformation(){
+        return workingHead.readMax();
     }
 
+    //KOMMENTAR: Wird für die Ausgabe verwendet, um in Text auszugeben, was die headInformation bedeutet
+    public String getHeadMeaning(){
+        return workingHead.meaning();
+    }
+
+    @Override
+    public String toString() {
+        return "Harvester{" +
+                "harvesterNumber=" + harvesterNumber +
+                ", operationTime=" + operationTime +
+                ", workingHead=" + workingHead +
+                '}';
+    }
 }

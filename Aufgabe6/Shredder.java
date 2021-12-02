@@ -1,15 +1,22 @@
-public class Shredder implements WorkingHead<Integer> {
-    //KOMMENTAR: Shredder ist eine implementierung eines WorkingHead, der eine Information über die maximale Dicke hat, die ein
-    //           verarbeitbarer Baum haben kann
-    //INVARIANTE: maxWidth > 0  KOMMENTAR: maximale Dicke eines zu Verarbeitenden Baumes in cm;
-    private int maxWidth;
+public class Shredder implements WorkingHead {
+    //KOMMENTAR: Shredder ist eine implementierung eines WorkingHead, der eine Information über die maximale Dicke hat,
+    //           die ein verarbeitbares Stück Holz haben darf
+    //INVARIANTE: maxWidth > 0
+    private final Integer maxWidth;
 
-    public Shredder(int maxWidth){
+    //VORBEDINGUNG: maxWidth > 0
+    public Shredder(Integer maxWidth){
         this.maxWidth = maxWidth;
     }
 
+    //NACHBEDINGUNG: gibt die maximale Dicke eines zu Verarbeitenden Baumes in cm aus
     @Override
-    public Integer read() {
+    public Integer readMax() {
         return maxWidth;
+    }
+
+    @Override
+    public String meaning(){
+        return "cm maximum trunk thickness";
     }
 }

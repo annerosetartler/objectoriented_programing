@@ -1,17 +1,22 @@
-public class Chopper implements  WorkingHead<Float> {
-    //KOMMENTAR: Shredder ist eine implementierung eines WorkingHead, der eine Information über die maximale Dicke hat, die ein
-    //           verarbeitbarer Baum haben kann
-    //INV: maxLength > 0  KOMMENTAR: maximale Länge eines Stücks in Meter
-    private float maxLength;
+public class Chopper implements  WorkingHead {
+    //KOMMENTAR: Chopper ist eine implementierung eines WorkingHead, der eine Information über die maximale Länge hat,
+    //           die verarbeitbares Stück Holz haben darf
+    //INV: maxLength > 0
+    private final Float maxLength;
 
-
-    public Chopper(float maxLength){
+    //VORBEDINGUNG: maxLength > 0
+    public Chopper(Float maxLength){
         this.maxLength = maxLength;
     }
 
+    //NACHBEDINGUNG: gibt die maximale Länge eines Stücks in Meter aus
+    @Override
+    public Float readMax() {
+        return maxLength;
+    }
 
     @Override
-    public Float read() {
-        return maxLength;
+    public String meaning(){
+        return "meter maximum trunk length";
     }
 }
