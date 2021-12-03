@@ -43,6 +43,12 @@ public abstract class Harvester {
         return harvesterNumber;
     }
 
+    public abstract String getType();
+
+    public String getHeadType(){
+        return workingHead.getHeadType();
+    }
+
     //Gibt die zurückgelegte Distanz aus (wird in WheelHarvester und StrideHarvester überschrieben)
     public abstract Number giveCoveredDistance();
 
@@ -70,6 +76,7 @@ public abstract class Harvester {
                 "\nworkingHead: " + workingHead.getClass();
     }
 
+    //ToDo weg?
     //NACHB: Gibt den workinghead zurück
     public WorkingHead getWorkingHead(){return workingHead;}
 }

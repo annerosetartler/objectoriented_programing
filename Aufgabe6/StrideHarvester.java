@@ -3,6 +3,7 @@ public class StrideHarvester extends Harvester {
     //           eine Information über die von ihm zurückgelegten Schritte (Integer-Wert) enthält.
     //INVARIANTE: steps >= 0;
     private Integer steps;
+    private final String harvesterType = "stride";
 
     //KOMMENTAR: Erzeugt einen Harvester, der zusätzlich zu den normalen Variablen und Funktionen noch eine
     //           Integer-Variable speichert, die für die Anzahl der von ihm zurückgelegten Schritte steht
@@ -23,6 +24,10 @@ public class StrideHarvester extends Harvester {
     @Override
     public Integer giveCoveredDistance() {
         return steps;
+    }
+
+    public String getType(){
+        return harvesterType;
     }
 
     @Override
