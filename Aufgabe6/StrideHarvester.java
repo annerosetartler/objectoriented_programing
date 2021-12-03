@@ -13,7 +13,7 @@ public class StrideHarvester extends Harvester {
         steps = 0;
     }
 
-    //KOMMENTAR: Erhöht die zurückgelegten Schritte um 1 //ToDo: soll das dabei stehen: und ruft die gleichnamige Methode der Oberklasse auf (erhöht die OperationTime um 0.1f)
+    //KOMMENTAR: Erhöht die zurückgelegten Schritte um 1 und ruft die gleichnamige Methode der Oberklasse auf (erhöht die OperationTime um 0.1f)
     @Override
     public void raiseCoveredDistance(){
         super.raiseCoveredDistance();

@@ -13,7 +13,7 @@ public class WheelHarvester extends Harvester{
         coveredMeters = 0.0f;
     }
 
-    //KOMMENTAR: Erhöht die zurückgelegten Meter um 0.3f //ToDo: soll das dabei stehen: und ruft die gleichnamige Methode der Oberklasse auf (erhöht die OperationTime um 0.1f)
+    //KOMMENTAR: Erhöht die zurückgelegten Meter um 0.3f und ruft die gleichnamige Methode der Oberklasse auf (erhöht die OperationTime um 0.1f)
     @Override
     public void raiseCoveredDistance(){
         super.raiseCoveredDistance();

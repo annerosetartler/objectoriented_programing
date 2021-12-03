@@ -34,7 +34,7 @@ public abstract class Harvester {
     }
 
     //KOMMENTAR: Erhöht die zurückgelegte Distanz (wird in WheelHarvester und StrideHarvester überschrieben)
-    //HISTORY CONSTRAINT: Die Operation-Time wird einmal pro Aufruf von raiseCoveredDistance erhöht /TODO: Ist das ein History Constraint?
+    //HISTORY CONSTRAINT: Die Operation-Time wird mit jedem Aufruf von raiseCoveredDistance um 0.1f erhöht
     public void raiseCoveredDistance(){
         increaseOpTime();
     }
