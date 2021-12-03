@@ -4,16 +4,10 @@ public class Test {
         WorkingHead chopper1 = new Chopper(0.6f);
         WorkingHead chopper2 = new Chopper(0.7f);
         WorkingHead chopper3 = new Chopper(0.8f);
-        WorkingHead chopper4 = new Chopper(0.9f);
-        WorkingHead chopper5 = new Chopper(0.5f);
-        WorkingHead chopper6 = new Chopper(0.93f);
 
         WorkingHead shredder1 = new Shredder(56);
         WorkingHead shredder2 = new Shredder(60);
         WorkingHead shredder3 = new Shredder(70);
-        WorkingHead shredder4 = new Shredder(72);
-        WorkingHead shredder5 = new Shredder(71);
-        WorkingHead shredder6 = new Shredder(52);
 
         //KOMMENTAR: Erzeugung von Harvesters
         Harvester wheelHarvester = new WheelHarvester(chopper1);

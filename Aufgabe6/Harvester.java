@@ -5,7 +5,7 @@ public abstract class Harvester {
     //HISTORY CONSTRAINT: numerusCurrens wird mit jeder initialisierung eines *Objekts vom Typ* Harvester um eins erhöht.
     //                    Die aktuelle Zahl ist die Laufnummer des letzten initialisierten Harvester
     //                    harvesterNumber wird mit initialisierung des Objekts zugewiesen und ist nicht veränderlich
-    //Invarianten: nummerusCurrens & harvesterNumber > 0 //ToDo: aber erst sobald der erste initialisiert wird. ist das dann richtig?
+    //Invarianten: nummerusCurrens >= 0 & jede vergebene harvesterNumber > 0
     //             inBetrieb >= 0
     //             workingHead != null;
 
