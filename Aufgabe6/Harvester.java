@@ -43,12 +43,8 @@ public abstract class Harvester {
         return harvesterNumber;
     }
 
-    //ToDo: Wird derzeit überschrieben, ist aber eigentlich nicht nötig, weil ja eh nichts hier passiert, abstrakte Klasse, die ich nicht verwende => nur Methode in den Unterklassen?
-    //      also anders machen: entweder Objekte dynamisch binden (denk sollte ich nicht), oder hier die Methode einfach weggeben (besser?)
     //Gibt die zurückgelegte Distanz aus (wird in WheelHarvester und StrideHarvester überschrieben)
-    public Number giveCoveredDistance(){
-        return null;
-    }
+    public abstract Number giveCoveredDistance();
 
     //KOMMENTAR: Rüstet den Arbeitskopf eines Harvesters um. Informationen über frühere Einsatzarten gehen hierbei verloren
     //VORBEDINGUNG: head != null

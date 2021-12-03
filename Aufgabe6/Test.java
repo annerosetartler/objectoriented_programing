@@ -16,11 +16,11 @@ public class Test {
         WorkingHead shredder6 = new Shredder(52);
 
         //KOMMENTAR: Erzeugung von Harvesters
-        WheelHarvester wheelHarvester = new WheelHarvester(chopper1);
+        Harvester wheelHarvester = new WheelHarvester(chopper1);
 
-        StrideHarvester strideHarvester = new StrideHarvester(shredder2);
+        Harvester strideHarvester = new StrideHarvester(shredder2);
 
-        //KOMMENTAR: Testen der Funktionalität der Harvester //ToDo: Noch Tests, die True oder False ausgeben einbauen (Methode unten)
+        //KOMMENTAR: Testen der Funktionalität der Harvester
         System.out.println("Harvester Checks:");
         System.out.println("\n1. Wheel Harvester Checks");
         System.out.println("\ntoString:" + wheelHarvester.toString());
