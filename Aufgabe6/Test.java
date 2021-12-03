@@ -36,7 +36,7 @@ public class Test {
         System.out.println("Operation time after 3 uses (3x .raiseCoveredDistance()s) " + wheelHarvester.getOperationTime());
         System.out.println("Covered distance check: " + testParameters(wheelHarvester.getOperationTime(), 0.3f));
         wheelHarvester.increaseOpTime();
-        System.out.println("Operation time after one additional increase: " + wheelHarvester.getOperationTime() );
+        System.out.println("Operation time after one additional increase: " + wheelHarvester.getOperationTime());
         System.out.println("Operation time check: " + testParameters(wheelHarvester.getOperationTime(), 0.4f));
 
         System.out.println("\nChange Head: chopper -> chopper ");
@@ -55,7 +55,7 @@ public class Test {
         System.out.println("Operation time after 3 uses (3x .raiseCoveredDistance()s) " + wheelHarvester.getOperationTime());
         System.out.println("Operation time check: " + testParameters(wheelHarvester.getOperationTime(), 0.7f));
         wheelHarvester.increaseOpTime();
-        System.out.println("Operation time after one additional increase: " + wheelHarvester.getOperationTime() );
+        System.out.println("Operation time after one additional increase: " + wheelHarvester.getOperationTime());
         System.out.println("Operation time check: " + testParameters(wheelHarvester.getOperationTime(), 0.8f));
 
         System.out.println("\nChange Head: chopper -> shredder ");
@@ -74,7 +74,7 @@ public class Test {
         System.out.println("Operation time after 3 uses (3x .raiseCoveredDistance()s) " + wheelHarvester.getOperationTime());
         System.out.println("Operation time check: " + testParameters(wheelHarvester.getOperationTime(), 1.1f));
         wheelHarvester.increaseOpTime();
-        System.out.println("Operation time after one additional increase: " + wheelHarvester.getOperationTime() );
+        System.out.println("Operation time after one additional increase: " + wheelHarvester.getOperationTime());
         System.out.println("Operation time check: " + testParameters(wheelHarvester.getOperationTime(), 1.2f));
 
 
@@ -91,7 +91,7 @@ public class Test {
         System.out.println("Operation time after 3 uses (3x .raiseCoveredDistance()s) " + strideHarvester.getOperationTime());
         System.out.println("Operation time check: " + testParameters(strideHarvester.getOperationTime(), 0.3f));
         strideHarvester.increaseOpTime();
-        System.out.println("Operation time after one additional increase: " + strideHarvester.getOperationTime() );
+        System.out.println("Operation time after one additional increase: " + strideHarvester.getOperationTime());
         System.out.println("Operation time check: " + testParameters(strideHarvester.getOperationTime(), 0.4f));
 
         System.out.println("\nChange Head: chopper -> shredder ");
@@ -110,14 +110,14 @@ public class Test {
         System.out.println("Operation time after 3 uses (3x .raiseCoveredDistance()s) " + strideHarvester.getOperationTime());
         System.out.println("Operation time check: " + testParameters(strideHarvester.getOperationTime(), 0.7f));
         strideHarvester.increaseOpTime();
-        System.out.println("Operation time after one additional increase: " + strideHarvester.getOperationTime() );
+        System.out.println("Operation time after one additional increase: " + strideHarvester.getOperationTime());
         System.out.println("Operation time check: " + testParameters(strideHarvester.getOperationTime(), 0.8f));
 
         System.out.println("\nChange Head: shredder -> shredder ");
         strideHarvester.changeHead(shredder3);
         System.out.println("Applied Head: " + shredder3.getClass());
-        System.out.println("\nHead information: " + (Integer) strideHarvester.readHeadInformation()+ " " + strideHarvester.getHeadMeaning());
-        System.out.println("Covered distance: " + (Integer)strideHarvester.giveCoveredDistance());
+        System.out.println("\nHead information: " + (Integer) strideHarvester.readHeadInformation() + " " + strideHarvester.getHeadMeaning());
+        System.out.println("Covered distance: " + (Integer) strideHarvester.giveCoveredDistance());
         System.out.println("Covered distance check: " + testParameters((Integer) strideHarvester.giveCoveredDistance(), 6));
         System.out.println("Operation time at start: " + strideHarvester.getOperationTime());
         System.out.println("Operation time check: " + testParameters(strideHarvester.getOperationTime(), 0.8f));
@@ -129,15 +129,79 @@ public class Test {
         System.out.println("Operation time after 3 uses (3x .raiseCoveredDistance()s) " + strideHarvester.getOperationTime());
         System.out.println("Operation time check: " + testParameters(strideHarvester.getOperationTime(), 1.1f));
         strideHarvester.increaseOpTime();
-        System.out.println("Operation time after one additional increase: " + strideHarvester.getOperationTime() );
+        System.out.println("Operation time after one additional increase: " + strideHarvester.getOperationTime());
         System.out.println("Operation time check: " + testParameters(strideHarvester.getOperationTime(), 1.2f));
 
+
+        //TESTS zu Forstbetrieb
+        Forstbetrieb ForstTest = new Forstbetrieb("Test");
+        WorkingHead Forstchopper1 = new Chopper(0.6f);
+        WorkingHead Forstchopper2 = new Chopper(0.7f);
+        WorkingHead Forstchopper3 = new Chopper(0.8f);
+        WorkingHead Forstchopper4 = new Chopper(0.9f);
+        WorkingHead Forstchopper5 = new Chopper(0.5f);
+        WorkingHead Forstchopper6 = new Chopper(0.93f);
+
+        WorkingHead Forstshredder1 = new Shredder(56);
+        WorkingHead Forstshredder2 = new Shredder(60);
+        WorkingHead Forstshredder3 = new Shredder(70);
+        WorkingHead Forstshredder4 = new Shredder(72);
+        WorkingHead Forstshredder5 = new Shredder(71);
+        WorkingHead Forstshredder6 = new Shredder(52);
+
+        WheelHarvester WheelTest1 = new WheelHarvester(Forstchopper1);
+        WheelHarvester WheelTest2 = new WheelHarvester(Forstshredder1);
+        StrideHarvester StrideTest1 = new StrideHarvester(Forstchopper2);
+        StrideHarvester StrideTest2 = new StrideHarvester(Forstshredder2);
+
+        ForstTest.add(WheelTest1);
+        ForstTest.add(WheelTest2);
+        ForstTest.add(StrideTest1);
+        ForstTest.add(StrideTest2);
+        WheelTest1.raiseCoveredDistance();
+        WheelTest2.raiseCoveredDistance();
+        WheelTest2.raiseCoveredDistance();
+        WheelTest2.raiseCoveredDistance();
+        StrideTest1.raiseCoveredDistance();
+        StrideTest1.raiseCoveredDistance();
+        StrideTest1.raiseCoveredDistance();
+        StrideTest2.raiseCoveredDistance();
+
+
+        //Tests zur Berechnung statischer Werte
+        System.out.println("" + ForstTest.durchschnittWegalle());
+        System.out.println("" + ForstTest.durchschnittWegalleHack());
+        System.out.println("" + ForstTest.durchschnittWegalleStücke());
+        System.out.println("" + ForstTest.durchschnittDicke());
+        System.out.println("" + ForstTest.durchschnittDickeRäder());
+        System.out.println("" + ForstTest.durchschnittDickeSchreiter());
+        System.out.println("" + ForstTest.durchschnittSchritte());
+        System.out.println("" + ForstTest.durchschnittSchritteHack());
+        System.out.println("" + ForstTest.durchschnittSchritteStücke());
+        System.out.println("" + ForstTest.durchschnittStundenalleHolzvollernter());
+        System.out.println("" + ForstTest.durchschnittStundenalleHack());
+        System.out.println("" + ForstTest.durchschnittStundenalleStücke());
+        System.out.println("" + ForstTest.durchschnittStundenalleRäder());
+        System.out.println("" + ForstTest.durchschnittStundenalleSchreitbeine());
+        System.out.println("" + ForstTest.maxStücklänge());
+        System.out.println("" + ForstTest.maxStücklängeRäder());
+        System.out.println("" + ForstTest.maxStücklängeSchreiter());
+        System.out.println("" + ForstTest.minStücklänge());
+        System.out.println("" + ForstTest.minStücklängeRäder());
+        System.out.println("" + ForstTest.minStücklängeSchreiter());
+
+        System.out.println(ForstTest);
+        ForstTest.remove(WheelTest1);
+        System.out.println(ForstTest);
+        ForstTest.change(4, Forstchopper3);
+        System.out.println(ForstTest);
+
     }
 
-    private static boolean testParameters(Float float1, Float float2){ //ToDo: float-Vergleiche
+    private static boolean testParameters(Float float1, Float float2) { //ToDo: float-Vergleiche
         return Math.abs(float1 - float2) < 0.00001;
     }
-    private static boolean testParameters(Integer int1, Integer int2){ //ToDo: Die Methoden auch iwie zusammen geben?
+    private static boolean testParameters(Integer int1, Integer int2) { //ToDo: Die Methoden auch iwie zusammen geben?
         return int1 == int2;
     }
 

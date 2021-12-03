@@ -70,6 +70,6 @@ public abstract class Harvester {
                 "\nworkingHead: " + workingHead.getClass();
     }
 
-    //David
+    //NACHB: Gibt den workinghead zurück
     public WorkingHead getWorkingHead(){return workingHead;}
 }
