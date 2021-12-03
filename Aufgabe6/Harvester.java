@@ -73,4 +73,7 @@ public abstract class Harvester {
                 "\noperationTime: " + operationTime +
                 "\nworkingHead: " + workingHead.getClass();
     }
+
+    //David
+    public WorkingHead getWorkingHead(){return workingHead;}
 }
