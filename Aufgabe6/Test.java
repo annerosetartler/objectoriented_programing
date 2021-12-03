@@ -133,31 +133,26 @@ public class Test {
         System.out.println("Operation time check: " + testParameters(strideHarvester.getOperationTime(), 1.2f));
 
 
-        //TESTS zu Forstbetrieb
-        Forstbetrieb ForstTest = new Forstbetrieb("Test");
+        //TODO Forsbetriebe anlegen
+        //TODO to string abändern sodass ich nicht 5000 mal den selben code schreibe
+        System.out.println("\nTests zu Forstbetrieb");
+        Forstbetrieb ForstTest1 = new Forstbetrieb("Test");
         WorkingHead Forstchopper1 = new Chopper(0.6f);
         WorkingHead Forstchopper2 = new Chopper(0.7f);
         WorkingHead Forstchopper3 = new Chopper(0.8f);
-        WorkingHead Forstchopper4 = new Chopper(0.9f);
-        WorkingHead Forstchopper5 = new Chopper(0.5f);
-        WorkingHead Forstchopper6 = new Chopper(0.93f);
 
         WorkingHead Forstshredder1 = new Shredder(56);
         WorkingHead Forstshredder2 = new Shredder(60);
-        WorkingHead Forstshredder3 = new Shredder(70);
-        WorkingHead Forstshredder4 = new Shredder(72);
-        WorkingHead Forstshredder5 = new Shredder(71);
-        WorkingHead Forstshredder6 = new Shredder(52);
 
         WheelHarvester WheelTest1 = new WheelHarvester(Forstchopper1);
         WheelHarvester WheelTest2 = new WheelHarvester(Forstshredder1);
         StrideHarvester StrideTest1 = new StrideHarvester(Forstchopper2);
         StrideHarvester StrideTest2 = new StrideHarvester(Forstshredder2);
 
-        ForstTest.add(WheelTest1);
-        ForstTest.add(WheelTest2);
-        ForstTest.add(StrideTest1);
-        ForstTest.add(StrideTest2);
+        ForstTest1.add(WheelTest1);
+        ForstTest1.add(WheelTest2);
+        ForstTest1.add(StrideTest1);
+        ForstTest1.add(StrideTest2);
         WheelTest1.raiseCoveredDistance();
         WheelTest2.raiseCoveredDistance();
         WheelTest2.raiseCoveredDistance();
@@ -168,33 +163,51 @@ public class Test {
         StrideTest2.raiseCoveredDistance();
 
 
-        //Tests zur Berechnung statischer Werte
-        System.out.println("" + ForstTest.durchschnittWegalle());
-        System.out.println("" + ForstTest.durchschnittWegalleHack());
-        System.out.println("" + ForstTest.durchschnittWegalleStücke());
-        System.out.println("" + ForstTest.durchschnittDicke());
-        System.out.println("" + ForstTest.durchschnittDickeRäder());
-        System.out.println("" + ForstTest.durchschnittDickeSchreiter());
-        System.out.println("" + ForstTest.durchschnittSchritte());
-        System.out.println("" + ForstTest.durchschnittSchritteHack());
-        System.out.println("" + ForstTest.durchschnittSchritteStücke());
-        System.out.println("" + ForstTest.durchschnittStundenalleHolzvollernter());
-        System.out.println("" + ForstTest.durchschnittStundenalleHack());
-        System.out.println("" + ForstTest.durchschnittStundenalleStücke());
-        System.out.println("" + ForstTest.durchschnittStundenalleRäder());
-        System.out.println("" + ForstTest.durchschnittStundenalleSchreitbeine());
-        System.out.println("" + ForstTest.maxStücklänge());
-        System.out.println("" + ForstTest.maxStücklängeRäder());
-        System.out.println("" + ForstTest.maxStücklängeSchreiter());
-        System.out.println("" + ForstTest.minStücklänge());
-        System.out.println("" + ForstTest.minStücklängeRäder());
-        System.out.println("" + ForstTest.minStücklängeSchreiter());
 
-        System.out.println(ForstTest);
-        ForstTest.remove(WheelTest1);
-        System.out.println(ForstTest);
-        ForstTest.change(4, Forstchopper3);
-        System.out.println(ForstTest);
+        System.out.println("Tests zur Berechnung statistischer Werte:\n");
+        System.out.println("\n" + ForstTest1.avgOperationTime(1));
+        System.out.println("\n" + ForstTest1.avgOperationTime(0));
+
+        System.out.println("\n" + ForstTest1.avgWayLength(1));
+        System.out.println("\n" + ForstTest1.avgWayLength(0));
+
+        System.out.println("\n" + ForstTest1.minMaxPiece());
+
+        System.out.println("\n" + ForstTest1.avgThickness());
+
+        System.out.println(ForstTest1);
+        ForstTest1.remove(3);
+        System.out.println(ForstTest1);
+        ForstTest1.change(4, Forstchopper3);
+        System.out.println(ForstTest1);
+
+
+        //KOMMENTAR: Erstellen von Forstbetrieben für Regionen
+        Forstbetrieb ForstTest2 = new Forstbetrieb("Test");
+        WorkingHead Forst2chopper1 = new Chopper(0.6f);
+        WorkingHead Forst2chopper2 = new Chopper(0.7f);
+
+        WorkingHead Forst2shredder1 = new Shredder(56);
+        WorkingHead Forst2shredder2 = new Shredder(60);
+
+        WheelHarvester Forst2WheelTest1 = new WheelHarvester(Forst2chopper1);
+        WheelHarvester Forst2WheelTest2 = new WheelHarvester(Forst2shredder1);
+        StrideHarvester Forst2StrideTest1 = new StrideHarvester(Forst2chopper2);
+        StrideHarvester Forst2StrideTest2 = new StrideHarvester(Forst2shredder2);
+
+        ForstTest2.add(Forst2WheelTest1);
+        ForstTest2.add(Forst2WheelTest2);
+        ForstTest2.add(Forst2StrideTest1);
+        ForstTest2.add(Forst2StrideTest2);
+        Forst2WheelTest1.raiseCoveredDistance();
+        Forst2WheelTest2.raiseCoveredDistance();
+        Forst2WheelTest2.raiseCoveredDistance();
+        Forst2WheelTest2.raiseCoveredDistance();
+        Forst2StrideTest1.raiseCoveredDistance();
+        Forst2StrideTest1.raiseCoveredDistance();
+        Forst2StrideTest1.raiseCoveredDistance();
+        Forst2StrideTest2.raiseCoveredDistance();
+
 
     }
 

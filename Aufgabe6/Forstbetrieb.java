@@ -30,19 +30,15 @@ public class Forstbetrieb {
         }
     }
 
-    //VORB: h != null
+    //VORB: num > 0
     //NACHB: entfernt einen Holzvollernter h aus der Liste, wenn dieser in der Liste vorhanden ist
-    public void remove(Harvester h) {
-        if (h == null) {
-            return;
-        } else {
-            boolean keepSearching = true;
-            for (Iterator it = holzvollernter.iterator(); it.hasNext() && keepSearching; ) {
-                Harvester hn = (Harvester) it.next();
-                if (h.equals(hn)) {
-                    it.remove();
-                    keepSearching = false;
-                }
+    public void remove(int num) {
+        boolean keepSearching = true;
+        for (Iterator it = holzvollernter.iterator(); it.hasNext() && keepSearching; ) {
+            Harvester hn = (Harvester) it.next();
+            if (num == hn.getHarvesterNumber()) {
+                it.remove();
+                keepSearching = false;
             }
         }
     }
@@ -61,287 +57,141 @@ public class Forstbetrieb {
         }
     }
 
+    public String avgOperationTime(int i) {
+        if (holzvollernter.getSize() == 0) {
+            throw new ArithmeticException("Division by 0!");
+        }
+        String result = "";
+        if (i == 1) {
+            float sumall = 0.0f;
+            for (Iterator it = holzvollernter.iterator(); it.hasNext(); ) {
+                Harvester hn = (Harvester) it.next();
+                sumall += hn.getOperationTime();
+            }
+            sumall = sumall / holzvollernter.getSize();
+            result = "Durchschnitt aller Holzvollernter zusammen und zusätzlich aufgeschlüsselt nach den Einsatzarten: \n";
+            result += "Alle: " + sumall + "\n";
+            result += "Schneider: " + avgOperationTimeObj(new Chopper(0.1f)) + "\n";
+            result += "Hacker: " + avgOperationTimeObj(new Shredder(1));
+
+        } else {
+            result = "Durchschnittliche Betriebsstundenanzahl aufgeschlüsselt nach Holzvollernterart:\n";
+            result += "Schreiter: " + avgOperationTimeObj(new StrideHarvester(new Chopper(0.1f))) + "\n";
+            result += "Radernter: " + avgOperationTimeObj(new WheelHarvester(new Chopper(0.1f)));
+        }
+        return result;
+    }
+
     //KOMMENTAR: Durchschnitt Betriebstunden alle Holzvollernter
-    public float durchschnittStundenalleHolzvollernter() {
+    private float avgOperationTimeObj(Object o) {
         float summe = 0.0f;
+        int counter = 0;
         for (Iterator it = holzvollernter.iterator(); it.hasNext(); ) {
             Harvester hn = (Harvester) it.next();
-            summe += hn.getOperationTime();
-        }
-        return summe / holzvollernter.getSize();
-    }
-
-    //KOMMENTAR: Durchscnitt Betriebstunden aller Holzvollernter die Holz in stücke schneiden
-    public float durchschnittStundenalleStücke() {
-        float summe = 0.0f;
-        float counter = 0.0f;
-        for (Iterator it = holzvollernter.iterator(); it.hasNext(); ) {
-            Harvester hn = (Harvester) it.next();
-            if (hn.getWorkingHead() instanceof Chopper) {
+            if (hn.getClass().equals(o.getClass())) {
+                counter++;
+                summe += hn.getOperationTime();
+            }
+            if (hn.getWorkingHead().getClass().equals(o.getClass())) {
                 counter++;
                 summe += hn.getOperationTime();
             }
         }
-        return summe / counter;
-    }
-
-    //KOMMENTAR: Durchschnitt Betriebstunden aller Holzvollernter die Holz in Hack schneiden
-    public float durchschnittStundenalleHack() {
-        float summe = 0.0f;
-        float counter = 0.0f;
-        for (Iterator it = holzvollernter.iterator(); it.hasNext(); ) {
-            Harvester hn = (Harvester) it.next();
-            if (hn.getWorkingHead() instanceof Shredder) {
-                counter++;
-                summe += hn.getOperationTime();
-            }
+        if (counter == 0) {
+            return 0.0f;
         }
         return summe / counter;
     }
 
-    //KOMMENTAR: Durchschnitt Betriebstunden aller Holzvollernter mit Rädern
-    public float durchschnittStundenalleRäder() {
-        float summe = 0.0f;
-        float counter = 0.0f;
-        for (Iterator it = holzvollernter.iterator(); it.hasNext(); ) {
-            Harvester hn = (Harvester) it.next();
-            if (hn instanceof WheelHarvester) {
-                counter++;
-                summe += hn.getOperationTime();
-            }
+    public String avgWayLength(int i) {
+        String result = "";
+        if (i == 1) {
+            result = "Durchschnittliche Wegstrecker aller Radernter und zusätzlich aufgeschlüsselt nach den Einsatzarten: \n";
+            result += "Alle: " + avgWayLengthObj(new WheelHarvester(new Shredder(1)), null) + "\n";
+            result += "Schneider: " + avgWayLengthObj(new WheelHarvester(new Shredder(1)), new Chopper(0.1f)) + "\n";
+            result += "Hacker: " + avgWayLengthObj(new WheelHarvester(new Shredder(1)), new Shredder(1));
+        } else {
+            result = "Durchschnittliche Schritte aller Schreiter und zusätzlich aufgeschlüsselt nach den Einsatzarten: \n";
+            result += "Alle: " + avgWayLengthObj(new StrideHarvester(new Shredder(1)), null) + "\n";
+            result += "Schneider: " + avgWayLengthObj(new StrideHarvester(new Shredder(1)), new Chopper(0.1f)) + "\n";
+            result += "Hacker" + avgWayLengthObj(new StrideHarvester(new Shredder(1)), new Shredder(1));
         }
-        return summe / counter;
+        return result;
     }
 
-    //KOMMENTAR: Durchschnitt Betriebstunden aller Holzvollernter mit schreitbeinen
-    public float durchschnittStundenalleSchreitbeine() {
-        float summe = 0.0f;
-        float counter = 0.0f;
+    private Number avgWayLengthObj(Object o, Object o2) {
+        Number summe;
+        Float summef = 0.0f;
+        Integer summei = 0;
+        Integer counter = 0;
         for (Iterator it = holzvollernter.iterator(); it.hasNext(); ) {
             Harvester hn = (Harvester) it.next();
-            if (hn instanceof StrideHarvester) {
+            if (hn.getClass().equals(o.getClass()) && (o2 == null ? true : hn.getWorkingHead().getClass().equals(o2.getClass()))) {
                 counter++;
-                summe += hn.getOperationTime();
-            }
-        }
-        return summe / counter;
-    }
-
-    //KOMMENTAR: Durchschnitt Wegstrecker aller Holzvollernter mit Räder
-    public float durchschnittWegalle() {
-        float summe = 0.0f;
-        float counter = 0.0f;
-        for (Iterator it = holzvollernter.iterator(); it.hasNext(); ) {
-            Harvester hn = (Harvester) it.next();
-            if (hn instanceof WheelHarvester) {
-                counter++;
-                summe += ((WheelHarvester) hn).giveCoveredDistance();
-            }
-        }
-        return summe / counter;
-    }
-
-    //KOMMENTAR: Durchschnitt Wegstrecker aller Holzvollernter mit Räder die Holz in Stücke schneiden
-    public float durchschnittWegalleStücke() {
-        float summe = 0.0f;
-        float counter = 0.0f;
-        for (Iterator it = holzvollernter.iterator(); it.hasNext(); ) {
-            Harvester hn = (Harvester) it.next();
-            if (hn instanceof WheelHarvester && hn.getWorkingHead() instanceof Chopper) {
-                counter++;
-                summe += ((WheelHarvester) hn).giveCoveredDistance();
-            }
-        }
-        return summe / counter;
-    }
-
-    //KOMMENTAR: Durchschnitt Wegstrecker aller Holzvollernter mit Räder die Holz in Stücke schneiden
-    public float durchschnittWegalleHack() {
-        float summe = 0.0f;
-        float counter = 0.0f;
-        for (Iterator it = holzvollernter.iterator(); it.hasNext(); ) {
-            Harvester hn = (Harvester) it.next();
-            if (hn instanceof WheelHarvester && hn.getWorkingHead() instanceof Shredder) {
-                counter++;
-                summe += ((WheelHarvester) hn).giveCoveredDistance();
-            }
-        }
-        return summe / counter;
-    }
-
-    //KOMMENTAR: Durchschnitt Schritte aller Holzvollernter mit Beinen
-    public float durchschnittSchritte() {
-        float summe = 0.0f;
-        float counter = 0.0f;
-        for (Iterator it = holzvollernter.iterator(); it.hasNext(); ) {
-            Harvester hn = (Harvester) it.next();
-            if (hn instanceof StrideHarvester) {
-                counter++;
-                summe += ((StrideHarvester) hn).giveCoveredDistance();
-            }
-        }
-        return summe / counter;
-    }
-
-    //KOMMENTAR: Durchschnitt Schritte aller Holzvollernter mit Beinen die Holz in Stücke schneiden
-    public float durchschnittSchritteStücke() {
-        float summe = 0.0f;
-        float counter = 0.0f;
-        for (Iterator it = holzvollernter.iterator(); it.hasNext(); ) {
-            Harvester hn = (Harvester) it.next();
-            if (hn instanceof StrideHarvester && hn.getWorkingHead() instanceof Chopper) {
-                counter++;
-                summe += ((StrideHarvester) hn).giveCoveredDistance();
-            }
-        }
-        return summe / counter;
-    }
-
-    //KOMMENTAR: Durchschnitt Schritte aller Holzvollernter mit Beinen die Holz in Stücke schneiden
-    public float durchschnittSchritteHack() {
-        float summe = 0.0f;
-        float counter = 0.0f;
-        for (Iterator it = holzvollernter.iterator(); it.hasNext(); ) {
-            Harvester hn = (Harvester) it.next();
-            if (hn instanceof StrideHarvester && hn.getWorkingHead() instanceof Shredder) {
-                counter++;
-                summe += ((StrideHarvester) hn).giveCoveredDistance();
-            }
-        }
-        return summe / counter;
-    }
-
-    //KOMMENTAR: Größte maximale Stücklänge insgesamt
-    public float maxStücklänge() {
-        float max = 0.0f;
-        for (Iterator it = holzvollernter.iterator(); it.hasNext(); ) {
-            Harvester hn = (Harvester) it.next();
-            if (hn.getWorkingHead() instanceof Chopper) {
-                if (max < ((Chopper) hn.getWorkingHead()).readMax()) {
-                    max = ((Chopper) hn.getWorkingHead()).readMax();
+                if (hn instanceof WheelHarvester) {
+                    summef += (Float) hn.giveCoveredDistance();
+                } else {
+                    summei += (Integer) hn.giveCoveredDistance();
                 }
             }
         }
-        return max;
+        if (counter == 0) {
+            return 0.0f;
+        }
+        summe = (Number) (Math.max(summef, summei) / counter);
+        return summe;
     }
 
-    //KOMMENTAR: Größte maximale Stücklänge Räder
-    public float maxStücklängeRäder() {
-        float max = 0.0f;
+    public String minMaxPiece() {
+        String result = "";
+        result = "Durchschnittliche Wegstrecker aller Radernter und zusätzlich aufgeschlüsselt nach den Einsatzarten: \n";
+        result += "Alle: \nMin: " + minMaxPieceObj(new Chopper(0.1f), null, 1) + "\n";
+        result += "Max: " + minMaxPieceObj(new Chopper(0.1f), null, 0) + "\n";
+        result += "Radernter: \nMin: " + minMaxPieceObj(new Chopper(0.1f), new WheelHarvester(new Chopper(0.1f)), 1) + "\n";
+        result += "Max: " + minMaxPieceObj(new Chopper(0.1f), new WheelHarvester(new Chopper(0.1f)), 0) + "\n";
+        result += "Schreiter: \nMin: " + minMaxPieceObj(new Chopper(0.1f), new StrideHarvester(new Chopper(0.1f)), 1) + "\n";
+        result += "Max: " + minMaxPieceObj(new Chopper(0.1f), new StrideHarvester(new Chopper(0.1f)), 0) + "\n";
+        return result;
+    }
+
+    private Float minMaxPieceObj(Object o, Object o2, int i) {
+        Float minmax = 0.0f;
+        minmax = i == 0 ? 0.0f : Float.MAX_VALUE;
         for (Iterator it = holzvollernter.iterator(); it.hasNext(); ) {
             Harvester hn = (Harvester) it.next();
-            if (hn.getWorkingHead() instanceof Chopper && hn instanceof WheelHarvester) {
-                if (max < ((Chopper) hn.getWorkingHead()).readMax()) {
-                    max = ((Chopper) hn.getWorkingHead()).readMax();
+            if (hn.getWorkingHead().getClass().equals(o.getClass()) && (o2 == null ? true : hn.getClass().equals(o2.getClass()))) {
+                if (i == 0) {
+                    minmax = Math.max(minmax, (Float) hn.getWorkingHead().readMax());
+                } else {
+                    minmax = Math.min(minmax, (Float) hn.getWorkingHead().readMax());
                 }
             }
         }
-        return max;
+        return minmax;
     }
 
-    //KOMMENTAR: Größte maximale Stücklänge Schreiter
-    public float maxStücklängeSchreiter() {
-        float max = 0.0f;
-        for (Iterator it = holzvollernter.iterator(); it.hasNext(); ) {
-            Harvester hn = (Harvester) it.next();
-            if (hn.getWorkingHead() instanceof Chopper && hn instanceof StrideHarvester) {
-                if (max < ((Chopper) hn.getWorkingHead()).readMax()) {
-                    max = ((Chopper) hn.getWorkingHead()).readMax();
-                }
-            }
-        }
-        return max;
+    public String avgThickness(){
+        String result = "Die durchschnittliche Baumdicke aller Holzvollernter mit Hackschnitzelkopf eines Forstbetriebs insgesamt und aufgeschlüsselt nach Art des Holzvollernters: \n";
+        result += "Alle: " + avgThicknessObj(new Shredder(1), null) + "\n";
+        result += "Radernter: " + avgThicknessObj(new Shredder(1), new WheelHarvester(new Shredder(1))) + "\n";
+        result += "Schreiter: " +avgThicknessObj(new Shredder(1), new StrideHarvester(new Shredder(1))) + "\n";
+        return result;
     }
 
-
-    //KOMMENTAR: Kleinste maximale Stücklänge insgesamt
-    public float minStücklänge() {
-        float min = 0.0f;
+    private Float avgThicknessObj(Object o, Object o2) {
+        Float sum = 0.0f;
+        Integer counter = 0;
         for (Iterator it = holzvollernter.iterator(); it.hasNext(); ) {
             Harvester hn = (Harvester) it.next();
-            if (hn.getWorkingHead() instanceof Chopper) {
-                if (min == 0.0f) {
-                    min = ((Chopper) hn.getWorkingHead()).readMax();
-                } else if (min > ((Chopper) hn.getWorkingHead()).readMax()) {
-                    min = ((Chopper) hn.getWorkingHead()).readMax();
-                }
-            }
-        }
-        return min;
-    }
-
-    //KOMMENTAR: Kleinste maximale Stücklänge Räder
-    public float minStücklängeRäder() {
-        float min = 0.0f;
-        for (Iterator it = holzvollernter.iterator(); it.hasNext(); ) {
-            Harvester hn = (Harvester) it.next();
-            if (hn.getWorkingHead() instanceof Chopper && hn instanceof WheelHarvester) {
-                if (min == 0.0f) {
-                    min = ((Chopper) hn.getWorkingHead()).readMax();
-                } else if (min > ((Chopper) hn.getWorkingHead()).readMax()) {
-                    min = ((Chopper) hn.getWorkingHead()).readMax();
-                }
-            }
-        }
-        return min;
-    }
-
-    //KOMMENTAR: Kleinste maximale Stücklänge Schreiter
-    public float minStücklängeSchreiter() {
-        float min = 0.0f;
-        for (Iterator it = holzvollernter.iterator(); it.hasNext(); ) {
-            Harvester hn = (Harvester) it.next();
-            if (hn.getWorkingHead() instanceof Chopper && hn instanceof StrideHarvester) {
-                if (min == 0.0f) {
-                    min = ((Chopper) hn.getWorkingHead()).readMax();
-                } else if (min > ((Chopper) hn.getWorkingHead()).readMax()) {
-                    min = ((Chopper) hn.getWorkingHead()).readMax();
-                }
-            }
-        }
-        return min;
-    }
-
-    //KOMMENTAR: Durchschnittliche Baumdicke aller Holzvollernter
-    public float durchschnittDicke() {
-        float summe = 0.0f;
-        float counter = 0.0f;
-        for (Iterator it = holzvollernter.iterator(); it.hasNext(); ) {
-            Harvester hn = (Harvester) it.next();
-            if (hn.getWorkingHead() instanceof Shredder) {
+            if (hn.getWorkingHead().getClass().equals(o.getClass()) && (o2 == null ? true : hn.getClass().equals(o2.getClass()))) {
                 counter++;
-                summe += ((Shredder) hn.getWorkingHead()).readMax();
+                sum += (Integer) hn.getWorkingHead().readMax();
             }
         }
-        return summe / counter;
-    }
-
-    //KOMMENTAR: Durchschnittliche Baumdicke aller Holzvollernter mit Rädern
-    public float durchschnittDickeRäder() {
-        float summe = 0.0f;
-        float counter = 0.0f;
-        for (Iterator it = holzvollernter.iterator(); it.hasNext(); ) {
-            Harvester hn = (Harvester) it.next();
-            if (hn.getWorkingHead() instanceof Shredder && hn instanceof WheelHarvester) {
-                counter++;
-                summe += ((Shredder) hn.getWorkingHead()).readMax();
-            }
+        if (counter == 0){
+            return 0.0f;
         }
-        return summe / counter;
-    }
-
-    //KOMMENTAR: Durchschnittliche Baumdicke aller Holzvollernter mit Rädern
-    public float durchschnittDickeSchreiter() {
-        float summe = 0.0f;
-        float counter = 0.0f;
-        for (Iterator it = holzvollernter.iterator(); it.hasNext(); ) {
-            Harvester hn = (Harvester) it.next();
-            if (hn.getWorkingHead() instanceof Shredder && hn instanceof StrideHarvester) {
-                counter++;
-                summe += ((Shredder) hn.getWorkingHead()).readMax();
-            }
-        }
-        return summe / counter;
+        return (Float)(sum / counter);
     }
 
     public String toString() {
@@ -358,5 +208,9 @@ public class Forstbetrieb {
         }
         s += " }";
         return s;
+    }
+
+    public String getName() {
+        return name;
     }
 }
