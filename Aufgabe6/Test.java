@@ -159,22 +159,30 @@ public class Test {
         fbWeidau.add(WheelWe1);
 
         System.out.println(fbOberndorf.getName() + "nach dem befüllen: Größe jetzt 4: " + testParameters(4, fbOberndorf.getSize()));
+        System.out.println(fbOberndorf.toString());
         System.out.println(fbStJohann.getName() + "nach dem befüllen: Größe jetzt 2: " + testParameters(2, fbStJohann.getSize()));
+        System.out.println(fbStJohann.toString());
         System.out.println(fbWeidau.getName() + "nach dem befüllen: Größe jetzt 3: " + testParameters(3, fbWeidau.getSize()));
+        System.out.println(fbWeidau.toString());
         fbOberndorf.add(null);
         System.out.println(fbOberndorf.getName() + "nach einfügen von null: Größe immer noch 4: " + testParameters(4, fbOberndorf.getSize()));
+        System.out.println(fbStJohann.toString());
 
         fbStJohann.add(WheelSt1);
         System.out.println("Befüllen mit bereits vorhandenem Element: Größe immer noch 2: " + testParameters(2, fbStJohann.getSize()));
+        System.out.println(fbStJohann.toString());
 
         System.out.println("Tests zu remove in Forstbetrieb: ");
         fbOberndorf.remove(3);
         System.out.println("Entfernen eines Elements: Größe jetzt 3: " + testParameters(3, fbOberndorf.getSize()));
+        System.out.println(fbOberndorf.toString());
 
         System.out.println("Tests zum ändern von Informationen eines Holzvollernters in Forstbetrieb: ");
         System.out.println("Ändern der Information eines Holzvollernters:\nShredder -> Chopper: Davor:  " + WheelOb2.getWorkingHead().getClass());
         fbOberndorf.change(4, new Chopper(0.8f));
         System.out.println("Shredder -> Chopper: Danach: " + WheelOb2.getWorkingHead().getClass());
+        System.out.println(fbOberndorf.toString());
+
         fbOberndorf.add(WheelOb1);
         fbOberndorf.change(4, new Shredder(32));
 
