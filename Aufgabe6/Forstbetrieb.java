@@ -104,6 +104,9 @@ public class Forstbetrieb {
     }
 
     public String avgWayLength(int i) {
+        if (holzvollernter.getSize() == 0) {
+            throw new ArithmeticException("Division by 0!");
+        }
         String result = "";
         if (i == 1) {
             result = "Durchschnittliche Wegstrecker aller Radernter und zusätzlich aufgeschlüsselt nach den Einsatzarten: \n";
@@ -119,7 +122,7 @@ public class Forstbetrieb {
         return result;
     }
 
-    private Number avgWayLengthObj(Object o, Object o2) {
+    private Number avgWayLengthObj(Harvester o, WorkingHead o2) {
         Number summe;
         Float summef = 0.0f;
         Integer summei = 0;
@@ -154,7 +157,7 @@ public class Forstbetrieb {
         return result;
     }
 
-    private Float minMaxPieceObj(Object o, Object o2, int i) {
+    private Float minMaxPieceObj(WorkingHead o, Harvester o2, int i) {
         Float minmax = 0.0f;
         minmax = i == 0 ? 0.0f : Float.MAX_VALUE;
         for (Iterator it = holzvollernter.iterator(); it.hasNext(); ) {
@@ -171,6 +174,9 @@ public class Forstbetrieb {
     }
 
     public String avgThickness(){
+        if (holzvollernter.getSize() == 0) {
+            throw new ArithmeticException("Division by 0!");
+        }
         String result = "Die durchschnittliche Baumdicke aller Holzvollernter mit Hackschnitzelkopf eines Forstbetriebs insgesamt und aufgeschlüsselt nach Art des Holzvollernters: \n";
         result += "Alle: " + avgThicknessObj(new Shredder(1), null) + "\n";
         result += "Radernter: " + avgThicknessObj(new Shredder(1), new WheelHarvester(new Shredder(1))) + "\n";
@@ -178,7 +184,7 @@ public class Forstbetrieb {
         return result;
     }
 
-    private Float avgThicknessObj(Object o, Object o2) {
+    private Float avgThicknessObj(WorkingHead o, Harvester o2) {
         Float sum = 0.0f;
         Integer counter = 0;
         for (Iterator it = holzvollernter.iterator(); it.hasNext(); ) {
@@ -196,9 +202,9 @@ public class Forstbetrieb {
 
     public String toString() {
         if (holzvollernter.getSize() == 0) {
-            return "{ }";
+            return name + ": { }";
         }
-        String s = "{ ";
+        String s = name + ": { ";
         Iterator it = holzvollernter.iterator();
         Harvester hn = (Harvester) it.next();
         s += hn.toString();

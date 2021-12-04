@@ -17,39 +17,40 @@ public class Region {
     public void add(Forstbetrieb f){
         if(f == null){
             return;
-        }else{
-            for (Iterator it = forstbetriebe.iterator(); it.hasNext(); ) {
-                Forstbetrieb fb = (Forstbetrieb) it.next();
-                if (f.equals(fb)){
-                    return;
-                }
-                forstbetriebe.add((Forstbetrieb)f);
+        }
+        for (Iterator it = forstbetriebe.iterator(); it.hasNext(); ) {
+            Forstbetrieb fb = (Forstbetrieb) it.next();
+            if (f.equals(fb)){
+                return;
+            }
+        }
+        forstbetriebe.add((Forstbetrieb)f);
+    }
+
+    //VORB: n != null
+    //NACHB: entfernt einen Forstbetrieb f aus der Liste, wenn dieser in der Liste vorhanden ist
+    public void remove(String n){
+        boolean keepSearching = true;
+        for (Iterator it = forstbetriebe.iterator(); it.hasNext() && keepSearching; ) {
+            Forstbetrieb fb = (Forstbetrieb) it.next();
+            if (n.equals(fb.getName())){
+                it.remove();
+                keepSearching = false;
             }
         }
     }
 
-    //NACHB: entfernt einen Forstbetrieb f aus der Liste, wenn dieser in der Liste vorhanden ist
-    public void remove(Forstbetrieb f){
-        if(f == null){
-            return;
-        }else{
-            boolean keepSearching = true;
-            for (Iterator it = forstbetriebe.iterator(); it.hasNext() && keepSearching; ) {
-                Forstbetrieb fb = (Forstbetrieb) it.next();
-                if (f.equals(fb)){
-                    it.remove();
-                    keepSearching = false;
-                }
-            }
-        }
+    //NACHB: gibt die Anzahl der Forstbetriebe einer Region zurück
+    public int getSize(){
+        return forstbetriebe.getSize();
     }
 
     //NACHB: gibt den Inhalt von forstbetriebe als String zurück
     public String toString(){
         if(forstbetriebe.getSize() == 0){
-            return "{ }";
+            return name + ": { }";
         }
-        String s = "{ ";
+        String s = name + ": { ";
         Iterator it = forstbetriebe.iterator();
         Forstbetrieb fb = (Forstbetrieb) it.next();
         s+= fb.toString();

@@ -157,7 +157,6 @@ public class Test {
         StrideTest2.raiseCoveredDistance();
 
 
-
         System.out.println("Tests zur Berechnung statistischer Werte:\n");
         System.out.println("\n" + ForstTest1.avgOperationTime(1));
         System.out.println("\n" + ForstTest1.avgOperationTime(0));
@@ -202,6 +201,100 @@ public class Test {
         Forst2StrideTest1.raiseCoveredDistance();
         Forst2StrideTest2.raiseCoveredDistance();
 
+        //TODO: ein statistischer Test, der eine Exception wirft > also auf einem leeren Forstbetrieb mit try catch
+        //      schaut es euch an, ob es so passt für euch, hab mal die exception angelegt
+        Forstbetrieb exceptionStats = new Forstbetrieb("excepetion");
+        try{
+            exceptionStats.avgOperationTime(1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        //TODO: Forstebtriebe befüllen
+        Forstbetrieb fb1 = new Forstbetrieb("Angerer");
+        Forstbetrieb fb2 = new Forstbetrieb("Maurer");
+        Forstbetrieb fb3 = new Forstbetrieb("Holzer");
+        Forstbetrieb fb4 = new Forstbetrieb("ForstGmbH");
+        Forstbetrieb fb5 = new Forstbetrieb("Quercusse");
+        Forstbetrieb fb6 = new Forstbetrieb("Fagusse");
+
+        //KOMMENTAR: Tests zu Regionen
+        System.out.println("Tests zu Regionen:\n");
+        Region r1 = new Region("Waldviertel");
+        Region r2 = new Region("Mostviertel");
+        Region r3 = new Region("Auvergne");
+
+        r1.add(fb1);r1.add(fb2);r1.add(fb3);
+        r2.add(fb4);
+        r3.add(fb5);r3.add(fb6);
+
+        System.out.println(r1.toString());
+        System.out.println(r2.toString());
+        System.out.println(r3.toString());
+
+        System.out.println();
+
+        System.out.println("Tests zu add() in Regionen:\n");
+        int r1Size = r1.getSize();
+        r1.add(fb1);
+        int r1SizeAfterAdd = r1.getSize();
+        System.out.println(r1.toString());
+        System.out.println("Bereits vorhandenes Element noch einmal hinzugefügt: Size bleibt gleich: " + testParameters(r1Size,r1SizeAfterAdd));
+
+        System.out.println();
+
+        int r2Size = r2.getSize();
+        r2.add(fb3);
+        int r2SizeAfterAdd = r2.getSize();
+        System.out.println(r2.toString());
+        System.out.println("Neues Element hinzugefügt: Size erhöht: " + testParameters(r2Size,r2SizeAfterAdd,0));
+
+        System.out.println();
+
+        int r3Size = r3.getSize();
+        r3.add(null);
+        int r3SizeAfterAdd = r3.getSize();
+        System.out.println(r3.toString());
+        System.out.println("Null hinzufügen: Size bleibt gleich: " + testParameters(r3Size,r3SizeAfterAdd));
+
+        System.out.println();
+        System.out.println("Tests zu remove() in Regionen:\n");
+
+        System.out.println("Element am Anfang der Liste entfernen:");
+        System.out.println("Region vor remove(): " + r1.toString());
+        r1.remove(fb1.getName());
+        System.out.println("Region nach remove(): " + r1.toString());
+        int r1AfterRemove = r1.getSize();
+        System.out.println("Element entfernt: Size verringert: " + testParameters(r1SizeAfterAdd,r1AfterRemove,1));
+
+        System.out.println();
+        System.out.println("Element am Ende der Liste entfernen:");
+        System.out.println("Region vor remove(): " + r2.toString());
+        r2.remove(fb3.getName());
+        System.out.println("Region nach remove(): " + r2.toString());
+        int r2AfterRemove = r2.getSize();
+        System.out.println("Element entfernt: Size verringert: " + testParameters(r2SizeAfterAdd,r2AfterRemove,1));
+
+        System.out.println();
+        System.out.println("Element innerhalb der Liste entfernen:");
+        System.out.println("Vorher hinzufügen eines Elements zur Region 'Waldviertel':");
+        r1.add(fb1);
+        r1SizeAfterAdd = r1.getSize();
+        System.out.println(r1.toString());
+        System.out.println("Region vor remove(): " + r1.toString());
+        r1.remove(fb3.getName());
+        r1AfterRemove = r1.getSize();
+        System.out.println("Region nach remove(): " + r1.toString());
+        System.out.println("Element entfernt: Size verringert: " + testParameters(r1SizeAfterAdd,r1AfterRemove,1));
+
+        System.out.println();
+        System.out.println("Ein Element aus der Liste entfernen, das nicht in der Liste vorkommt:");
+        System.out.println("Region vor remove(): " + r2.toString());
+        r2.remove("RoburHack");
+        System.out.println("Region nach remove(): " + r2.toString());
+        int r2ARem = r2.getSize();
+        System.out.println("Nicht existierendes Element entfernt: Size bleibt gleich: " + testParameters(r2AfterRemove,r2ARem));
+
 
     }
 
@@ -212,4 +305,33 @@ public class Test {
         return int1 == int2;
     }
 
+    //NACHB: wenn var == 0, dann wird überprüft, ob i1 < i2 ist
+    //       sonst wird überprüft, ob i1 > i2 ist
+    //       Wenn Überprüfung true ist wird der String "Test erfolgreich!" zurückgegeben
+    //       sonst ist Rückgabestring: "Test fehlgeschlagen!"
+    private static String testParameters(int i1, int i2, int var){
+        if(var == 0){
+            return i1 < i2? "Test erfolgreich!": "Test fehlgeschlagen!";
+        }else{
+            return i1 > i2? "Test erfolgreich!": "Test fehlgeschlagen!";
+        }
+    }
+
 }
+
+/*
+************************************************************************************************************************
+Arbeitsaufteilung Aufgabe 6:
+
+Konzeption Programmstruktur: Annerose, David, Maria
+Zusicherungen und Implementierung von Harvester und WorkingHead (samt aller Untertypen): Annerose
+Tests zu Harvester und WorkingHead: Annerose
+Zusicherungen und Implementierung von Forstbetrieb: David
+Tests zu Forstbetrieb: David
+Zusicherungen und Implementierung von Region und List: Maria
+Tests zu Region: Maria
+//TODO ist es ok, wenn wir es so aufschreiben?
+statistische Methoden in Forstbetrieb: David & (Annerose & Maria)
+
+**************************************************************************************************************************
+ */
