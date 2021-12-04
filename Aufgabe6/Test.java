@@ -138,15 +138,12 @@ public class Test {
 
         Forstbetrieb fbWeidau = new Forstbetrieb("FBWeidau");
         WheelHarvester WheelWe1 = new WheelHarvester(new Chopper(0.3f));
-        WheelHarvester WheelWe2 = new WheelHarvester(new Shredder(8));
         StrideHarvester StrideWe1 = new StrideHarvester(new Chopper(0.8f));
         StrideHarvester StrideWe2 = new StrideHarvester(new Shredder(2));
 
         Forstbetrieb fbStJohann = new Forstbetrieb("FBSt.Johann");
         WheelHarvester WheelSt1 = new WheelHarvester(new Chopper(0.4f));
         WheelHarvester WheelSt2 = new WheelHarvester(new Shredder(32));
-        StrideHarvester StrideSt1 = new StrideHarvester(new Chopper(0.2f));
-        StrideHarvester StrideSt2 = new StrideHarvester(new Shredder(22));
 
         System.out.println("Tests zu add in Forstbetrieb: ");
         int f1 = fbOberndorf.getSize();
@@ -178,9 +175,11 @@ public class Test {
         System.out.println("Ändern der Information eines Holzvollernters:\nShredder -> Chopper: Davor:  " + WheelOb2.getWorkingHead().getClass());
         fbOberndorf.change(4, new Chopper(0.8f));
         System.out.println("Shredder -> Chopper: Danach: " + WheelOb2.getWorkingHead().getClass());
-        System.out.println(fbOberndorf.toString());
+        fbOberndorf.add(WheelOb1);
+        fbOberndorf.change(4, new Shredder(32));
 
         WheelOb1.raiseCoveredDistance();
+        WheelOb2.raiseCoveredDistance();
         WheelOb2.raiseCoveredDistance();
         WheelOb2.raiseCoveredDistance();
         WheelOb2.raiseCoveredDistance();
@@ -188,9 +187,142 @@ public class Test {
         StrideOb1.raiseCoveredDistance();
         StrideOb1.raiseCoveredDistance();
         StrideOb2.raiseCoveredDistance();
+        StrideOb2.raiseCoveredDistance();
+        System.out.println(fbOberndorf.toString());
 
         System.out.println("\nBerechnung statistischer Werte zu fbOberndorf:\n");
+        System.out.println("Berechnung per Hand zur Kontrolle:\n");
+        System.out.println("Durchschnittliche Betriebstundenanzahl aller Holzvollernter zusammen und zusätzlich aufgeschlüsselt nach den Einsatzarten: \n" +
+                "Alle: 0.25\n" +
+                "Schneider: 0.2\n" +
+                "Hacker: 0.3\n" +
+                "\n" +
+                "Durchschnittliche Betriebsstundenanzahl aufgeschlüsselt nach Holzvollernterart:\n" +
+                "Schreiter: 0.25\n" +
+                "Radernter: 0.25\n" +
+                "\n" +
+                "Durchschnittliche Wegstrecker aller Radernter und zusätzlich aufgeschlüsselt nach den Einsatzarten: \n" +
+                "Alle: 0.75\n" +
+                "Schneider: 0.3\n" +
+                "Hacker: 1.2\n" +
+                "\n" +
+                "Durchschnittliche Schritte aller Schreiter und zusätzlich aufgeschlüsselt nach den Einsatzarten: \n" +
+                "Alle: 2.5\n" +
+                "Schneider: 3.0\n" +
+                "Hacker: 2.0\n" +
+                "\n" +
+                "Gibt die kleinste und größte maximale Stücklänge aller Holzvollernter mit Schneidearbeitskopf eines Forstbetriebs insgesamt und aufgeschlüsselt nach Art des Holzvollernters an: \n" +
+                "Alle: \n" +
+                "Min: 0.6\n" +
+                "Max: 0.7\n" +
+                "Radernter: \n" +
+                "Min: 0.6\n" +
+                "Max: 0.6\n" +
+                "Schreiter: \n" +
+                "Min: 0.7\n" +
+                "Max: 0.7\n" +
+                "\n" +
+                "Die durchschnittliche Baumdicke aller Holzvollernter mit Hackschnitzelkopf eines Forstbetriebs insgesamt und aufgeschlüsselt nach Art des Holzvollernters: \n" +
+                "Alle: 46.0\n" +
+                "Radernter: 32.0\n" +
+                "Schreiter: 60.0\n");
+        System.out.println("Berechnung durch Methoden:\n");
         System.out.println(fbOberndorf.statToString());
+
+        WheelSt1.raiseCoveredDistance();
+        WheelSt1.raiseCoveredDistance();
+        WheelSt2.raiseCoveredDistance();
+        WheelSt2.raiseCoveredDistance();
+        WheelSt2.raiseCoveredDistance();
+
+        System.out.println("\nBerechnung statistischer Werte zu fbSt.Johann:\n");
+        System.out.println("Berechnung per Hand zur Kontrolle:\n");
+        System.out.println("Durchschnittliche Betriebstundenanzahl aller Holzvollernter zusammen und zusätzlich aufgeschlüsselt nach den Einsatzarten: \n" +
+                "Alle: 0.25\n" +
+                "Schneider: 0.2\n" +
+                "Hacker: 0.3\n" +
+                "\n" +
+                "Durchschnittliche Betriebsstundenanzahl aufgeschlüsselt nach Holzvollernterart:\n" +
+                "Schreiter: 0.0\n" +
+                "Radernter: 0.25\n" +
+                "\n" +
+                "Durchschnittliche Wegstrecker aller Radernter und zusätzlich aufgeschlüsselt nach den Einsatzarten: \n" +
+                "Alle: 0.75\n" +
+                "Schneider: 0.6\n" +
+                "Hacker: 0.90000004\n" +
+                "\n" +
+                "Durchschnittliche Schritte aller Schreiter und zusätzlich aufgeschlüsselt nach den Einsatzarten: \n" +
+                "Alle: 0.0\n" +
+                "Schneider: 0.0\n" +
+                "Hacker: 0.0\n" +
+                "\n" +
+                "Gibt die kleinste und größte maximale Stücklänge aller Holzvollernter mit Schneidearbeitskopf eines Forstbetriebs insgesamt und aufgeschlüsselt nach Art des Holzvollernters an: \n" +
+                "Alle: \n" +
+                "Min: 0.4\n" +
+                "Max: 0.4\n" +
+                "Radernter: \n" +
+                "Min: 0.4\n" +
+                "Max: 0.4\n" +
+                "Schreiter: \n" +
+                "Min: 3.4028235E38\n" +
+                "Max: 0.0\n" +
+                "\n" +
+                "Die durchschnittliche Baumdicke aller Holzvollernter mit Hackschnitzelkopf eines Forstbetriebs insgesamt und aufgeschlüsselt nach Art des Holzvollernters: \n" +
+                "Alle: 32.0\n" +
+                "Radernter: 32.0\n" +
+                "Schreiter: 0.0\n");
+        System.out.println("Berechnung durch Methoden:\n");
+        System.out.println(fbStJohann.statToString());
+
+        WheelWe1.raiseCoveredDistance();
+        WheelWe1.raiseCoveredDistance();
+        WheelWe1.raiseCoveredDistance();
+        WheelWe1.raiseCoveredDistance();
+        WheelWe1.raiseCoveredDistance();
+        StrideWe1.raiseCoveredDistance();
+        StrideWe1.raiseCoveredDistance();
+        StrideWe1.raiseCoveredDistance();
+        StrideWe2.raiseCoveredDistance();
+        StrideWe2.raiseCoveredDistance();
+
+        System.out.println("\nBerechnung statistischer Werte zu fbWeidau:\n");
+        System.out.println("Berechnung per Hand zur Kontrolle:\n");
+        System.out.println("Durchschnittliche Betriebstundenanzahl aller Holzvollernter zusammen und zusätzlich aufgeschlüsselt nach den Einsatzarten: \n" +
+                "Alle: 0.33333334\n" +
+                "Schneider: 0.4\n" +
+                "Hacker: 0.2\n" +
+                "\n" +
+                "Durchschnittliche Betriebsstundenanzahl aufgeschlüsselt nach Holzvollernterart:\n" +
+                "Schreiter: 0.25\n" +
+                "Radernter: 0.5\n" +
+                "\n" +
+                "Durchschnittliche Wegstrecker aller Radernter und zusätzlich aufgeschlüsselt nach den Einsatzarten: \n" +
+                "Alle: 1.5\n" +
+                "Schneider: 1.5\n" +
+                "Hacker: 0.0\n" +
+                "\n" +
+                "Durchschnittliche Schritte aller Schreiter und zusätzlich aufgeschlüsselt nach den Einsatzarten: \n" +
+                "Alle: 2.5\n" +
+                "Schneider: 3.0\n" +
+                "Hacker: 2.0\n" +
+                "\n" +
+                "Gibt die kleinste und größte maximale Stücklänge aller Holzvollernter mit Schneidearbeitskopf eines Forstbetriebs insgesamt und aufgeschlüsselt nach Art des Holzvollernters an: \n" +
+                "Alle: \n" +
+                "Min: 0.3\n" +
+                "Max: 0.8\n" +
+                "Radernter: \n" +
+                "Min: 0.3\n" +
+                "Max: 0.3\n" +
+                "Schreiter: \n" +
+                "Min: 0.8\n" +
+                "Max: 0.8\n" +
+                "\n" +
+                "Die durchschnittliche Baumdicke aller Holzvollernter mit Hackschnitzelkopf eines Forstbetriebs insgesamt und aufgeschlüsselt nach Art des Holzvollernters: \n" +
+                "Alle: 2.0\n" +
+                "Radernter: 0.0\n" +
+                "Schreiter: 2.0\n");
+        System.out.println("Berechnung durch Methoden:\n");
+        System.out.println(fbWeidau.statToString());
 
 
         Forstbetrieb exceptionStats = new Forstbetrieb("excepetion");

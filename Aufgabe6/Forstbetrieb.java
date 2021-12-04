@@ -131,7 +131,7 @@ public class Forstbetrieb {
             result = "Durchschnittliche Schritte aller Schreiter und zusätzlich aufgeschlüsselt nach den Einsatzarten: \n";
             result += "Alle: " + avgWayLengthObj(new StrideHarvester(new Shredder(1)), null) + "\n";
             result += "Schneider: " + avgWayLengthObj(new StrideHarvester(new Shredder(1)), new Chopper(0.1f)) + "\n";
-            result += "Hacker" + avgWayLengthObj(new StrideHarvester(new Shredder(1)), new Shredder(1));
+            result += "Hacker: " + avgWayLengthObj(new StrideHarvester(new Shredder(1)), new Shredder(1));
         }
         return result;
     }

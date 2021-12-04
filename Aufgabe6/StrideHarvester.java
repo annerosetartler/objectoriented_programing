@@ -27,7 +27,7 @@ public class StrideHarvester extends Harvester {
 
     @Override
     public String toString() {
-        String s = "\nWheel-";
+        String s = "\nStride-";
         s += super.toString();
         s += ", covered steps: " + steps;
         return s;
