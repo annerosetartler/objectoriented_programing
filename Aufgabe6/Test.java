@@ -127,14 +127,11 @@ public class Test {
         System.out.println("Operation time check: " + testParameters(strideHarvester.getOperationTime(), 1.2f));
 
 
-        //TODO Forsbetriebe anlegen
-        //TODO to string abändern sodass ich nicht 5000 mal den selben code schreibe
         System.out.println("\nTests zu Forstbetrieb");
         Forstbetrieb ForstTest1 = new Forstbetrieb("Test");
         WorkingHead Forstchopper1 = new Chopper(0.6f);
         WorkingHead Forstchopper2 = new Chopper(0.7f);
         WorkingHead Forstchopper3 = new Chopper(0.8f);
-
         WorkingHead Forstshredder1 = new Shredder(56);
         WorkingHead Forstshredder2 = new Shredder(60);
 
@@ -143,10 +140,23 @@ public class Test {
         StrideHarvester StrideTest1 = new StrideHarvester(Forstchopper2);
         StrideHarvester StrideTest2 = new StrideHarvester(Forstshredder2);
 
+        System.out.println("Tests zu add in Forstbetrieb: ");
+        int f1 = ForstTest1.getSize();
+        System.out.println("Holzvollernter vor dem befüllen: " + f1);
         ForstTest1.add(WheelTest1);
         ForstTest1.add(WheelTest2);
         ForstTest1.add(StrideTest1);
         ForstTest1.add(StrideTest2);
+        System.out.println("Forstbetrieb nach dem befüllen: Größe jetzt 4: " + testParameters(4, ForstTest1.getSize()));
+        ForstTest1.add(WheelTest1);
+        System.out.println("Befüllen mit bereits vorhandenem Element: Größe immer noch 4: " + testParameters(4, ForstTest1.getSize()));
+        ForstTest1.remove(3);
+        System.out.println("Entfernen eines Elements: Größe jetzt 3: " + testParameters(3, ForstTest1.getSize()));
+        System.out.println("Ändern der Information eines Holzvollernters:\nShredder -> Chopper: Davor:  " + WheelTest2.getWorkingHead().getClass());
+        ForstTest1.change(4, Forstchopper3);
+        System.out.println("Shredder -> Chopper: Danach: " + WheelTest2.getWorkingHead().getClass());
+        System.out.println(ForstTest1.toString(0));
+
         WheelTest1.raiseCoveredDistance();
         WheelTest2.raiseCoveredDistance();
         WheelTest2.raiseCoveredDistance();
@@ -155,54 +165,10 @@ public class Test {
         StrideTest1.raiseCoveredDistance();
         StrideTest1.raiseCoveredDistance();
         StrideTest2.raiseCoveredDistance();
+        System.out.println("\nBerechnung statistischer Werte zu ForstTest1:\n");
+        System.out.println(ForstTest1.toString(1));
 
 
-        System.out.println("Tests zur Berechnung statistischer Werte:\n");
-        System.out.println("\n" + ForstTest1.avgOperationTime(1));
-        System.out.println("\n" + ForstTest1.avgOperationTime(0));
-
-        System.out.println("\n" + ForstTest1.avgWayLength(1));
-        System.out.println("\n" + ForstTest1.avgWayLength(0));
-
-        System.out.println("\n" + ForstTest1.minMaxPiece());
-
-        System.out.println("\n" + ForstTest1.avgThickness());
-
-        System.out.println(ForstTest1);
-        ForstTest1.remove(3);
-        System.out.println(ForstTest1);
-        ForstTest1.change(4, Forstchopper3);
-        System.out.println(ForstTest1);
-
-
-        //KOMMENTAR: Erstellen von Forstbetrieben für Regionen
-        Forstbetrieb ForstTest2 = new Forstbetrieb("Test");
-        WorkingHead Forst2chopper1 = new Chopper(0.6f);
-        WorkingHead Forst2chopper2 = new Chopper(0.7f);
-
-        WorkingHead Forst2shredder1 = new Shredder(56);
-        WorkingHead Forst2shredder2 = new Shredder(60);
-
-        WheelHarvester Forst2WheelTest1 = new WheelHarvester(Forst2chopper1);
-        WheelHarvester Forst2WheelTest2 = new WheelHarvester(Forst2shredder1);
-        StrideHarvester Forst2StrideTest1 = new StrideHarvester(Forst2chopper2);
-        StrideHarvester Forst2StrideTest2 = new StrideHarvester(Forst2shredder2);
-
-        ForstTest2.add(Forst2WheelTest1);
-        ForstTest2.add(Forst2WheelTest2);
-        ForstTest2.add(Forst2StrideTest1);
-        ForstTest2.add(Forst2StrideTest2);
-        Forst2WheelTest1.raiseCoveredDistance();
-        Forst2WheelTest2.raiseCoveredDistance();
-        Forst2WheelTest2.raiseCoveredDistance();
-        Forst2WheelTest2.raiseCoveredDistance();
-        Forst2StrideTest1.raiseCoveredDistance();
-        Forst2StrideTest1.raiseCoveredDistance();
-        Forst2StrideTest1.raiseCoveredDistance();
-        Forst2StrideTest2.raiseCoveredDistance();
-
-        //TODO: ein statistischer Test, der eine Exception wirft > also auf einem leeren Forstbetrieb mit try catch
-        //      schaut es euch an, ob es so passt für euch, hab mal die exception angelegt
         Forstbetrieb exceptionStats = new Forstbetrieb("excepetion");
         try{
             exceptionStats.avgOperationTime(1);
@@ -210,17 +176,33 @@ public class Test {
             e.printStackTrace();
         }
 
-        //TODO: Forstebtriebe befüllen
         Forstbetrieb fb1 = new Forstbetrieb("Angerer");
+        fb1.add(new WheelHarvester(new Chopper(0.1f)));
+        fb1.add(new WheelHarvester(new Shredder(4)));
+        fb1.add(new StrideHarvester(new Chopper(0.2f)));
+        fb1.add(new StrideHarvester(new Shredder(7)));
         Forstbetrieb fb2 = new Forstbetrieb("Maurer");
+        fb2.add(new WheelHarvester(new Chopper(0.3f)));
+        fb2.add(new WheelHarvester(new Shredder(4)));
+        fb2.add(new WheelHarvester(new Shredder(2)));
+        fb2.add(new WheelHarvester(new Shredder(5)));
         Forstbetrieb fb3 = new Forstbetrieb("Holzer");
+        fb3.add(new StrideHarvester(new Chopper(0.5f)));
+        fb3.add(new StrideHarvester(new Shredder(2)));
+        fb3.add(new StrideHarvester(new Chopper(0.1f)));
+        fb3.add(new StrideHarvester(new Chopper(0.7f)));
         Forstbetrieb fb4 = new Forstbetrieb("ForstGmbH");
+        fb4.add(new StrideHarvester(new Chopper(0.5f)));
+        fb4.add(new StrideHarvester(new Chopper(0.2f)));
         Forstbetrieb fb5 = new Forstbetrieb("Quercusse");
+        fb4.add(new StrideHarvester(new Shredder(8)));
+        fb4.add(new StrideHarvester(new Shredder(4)));
         Forstbetrieb fb6 = new Forstbetrieb("Fagusse");
 
         //KOMMENTAR: Tests zu Regionen
         System.out.println("Tests zu Regionen:\n");
         Region r1 = new Region("Waldviertel");
+        System.out.println("Test zur Fehlermeldung aufgrund von Division durch 0:");
         Region r2 = new Region("Mostviertel");
         Region r3 = new Region("Auvergne");
 

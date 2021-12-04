@@ -11,6 +11,4 @@ public interface WorkingHead {
     //           ermittelt werden kann, bedeutet
     public String meaning();
 
-    public String getHeadType();
-
 }

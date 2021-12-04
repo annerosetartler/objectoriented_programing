@@ -3,7 +3,6 @@ public class Shredder implements WorkingHead {
     //           die ein verarbeitbares Stück Holz haben darf
     //INVARIANTE: maxWidth > 0
     private final Integer maxWidth;
-    private final String headType = "shredder";
 
     //VORBEDINGUNG: maxWidth > 0
     public Shredder(Integer maxWidth){
@@ -19,9 +18,5 @@ public class Shredder implements WorkingHead {
     @Override
     public String meaning(){
         return "cm maximum trunk thickness";
-    }
-
-    public String getHeadType(){
-        return headType;
     }
 }

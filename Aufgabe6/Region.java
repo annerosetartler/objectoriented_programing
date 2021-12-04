@@ -53,10 +53,10 @@ public class Region {
         String s = name + ": { ";
         Iterator it = forstbetriebe.iterator();
         Forstbetrieb fb = (Forstbetrieb) it.next();
-        s+= fb.toString();
+        s+= fb.toString(0);
         while (it.hasNext()) {
             fb = (Forstbetrieb) it.next();
-            s += ", " + fb.toString();
+            s += ", " + fb.toString(0);
         }
         s += " }";
         return s;

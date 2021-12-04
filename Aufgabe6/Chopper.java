@@ -3,7 +3,6 @@ public class Chopper implements  WorkingHead {
     //           die verarbeitbares Stück Holz haben darf
     //INV: maxLength > 0
     private final Float maxLength;
-    private final String headType = "chopper";
 
     //VORBEDINGUNG: maxLength > 0
     public Chopper(Float maxLength){
@@ -19,9 +18,5 @@ public class Chopper implements  WorkingHead {
     @Override
     public String meaning(){
         return "meter maximum trunk length";
-    }
-
-    public String getHeadType(){
-        return headType;
     }
 }

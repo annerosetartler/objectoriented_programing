@@ -1,8 +1,5 @@
 import java.util.Iterator;
 
-//ToDo: Lieber David, könntest Du Dir überlegen, ob Du lieber die Methode "getWorkingHead" oder "getHeadType" von Harvester
-// verwenden willst, und die andere(n) dann löschen? (alle drei toDo: Weg? - Methoden)
-
 public class Forstbetrieb {
     //KOMMENTAR: Forstbetrieb verwaltet Informationen über einen Forstbetrieb und wertet diese aus.
     //           Ein Forstbetrieb hat einen unveränderlichen Namen.
@@ -60,6 +57,10 @@ public class Forstbetrieb {
         }
     }
 
+    //NACHB: Bei i == 1 wird die durchschnittliche Betriebstundenanzahl aller Holzvollernter
+    //       und aufgeschlüsselt nach Einsatzart zurückgegeben
+    //       sonst wird die durchschnittliche Betriebstundenanzahl aufgeschlüsselt nach Holzvollernterart
+    //       wenn der Forstbetrieb noch keine Holzvollernter beinhaltet wird eine Exception geworfen
     public String avgOperationTime(int i) {
         if (holzvollernter.getSize() == 0) {
             throw new ArithmeticException("Division by 0!");
@@ -72,7 +73,7 @@ public class Forstbetrieb {
                 sumall += hn.getOperationTime();
             }
             sumall = sumall / holzvollernter.getSize();
-            result = "Durchschnitt aller Holzvollernter zusammen und zusätzlich aufgeschlüsselt nach den Einsatzarten: \n";
+            result = "Durchschnittliche Betriebstundenanzahl aller Holzvollernter zusammen und zusätzlich aufgeschlüsselt nach den Einsatzarten: \n";
             result += "Alle: " + sumall + "\n";
             result += "Schneider: " + avgOperationTimeObj(new Chopper(0.1f)) + "\n";
             result += "Hacker: " + avgOperationTimeObj(new Shredder(1));
@@ -85,7 +86,12 @@ public class Forstbetrieb {
         return result;
     }
 
-    //KOMMENTAR: Durchschnitt Betriebstunden alle Holzvollernter
+    //VORB: o Untertyp von Harvester || o Untertyp von WorkingHead
+    //NACHB: Wird ein Untertyp von Harvester übergeben wird der Durchschnitt aller Arbeitsstunden
+    //       des jeweiligen Harvesters zurückgegeben
+    //       Wird ein Untertyp von Workinghead übergeben wird der Durchschnitt aller Arbeitsstunden
+    //       der jeweiligen Holzvollernterart zurückgegeben
+    //       sonst wird  0 zurückgegeben
     private float avgOperationTimeObj(Object o) {
         float summe = 0.0f;
         int counter = 0;
@@ -106,6 +112,11 @@ public class Forstbetrieb {
         return summe / counter;
     }
 
+    //NACHB: Bei i == 1 wird die durchschnittliche Wegstrecker aller Radernter
+    //       und aufgeschlüsselt nach Einsatzart zurückgegeben
+    //       sonst wird die durchschnittliche Wegstrecker aller Schreiter
+    //       und aufgeschlüsselt nach Einsatzart zurückgegeben
+    //       wenn der Forstbetrieb noch keine Holzvollernter beinhaltet wird eine Exception geworfen
     public String avgWayLength(int i) {
         if (holzvollernter.getSize() == 0) {
             throw new ArithmeticException("Division by 0!");
@@ -125,6 +136,12 @@ public class Forstbetrieb {
         return result;
     }
 
+    //VORB: o != null
+    //NACHB: Wird o2 = null übergeben wird der Durchschnitt
+    //       des jeweiligen Harvesters zurückgegeben
+    //       Wird für o2 != null übergeben wird der Durchschnitt
+    //       des jeweiligen Harvesters und einer Einsatzart zurückgegeben
+    //       sonst wird  0 zurückgegeben
     private Number avgWayLengthObj(Harvester o, WorkingHead o2) {
         Number summe;
         Float summef = 0.0f;
@@ -148,18 +165,28 @@ public class Forstbetrieb {
         return summe;
     }
 
+    //NACHB: Gibt die kleinste und größte maximale Stücklänge aller
+    //       Holzvollernter mit Schneidearbeitskopf eines Forstbetriebs
+    //       insgesamt und aufgeschlüsselt nach Art des Holzvollernters an
     public String minMaxPiece() {
         String result = "";
-        result = "Durchschnittliche Wegstrecker aller Radernter und zusätzlich aufgeschlüsselt nach den Einsatzarten: \n";
+        result = "Gibt die kleinste und größte maximale Stücklänge aller Holzvollernter mit Schneidearbeitskopf eines Forstbetriebs insgesamt und aufgeschlüsselt nach Art des Holzvollernters an: \n";
         result += "Alle: \nMin: " + minMaxPieceObj(new Chopper(0.1f), null, 1) + "\n";
         result += "Max: " + minMaxPieceObj(new Chopper(0.1f), null, 0) + "\n";
         result += "Radernter: \nMin: " + minMaxPieceObj(new Chopper(0.1f), new WheelHarvester(new Chopper(0.1f)), 1) + "\n";
         result += "Max: " + minMaxPieceObj(new Chopper(0.1f), new WheelHarvester(new Chopper(0.1f)), 0) + "\n";
         result += "Schreiter: \nMin: " + minMaxPieceObj(new Chopper(0.1f), new StrideHarvester(new Chopper(0.1f)), 1) + "\n";
-        result += "Max: " + minMaxPieceObj(new Chopper(0.1f), new StrideHarvester(new Chopper(0.1f)), 0) + "\n";
+        result += "Max: " + minMaxPieceObj(new Chopper(0.1f), new StrideHarvester(new Chopper(0.1f)), 0);
         return result;
     }
 
+    //VORB: o != null
+    //NACHB: Bei i = 0 wird jeweils das Maximum berechnet
+    //       sonst das Minimum
+    //       Wird o2 = null übergeben wird das Maximum/Minimum für die
+    //       jeweilige Holzvollernterart zurückgegeben
+    //       Wird für o2 != null übergeben wird das Maximum/Minimum für
+    //       jeweilige Holzvollernterart und den jeweiligen Ernter zurückgegeben
     private Float minMaxPieceObj(WorkingHead o, Harvester o2, int i) {
         Float minmax = 0.0f;
         minmax = i == 0 ? 0.0f : Float.MAX_VALUE;
@@ -176,6 +203,9 @@ public class Forstbetrieb {
         return minmax;
     }
 
+    //NACHB: Gibt die durchschnittliche Baumdicke aller Holzvollernter
+    //       mit Hackschnitzelkopf eines Forstbetriebs insgesamt
+    //       und aufgeschlüsselt nach Art des Holzvollernter zurück
     public String avgThickness(){
         if (holzvollernter.getSize() == 0) {
             throw new ArithmeticException("Division by 0!");
@@ -187,6 +217,13 @@ public class Forstbetrieb {
         return result;
     }
 
+    //VORB: o != null
+    //NACHB: Bei i = 0 wird jeweils das Maximum berechnet
+    //       sonst das Minimum
+    //       Wird o2 = null übergeben wird das Maximum/Minimum für die
+    //       jeweilige Holzvollernterart zurückgegeben
+    //       Wird für o2 != null übergeben wird das Maximum/Minimum für
+    //       jeweilige Holzvollernterart und den jeweiligen Ernter zurückgegeben
     private Float avgThicknessObj(WorkingHead o, Harvester o2) {
         Float sum = 0.0f;
         Integer counter = 0;
@@ -203,20 +240,38 @@ public class Forstbetrieb {
         return (Float)(sum / counter);
     }
 
-    public String toString() {
+    public String toString(int i) {
         if (holzvollernter.getSize() == 0) {
             return name + ": { }";
         }
-        String s = name + ": { ";
-        Iterator it = holzvollernter.iterator();
-        Harvester hn = (Harvester) it.next();
-        s += hn.toString();
-        while (it.hasNext()) {
-            hn = (Harvester) it.next();
-            s += ", " + hn.toString();
+        if (i != 1) {
+            String s = "\n" + name + ": ";
+            Iterator it = holzvollernter.iterator();
+            Harvester hn = (Harvester) it.next();
+            s += hn.toString();
+            while (it.hasNext()) {
+                hn = (Harvester) it.next();
+                s += " " + hn.toString();
+            }
+            return s;
+        }else{
+            System.out.println("" + this.avgOperationTime(1));
+            System.out.println("\n" + this.avgOperationTime(0));
+
+            System.out.println("\n" + this.avgWayLength(1));
+            System.out.println("\n" + this.avgWayLength(0));
+
+            System.out.println("\n" + this.minMaxPiece());
+
+            System.out.println("\n" + this.avgThickness());
+            return "";
         }
-        s += " }";
-        return s;
+
+    }
+
+    //NACHB: gibt die Anzahl der Holzvollernter eines Forstbetriebs zurück
+    public int getSize(){
+        return holzvollernter.getSize();
     }
 
     public String getName() {

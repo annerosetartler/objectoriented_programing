@@ -3,7 +3,6 @@ public class WheelHarvester extends Harvester{
     //           Information über die von ihm zurückgelegten Meter (als Fließkommazahl) enthält.
     //INVARIANTE: coveredMeters >= 0;
     private Float coveredMeters;
-    private final String harvesterType = "wheel";
 
     //KOMMENTAR: Erzeugt einen Harvester, der zusätzlich zu den normalen Variablen und Funktionen noch eine
     //           Float-Variable speichert, die für die Anzahl der von ihm zurückgelegten Meter steht
@@ -26,15 +25,11 @@ public class WheelHarvester extends Harvester{
         return (Number) coveredMeters;
     }
 
-    public String getType(){
-        return harvesterType;
-    }
-
     @Override
     public String toString() {
         String s = "\nWheel-";
         s += super.toString();
-        s += "\ncovered meters " + coveredMeters;
+        s += ", covered meters " + coveredMeters;
         return s;
     }
 
