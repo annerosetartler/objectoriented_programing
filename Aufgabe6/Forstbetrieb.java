@@ -1,5 +1,8 @@
 import java.util.Iterator;
 
+//ToDo: Lieber David, könntest Du Dir überlegen, ob Du lieber die Methode "getWorkingHead" oder "getHeadType" von Harvester
+// verwenden willst, und die andere(n) dann löschen? (alle drei toDo: Weg? - Methoden)
+
 public class Forstbetrieb {
     //KOMMENTAR: Forstbetrieb verwaltet Informationen über einen Forstbetrieb und wertet diese aus.
     //           Ein Forstbetrieb hat einen unveränderlichen Namen.

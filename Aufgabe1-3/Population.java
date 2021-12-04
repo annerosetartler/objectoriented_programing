@@ -1,11 +1,9 @@
 import java.util.ArrayList;
 
 public interface Population {
-    //KOMMENTAR: Population ist ein Interface mit verschiedene Arten von Baum-Populationen (Fichte oder Buche) als Instanzen //ToDo Kommentare und evtl. Variablen ändern
-    //           Population hat ToDo ab hier weiter
-
-
-
+    //KOMMENTAR: Population ist ein Interface mit verschiedene Arten von Baum-Populationen (in unserem Fall derzeit zwei:
+    //           Fichte oder Buche) als Instanzen. Alle Implementierungen des Interfaces verfügen über eine plusEinJahr()-Methode,
+    //           die eine Alterung des Walds um ein Jahr simuliert
     //INV: Werte in altersStruktur in [0.0,1.0] & Summe aller Werte in altersStruktur ergibt 1.0 & altersStruktur.size > 0
     //     Wert für gesundheit in [0.25,1.0]
     //     baumBestand >= 0
@@ -14,7 +12,6 @@ public interface Population {
     //     ausfall in [0.0,1.0]
     //GUT: Klassenzusammenhalt: es gibt wenige public Methoden, die in sich Abläufe von private Methoden regulieren
     //                          dadurch kann eine unerwünschte Aufrufreihenfolge von Methoden durch den Client unterbunden werden
-    //     Verbesserung: wäre mit einem Interface noch besser
 
     //VORB: einflussArray.length == 4 & Werte in einflussArray in [0.0,1.0]
     //      wirtschaftsfaktoren.length == 4 & Werte in wirtschaftsfaktoren in [0.0,1.0]
@@ -28,6 +25,8 @@ public interface Population {
     //VORB: Wert von gesundheit in [0.25,1.0]
     void setGesundheit(float gesundheit);
 
+    //KOMMENTAR: setzt die istMischwald-Variable auf true, wenn eine Population von Fichte und eine von Buche gemeinsam
+    //in einem Forst existieren
     public void setzeMischwaldVar();
 
     public String toString();
@@ -35,22 +34,11 @@ public interface Population {
     //KOMMENTAR: für Testcases zum Überprüfen des Populationszustands
     float[] zustandPop();
 
-    //SCHLECHT: wenn es Instanzen von Population selbst gäbe, würde an dieser Stelle suggeriert, dass es sich um Fichten handelt
-    //VERBESSERT, indem es ein Interface wurde
+    //KOMMENTAR: Gibt die Art (= Name) der Population als aus
     String getName();
 
     ArrayList<Float> getAltersstruktur();
 
-    //ToDo; evtl. in zustandPop integrieren?
-    float getAusfall();
-
     float getBaumbestand();
 
-
-
-//ToDo Methodenbeschreibungen und noch schauen, ob Kommentare passen
-
-
-    //Verbesserte Anmerkungen (SCHLECHT):
-    //- ganz oben stand: Objektvariablen alle protected; Verbesserung: Population als Interface und private Objektvariablen in Untertypen
 }

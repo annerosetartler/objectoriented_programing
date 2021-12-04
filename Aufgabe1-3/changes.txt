@@ -11,13 +11,15 @@
 
 * Population:
     - Umstellung als Interface
-    - Methoden in die das Interface implementierenden Klassen ausgelagert (Wegfall der private-Methoden)
-    - Beschreibungen dementsprechend geändert (ToDo)
+    - Public-Methoden in Methodenrümpfe umgewandelt und die Methoden selbst in die das Interface implementierenden
+      Klassen ausgelagert
+    - Private-Methoden in die implementierenden Klassen verschoben
+    - Zusicherungen dementsprechend korrigiert
 
 * Fichte & Buche:
     - Variablen auf private umgeändert und dementsprechende auftretende Probleme gelöst
     - Methoden von protected auf private, da nun keine Vererbungsbeziehungen, bei denen Methoden überschrieben werden müssen, bedacht werden (müssen)
-    - Beschreibungen dementsprechend geändert (ToDo)
+    - Zusicherungen dementsprechend korrigiert (ToDo)
 
 **************
 

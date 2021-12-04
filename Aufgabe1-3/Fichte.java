@@ -3,8 +3,6 @@ import java.util.ArrayList;
 public class Fichte implements Population {
     //KOMMENTAR: Fichte ist ein Untertyp von Population. //ToDo Kommentare und evtl. Variablen ändern
 
-
-    //SCHLECHT: Objektvariablen alle protected; Verbesserung: Population als Interface und private Objektvariablen in Untertypen
     //INV: Werte in altersStruktur in [0.0,1.0] & Summe aller Werte in altersStruktur ergibt 1.0 & altersStruktur.size > 0
     //     Wert für gesundheit in [0.25,1.0]
     //     baumBestand >= 0
@@ -15,14 +13,14 @@ public class Fichte implements Population {
     //                          dadurch kann eine unerwünschte Aufrufreihenfolge von Methoden durch den Client unterbunden werden
     //     Verbesserung: wäre mit einem Interface noch besser
     private float baumBestand;//KOMMENTAR: in Festmetern fm
-    protected ArrayList<Float> altersStruktur;//KOMMENTAR: jeder Index repräsentiert ein Alter und jeder Eintrag den Anteil der Bäume dieses Alters
-    protected float gesundheit;
-    protected float zielbestand;//KOMMENTAR: in Festmetern fm
-    protected float ernte; //KOMMENTAR: in Festmetern fm
-    protected float co2Vorrat; //KOMMENTAR: in Tonnen t
-    protected float ausfall;//KOMMENTAR: in %
-    protected float zuwachs;//KOMMENTAR: in Festmetern fm
-    protected boolean istMischwald;
+    private ArrayList<Float> altersStruktur;//KOMMENTAR: jeder Index repräsentiert ein Alter und jeder Eintrag den Anteil der Bäume dieses Alters
+    private float gesundheit;
+    private float zielbestand;//KOMMENTAR: in Festmetern fm
+    private float ernte; //KOMMENTAR: in Festmetern fm
+    private float co2Vorrat; //KOMMENTAR: in Tonnen t
+    private float ausfall;//KOMMENTAR: in %
+    private float zuwachs;//KOMMENTAR: in Festmetern fm
+    private boolean istMischwald;
 
 
     //INV: Werte in altersStruktur in [0.0,1.0] & Summe aller Werte in altersStruktur ergibt 1.0 & altersStruktur.size > 0
@@ -60,7 +58,7 @@ public class Fichte implements Population {
         this.zielbestand = wZustand[1];
         this.ernte = wZustand[3];
         this.co2Vorrat = wZustand[4];
-        this.ausfall = getAusfall();
+        this.ausfall = wZustand[6];
         this.zuwachs = wZustand[5];
         istMischwald = false;
     }
@@ -211,6 +209,7 @@ public class Fichte implements Population {
 
     }
 
+    //ToDo: David kurz schauen :)
     //VORB: neuerbaumbestand >= 0
     public void plenterernte(float neuerbaumbestand){
         ernte += baumBestand - neuerbaumbestand;
@@ -257,9 +256,9 @@ public class Fichte implements Population {
         return s;
     }
 
-    //KOMMENTAR: für Testcases zum Überprüfen des Populationszustands //ToDo: Habe ich jetzt auch für en Konstruktor Verwendet
+    //KOMMENTAR: für Testcases zum Überprüfen des Populationszustands und für Konstruktor
     public float[] zustandPop(){
-        float[] zustand = new float[]{baumBestand,zielbestand,gesundheit,ernte,co2Vorrat,zuwachs};
+        float[] zustand = new float[]{baumBestand,zielbestand,gesundheit,ernte,co2Vorrat,zuwachs, ausfall};
         return zustand;
     }
 
@@ -271,14 +270,8 @@ public class Fichte implements Population {
         return altersStruktur;
     }
 
-    public float getAusfall(){ //ToDo; evtl. in zustandPop integrieren?
-        return ausfall;
-    }
-
-    @Override
-    public float getBaumbestand() { //ToDo: Habe ich nochmal extra gemacht, damit ich nciht iummer das ganze array brauceh => noch überlegen
+    public float getBaumbestand(){
         return baumBestand;
     }
 
-    //ToDo Methodenbeschreibungen und noch schauen, ob Kommentare passen
 }

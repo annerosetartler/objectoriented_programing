@@ -191,7 +191,6 @@ public class Test_1 {
             altersS.add(f / sum);
         }
 
-
         //Plenterwirtschaft
         Bewirtschaftungsmodell modellP = new Plenterwirtschaft();
 
