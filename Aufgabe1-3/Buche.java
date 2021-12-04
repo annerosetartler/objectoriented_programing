@@ -35,7 +35,7 @@ public class Buche implements Population {
 
     //VORB: w != null
     public Buche(Population w) {
-        float[] zustand = new float[]{baumBestand,zielbestand,gesundheit,ernte,co2Vorrat,zuwachs};
+        float[] zustand = new float[]{baumBestand, zielbestand, gesundheit, ernte, co2Vorrat, zuwachs};
         float[] wZustand = w.zustandPop();
         ArrayList<Float> wAltersstruktur = w.getAltersstruktur();
         this.baumBestand = wZustand[0];
@@ -93,18 +93,18 @@ public class Buche implements Population {
 
     //VORB: einflussArray.length == 4 & Werte in einflussArray in [0.0,1.0]
     //NACHB: gibt einen Wert in [0.0,1.0] zurück
-    private float berAusfallsfaktor(float[] einflussArray){
+    private float berAusfallsfaktor(float[] einflussArray) {
         float[] einflussArrayKopie = new float[einflussArray.length];
         for (int i = 0; i < einflussArray.length - 1; i++) {
             einflussArrayKopie[i] = einflussArray[i];
         }
         einflussArrayKopie[0] *= 0.8f;
         einflussArrayKopie[1] *= 1.05f;
-        if (einflussArrayKopie[1] >= 1.0f){
+        if (einflussArrayKopie[1] >= 1.0f) {
             einflussArrayKopie[1] = 1.0f;
         }
         einflussArrayKopie[2] *= 1.05f;
-        if (einflussArrayKopie[2] >= 1.0f){
+        if (einflussArrayKopie[2] >= 1.0f) {
             einflussArrayKopie[2] = 1.0f;
         }
 
@@ -113,30 +113,32 @@ public class Buche implements Population {
 
     //VORB: einflussArray.length == 4 & Werte in einflussArray in [0.0,1.0]
     //NACHB: gibt einen Wert in [0.0,1.0] zurück
-    private float ausfallHilfe(float[] einflussArray){
+    private float ausfallHilfe(float[] einflussArray) {
         int zähler = 0;
         for (int i = 0; i < einflussArray.length - 1; i++) {
-            if (einflussArray[i] == 1.0f){
+            if (einflussArray[i] == 1.0f) {
                 zähler++;
             }
         }
         float durchschnitt = (einflussArray[0] + einflussArray[1] + einflussArray[2]) / 3.0f;
-        switch (zähler){
-            case 0: return durchschnitt * 0.08f;
+        switch (zähler) {
+            case 0:
+                return durchschnitt * 0.08f;
             case 1:
             case 2:
                 return durchschnitt * 0.6f;
-            default: return durchschnitt;
+            default:
+                return durchschnitt;
         }
     }
 
     //VORB: Wert von zfaktor in [0.0,1.0]
     protected void berZuwachs(float zFaktor) {
-        zuwachs = zielbestand * zFaktor * 0.08f * (istMischwald? 1.02f : 1) - ausfall * baumBestand;
+        zuwachs = zielbestand * zFaktor * 0.08f * (istMischwald ? 1.02f : 1) - ausfall * baumBestand;
     }
 
     private void updateBaumbestand() {
-        if (baumBestand < 0){
+        if (baumBestand < 0) {
             baumBestand = zuwachs;
         }
         baumBestand += zuwachs;
@@ -180,17 +182,17 @@ public class Buche implements Population {
     //      maxZielb > 0
     private void ernteBew(float[] einflussArray, float[] wirtschaftsfaktoren, float maxZielb) {
         if (wirtschaftsfaktoren[0] == 1) {
-            float sumAnteil = updateAltersstruktur((int)(altersStruktur.size()/2.0f));
+            float sumAnteil = updateAltersstruktur((int) (altersStruktur.size() / 2.0f));
             ernte += (sumAnteil * baumBestand);
             updateBaumGesAusfall(sumAnteil, einflussArray, maxZielb);
             return;
         }
         if (wirtschaftsfaktoren[1] != 0) {
             float sumBestand = 0.0f;
-            for (int i = 0; i < altersStruktur.size()-1; i++ ){
-                if (altersStruktur.get(i) < altersStruktur.get(i+1) * 1.5f){
-                    sumBestand += altersStruktur.get(i+1) * 0.02f;
-                    altersStruktur.set(i+1, altersStruktur.get(i+1) * 0.98f);
+            for (int i = 0; i < altersStruktur.size() - 1; i++) {
+                if (altersStruktur.get(i) < altersStruktur.get(i + 1) * 1.5f) {
+                    sumBestand += altersStruktur.get(i + 1) * 0.02f;
+                    altersStruktur.set(i + 1, altersStruktur.get(i + 1) * 0.98f);
                 }
             }
             ernte += sumBestand * baumBestand;
@@ -205,7 +207,7 @@ public class Buche implements Population {
 
     //ToDo: David kurz schauen :)
     //VORB: neuerbaumbestand >= 0
-    public void plenterernte(float neuerbaumbestand){
+    public void plenterernte(float neuerbaumbestand) {
         ernte += baumBestand - neuerbaumbestand;
         this.baumBestand = neuerbaumbestand;
     }
@@ -240,7 +242,7 @@ public class Buche implements Population {
     }
 
     //KOMMENTAR: setzt die istMischwald-Variable auf true und halbiert den Anfangs-Zielbestand
-    public void setzeMischwaldBesonderheiten(){
+    public void setzeMischwaldBesonderheiten() {
         istMischwald = true;
         zielbestand /= 2;
     }
@@ -254,20 +256,20 @@ public class Buche implements Population {
     }
 
     //KOMMENTAR: für Testcases zum Überprüfen des Populationszustands, Forst Zwei-Populationen-ToString und für Konstruktor mit Eingabeparameter Population
-    public float[] zustandPop(){
-        float[] zustand = new float[]{baumBestand,zielbestand,gesundheit,ernte,co2Vorrat,zuwachs, ausfall};
+    public float[] zustandPop() {
+        float[] zustand = new float[]{baumBestand, zielbestand, gesundheit, ernte, co2Vorrat, zuwachs, ausfall};
         return zustand;
     }
 
-    public String getName(){
+    public String getName() {
         return "Buchen";
     }
 
-    public ArrayList<Float> getAltersstruktur(){
+    public ArrayList<Float> getAltersstruktur() {
         return altersStruktur;
     }
 
-    public float getBaumbestand(){
+    public float getBaumbestand() {
         return baumBestand;
     }
 
