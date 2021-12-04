@@ -33,7 +33,7 @@ public class Forst {
     //       gesAS != null & gesAS.size = population1.altersStruktur.size = population2.altersStruktur.size & alle Werte in gesAS in [0.0,1.0] & Summe aller Werte in gesAS ergibt 1.0
     //       Werte in gesAS berechnen sich aus denen von as1 und as2
     //       gemBaumGes in [0.25,1.0]
-    //HISTORY CONSTRAINT: Die Gesundheit in den einzelnen Populationen wird auf den Wert der gesamtGesundheit geändert //ToDo: Ist das ein History Constraint?
+    //       Die Gesundheit in den einzelnen Populationen wird auf den Wert der gesamtGesundheit geändert
     public Forst(ArrayList<Float> as1, float bB1, float zB1, int baumart1, ArrayList<Float> as2, float bB2, float zB2, int baumart2) {
         if (baumart1 == 0) {
             population1 = new Fichte(as1, bB1, zB1);
@@ -71,7 +71,7 @@ public class Forst {
     //       gesAS != null & gesAS.size = population1.altersStruktur.size = population2.altersStruktur.size & alle Werte in gesAS in [0.0,1.0] & Summe aller Werte in gesAS ergibt 1.0
     //       Werte in gesAS berechnen sich aus denen von as1 und as2
     //       gemGaumGes in [0.25,1.0]
-    //HISTORY CONSTRAINT: Die Gesundheit in den einzelnen Populationen wird auf den Wert der gesamtGesundheit geändert //ToDo: Ist das ein History Constraint?
+    //       Die Gesundheit in den einzelnen Populationen wird auf den Wert der gesamtGesundheit geändert
     public Forst(Population w1, Population w2) {
         population1 = w1;
         population2 = w2;
@@ -92,11 +92,10 @@ public class Forst {
     //      wirtschaftsfaktoren.length == 4 & Werte in wirtschaftsfaktoren in [0.0,1.0]
     //      maxZielb >= 0
     //NACHB: Wenn population2 != null, dann: gesAS != null & gesAS.size = population1.altersStruktur.size = population2.altersStruktur.size
-    //       & alle Werte in gesAS in [0.0,1.0] & Summe aller Werte in gesAS ergibt 1.0 & gemBaumGes in [0.25,1.0]
-    //       Sonst: gesAS = null & baumGes = 0 & population2 = null
-    //INVARIANTE: Wenn sich der Forst aus zwei Populationen zusammensetzt, dann erhält jede Population (in ihrer Funktion
-    //            als Forsthälfte) den halben Zielbestand ToDo: ist das eine Invariante?
-    //HISTORY CONSTRAINT: Die Gesundheit in den einzelnen Populationen wird auf den Wert der gesamtGesundheit geändert //ToDo: Ist das ein History Constraint?
+    //                  & alle Werte in gesAS in [0.0,1.0] & Summe aller Werte in gesAS ergibt 1.0 & gemBaumGes in [0.25,1.0]
+    //                  & jede Population erhält (als Forsthälfte) die Hälfte des gesamt-Zielbestandes
+    //                  & die Gesundheit in den einzelnen Populationen wird auf den Wert der gesamtGesundheit geändert
+    //       Sonst: gesAS = null & baumGes = 0 & zielbestand bleibt zielbestand & population2 = null
     public void plusEinJahr(float[] einflussArray, float[] wirtschaftsfaktoren, float maxZielb) {
 
         population1.plusEinJahr(einflussArray, wirtschaftsfaktoren, maxZielb / (population2 == null ? 1 : 2), (population2 != null));
