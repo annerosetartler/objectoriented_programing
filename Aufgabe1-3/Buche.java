@@ -158,7 +158,7 @@ public class Buche implements Population {
 
     //VORB: maxZielb > 0
     private void updateZielbestand(float maxZielb) {
-        if (ausfall >= 0.3) {
+        if (ausfall >= 0.2) {
             zielbestand *= (1 - ausfall);
         } else if (Float.compare(zielbestand, maxZielb - 5) <= 0) {
             zielbestand += 5.0f;
