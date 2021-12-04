@@ -18,7 +18,8 @@ public class Test {
         System.out.println("Harvester Checks:");
         System.out.println("\n1. Wheel Harvester Checks");
         System.out.println("\ntoString:" + wheelHarvester.toString());
-        System.out.println("\nCovered distance check: " + testParameters((Float) wheelHarvester.giveCoveredDistance(), 0.0f));
+        System.out.println("\nCovered distance at beginning: " + (Float) wheelHarvester.giveCoveredDistance());
+        System.out.println("Covered distance check: " + testParameters((Float) wheelHarvester.giveCoveredDistance(), 0.0f));
         System.out.println("Head information: " + (Float) wheelHarvester.readHeadInformation() + " " + wheelHarvester.getHeadMeaning());
         System.out.println("Operation time at start: " + wheelHarvester.getOperationTime());
         System.out.println("Operation time check: " + testParameters(wheelHarvester.getOperationTime(), 0.0f));
@@ -74,7 +75,8 @@ public class Test {
 
         System.out.println("\n2. Stride Harvester Checks:");
         System.out.println("toString:" + strideHarvester.toString());
-        System.out.println("\nCovered distance check: " + testParameters((Integer) strideHarvester.giveCoveredDistance(), 0));
+        System.out.println("\nCovered distance at beginning: " + (Integer) strideHarvester.giveCoveredDistance());
+        System.out.println("Covered distance check: " + testParameters((Integer) strideHarvester.giveCoveredDistance(), 0));
         System.out.println("Operation time at start: " + strideHarvester.getOperationTime());
         System.out.println("Operation time check: " + testParameters(strideHarvester.getOperationTime(), 0.0f));
         strideHarvester.raiseCoveredDistance();

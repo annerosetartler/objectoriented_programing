@@ -7,8 +7,8 @@ public interface WorkingHead {
     //KOMMENTAR: Liest je nach Art des WorkingHead den limitierenden Faktor (die maximalen Stücklänge oder die maximalen Baumdicke) aus
     public Number readMax();
 
-    //KOMMENTAR: Wird für die Ausgabe verwendet, um in Text auszugeben, was die headInformation, die mit readMax()
-    //           ermittelt werden kann, bedeutet
+    //KOMMENTAR: stellt eine ausformulierte Erklärung für die Interpretation der Variable maxLength bereit
+    //            wird für die Ausgabe verwendet
     public String meaning();
 
 }
