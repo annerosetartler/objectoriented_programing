@@ -130,45 +130,67 @@ public class Test {
 
 
         System.out.println("\nTests zu Forstbetrieb");
-        Forstbetrieb ForstTest1 = new Forstbetrieb("Test");
-        WorkingHead Forstchopper1 = new Chopper(0.6f);
-        WorkingHead Forstchopper2 = new Chopper(0.7f);
-        WorkingHead Forstchopper3 = new Chopper(0.8f);
-        WorkingHead Forstshredder1 = new Shredder(56);
-        WorkingHead Forstshredder2 = new Shredder(60);
+        Forstbetrieb fbOberndorf = new Forstbetrieb("FBOberndorf");
+        WheelHarvester WheelOb1 = new WheelHarvester(new Chopper(0.6f));
+        WheelHarvester WheelOb2 = new WheelHarvester(new Shredder(56));
+        StrideHarvester StrideOb1 = new StrideHarvester(new Chopper(0.7f));
+        StrideHarvester StrideOb2 = new StrideHarvester(new Shredder(60));
 
-        WheelHarvester WheelTest1 = new WheelHarvester(Forstchopper1);
-        WheelHarvester WheelTest2 = new WheelHarvester(Forstshredder1);
-        StrideHarvester StrideTest1 = new StrideHarvester(Forstchopper2);
-        StrideHarvester StrideTest2 = new StrideHarvester(Forstshredder2);
+        Forstbetrieb fbWeidau = new Forstbetrieb("FBWeidau");
+        WheelHarvester WheelWe1 = new WheelHarvester(new Chopper(0.3f));
+        WheelHarvester WheelWe2 = new WheelHarvester(new Shredder(8));
+        StrideHarvester StrideWe1 = new StrideHarvester(new Chopper(0.8f));
+        StrideHarvester StrideWe2 = new StrideHarvester(new Shredder(2));
+
+        Forstbetrieb fbStJohann = new Forstbetrieb("FBSt.Johann");
+        WheelHarvester WheelSt1 = new WheelHarvester(new Chopper(0.4f));
+        WheelHarvester WheelSt2 = new WheelHarvester(new Shredder(32));
+        StrideHarvester StrideSt1 = new StrideHarvester(new Chopper(0.2f));
+        StrideHarvester StrideSt2 = new StrideHarvester(new Shredder(22));
 
         System.out.println("Tests zu add in Forstbetrieb: ");
-        int f1 = ForstTest1.getSize();
+        int f1 = fbOberndorf.getSize();
         System.out.println("Holzvollernter vor dem befüllen: " + f1);
-        ForstTest1.add(WheelTest1);
-        ForstTest1.add(WheelTest2);
-        ForstTest1.add(StrideTest1);
-        ForstTest1.add(StrideTest2);
-        System.out.println("Forstbetrieb nach dem befüllen: Größe jetzt 4: " + testParameters(4, ForstTest1.getSize()));
-        ForstTest1.add(WheelTest1);
-        System.out.println("Befüllen mit bereits vorhandenem Element: Größe immer noch 4: " + testParameters(4, ForstTest1.getSize()));
-        ForstTest1.remove(3);
-        System.out.println("Entfernen eines Elements: Größe jetzt 3: " + testParameters(3, ForstTest1.getSize()));
-        System.out.println("Ändern der Information eines Holzvollernters:\nShredder -> Chopper: Davor:  " + WheelTest2.getWorkingHead().getClass());
-        ForstTest1.change(4, Forstchopper3);
-        System.out.println("Shredder -> Chopper: Danach: " + WheelTest2.getWorkingHead().getClass());
-        System.out.println(ForstTest1.toString(0));
+        fbOberndorf.add(WheelOb1);
+        fbOberndorf.add(WheelOb2);
+        fbOberndorf.add(StrideOb1);
+        fbOberndorf.add(StrideOb2);
+        fbStJohann.add(WheelSt1);
+        fbStJohann.add(WheelSt2);
+        fbWeidau.add(StrideWe1);
+        fbWeidau.add(StrideWe2);
+        fbWeidau.add(WheelWe1);
 
-        WheelTest1.raiseCoveredDistance();
-        WheelTest2.raiseCoveredDistance();
-        WheelTest2.raiseCoveredDistance();
-        WheelTest2.raiseCoveredDistance();
-        StrideTest1.raiseCoveredDistance();
-        StrideTest1.raiseCoveredDistance();
-        StrideTest1.raiseCoveredDistance();
-        StrideTest2.raiseCoveredDistance();
-        System.out.println("\nBerechnung statistischer Werte zu ForstTest1:\n");
-        System.out.println(ForstTest1.toString(1));
+        System.out.println(fbOberndorf.getName() + "nach dem befüllen: Größe jetzt 4: " + testParameters(4, fbOberndorf.getSize()));
+        System.out.println(fbStJohann.getName() + "nach dem befüllen: Größe jetzt 2: " + testParameters(2, fbStJohann.getSize()));
+        System.out.println(fbWeidau.getName() + "nach dem befüllen: Größe jetzt 3: " + testParameters(3, fbWeidau.getSize()));
+        fbOberndorf.add(null);
+        System.out.println(fbOberndorf.getName() + "nach einfügen von null: Größe immer noch 4: " + testParameters(4, fbOberndorf.getSize()));
+
+        fbStJohann.add(WheelSt1);
+        System.out.println("Befüllen mit bereits vorhandenem Element: Größe immer noch 2: " + testParameters(2, fbStJohann.getSize()));
+
+        System.out.println("Tests zu remove in Forstbetrieb: ");
+        fbOberndorf.remove(3);
+        System.out.println("Entfernen eines Elements: Größe jetzt 3: " + testParameters(3, fbOberndorf.getSize()));
+
+        System.out.println("Tests zum ändern von Informationen eines Holzvollernters in Forstbetrieb: ");
+        System.out.println("Ändern der Information eines Holzvollernters:\nShredder -> Chopper: Davor:  " + WheelOb2.getWorkingHead().getClass());
+        fbOberndorf.change(4, new Chopper(0.8f));
+        System.out.println("Shredder -> Chopper: Danach: " + WheelOb2.getWorkingHead().getClass());
+        System.out.println(fbOberndorf.toString());
+
+        WheelOb1.raiseCoveredDistance();
+        WheelOb2.raiseCoveredDistance();
+        WheelOb2.raiseCoveredDistance();
+        WheelOb2.raiseCoveredDistance();
+        StrideOb1.raiseCoveredDistance();
+        StrideOb1.raiseCoveredDistance();
+        StrideOb1.raiseCoveredDistance();
+        StrideOb2.raiseCoveredDistance();
+
+        System.out.println("\nBerechnung statistischer Werte zu fbOberndorf:\n");
+        System.out.println(fbOberndorf.statToString());
 
 
         Forstbetrieb exceptionStats = new Forstbetrieb("excepetion");
@@ -178,6 +200,7 @@ public class Test {
             e.printStackTrace();
         }
 
+        //KOMMENTAR: Tests zu Regionen
         Forstbetrieb fb1 = new Forstbetrieb("Angerer");
         fb1.add(new WheelHarvester(new Chopper(0.1f)));
         fb1.add(new WheelHarvester(new Shredder(4)));
@@ -197,14 +220,12 @@ public class Test {
         fb4.add(new StrideHarvester(new Chopper(0.5f)));
         fb4.add(new StrideHarvester(new Chopper(0.2f)));
         Forstbetrieb fb5 = new Forstbetrieb("Quercusse");
-        fb4.add(new StrideHarvester(new Shredder(8)));
-        fb4.add(new StrideHarvester(new Shredder(4)));
+        fb5.add(new StrideHarvester(new Shredder(8)));
+        fb5.add(new StrideHarvester(new Shredder(4)));
         Forstbetrieb fb6 = new Forstbetrieb("Fagusse");
 
-        //KOMMENTAR: Tests zu Regionen
-        System.out.println("Tests zu Regionen:\n");
+        System.out.println("Tests zu Regionen:");
         Region r1 = new Region("Waldviertel");
-        System.out.println("Test zur Fehlermeldung aufgrund von Division durch 0:");
         Region r2 = new Region("Mostviertel");
         Region r3 = new Region("Auvergne");
 
@@ -278,14 +299,15 @@ public class Test {
         System.out.println("Region nach remove(): " + r2.toString());
         int r2ARem = r2.getSize();
         System.out.println("Nicht existierendes Element entfernt: Size bleibt gleich: " + testParameters(r2AfterRemove,r2ARem));
-
-
     }
 
-    private static boolean testParameters(Float float1, Float float2) { //ToDo: float-Vergleiche
+    //NACHB: Gibt true zurück  wenn float1 und float2 um weniger als 0.00001 voneinander abweichen
+    private static boolean testParameters(Float float1, Float float2) {
         return Math.abs(float1 - float2) < 0.00001;
     }
-    private static boolean testParameters(Integer int1, Integer int2) { //ToDo: Die Methoden auch iwie zusammen geben?
+
+    //NACHB: Gibt true zurück wenn int1 == int2
+    private static boolean testParameters(Integer int1, Integer int2) {
         return int1 == int2;
     }
 
@@ -314,7 +336,6 @@ Zusicherungen und Implementierung von Forstbetrieb: David
 Tests zu Forstbetrieb: David
 Zusicherungen und Implementierung von Region und List: Maria
 Tests zu Region: Maria
-//TODO ist es ok, wenn wir es so aufschreiben?
 statistische Methoden in Forstbetrieb: David & (Annerose & Maria)
 
 **************************************************************************************************************************
