@@ -94,7 +94,7 @@ public class Test {
         strideHarvester.changeHead(chopper2);
         System.out.println("Applied Head: " + chopper2.getClass());
         System.out.println("\nHead information: " + (Float) strideHarvester.readHeadInformation() + " " + strideHarvester.getHeadMeaning());
-        System.out.println("Covered distance: " + (Integer) strideHarvester.giveCoveredDistance()); //ToDo: wenn ich nicht dynamisch Binde hier überall die Casts weg
+        System.out.println("Covered distance: " + (Integer) strideHarvester.giveCoveredDistance());
         System.out.println("Covered distance check: " + testParameters((Integer) strideHarvester.giveCoveredDistance(), 3));
         System.out.println("Operation time at start: " + strideHarvester.getOperationTime());
         System.out.println("Operation time check: " + testParameters(strideHarvester.getOperationTime(), 0.4f));
