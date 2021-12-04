@@ -10,10 +10,10 @@ public class Shredder implements WorkingHead {
         this.maxWidth = maxWidth;
     }
 
-    //NACHBEDINGUNG: gibt die maximale Dicke eines zu Verarbeitenden Baumes in cm aus
+    //NACHBEDINGUNG: gibt die maximale Dicke eines zu Verarbeitenden Baumes in cm (als Integer) aus //ToDo
     @Override
-    public Integer readMax() {
-        return maxWidth;
+    public Number readMax() {
+        return (Number) maxWidth;
     }
 
     @Override

@@ -43,8 +43,10 @@ public abstract class Harvester {
         return harvesterNumber;
     }
 
+    //ToDo: Weg?
     public abstract String getType();
 
+    //ToDo: Weg?
     public String getHeadType(){
         return workingHead.getHeadType();
     }
@@ -60,7 +62,7 @@ public abstract class Harvester {
 
     //KOMMENTAR: Liest je nach Art des WorkingHead die maximalen Stücklänge oder die maximalen Baumdicke aus
     public Number readHeadInformation(){
-        return workingHead.readMax();
+        return (Number) workingHead.readMax();
     }
 
     //KOMMENTAR: Wird für die Ausgabe verwendet, um in Text auszugeben, was die headInformation bedeutet
@@ -76,7 +78,7 @@ public abstract class Harvester {
                 "\nworkingHead: " + workingHead.getClass();
     }
 
-    //ToDo weg?
+    //ToDo: weg?
     //NACHB: Gibt den workinghead zurück
     public WorkingHead getWorkingHead(){return workingHead;}
 }

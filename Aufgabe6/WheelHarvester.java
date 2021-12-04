@@ -20,10 +20,10 @@ public class WheelHarvester extends Harvester{
         coveredMeters += 0.3f;
     }
 
-    //KOMMENTAR: Gibt die zurückgelegten Meter (als Float) zurück
+    //KOMMENTAR: Gibt die zurückgelegten Meter (als Float) zurück //ToDo
     @Override
-    public Float giveCoveredDistance(){
-        return coveredMeters;
+    public Number giveCoveredDistance(){
+        return (Number) coveredMeters;
     }
 
     public String getType(){

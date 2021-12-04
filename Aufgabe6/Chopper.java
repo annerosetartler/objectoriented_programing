@@ -10,10 +10,10 @@ public class Chopper implements  WorkingHead {
         this.maxLength = maxLength;
     }
 
-    //NACHBEDINGUNG: gibt die maximale Länge eines Stücks in Meter aus
+    //NACHBEDINGUNG: gibt die maximale Länge eines Stücks in Meter (als Float) aus //ToDo
     @Override
-    public Float readMax() {
-        return maxLength;
+    public Number readMax() {
+        return (Number) maxLength;
     }
 
     @Override

@@ -20,10 +20,10 @@ public class StrideHarvester extends Harvester {
         steps++;
     }
 
-    //KOMMENTAR: Gibt die zurückgelegten Schritte aus
+    //KOMMENTAR: Gibt die zurückgelegten Schritte (als Integer) aus  //ToDo
     @Override
-    public Integer giveCoveredDistance() {
-        return steps;
+    public Number giveCoveredDistance() {
+        return (Number) steps;
     }
 
     public String getType(){

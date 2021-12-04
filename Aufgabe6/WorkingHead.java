@@ -1,5 +1,5 @@
 public interface WorkingHead {
-    //Kommentar: Ein Arbeitskopf ist ein für einen Harvester benötigtes Bauteil, das jedoch gewechselt werden kann.
+    //KOMMENTAR: Ein Arbeitskopf ist ein für einen Harvester benötigtes Bauteil, das jedoch gewechselt werden kann.
     //           Er beinhaltet eine Number (je nach Implementierung Integer oder Float), die für die maximale länge oder
     //           dicke eines Holzstückes steht
     //INVARIANTE: die jeweiligen Werte der Number sind nicht veränderlich
