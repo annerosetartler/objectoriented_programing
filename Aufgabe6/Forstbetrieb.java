@@ -5,12 +5,12 @@ public class Forstbetrieb {
     //           Ein Forstbetrieb hat einen unveränderlichen Namen.
     //INVARIANTE: holzvollernter enthält keine Nulleinträge
     private final String name;
-    private List holzvollernter;
+    private List harvester;
 
 
     //VORB: name != null
     public Forstbetrieb(String name) {
-        holzvollernter = new List();
+        harvester = new List();
         this.name = name;
     }
 
@@ -20,13 +20,13 @@ public class Forstbetrieb {
         if (h == null) {
             return;
         } else {
-            for (Iterator it = holzvollernter.iterator(); it.hasNext(); ) {
+            for (Iterator it = harvester.iterator(); it.hasNext(); ) {
                 Harvester hn = (Harvester) it.next();
                 if (h.equals(hn)) {
                     return;
                 }
             }
-            holzvollernter.add((Harvester) h);
+            harvester.add((Harvester) h);
         }
     }
 
@@ -34,7 +34,7 @@ public class Forstbetrieb {
     //NACHB: entfernt einen Holzvollernter h aus der Liste, wenn dieser in der Liste vorhanden ist
     public void remove(int num) {
         boolean keepSearching = true;
-        for (Iterator it = holzvollernter.iterator(); it.hasNext() && keepSearching; ) {
+        for (Iterator it = harvester.iterator(); it.hasNext() && keepSearching; ) {
             Harvester hn = (Harvester) it.next();
             if (num == hn.getHarvesterNumber()) {
                 it.remove();
@@ -49,7 +49,7 @@ public class Forstbetrieb {
     //NACHB:ändert eine Information eines Holzvollernters wenn dieser in der Liste vorhanden ist
     //      sonst passiert nichts
     public void change(int num, WorkingHead head) {
-        for (Iterator it = holzvollernter.iterator(); it.hasNext(); ) {
+        for (Iterator it = harvester.iterator(); it.hasNext(); ) {
             Harvester hn = (Harvester) it.next();
             if (hn.getHarvesterNumber() == num) {
                 hn.changeHead(head);
@@ -62,17 +62,17 @@ public class Forstbetrieb {
     //       sonst wird die durchschnittliche Betriebstundenanzahl aufgeschlüsselt nach Holzvollernterart
     //       wenn der Forstbetrieb noch keine Holzvollernter beinhaltet wird eine Exception geworfen
     public String avgOperationTime(int i) {
-        if (holzvollernter.getSize() == 0) {
+        if (harvester.getSize() == 0) {
             throw new ArithmeticException("Division by 0!");
         }
         String result = "";
         if (i == 1) {
             float sumall = 0.0f;
-            for (Iterator it = holzvollernter.iterator(); it.hasNext(); ) {
+            for (Iterator it = harvester.iterator(); it.hasNext(); ) {
                 Harvester hn = (Harvester) it.next();
                 sumall += hn.getOperationTime();
             }
-            sumall = sumall / holzvollernter.getSize();
+            sumall = sumall / harvester.getSize();
             result = "Durchschnittliche Betriebstundenanzahl aller Holzvollernter zusammen und zusätzlich aufgeschlüsselt nach den Einsatzarten: \n";
             result += "Alle: " + sumall + "\n";
             result += "Schneider: " + avgOperationTimeObj(new Chopper(0.1f)) + "\n";
@@ -95,7 +95,7 @@ public class Forstbetrieb {
     private float avgOperationTimeObj(Object o) {
         float summe = 0.0f;
         int counter = 0;
-        for (Iterator it = holzvollernter.iterator(); it.hasNext(); ) {
+        for (Iterator it = harvester.iterator(); it.hasNext(); ) {
             Harvester hn = (Harvester) it.next();
             if (hn.getClass().equals(o.getClass())) {
                 counter++;
@@ -118,7 +118,7 @@ public class Forstbetrieb {
     //       und aufgeschlüsselt nach Einsatzart zurückgegeben
     //       wenn der Forstbetrieb noch keine Holzvollernter beinhaltet wird eine Exception geworfen
     public String avgWayLength(int i) {
-        if (holzvollernter.getSize() == 0) {
+        if (harvester.getSize() == 0) {
             throw new ArithmeticException("Division by 0!");
         }
         String result = "";
@@ -147,7 +147,7 @@ public class Forstbetrieb {
         Float summef = 0.0f;
         Integer summei = 0;
         Integer counter = 0;
-        for (Iterator it = holzvollernter.iterator(); it.hasNext(); ) {
+        for (Iterator it = harvester.iterator(); it.hasNext(); ) {
             Harvester hn = (Harvester) it.next();
             if (hn.getClass().equals(o.getClass()) && (o2 == null ? true : hn.getWorkingHead().getClass().equals(o2.getClass()))) {
                 counter++;
@@ -190,7 +190,7 @@ public class Forstbetrieb {
     private Float minMaxPieceObj(WorkingHead o, Harvester o2, int i) {
         Float minmax = 0.0f;
         minmax = i == 0 ? 0.0f : Float.MAX_VALUE;
-        for (Iterator it = holzvollernter.iterator(); it.hasNext(); ) {
+        for (Iterator it = harvester.iterator(); it.hasNext(); ) {
             Harvester hn = (Harvester) it.next();
             if (hn.getWorkingHead().getClass().equals(o.getClass()) && (o2 == null ? true : hn.getClass().equals(o2.getClass()))) {
                 if (i == 0) {
@@ -207,7 +207,7 @@ public class Forstbetrieb {
     //       mit Hackschnitzelkopf eines Forstbetriebs insgesamt
     //       und aufgeschlüsselt nach Art des Holzvollernter zurück
     public String avgThickness(){
-        if (holzvollernter.getSize() == 0) {
+        if (harvester.getSize() == 0) {
             throw new ArithmeticException("Division by 0!");
         }
         String result = "Die durchschnittliche Baumdicke aller Holzvollernter mit Hackschnitzelkopf eines Forstbetriebs insgesamt und aufgeschlüsselt nach Art des Holzvollernters: \n";
@@ -218,16 +218,14 @@ public class Forstbetrieb {
     }
 
     //VORB: o != null
-    //NACHB: Bei i = 0 wird jeweils das Maximum berechnet
-    //       sonst das Minimum
-    //       Wird o2 = null übergeben wird das Maximum/Minimum für die
+    //NACHB: Wird o2 = null übergeben wird die durchschnittliche Baumdicke für die
     //       jeweilige Holzvollernterart zurückgegeben
-    //       Wird für o2 != null übergeben wird das Maximum/Minimum für
+    //       Wird für o2 != null übergeben wird die die durchschnittliche Baumdicke für die
     //       jeweilige Holzvollernterart und den jeweiligen Ernter zurückgegeben
     private Float avgThicknessObj(WorkingHead o, Harvester o2) {
         Float sum = 0.0f;
         Integer counter = 0;
-        for (Iterator it = holzvollernter.iterator(); it.hasNext(); ) {
+        for (Iterator it = harvester.iterator(); it.hasNext(); ) {
             Harvester hn = (Harvester) it.next();
             if (hn.getWorkingHead().getClass().equals(o.getClass()) && (o2 == null ? true : hn.getClass().equals(o2.getClass()))) {
                 counter++;
@@ -240,40 +238,41 @@ public class Forstbetrieb {
         return (Float)(sum / counter);
     }
 
-    public String toString(int i) {
-        if (holzvollernter.getSize() == 0) {
+    //NACHB: Es wird der Inhalt von der Liste holzvollernter zurückgegeben
+    public String toString() {
+        if (harvester.getSize() == 0) {
             return name + ": { }";
         }
-        if (i != 1) {
-            String s = "\n" + name + ": ";
-            Iterator it = holzvollernter.iterator();
+        String s = "";
+            s += "\n" + name + ": ";
+            Iterator it = harvester.iterator();
             Harvester hn = (Harvester) it.next();
             s += hn.toString();
             while (it.hasNext()) {
                 hn = (Harvester) it.next();
                 s += " " + hn.toString();
             }
-            return s;
-        }else{
-            System.out.println("" + this.avgOperationTime(1));
-            System.out.println("\n" + this.avgOperationTime(0));
+        return s;
+    }
 
-            System.out.println("\n" + this.avgWayLength(1));
-            System.out.println("\n" + this.avgWayLength(0));
-
-            System.out.println("\n" + this.minMaxPiece());
-
-            System.out.println("\n" + this.avgThickness());
-            return "";
-        }
-
+    //NACHB: Gibt die statistischen Methoden in einem String zurück.
+    public String statToString(){
+        String s = "";
+        s += this.avgOperationTime(1) + "\n";
+        s += "\n" +this.avgOperationTime(0) + "\n";
+        s += "\n" +this.avgWayLength(1) + "\n";
+        s += "\n" +this.avgWayLength(0) + "\n";
+        s += "\n" +this.minMaxPiece() + "\n";
+        s += "\n" +this.avgThickness();
+        return s;
     }
 
     //NACHB: gibt die Anzahl der Holzvollernter eines Forstbetriebs zurück
     public int getSize(){
-        return holzvollernter.getSize();
+        return harvester.getSize();
     }
 
+    //NACHB: gibt den Namen des Forstbetriebs zurück
     public String getName() {
         return name;
     }
