@@ -19,12 +19,13 @@
 * Fichte & Buche:
     - Variablen auf private umgeändert und dementsprechende auftretende Probleme gelöst
     - Methoden von protected auf private, da nun keine Vererbungsbeziehungen, bei denen Methoden überschrieben werden müssen, bedacht werden (müssen)
-    - Zusicherungen dementsprechend korrigiert (ToDo)
+    - Zusicherungen dementsprechend korrigiert
 
 **************
 
 * Forst:
-    - Update Beschreibungen (ToDo)
+    - Update Beschreibungen
+    - ToString-Ausgabefehler bei zwei Populationen behoben
 
 **************
 

@@ -1,8 +1,8 @@
 import java.util.ArrayList;
 
 public interface Population {
-    //KOMMENTAR: Population ist ein Interface mit verschiedene Arten von Baum-Populationen (in unserem Fall derzeit zwei:
-    //           Fichte oder Buche) als Instanzen. Alle Implementierungen des Interfaces verfügen über eine plusEinJahr()-Methode,
+    //KOMMENTAR: Population ist ein Interface für verschiedene Arten von Baum-Populationen (hier derzeit zwei: Fichte
+    //           oder Buche) als Instanzen. Alle Implementierungen des Interfaces verfügen über eine plusEinJahr()-Methode,
     //           die eine Alterung des Walds um ein Jahr simuliert
     //INV: Werte in altersStruktur in [0.0,1.0] & Summe aller Werte in altersStruktur ergibt 1.0 & altersStruktur.size > 0
     //     Wert für gesundheit in [0.25,1.0]
@@ -25,9 +25,10 @@ public interface Population {
     //VORB: Wert von gesundheit in [0.25,1.0]
     void setGesundheit(float gesundheit);
 
-    //KOMMENTAR: setzt die istMischwald-Variable auf true, wenn eine Population von Fichte und eine von Buche gemeinsam
-    //in einem Forst existieren
-    public void setzeMischwaldVar();
+    //KOMMENTAR: Adaptiert die Population
+    //HISTORY CONSTRAINT: Wird nur maximal einmal zu Beginn der Forsterzeugung aufgerufen
+    //                    Wird genau dann einmal aufgerufen, wenn der Forst zwei Populationen beinhaltet
+    public void setzeMischwaldBesonderheiten();
 
     public String toString();
 

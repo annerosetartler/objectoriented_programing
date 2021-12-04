@@ -1,18 +1,14 @@
 import java.util.ArrayList;
 
 public class Buche implements Population {
-    //
-    //ToDo Kommentare und evtl. Variablen ändern
-
+    //KOMMENTAR: Eine Buche ist eine bestimmte Baumpopulation, die alleine oder gemeinsam mit einer weiteren Population in einem Forst existieren kann.
+    //           Buchen gedeihen im Mischwald besser, als in einem Forst mit nur einer Population (höherer Zuwachs)
     //INV: Werte in altersStruktur in [0.0,1.0] & Summe aller Werte in altersStruktur ergibt 1.0 & altersStruktur.size > 0
     //     Wert für gesundheit in [0.25,1.0]
-    //     baumBestand >= 0
-    //     zielbestand >= 0
-    //     ernte >= 0
+    //     baumBestand >= 0 & zielbestand >= 0 & ernte >= 0
     //     ausfall in [0.0,1.0]
     //GUT: Klassenzusammenhalt: es gibt wenige public Methoden, die in sich Abläufe von private Methoden regulieren
     //                          dadurch kann eine unerwünschte Aufrufreihenfolge von Methoden durch den Client unterbunden werden
-    //     Verbesserung: wäre mit einem Interface noch besser
     private float baumBestand;//KOMMENTAR: in Festmetern fm
     private ArrayList<Float> altersStruktur;//KOMMENTAR: jeder Index repräsentiert ein Alter und jeder Eintrag den Anteil der Bäume dieses Alters
     private float gesundheit;
@@ -22,13 +18,6 @@ public class Buche implements Population {
     private float ausfall;//KOMMENTAR: in %
     private float zuwachs;//KOMMENTAR: in Festmetern fm
     private boolean istMischwald;
-
-    //INV: Werte in altersStruktur in [0.0,1.0] & Summe aller Werte in altersStruktur ergibt 1.0 & altersStruktur.size > 0
-    //     Wert für gesundheit in [0.25,1.0]
-    //     baumBestand >= 0
-    //     zielbestand >= 0
-    //     ernte >= 0
-    //     ausfall in [0.0,1.0]
 
     //VORB: as != null & as.size() > 0 & bB > 0 & zb > 0
     //      Summe aller Werte in as ergibt 1.0 & Werte in as liegen in [0.0,1.0]
@@ -64,12 +53,13 @@ public class Buche implements Population {
         istMischwald = false;
     }
 
+    //KOMMENTAR: Unabhängig vom aktiven Bewirtschaftungsmodell wird die Veränderung des Waldes berechnet. Eine Ernte wird nur
+    //           dann berechnet, wenn diese im jeweiligen Modell vorgesehen ist.
     //VORB: einflussArray.length == 4 & Werte in einflussArray in [0.0,1.0]
     //      wirtschaftsfaktoren.length == 4 & Werte in wirtschaftsfaktoren in [0.0,1.0]
     //      maxZielb > 0
     //NACHB: verändert den Zustand der Population
     public void plusEinJahr(float[] einflussArray, float[] wirtschaftsfaktoren, float maxZielb, boolean istMischwald) {
-        //KOMMENTAR: Alle Bewirtschaftungsmodelle tun:
         berAusfall(einflussArray);
         berZuwachs(einflussArray[3]);
         updateBaumbestand();
@@ -79,7 +69,6 @@ public class Buche implements Population {
         berCO2();
         this.istMischwald = istMischwald;
 
-        //KOMMENTAR: Wenn das Modell eine Ernte beinhaltet passiert zusätzlich
         if (wirtschaftsfaktoren[0] != 0.0f || wirtschaftsfaktoren[3] != 0.0f || wirtschaftsfaktoren[1] != 0.0f || wirtschaftsfaktoren[2] != 0.0f) {
             ernteBew(einflussArray, wirtschaftsfaktoren, maxZielb);
             berCO2();
@@ -98,12 +87,11 @@ public class Buche implements Population {
     }
 
     //VORB: einflussArray.length == 4 & Werte in einflussArray in [0.0,1.0]
-    //GUT: Methode berAusfallsfaktor() wird dynamisch gebunden
     private void berAusfall(float[] einflussArray) { //da ich noch unsicher bin, was man braucht für die Ausfall-Calculation
         ausfall = berAusfallsfaktor(einflussArray) * gesundheit;
     }
 
-    //VORB: einflussArray.length == 4 & Werte in einflussArray in [0.0,1.0] ///////////////////DONE
+    //VORB: einflussArray.length == 4 & Werte in einflussArray in [0.0,1.0]
     //NACHB: gibt einen Wert in [0.0,1.0] zurück
     private float berAusfallsfaktor(float[] einflussArray){
         float[] einflussArrayKopie = new float[einflussArray.length];
@@ -143,13 +131,14 @@ public class Buche implements Population {
     }
 
     //VORB: Wert von zfaktor in [0.0,1.0]
-    //GUT: Methode wird dynamisch gebunden
     protected void berZuwachs(float zFaktor) {
-        zuwachs = zielbestand * zFaktor * 0.08f - ausfall * baumBestand;
+        zuwachs = zielbestand * zFaktor * 0.08f * (istMischwald? 1.02f : 1) - ausfall * baumBestand;
     }
 
-    //ERROR: baumBestand könnte < 0 sein, muss abgefangen werden
     private void updateBaumbestand() {
+        if (baumBestand < 0){
+            baumBestand = zuwachs;
+        }
         baumBestand += zuwachs;
     }
 
@@ -185,6 +174,7 @@ public class Buche implements Population {
         }
     }
 
+    //ToDo: Könntest Du da nochmal drüber sehen, David? Du hast die ja geschrieben
     //VORB: einflussArray.length == 4 & Werte in einflussArray in [0.0,1.0]
     //      wirtschaftsfaktoren.length == 4 & Werte in wirtschaftsfaktoren in [0.0,1.0]
     //      maxZielb > 0
@@ -220,9 +210,10 @@ public class Buche implements Population {
         this.baumBestand = neuerbaumbestand;
     }
 
+    //ToDo: David
     //VORB: alterslimit >= 0
     //NACHB: sA e [0.0,1.0]
-    //KOMMENTAR: Variable sA anders benennen, weil schwer verständlich
+    //KOMMENTAR: Variable sA anders benennen, weil schwer verständlich, Name Missleading?
     private float updateAltersstruktur(int alterslimit) {
         float sA = 0.0f;
         for (int i = 0; i < altersStruktur.size(); i++) {
@@ -248,8 +239,10 @@ public class Buche implements Population {
         this.gesundheit = gesundheit;
     }
 
-    public void setzeMischwaldVar(){
+    //KOMMENTAR: setzt die istMischwald-Variable auf true und halbiert den Anfangs-Zielbestand
+    public void setzeMischwaldBesonderheiten(){
         istMischwald = true;
+        zielbestand /= 2;
     }
 
     @Override
@@ -260,7 +253,7 @@ public class Buche implements Population {
         return s;
     }
 
-    //KOMMENTAR: für Testcases zum Überprüfen des Populationszustands und für Konstruktor
+    //KOMMENTAR: für Testcases zum Überprüfen des Populationszustands, Forst Zwei-Populationen-ToString und für Konstruktor mit Eingabeparameter Population
     public float[] zustandPop(){
         float[] zustand = new float[]{baumBestand,zielbestand,gesundheit,ernte,co2Vorrat,zuwachs, ausfall};
         return zustand;
