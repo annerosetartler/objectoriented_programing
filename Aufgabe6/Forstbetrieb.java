@@ -3,10 +3,15 @@ import java.util.Iterator;
 public class Forstbetrieb {
     //KOMMENTAR: Forstbetrieb verwaltet Informationen über einen Forstbetrieb und wertet diese aus.
     //           Ein Forstbetrieb hat einen unveränderlichen Namen.
-    //INVARIANTE: holzvollernter enthält keine Nulleinträge
+    //INVARIANTE: harvester-List enthält keine Nulleinträge
     private final String name;
     private List harvester;
 
+    //KOMMENTAR: Erzeugung und Speichern jeweils einer Instanz zur Verwendung für die statischen Methoden
+    private final static WorkingHead referenceShredder = new Shredder(5);
+    private final static WorkingHead referenceChopper = new Chopper(0.1f);
+    private final static Harvester referenceStrideH = new StrideHarvester(referenceChopper);
+    private final static Harvester referenceWheelH = new WheelHarvester(referenceShredder);
 
     //VORB: name != null
     public Forstbetrieb(String name) {
@@ -75,13 +80,13 @@ public class Forstbetrieb {
             sumall = sumall / harvester.getSize();
             result = "Durchschnittliche Betriebstundenanzahl aller Holzvollernter zusammen und zusätzlich aufgeschlüsselt nach den Einsatzarten: \n";
             result += "Alle: " + sumall + "\n";
-            result += "Schneider: " + avgOperationTimeObj(new Chopper(0.1f)) + "\n";
-            result += "Hacker: " + avgOperationTimeObj(new Shredder(1));
+            result += "Schneider: " + avgOperationTimeObj(referenceChopper) + "\n";
+            result += "Hacker: " + avgOperationTimeObj(referenceShredder);
 
         } else {
             result = "Durchschnittliche Betriebsstundenanzahl aufgeschlüsselt nach Holzvollernterart:\n";
-            result += "Schreiter: " + avgOperationTimeObj(new StrideHarvester(new Chopper(0.1f))) + "\n";
-            result += "Radernter: " + avgOperationTimeObj(new WheelHarvester(new Chopper(0.1f)));
+            result += "Schreiter: " + avgOperationTimeObj(referenceStrideH) + "\n";
+            result += "Radernter: " + avgOperationTimeObj(referenceWheelH);
         }
         return result;
     }
@@ -124,14 +129,14 @@ public class Forstbetrieb {
         String result = "";
         if (i == 1) {
             result = "Durchschnittliche Wegstrecker aller Radernter und zusätzlich aufgeschlüsselt nach den Einsatzarten: \n";
-            result += "Alle: " + avgWayLengthObj(new WheelHarvester(new Shredder(1)), null) + "\n";
-            result += "Schneider: " + avgWayLengthObj(new WheelHarvester(new Shredder(1)), new Chopper(0.1f)) + "\n";
-            result += "Hacker: " + avgWayLengthObj(new WheelHarvester(new Shredder(1)), new Shredder(1));
+            result += "Alle: " + avgWayLengthObj(referenceWheelH, null) + "\n";
+            result += "Schneider: " + avgWayLengthObj(referenceWheelH, referenceChopper) + "\n";
+            result += "Hacker: " + avgWayLengthObj(referenceWheelH, referenceShredder);
         } else {
             result = "Durchschnittliche Schritte aller Schreiter und zusätzlich aufgeschlüsselt nach den Einsatzarten: \n";
-            result += "Alle: " + avgWayLengthObj(new StrideHarvester(new Shredder(1)), null) + "\n";
-            result += "Schneider: " + avgWayLengthObj(new StrideHarvester(new Shredder(1)), new Chopper(0.1f)) + "\n";
-            result += "Hacker: " + avgWayLengthObj(new StrideHarvester(new Shredder(1)), new Shredder(1));
+            result += "Alle: " + avgWayLengthObj(referenceStrideH, null) + "\n";
+            result += "Schneider: " + avgWayLengthObj(referenceStrideH, referenceChopper) + "\n";
+            result += "Hacker: " + avgWayLengthObj(referenceStrideH, referenceShredder);
         }
         return result;
     }
@@ -211,9 +216,9 @@ public class Forstbetrieb {
             throw new ArithmeticException("Division by 0!");
         }
         String result = "Die durchschnittliche Baumdicke aller Holzvollernter mit Hackschnitzelkopf eines Forstbetriebs insgesamt und aufgeschlüsselt nach Art des Holzvollernters: \n";
-        result += "Alle: " + avgThicknessObj(new Shredder(1), null) + "\n";
-        result += "Radernter: " + avgThicknessObj(new Shredder(1), new WheelHarvester(new Shredder(1))) + "\n";
-        result += "Schreiter: " +avgThicknessObj(new Shredder(1), new StrideHarvester(new Shredder(1))) + "\n";
+        result += "Alle: " + avgThicknessObj(referenceShredder, null) + "\n";
+        result += "Radernter: " + avgThicknessObj(referenceShredder, referenceWheelH) + "\n";
+        result += "Schreiter: " +avgThicknessObj(referenceShredder, referenceStrideH) + "\n";
         return result;
     }
 

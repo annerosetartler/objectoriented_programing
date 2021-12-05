@@ -173,18 +173,18 @@ public class Test {
         System.out.println(fbStJohann.toString());
 
         System.out.println("Tests zu remove in Forstbetrieb: ");
-        fbOberndorf.remove(3);
+        fbOberndorf.remove(5);
         System.out.println("Entfernen eines Elements: Größe jetzt 3: " + testParameters(3, fbOberndorf.getSize()));
         System.out.println(fbOberndorf.toString());
 
         System.out.println("Tests zum ändern von Informationen eines Holzvollernters in Forstbetrieb: ");
         System.out.println("Ändern der Information eines Holzvollernters:\nShredder -> Chopper: Davor:  " + WheelOb2.getWorkingHead().getClass());
-        fbOberndorf.change(4, new Chopper(0.8f));
-        System.out.println("Shredder -> Chopper: Danach: " + WheelOb2.getWorkingHead().getClass());
+        fbOberndorf.change(6, new Chopper(0.8f));
+        System.out.println("Chopper -> Shredder: Danach: " + WheelOb2.getWorkingHead().getClass());
         System.out.println(fbOberndorf.toString());
 
         fbOberndorf.add(WheelOb1);
-        fbOberndorf.change(4, new Shredder(32));
+        fbOberndorf.change(6, new Shredder(32));
 
         WheelOb1.raiseCoveredDistance();
         WheelOb2.raiseCoveredDistance();
