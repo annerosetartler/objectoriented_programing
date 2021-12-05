@@ -246,7 +246,7 @@ public class Forstbetrieb {
     //NACHB: Es wird der Inhalt von der Liste holzvollernter zurückgegeben
     public String toString() {
         if (harvester.getSize() == 0) {
-            return name + ": { }";
+            return "\n" + name + ": { }";
         }
         String s = "";
             s += "\n" + name + ": ";

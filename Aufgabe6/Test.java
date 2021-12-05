@@ -365,6 +365,7 @@ public class Test {
         Forstbetrieb fb6 = new Forstbetrieb("Fagusse");
 
         System.out.println("Tests zu Regionen:");
+        System.out.println();
         Region r1 = new Region("Waldviertel");
         Region r2 = new Region("Mostviertel");
         Region r3 = new Region("Auvergne");
@@ -374,12 +375,15 @@ public class Test {
         r3.add(fb5);r3.add(fb6);
 
         System.out.println(r1.toString());
+        System.out.println();
         System.out.println(r2.toString());
+        System.out.println();
         System.out.println(r3.toString());
 
         System.out.println();
 
         System.out.println("Tests zu add() in Regionen:\n");
+        System.out.println("Hinzufügen von: Forstbetrieb: " + fb1.getName());
         int r1Size = r1.getSize();
         r1.add(fb1);
         int r1SizeAfterAdd = r1.getSize();
@@ -388,6 +392,7 @@ public class Test {
 
         System.out.println();
 
+        System.out.println("Hinzufügen von: Forstbetrieb: " + fb3.getName());
         int r2Size = r2.getSize();
         r2.add(fb3);
         int r2SizeAfterAdd = r2.getSize();
@@ -396,6 +401,7 @@ public class Test {
 
         System.out.println();
 
+        System.out.println("Hinzufügen von: Forstbetrieb: null");
         int r3Size = r3.getSize();
         r3.add(null);
         int r3SizeAfterAdd = r3.getSize();
@@ -406,37 +412,45 @@ public class Test {
         System.out.println("Tests zu remove() in Regionen:\n");
 
         System.out.println("Element am Anfang der Liste entfernen:");
-        System.out.println("Region vor remove(): " + r1.toString());
+        System.out.println("Region vor remove(): ");
+        System.out.println(r1.toString());
         r1.remove(fb1.getName());
-        System.out.println("Region nach remove(): " + r1.toString());
+        System.out.println("Region nach remove(): ");
+        System.out.println(r1.toString());
         int r1AfterRemove = r1.getSize();
         System.out.println("Element entfernt: Size verringert: " + testParameters(r1SizeAfterAdd,r1AfterRemove,1));
 
         System.out.println();
         System.out.println("Element am Ende der Liste entfernen:");
-        System.out.println("Region vor remove(): " + r2.toString());
+        System.out.println("Region vor remove(): ");
+        System.out.println(r2.toString());
         r2.remove(fb3.getName());
-        System.out.println("Region nach remove(): " + r2.toString());
+        System.out.println("Region nach remove(): ");
+        System.out.println(r2.toString());
         int r2AfterRemove = r2.getSize();
         System.out.println("Element entfernt: Size verringert: " + testParameters(r2SizeAfterAdd,r2AfterRemove,1));
 
         System.out.println();
         System.out.println("Element innerhalb der Liste entfernen:");
-        System.out.println("Vorher hinzufügen eines Elements zur Region 'Waldviertel':");
+        System.out.println("Vorher hinzufügen eines Elements zur Region '" + r1.getName() +"':");
         r1.add(fb1);
         r1SizeAfterAdd = r1.getSize();
         System.out.println(r1.toString());
-        System.out.println("Region vor remove(): " + r1.toString());
+        System.out.println("Region vor remove(): ");
+        System.out.println(r1.toString());
         r1.remove(fb3.getName());
         r1AfterRemove = r1.getSize();
-        System.out.println("Region nach remove(): " + r1.toString());
+        System.out.println("Region nach remove(): ");
+        System.out.println(r1.toString());
         System.out.println("Element entfernt: Size verringert: " + testParameters(r1SizeAfterAdd,r1AfterRemove,1));
 
         System.out.println();
         System.out.println("Ein Element aus der Liste entfernen, das nicht in der Liste vorkommt:");
-        System.out.println("Region vor remove(): " + r2.toString());
+        System.out.println("Region vor remove(): ");
+        System.out.println(r2.toString());
         r2.remove("RoburHack");
-        System.out.println("Region nach remove(): " + r2.toString());
+        System.out.println("Region nach remove(): ");
+        System.out.println(r2.toString());
         int r2ARem = r2.getSize();
         System.out.println("Nicht existierendes Element entfernt: Size bleibt gleich: " + testParameters(r2AfterRemove,r2ARem));
     }

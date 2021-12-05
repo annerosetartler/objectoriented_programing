@@ -3,7 +3,7 @@ import java.util.Iterator;
 public class Region {
     //KOMMENTAR: Eine Region hat einen unveränderlichen Namen und verwaltet Informationen über alle Forstbetriebe einer Region
     //           in Form einer Liste.
-    //INV: forstbetriebe enthält keine null-Einträge
+    //INV: forstbetriebe enthält keine null-Einträge & name != null
     private final String name;
     private List forstbetriebe;
 
@@ -44,6 +44,9 @@ public class Region {
     public int getSize(){
         return forstbetriebe.getSize();
     }
+
+    //NACHB: gibt den Namen der Region zurück
+    public String getName(){ return name;}
 
     //NACHB: gibt den Inhalt von forstbetriebe als String zurück
     public String toString(){
