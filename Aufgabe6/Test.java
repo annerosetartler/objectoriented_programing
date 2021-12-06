@@ -36,7 +36,7 @@ public class Test {
 
         System.out.println("\nChange Head: chopper -> chopper ");
         wheelHarvester.changeHead(chopper3);
-        System.out.println("Applied Head: " + chopper3.getClass());
+        System.out.println("Applied Head: " + chopper3.getClass().getName());
         System.out.println("\nHead information: " + (Float) wheelHarvester.readHeadInformation() + " " + wheelHarvester.getHeadMeaning());
         System.out.println("Covered distance: " + (Float) wheelHarvester.giveCoveredDistance());
         System.out.println("Covered distance check: " + testParameters((Float) wheelHarvester.giveCoveredDistance(), 0.9f));
@@ -55,7 +55,7 @@ public class Test {
 
         System.out.println("\nChange Head: chopper -> shredder ");
         wheelHarvester.changeHead(shredder1);
-        System.out.println("Applied Head: " + shredder1.getClass());
+        System.out.println("Applied Head: " + shredder1.getClass().getName());
         System.out.println("\nHead information: " + (Integer) wheelHarvester.readHeadInformation() + " " + wheelHarvester.getHeadMeaning());
         System.out.println("Covered distance: " + (Float) wheelHarvester.giveCoveredDistance());
         System.out.println("Covered distance check: " + testParameters((Float) wheelHarvester.giveCoveredDistance(), 1.8f));
@@ -92,7 +92,7 @@ public class Test {
 
         System.out.println("\nChange Head: chopper -> shredder ");
         strideHarvester.changeHead(chopper2);
-        System.out.println("Applied Head: " + chopper2.getClass());
+        System.out.println("Applied Head: " + chopper2.getClass().getName());
         System.out.println("\nHead information: " + (Float) strideHarvester.readHeadInformation() + " " + strideHarvester.getHeadMeaning());
         System.out.println("Covered distance: " + (Integer) strideHarvester.giveCoveredDistance());
         System.out.println("Covered distance check: " + testParameters((Integer) strideHarvester.giveCoveredDistance(), 3));
@@ -111,7 +111,7 @@ public class Test {
 
         System.out.println("\nChange Head: shredder -> shredder ");
         strideHarvester.changeHead(shredder3);
-        System.out.println("Applied Head: " + shredder3.getClass());
+        System.out.println("Applied Head: " + shredder3.getClass().getName());
         System.out.println("\nHead information: " + (Integer) strideHarvester.readHeadInformation() + " " + strideHarvester.getHeadMeaning());
         System.out.println("Covered distance: " + (Integer) strideHarvester.giveCoveredDistance());
         System.out.println("Covered distance check: " + testParameters((Integer) strideHarvester.giveCoveredDistance(), 6));
@@ -178,9 +178,9 @@ public class Test {
         System.out.println(fbOberndorf.toString());
 
         System.out.println("\nTests zum ändern von Informationen eines Holzvollernters in Forstbetrieb: ");
-        System.out.println("Ändern der Information eines Holzvollernters:\nShredder -> Chopper: Davor:  " + WheelOb2.getWorkingHead().getClass());
+        System.out.println("Ändern der Information eines Holzvollernters:\nShredder -> Chopper: Davor:  " + WheelOb2.getWorkingHead().getClass().getName());
         fbOberndorf.change(6, new Chopper(0.8f));
-        System.out.println("Shredder -> Chopper: Danach: " + WheelOb2.getWorkingHead().getClass());
+        System.out.println("Shredder -> Chopper: Danach: " + WheelOb2.getWorkingHead().getClass().getName());
         System.out.println(fbOberndorf.toString());
 
 

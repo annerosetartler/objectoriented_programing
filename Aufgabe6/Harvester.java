@@ -67,7 +67,7 @@ public abstract class Harvester {
         return "Harvester: " +
                 "harvesterNumber: " + harvesterNumber +
                 ", operationTime: " + operationTime +
-                ", workingHead: " + workingHead.getClass();
+                ", workingHead: " + workingHead.getClass().getName();
     }
 
     //NACHB: Gibt den workinghead zurück
