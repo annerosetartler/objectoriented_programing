@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
-public class Test_1 {
+public class Test {
 
     public static void main(String[] args) {
         System.out.println("Tests zu Einfluesse:" + "\n");

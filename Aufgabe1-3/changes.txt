@@ -4,7 +4,7 @@
 
 
 * Test_4:
-    - Umbenannt in Test_1, weil wir sonst zwei gleich heißende Klassen haben
+    - Umbenannt in Test, weil wir sonst zwei gleich heißende Klassen haben
     - Simulationsdurchlauf für restlichen Bewirtschaftungsmodelle hinzugefügt
 
 *************
