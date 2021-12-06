@@ -176,7 +176,7 @@ public class Buche implements Population {
         }
     }
 
-    //ToDo: Könntest Du da nochmal drüber sehen, David? Du hast die ja geschrieben
+    //KOMMENTAR: Methode zur Ernte je nach Bewirtschaftungsmodell
     //VORB: einflussArray.length == 4 & Werte in einflussArray in [0.0,1.0]
     //      wirtschaftsfaktoren.length == 4 & Werte in wirtschaftsfaktoren in [0.0,1.0]
     //      maxZielb > 0
@@ -205,7 +205,6 @@ public class Buche implements Population {
 
     }
 
-    //ToDo: David kurz schauen :)
     //VORB: neuerbaumbestand >= 0
     public void plenterernte(float neuerbaumbestand) {
         ernte += baumBestand - neuerbaumbestand;

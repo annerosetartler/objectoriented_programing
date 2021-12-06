@@ -31,26 +31,31 @@
 
 * Bewirtschaftungsmodell:
     - Umstellung als interface
-
+    - Typbeschreibung hinzugefügt
 
 * Naturbelassen:
     - Variablen von protected auf private umgestellt
-    - Zusicherungen ergänzt(ToDo)
+    - Typbeschreibung hinzugefügt
+    - Zusicherungen ergänzt
 
 * Bewirtschaftet:
     - Umstellung als Interface
+    - Typbeschreibung hinzugefügt
 
 * Erholungsgebiet:
     - Variablen von protected auf private umgestellt
-    -Zusicherungen ergänzt(ToDo)
+    - Typbeschreibung hinzugefügt
+    - Zusicherungen ergänzt
 
 * Kahlschlag:
-    -Variablen von protected auf private umgestellt
-    -Zusicherungen ergänzt(ToDo)
+    - Variablen von protected auf private umgestellt
+    - Typbeschreibung hinzugefügt
+    - Zusicherungen ergänzt
 
 * Plenterwirtschaft:
-    -Variablen von protected auf private umgestellt
-    -Zusicherungen ergänzt(ToDo)
+    - Variablen von protected auf private umgestellt
+    - Typbeschreibung hinzugefügt
+    - Zusicherungen ergänzt
 
 ***************
 

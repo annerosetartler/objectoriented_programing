@@ -173,7 +173,7 @@ public class Fichte implements Population {
         co2Vorrat *= 0.98; //KOMMENTAR: Nadelwald-Penalty
     }
 
-    //ToDo: Könntest Du da nochmal drüber sehen, David? Du hast die ja geschrieben
+    ///KOMMENTAR: Methode zur Ernte je nach Bewirtschaftungsmodell
     //VORB: einflussArray.length == 4 & Werte in einflussArray in [0.0,1.0]
     //      wirtschaftsfaktoren.length == 4 & Werte in wirtschaftsfaktoren in [0.0,1.0]
     //      maxZielb > 0
@@ -202,26 +202,23 @@ public class Fichte implements Population {
 
     }
 
-    //ToDo: David kurz schauen, hier, Ernte und updateAltersstruktur :)
     //VORB: neuerbaumbestand >= 0
     public void plenterernte(float neuerbaumbestand) {
         ernte += baumBestand - neuerbaumbestand;
         this.baumBestand = neuerbaumbestand;
     }
 
-    //ToDo: David
     //VORB: alterslimit >= 0
-    //NACHB: sA e [0.0,1.0]
-    //KOMMENTAR: Variable sA anders benennen, weil schwer verständlich, Name missleading?
+    //NACHB: SummeAltersstruktur e [0.0,1.0]
     private float updateAltersstruktur(int alterslimit) {
-        float sA = 0.0f;
+        float SummeAltersstruktur = 0.0f;
         for (int i = 0; i < altersStruktur.size(); i++) {
             if (i >= alterslimit) {
-                sA += altersStruktur.get(i);
+                SummeAltersstruktur += altersStruktur.get(i);
                 altersStruktur.set(i, 0.0f);
             }
         }
-        return sA;
+        return SummeAltersstruktur;
     }
 
     //VORB: wegfall e [0.0,1.0] & maxZielb > 0

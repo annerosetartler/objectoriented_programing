@@ -19,7 +19,7 @@ public interface Population {
     //NACHB: verändert den Zustand der Population
     void plusEinJahr(float[] einflussArray, float[] wirtschaftsfaktoren, float maxZielb, boolean istMischwald);
 
-    //TODO David check auch in untertyp
+
     //VORB: neuerbaumbestand >= 0
     void plenterernte(float neuerbaumbestand);
 

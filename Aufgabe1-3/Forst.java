@@ -102,7 +102,7 @@ public class Forst {
 
         if (population2 != null) {
             population2.plusEinJahr(einflussArray, wirtschaftsfaktoren, maxZielb / 2, true);
-            plenter(wirtschaftsfaktoren);
+            plenter(wirtschaftsfaktoren[2]);
 
             berGesamtAS();
             setzeGesamtGesundheit();
@@ -152,18 +152,16 @@ public class Forst {
         population2.setGesundheit(gemBaumGes);
     }
 
-    //ToDo: Methodenbeschreibung? (DAVID)
-    //VORB: wirtschaftsfaktoren.length == 4 & Werte in wirtschaftsfaktoren in [0.0,1.0]
+    //KOMMENTAR: Methode zur Anwendung der Plenterernte
+    //VORB: faktor >= 0 & faktor <= 1
     //NACHB: wenn population1.baumBestand < als Anteil wirtschaftsfaktoren[2] des gesamten Forsts ist dann: population2.baumBestand = population1.baumbestand
     //       wenn population2.baumBestand < als Anteil wirtschaftsfaktoren[2] des gesamten Forsts ist dann: population1.baumBestand = population2.baumbestand
-    //SCHLECHT: greift von hier auf protected Variable zu
-    //          Es wird zu viel übergeben: nur Übergabe von wirtschaftsfaktoren[2] nötig
-    private void plenter(float[] wirtschaftsfaktoren) {
+    private void plenter(float faktor) {
         float popu1BB = population1.getBaumbestand();
         float popu2BB = population2.getBaumbestand();
-        if (popu1BB < (popu1BB + popu2BB) * wirtschaftsfaktoren[2]) {
+        if (popu1BB < (popu1BB + popu2BB) * faktor) {
             population2.plenterernte((popu1BB));
-        } else if (popu2BB < (popu1BB + popu2BB) * wirtschaftsfaktoren[2]) {
+        } else if (popu2BB < (popu1BB + popu2BB) * faktor) {
             population1.plenterernte((popu2BB));
         }
     }
