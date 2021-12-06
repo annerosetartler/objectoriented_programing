@@ -36,7 +36,7 @@ public class Test {
 
         System.out.println("\nChange Head: chopper -> chopper ");
         wheelHarvester.changeHead(chopper3);
-        System.out.println("Applied Head: " + chopper3.getClass());
+        System.out.println("Applied Head: " + chopper3.getClass().getName());
         System.out.println("\nHead information: " + (Float) wheelHarvester.readHeadInformation() + " " + wheelHarvester.getHeadMeaning());
         System.out.println("Covered distance: " + (Float) wheelHarvester.giveCoveredDistance());
         System.out.println("Covered distance check: " + testParameters((Float) wheelHarvester.giveCoveredDistance(), 0.9f));
@@ -55,7 +55,7 @@ public class Test {
 
         System.out.println("\nChange Head: chopper -> shredder ");
         wheelHarvester.changeHead(shredder1);
-        System.out.println("Applied Head: " + shredder1.getClass());
+        System.out.println("Applied Head: " + shredder1.getClass().getName());
         System.out.println("\nHead information: " + (Integer) wheelHarvester.readHeadInformation() + " " + wheelHarvester.getHeadMeaning());
         System.out.println("Covered distance: " + (Float) wheelHarvester.giveCoveredDistance());
         System.out.println("Covered distance check: " + testParameters((Float) wheelHarvester.giveCoveredDistance(), 1.8f));
@@ -92,7 +92,7 @@ public class Test {
 
         System.out.println("\nChange Head: chopper -> shredder ");
         strideHarvester.changeHead(chopper2);
-        System.out.println("Applied Head: " + chopper2.getClass());
+        System.out.println("Applied Head: " + chopper2.getClass().getName());
         System.out.println("\nHead information: " + (Float) strideHarvester.readHeadInformation() + " " + strideHarvester.getHeadMeaning());
         System.out.println("Covered distance: " + (Integer) strideHarvester.giveCoveredDistance());
         System.out.println("Covered distance check: " + testParameters((Integer) strideHarvester.giveCoveredDistance(), 3));
@@ -111,7 +111,7 @@ public class Test {
 
         System.out.println("\nChange Head: shredder -> shredder ");
         strideHarvester.changeHead(shredder3);
-        System.out.println("Applied Head: " + shredder3.getClass());
+        System.out.println("Applied Head: " + shredder3.getClass().getName());
         System.out.println("\nHead information: " + (Integer) strideHarvester.readHeadInformation() + " " + strideHarvester.getHeadMeaning());
         System.out.println("Covered distance: " + (Integer) strideHarvester.giveCoveredDistance());
         System.out.println("Covered distance check: " + testParameters((Integer) strideHarvester.giveCoveredDistance(), 6));
@@ -145,7 +145,7 @@ public class Test {
         WheelHarvester WheelSt1 = new WheelHarvester(new Chopper(0.4f));
         WheelHarvester WheelSt2 = new WheelHarvester(new Shredder(32));
 
-        System.out.println("\nTests zu add in Forstbetrieb: ");
+        System.out.println("Tests zu add in Forstbetrieb: ");
         int f1 = fbOberndorf.getSize();
         System.out.println("Holzvollernter vor dem befüllen: " + f1);
         fbOberndorf.add(WheelOb1);
@@ -158,33 +158,31 @@ public class Test {
         fbWeidau.add(StrideWe2);
         fbWeidau.add(WheelWe1);
 
-        System.out.println("\n" + fbOberndorf.getName() + "nach dem befüllen: Größe jetzt 4: " + testParameters(4, fbOberndorf.getSize()));
+        System.out.println(fbOberndorf.getName() + "nach dem befüllen: Größe jetzt 4: " + testParameters(4, fbOberndorf.getSize()));
         System.out.println(fbOberndorf.toString());
-        System.out.println("\n" + fbStJohann.getName() + "nach dem befüllen: Größe jetzt 2: " + testParameters(2, fbStJohann.getSize()));
+        System.out.println(fbStJohann.getName() + "nach dem befüllen: Größe jetzt 2: " + testParameters(2, fbStJohann.getSize()));
         System.out.println(fbStJohann.toString());
-        System.out.println("\n" + fbWeidau.getName() + "nach dem befüllen: Größe jetzt 3: " + testParameters(3, fbWeidau.getSize()));
+        System.out.println(fbWeidau.getName() + "nach dem befüllen: Größe jetzt 3: " + testParameters(3, fbWeidau.getSize()));
         System.out.println(fbWeidau.toString());
         fbOberndorf.add(null);
-        System.out.println("\n" + fbOberndorf.getName() + "nach einfügen von null: Größe immer noch 4: " + testParameters(4, fbOberndorf.getSize()));
-        System.out.println(fbOberndorf.toString());
-
-        fbStJohann.add(WheelSt1);
-        System.out.println("\n" + fbStJohann.getName() + "Befüllen mit bereits vorhandenem Element: Größe immer noch 2: " + testParameters(2, fbStJohann.getSize()));
+        System.out.println(fbOberndorf.getName() + "nach einfügen von null: Größe immer noch 4: " + testParameters(4, fbOberndorf.getSize()));
         System.out.println(fbStJohann.toString());
 
-        System.out.println("\nTests zu remove in Forstbetrieb: ");
+        fbStJohann.add(WheelSt1);
+        System.out.println("Befüllen mit bereits vorhandenem Element: Größe immer noch 2: " + testParameters(2, fbStJohann.getSize()));
+        System.out.println(fbStJohann.toString());
+
+        System.out.println("Tests zu remove in Forstbetrieb: ");
         fbOberndorf.remove(5);
         System.out.println("Entfernen eines Elements: Größe jetzt 3: " + testParameters(3, fbOberndorf.getSize()));
         System.out.println(fbOberndorf.toString());
 
-        System.out.println("\nTests zum ändern von Informationen eines Holzvollernters in Forstbetrieb: ");
-        System.out.println("Ändern der Information eines Holzvollernters:\nShredder -> Chopper: Davor:  " + WheelOb2.getWorkingHead().getClass());
+        System.out.println("Tests zum ändern von Informationen eines Holzvollernters in Forstbetrieb: ");
+        System.out.println("Ändern der Information eines Holzvollernters:\nShredder -> Chopper: Davor:  " + WheelOb2.getWorkingHead().getClass().getName());
         fbOberndorf.change(6, new Chopper(0.8f));
-        System.out.println("Shredder -> Chopper: Danach: " + WheelOb2.getWorkingHead().getClass());
+        System.out.println("Chopper -> Shredder: Danach: " + WheelOb2.getWorkingHead().getClass().getName());
         System.out.println(fbOberndorf.toString());
 
-
-        //KOMMENTAR: wieder einfügen und change zurück für statistische Tests
         fbOberndorf.add(WheelOb1);
         fbOberndorf.change(6, new Shredder(32));
 
