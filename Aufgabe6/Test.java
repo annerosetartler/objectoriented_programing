@@ -13,7 +13,6 @@ public class Test {
         Harvester wheelHarvester = new WheelHarvester(chopper1);
 
         Harvester strideHarvester = new StrideHarvester(shredder2);
-        //TEST ToDO
 
         //KOMMENTAR: Testen der Funktionalität der Harvester
         System.out.println("Harvester Checks:");
