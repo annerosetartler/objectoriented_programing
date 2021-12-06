@@ -1,10 +1,10 @@
 import java.util.ArrayList;
 
 public class Forst {
-    //KOMMENTAR: Ein Forst ist ein Container, der ein oder zwei Populationen beinhaltet. Während ein Forst mit nur einer
-    //           Population direkt die Methoden der entsprechenden Population aufruft und alle Berechnungen dort ausführen
-    //           kann, wird im Forst sichergestellt, dass die Methoden in einem Forst mit zwei Populationen richtig berechnet
-    //           und ausgeführt werden.
+    //KOMMENTAR: Ein Forst steht für ein Gebiet mit einer (Wald einer bestimmten Sorte) oder zwei (Mischwald) Populationen.
+    //           Während ein Forst mit nur einer Population direkt die Methoden der entsprechenden Population aufruft und
+    //           alle Berechnungen dort ausführen kann, wird im Forst sichergestellt, dass die Methoden in einem Forst mit
+    //           zwei Populationen richtig berechnet und ausgeführt werden.
     //           Für die Verwaltung des Forst mit zwei Populationen wird eine Gesamt-Altersstruktur, sowie
     //           gesamt-Baumgesundheit berechnet, die dann für die jeweiligen Rechnungen verwendet werden
 
@@ -137,7 +137,7 @@ public class Forst {
 
     //VORB: population2 != null & gesAS != null
     //NACHB: baumGes in [0.25,1.0] & population1.gesundheit = population2.gesundheit = baumGes
-    //HISTORY CONSTRAINT: Verändert die Population der zwei Populationen durch aufruf der setGesundheit-Methode der jeweilgen Populationen //ToDo: Ist das ein History Constraint?
+    //       Verändert die Population der zwei Populationen durch aufruf der setGesundheit-Methode der jeweilgen Populationen
     private void setzeGesamtGesundheit() {
         int space = 0;
         float idealwert = 1.0f / (gesAS.size() * 2);

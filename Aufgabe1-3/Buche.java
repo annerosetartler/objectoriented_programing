@@ -211,19 +211,17 @@ public class Buche implements Population {
         this.baumBestand = neuerbaumbestand;
     }
 
-    //ToDo: David
     //VORB: alterslimit >= 0
     //NACHB: sA e [0.0,1.0]
-    //KOMMENTAR: Variable sA anders benennen, weil schwer verständlich, Name Missleading?
     private float updateAltersstruktur(int alterslimit) {
-        float sA = 0.0f;
+        float summeAltersstruktur = 0.0f;
         for (int i = 0; i < altersStruktur.size(); i++) {
             if (i >= alterslimit) {
-                sA += altersStruktur.get(i);
+                summeAltersstruktur += altersStruktur.get(i);
                 altersStruktur.set(i, 0.0f);
             }
         }
-        return sA;
+        return summeAltersstruktur;
     }
 
     //VORB: wegfall e [0.0,1.0] & maxZielb > 0

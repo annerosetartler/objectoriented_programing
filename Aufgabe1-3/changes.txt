@@ -24,8 +24,8 @@
 **************
 
 * Forst:
-    - Update Beschreibungen
-    - ToString-Ausgabefehler bei zwei Populationen behoben
+    - Update Zusicherungen
+    - ToString-Ausgabefehler bei den Populationen behoben
 
 **************
 
