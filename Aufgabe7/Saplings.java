@@ -5,7 +5,7 @@ public class Saplings {
     //INV: 0 <= x <= maxX, 0 <= y <= maxY
     private List<Tree> saplingList;
     private Shade[][] shades;
-    private int[][] nrOfSups;
+    private int[][] nrOfSaps;
     private int maxX, maxY; //Koord zw. 0 und maxX bzw. maxY
     private int maxSapAtCoord = 10;
     private int maxInsert = 100;
@@ -14,10 +14,10 @@ public class Saplings {
         this.maxX = maxX;
         this.maxY = maxY;
         saplingList = new LinkedList<Tree>(); //Evtl. eigene Listenklasse, die add ohne Index nimmt und nach x sortiert, sodass die Methoden mit x, y etwas effiienter sein können
-        nrOfSups = new int[maxX][maxY];
+        nrOfSaps = new int[maxX][maxY];
         for (int i = 0; i < maxX; i++) {
             for (int j = 0; j < maxY; j++) {
-                nrOfSups[i][j] = 0;
+                nrOfSaps[i][j] = 0;
             }
         }
 
@@ -35,12 +35,12 @@ public class Saplings {
         for (int i = 0; i < amount; i++) {
             Tree t = generateRandomTree();
             saplingList.add(0, generateRandomTree());
-            updateNrOfSups(t.getPosition());
+            updateNrOfSaps(t.getPosition());
         }
     }
 
-    public void updateNrOfSups(int[] position){
-        nrOfSups[position[0]][position[1]] += 1;
+    public void updateNrOfSaps(int[] position){
+        nrOfSaps[position[0]][position[1]] += 1;
     }
 
     //KOMMENTAR: Lässt jeden Baum der Liste um einen zufälligen Wert wachsen
@@ -84,17 +84,17 @@ public class Saplings {
 
         for (int i = 0; i < maxX; i++) {
             for (int j = 0; j < maxY; j++) {
-                if (nrOfSups[i][j] > maxSapAtCoord){
-                    assesAndDelete(supsAtCoord(i, j), nrOfSups[i][j] - maxSapAtCoord);
-                    nrOfSups[i][j] = maxSapAtCoord; //ToDo: nicht so elegant, dass das "außerhalb" gemacht wird
+                if (nrOfSaps[i][j] > maxSapAtCoord){
+                    assesAndDelete(sapsAtCoord(i, j), nrOfSaps[i][j] - maxSapAtCoord);
+                    nrOfSaps[i][j] = maxSapAtCoord; //ToDo: nicht so elegant, dass das "außerhalb" gemacht wird
                 }
             }
         }
     }
 
     //Gibt eine Liste aller Saplings aus, die an einem bestimmten Ort (x,y) stehen
-    private int[] supsAtCoord(int xCoord, int yCoord){
-        int amountAtLoc = nrOfSups[xCoord][yCoord];
+    private int[] sapsAtCoord(int xCoord, int yCoord){
+        int amountAtLoc = nrOfSaps[xCoord][yCoord];
         int[] presentPositions = new int[amountAtLoc];
         int counter = 0;
         for (Tree sap : saplingList) {
@@ -110,21 +110,54 @@ public class Saplings {
         return presentPositions;
     }
 
-    //ToDo: RF des Löschens RELEVANT!!!
-    private void assesAndDelete(int[] presentPositions, int elimAmount){
-        /*
-        Objekte von CarpinusBetulus oder Quercus werden nur entfernt, wenn es
-        an den gleichen Koordinaten keine Objekte von Fagus oder
-        Betula (mehr) gibt.
-        Von Bäumen gleicher Art bleiben jene mit größerer Blattanzahl bzw. Wuchshöhe
-        bevorzugt erhalten.
-         */
+
+    private void assesAndDelete(int[] possibleCandidatePositions, int elimAmount){
+
+        int[] candidateWorseness = new int[possibleCandidatePositions.length];
+        for (int i = 0; i < possibleCandidatePositions.length - 1; i++) {
+            Tree t = saplingList.get(possibleCandidatePositions[i]);
+            for (int j = 0; j < possibleCandidatePositions.length - 1; j++) {
+                if (t.eliminateThis(saplingList.get(possibleCandidatePositions[j]))){  //ToDo: checken: hierfür muss die Methode so geschrieben sein, dass bei zwei Bäumen gleichen Wertes t BESSER ist! Also die Methode hier false bleibt
+                    candidateWorseness[i]++;
+                }
+            }
+        }
+
+        int[] deletionCandidates = new int[elimAmount];
+        int toPluck = elimAmount;
+        while (toPluck > 0) {
+            int indexOfMax = 0;
+            for (int i = 0; i < possibleCandidatePositions.length - 1; i++) {
+                if (candidateWorseness[i] > candidateWorseness[indexOfMax]) {
+                    indexOfMax = i;
+                }
+            }
+            deletionCandidates[toPluck - 1] = possibleCandidatePositions[indexOfMax]; //wird halt jetzt von hinten aufgefüllt, ist ja egal;
+            possibleCandidatePositions[indexOfMax] = -1;
+            toPluck--;
+        }
+
+        //deleteCand nach größe (größter index unbedingt zuerst)
+        //finde index mit größtem Inhalt (größtem Index)
+        toPluck = elimAmount;
+        while (toPluck > 0) {
+            int indexOfMax = 0;
+            for (int i = 0; i < deletionCandidates.length; i++) {
+                if (deletionCandidates[i] > deletionCandidates[indexOfMax]){
+                    indexOfMax = i;
+                }
+            }
+            saplingList.remove(deletionCandidates[indexOfMax]);
+            deletionCandidates[indexOfMax] = -1;
+            toPluck--;
+        }
     }
 
     //
     public void establish(int x, int y){
-        Tree bestCandidate = evaluateBestTree(supsAtCoord(x, y));
+        Tree bestCandidate = evaluateBestTree(sapsAtCoord(x, y));
         shades[x][y] = bestCandidate.setShade();
+        saplingList.remove(bestCandidate);
     }
 
     private Tree evaluateBestTree(int[] possibleCandidates){
@@ -133,7 +166,12 @@ public class Saplings {
             boolean b = true;
             t = saplingList.get(possibleCandidates[i]);
             for (int j = 0; j < possibleCandidates.length - 1; j++) {
-               //Hier noch: wenn das eine jedes Mal besser ist, dann returne es
+                if (t.eliminateThis(saplingList.get(possibleCandidates[j]))){  //ToDo: checken: hierfür muss die Methode so geschrieben sein, dass bei zwei Bäumen gleichen Wertes t BESSER ist! Also die Methode hier false bleibt
+                    b = false;
+                }
+            }
+            if (b){
+                return t;
             }
         }
 
@@ -146,7 +184,7 @@ public class Saplings {
 
     //KOMMENTAR: Liefert die Beschattungsart am Standort x, y
     public Shade get(int x, int y){
-        return (Shade) shades[x][y];
+        return shades[x][y];
     }
 
 
