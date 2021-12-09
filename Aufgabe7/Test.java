@@ -2,6 +2,7 @@ import java.util.Arrays;
 
 public class Test {
     public static void main(String[] args) {
+        /*
         //KOMMENTAR: Tests zu Tree und Shade zur Überprüfung des mehrfachen Bindens
         //////
         Tree f1 = new Fagus(0.6, 0,0);
@@ -159,21 +160,73 @@ public class Test {
         System.out.println();
 
 
+
+         */
+
+        System.out.println("Tests zu Saplings: ");
+        Saplings smallSaplingAcc = new Saplings(20, 20, 10);
+
+        System.out.println("Sehr kleines Sample für Demonstration von .print(), .fill() und .grow():");
+        System.out.println("Verwendung der .print()-Methode auf neu erzeugtes Objekt: ");
+        smallSaplingAcc.print();
+
+        System.out.println("Verwendung der .print()-Methode nach .fill(): ");
+        smallSaplingAcc.fill();
+        smallSaplingAcc.print();
+
+        System.out.println("Verwendung der .print()-Methode nach .grow(): ");
+        smallSaplingAcc.grow();
+        smallSaplingAcc.print();
+
+        System.out.println("Verwendung der .print()-Methode nach wiederholtem .fill(): ");
+        smallSaplingAcc.fill();
+        smallSaplingAcc.print();
+
+        System.out.println("Größeres Sample für Demonstration von .thin(), .establish() und .cut():");
+
+        Saplings hugeSaplingAcc = new Saplings(20, 20, 12000);
+        hugeSaplingAcc.fill();
+        hugeSaplingAcc.fill();
+
+        hugeSaplingAcc.grow();
+        hugeSaplingAcc.grow();
+        hugeSaplingAcc.fill();
+        hugeSaplingAcc.grow();
+
+        System.out.println("Shade an der Stelle (10/8) vor jeglichen Eingriffen: ");
+        System.out.println(hugeSaplingAcc.get(10, 8));
+
+        hugeSaplingAcc.establish(10, 8);
+
+        System.out.println("Shade an der Stelle (10/8) nach der Etablierung eines Baumes: ");
+        System.out.println(hugeSaplingAcc.get(10, 8));
+
+        System.out.println("Shade an der Stelle (10/8) nachdem der entsprechende etablierte Baum wieder gefällt wurde: ");
+        System.out.println(hugeSaplingAcc.get(10, 8));
+
+        //vlt. zum "Testen" ein toString, das nur die Stellen mit zu vielen ausgibt??? und davor und danach aufrufen?
+
+        System.out.println("Ausdünnung durch .thin()");
+        hugeSaplingAcc.thin();
+
+
     }
 
-    private static String testValues(boolean expected, boolean received){
-        return expected == received? "Test erfolgreich!" : "Test fehlgeschlagen!";
+    private static String testValues(boolean expected, boolean received) {
+        return expected == received ? "Test erfolgreich!" : "Test fehlgeschlagen!";
     }
 
-    private static String testValues(String expected, String received){
-        return expected.equals(received)? "Test erfolgreich!" : "Test fehlgeschlagen!";
+    private static String testValues(String expected, String received) {
+        return expected.equals(received) ? "Test erfolgreich!" : "Test fehlgeschlagen!";
     }
 
-    private static String testValues(Number expected, Number received, boolean IsInt){
-        if(IsInt){
-            return expected.intValue() == received.intValue()? "Test erfolgreich!" : "Test fehlgeschlagen!";
-        }else{
-            return expected.floatValue() == received.floatValue()? "Test erfolgreich!" : "Test fehlgeschlagen!";
+    private static String testValues(Number expected, Number received, boolean IsInt) {
+        if (IsInt) {
+            return expected.intValue() == received.intValue() ? "Test erfolgreich!" : "Test fehlgeschlagen!";
+        } else {
+            return expected.floatValue() == received.floatValue() ? "Test erfolgreich!" : "Test fehlgeschlagen!";
         }
     }
+
+
 }

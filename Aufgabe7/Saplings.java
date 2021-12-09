@@ -1,4 +1,4 @@
-import java.util.LinkedList; //ToDo: oder doch ArrayList?
+import java.util.LinkedList;
 import java.util.List;
 
 public class Saplings {
@@ -7,16 +7,18 @@ public class Saplings {
     private Shade[][] shades;
     private int[][] nrOfSaps;
     private int maxX, maxY; //Koord zw. 0 und maxX bzw. maxY
-    private int maxSapAtCoord = 10;
-    private int maxInsert = 100;
+    private int maxSapAtCoord = 6;
+    private int maxInsertAtOnce;
 
-    public Saplings(int maxX, int maxY){
+    public Saplings(int maxX, int maxY, int maxInsertAtOnce){
         this.maxX = maxX;
         this.maxY = maxY;
-        saplingList = new LinkedList<Tree>();
+        this.maxInsertAtOnce = maxInsertAtOnce;
+
+        saplingList = new LinkedList<Tree>(); //ToDo: oder lieber Array List?
         nrOfSaps = new int[maxX][maxY];
-        for (int i = 0; i < maxX; i++) {
-            for (int j = 0; j < maxY; j++) {
+        for (int i = 0; i < maxX - 1; i++) {
+            for (int j = 0; j < maxY - 1; j++) {
                 nrOfSaps[i][j] = 0;
             }
         }
@@ -31,10 +33,10 @@ public class Saplings {
 
     //KOMMENTAR: Fügt eine zufällige Zahl an Bäumen ein
     public void fill(){
-        int amount = (int) Math.random() * (maxInsert + 1);
+        int amount = (int) (Math.random() * (maxInsertAtOnce + 1));
         for (int i = 0; i < amount; i++) {
             Tree t = generateRandomTree();
-            saplingList.add(0, generateRandomTree());
+            saplingList.add(i, generateRandomTree());
             updateNrOfSaps(t.getPosition());
         }
     }
@@ -46,27 +48,25 @@ public class Saplings {
     //KOMMENTAR: Lässt jeden Baum der Liste um einen zufälligen Wert wachsen
     public void grow() {
         for (Tree t : saplingList) {
-            t.grow(Math.random());
+            t.grow(Math.random()*10);
         }
     }
 
-    //ToDo: vlt. noch verschönern:
     private Tree generateRandomTree(){
-        Tree tree;
-        int randomNumber = (int) Math.random();
+        double randomNumber =  Math.random();
+
         if (randomNumber < 0.25) {
-            tree = new Betula(Math.random(), randomCoordinate(maxX), randomCoordinate(maxY));
+            return new Betula(Math.random()*10, randomCoordinate(maxX-1), randomCoordinate(maxY-1));
         }
         else if (randomNumber < 0.5) {
-            tree = new CarpinusBetulus(Math.random(), randomCoordinate(maxX), randomCoordinate(maxY));
+            return new CarpinusBetulus(Math.random()*10, randomCoordinate(maxX-1), randomCoordinate(maxY-1));
         }
         else if (randomNumber < 0.75) {
-            tree = new Fagus(Math.random(), randomCoordinate(maxX), randomCoordinate(maxY));
+            return new Fagus(Math.random()*10, randomCoordinate(maxX-1), randomCoordinate(maxY-1));
         }
         else {
-            tree = new Quercus(Math.random(), randomCoordinate(maxX), randomCoordinate(maxY));
+            return new Quercus(Math.random()*10, randomCoordinate(maxX-1), randomCoordinate(maxY-1));
         }
-        return tree;
     }
 
     private int randomCoordinate(int max){
@@ -78,7 +78,7 @@ public class Saplings {
             int xCoord = sap.getPosition()[0];
             int yCoord = sap.getPosition()[1];
             if (!sap.isShadeCompatible(shades[xCoord][yCoord])){
-                saplingList.remove(sap);
+                saplingList.remove(sap); //ToDo: Geht so wohl nihct -> anders speichern und löschen?
             }
         }
 
@@ -86,7 +86,7 @@ public class Saplings {
             for (int j = 0; j < maxY; j++) {
                 if (nrOfSaps[i][j] > maxSapAtCoord){
                     assesAndDelete(sapsAtCoord(i, j), nrOfSaps[i][j] - maxSapAtCoord);
-                    nrOfSaps[i][j] = maxSapAtCoord; //ToDo: nicht so elegant, dass das "außerhalb" gemacht wird
+                    nrOfSaps[i][j] = maxSapAtCoord; //Nicht mega elegant, dass das hier Außerhalb gemacht wird
                 }
             }
         }
@@ -99,7 +99,7 @@ public class Saplings {
         int counter = 0;
         for (Tree sap : saplingList) {
             if (sap.getPosition()[0] == xCoord && sap.getPosition()[1] == yCoord){
-                presentPositions[amountAtLoc] = counter;
+                presentPositions[amountAtLoc - 1] = counter;
                 amountAtLoc--;
             }
             counter++;
@@ -111,13 +111,14 @@ public class Saplings {
     }
 
 
+    //ToDo: Soll das alles in einer Methode stehen?
     private void assesAndDelete(int[] possibleCandidatePositions, int elimAmount){
 
         int[] candidateWorseness = new int[possibleCandidatePositions.length];
         for (int i = 0; i < possibleCandidatePositions.length - 1; i++) {
             Tree t = saplingList.get(possibleCandidatePositions[i]);
             for (int j = 0; j < possibleCandidatePositions.length - 1; j++) {
-                if (t.eliminateThis(saplingList.get(possibleCandidatePositions[j]))){  //ToDo: checken: hierfür muss die Methode so geschrieben sein, dass bei zwei Bäumen gleichen Wertes t BESSER ist! Also die Methode hier false bleibt
+                if (t.eliminateThis(saplingList.get(possibleCandidatePositions[j]))){  //Checken: hierfür muss die Methode so geschrieben sein, dass bei zwei Bäumen gleichen Wertes t BESSER ist! Also die Methode hier false bleibt
                     candidateWorseness[i]++;
                 }
             }
@@ -132,7 +133,7 @@ public class Saplings {
                     indexOfMax = i;
                 }
             }
-            deletionCandidates[toPluck - 1] = possibleCandidatePositions[indexOfMax]; //ToDo: wird halt jetzt von hinten aufgefüllt, ist ja egal oder
+            deletionCandidates[toPluck - 1] = possibleCandidatePositions[indexOfMax]; //von hinten aufgefüllt...
             possibleCandidatePositions[indexOfMax] = -1;
             toPluck--;
         }
@@ -155,6 +156,9 @@ public class Saplings {
 
     //
     public void establish(int x, int y){
+        if (nrOfSaps[x][y] == 0){
+            return;
+        }
         Tree bestCandidate = evaluateBestTree(sapsAtCoord(x, y));
         shades[x][y] = bestCandidate.setShade();
         saplingList.remove(bestCandidate);
@@ -178,8 +182,8 @@ public class Saplings {
         return t;
     }
 
-    public void cut(int x, int y){
-        shades[x][y].cut();
+    public void cut(int x, int y){ //ToDo: Stimmt noch nicht
+        shades[x][y] = shades[x][y].cut();
     }
 
     //KOMMENTAR: Liefert die Beschattungsart am Standort x, y
@@ -189,27 +193,26 @@ public class Saplings {
 
 
     //ToDo: vlt. noch verschönern, sind grad drei Schleifen:
-    // Außerdem stimmts sicher ncoh nicht 100%
+    // Außerdem stimmts sicher noch nicht 100%
     public void print(){
         String s = "";
         for (int i = 0; i < maxX; i++) {
             for (int j = 0; j < maxY; j++) {
                 String string = sapAtCoordinates(i, j);
                 if (!string.equals("")){
-                    s += "Bäume an Stelle (" + i + "/" + j + "): " + string + "Beschattung: " + shades[i][j].toString() + '\n';
+                    s += "Bäume an Stelle (" + i + "/" + j + "): \n" + string + "Beschattung: " + shades[i][j].toString() + '\n';
                 }
             }
         }
         System.out.println(s);
     }
 
-    //ToDo: String "putzen"
+    //ToDo: String muss sicher noch adaptiert werden
     private String sapAtCoordinates(int x, int y){
-        int[] array = {x, y};
         String s = "";
         for (Tree sap : saplingList) {
-            if (sap.getPosition().equals(array)){
-                s += sap.toString() + ", \n";
+            if (sap.getPosition()[0] == x && sap.getPosition()[1] == y){
+                s += sap.toString() + '\n';
             }
         }
         return s;
