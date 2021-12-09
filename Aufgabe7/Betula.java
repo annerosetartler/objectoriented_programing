@@ -32,6 +32,31 @@ public class Betula implements LightTree {
     }
 
     @Override
+    public boolean eliminateThis(Tree t) {
+        return t.eliminateThis(this);
+    }
+
+    @Override
+    public boolean eliminateThis(Fagus f) {
+        return false;
+    }
+
+    @Override
+    public boolean eliminateThis(CarpinusBetulus c) {
+        return false;
+    }
+
+    @Override
+    public boolean eliminateThis(Betula b) {
+        return b.leaves < this.leaves;
+    }
+
+    @Override
+    public boolean eliminateThis(Quercus q) {
+        return false;
+    }
+
+    @Override
     public String toString() {
         return "Betula ( " + "leaves: " + leaves + " )";
     }

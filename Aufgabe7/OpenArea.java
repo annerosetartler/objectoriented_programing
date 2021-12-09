@@ -20,4 +20,9 @@ public class OpenArea implements Shade {
     public boolean isTreeCompatible(Quercus q) {
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "OpenArea";
+    }
 }

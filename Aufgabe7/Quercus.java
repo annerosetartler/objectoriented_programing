@@ -32,6 +32,31 @@ public class Quercus implements LightTree {
     }
 
     @Override
+    public boolean eliminateThis(Tree t) {
+        return t.eliminateThis(this);
+    }
+
+    @Override
+    public boolean eliminateThis(Fagus f) {
+        return false;
+    }
+
+    @Override
+    public boolean eliminateThis(CarpinusBetulus c) {
+        return false;
+    }
+
+    @Override
+    public boolean eliminateThis(Betula b) {
+        return true;
+    }
+
+    @Override
+    public boolean eliminateThis(Quercus q) {
+        return q.leaves < this.leaves;
+    }
+
+    @Override
     public String toString() {
         return "Quercus ( " + "leaves: " + leaves + " )";
     }

@@ -3,4 +3,6 @@ public interface Shade {
     boolean isTreeCompatible(CarpinusBetulus c);
     boolean isTreeCompatible(Betula b);
     boolean isTreeCompatible(Quercus q);
+
+    String toString();
 }

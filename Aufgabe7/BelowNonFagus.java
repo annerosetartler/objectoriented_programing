@@ -20,4 +20,9 @@ public class BelowNonFagus implements Shade {
     public boolean isTreeCompatible(Quercus q) {
         return false;
     }
+
+    @Override
+    public String toString() {
+        return "BelowNonFagus";
+    }
 }

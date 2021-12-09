@@ -10,5 +10,12 @@ public interface Tree {
 
     boolean isShadeCompatible(Shade s);
 
+    boolean eliminateThis(Tree t);
+
+    boolean eliminateThis(Fagus f);
+    boolean eliminateThis(CarpinusBetulus c);
+    boolean eliminateThis(Betula b);
+    boolean eliminateThis(Quercus q);
+
     String toString();
 }
