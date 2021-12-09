@@ -3,6 +3,7 @@ import java.util.Arrays;
 public class Test {
     public static void main(String[] args) {
         //KOMMENTAR: Tests zu Tree und Shade zur Überprüfung des mehrfachen Bindens
+        //
         Tree f1 = new Fagus(0.6, 0,0);
         Tree f2 = new Fagus(0.8, 0,0);
         Tree c1 = new CarpinusBetulus(0.7, 0,0);
