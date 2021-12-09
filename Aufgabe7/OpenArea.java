@@ -2,6 +2,11 @@ public class OpenArea implements Shade {
     public OpenArea(){}
 
     @Override
+    public Shade cut() {
+        return this;
+    }
+
+    @Override
     public boolean isTreeCompatible(Fagus f) {
         return false;
     }

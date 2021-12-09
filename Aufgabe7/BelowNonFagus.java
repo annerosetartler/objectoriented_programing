@@ -2,6 +2,11 @@ public class BelowNonFagus implements Shade {
     public BelowNonFagus(){}
 
     @Override
+    public Shade cut() {
+        return new OpenArea();
+    }
+
+    @Override
     public boolean isTreeCompatible(Fagus f) {
         return true;
     }
