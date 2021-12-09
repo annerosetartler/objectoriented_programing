@@ -13,7 +13,7 @@ public class Saplings {
     public Saplings(int maxX, int maxY){
         this.maxX = maxX;
         this.maxY = maxY;
-        saplingList = new LinkedList<Tree>(); //Evtl. eigene Listenklasse, die add ohne Index nimmt und nach x sortiert, sodass die Methoden mit x, y etwas effiienter sein können
+        saplingList = new LinkedList<Tree>();
         nrOfSaps = new int[maxX][maxY];
         for (int i = 0; i < maxX; i++) {
             for (int j = 0; j < maxY; j++) {
@@ -127,12 +127,12 @@ public class Saplings {
         int toPluck = elimAmount;
         while (toPluck > 0) {
             int indexOfMax = 0;
-            for (int i = 0; i < possibleCandidatePositions.length - 1; i++) {
+            for (int i = 0; i < candidateWorseness.length - 1; i++) {
                 if (candidateWorseness[i] > candidateWorseness[indexOfMax]) {
                     indexOfMax = i;
                 }
             }
-            deletionCandidates[toPluck - 1] = possibleCandidatePositions[indexOfMax]; //wird halt jetzt von hinten aufgefüllt, ist ja egal;
+            deletionCandidates[toPluck - 1] = possibleCandidatePositions[indexOfMax]; //ToDo: wird halt jetzt von hinten aufgefüllt, ist ja egal oder
             possibleCandidatePositions[indexOfMax] = -1;
             toPluck--;
         }
