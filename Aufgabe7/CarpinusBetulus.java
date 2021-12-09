@@ -15,6 +15,12 @@ public class CarpinusBetulus implements ShadowTree {
         return position;
     }
 
+    @Override
+    public boolean haveSamePosition(Tree t) {
+        int[] tPos = t.getPosition();
+        return position[0] == tPos[0] && position[1] == tPos[1];
+    }
+
     //VORB: g > 0
     @Override
     public void grow(Number g) {
@@ -33,26 +39,26 @@ public class CarpinusBetulus implements ShadowTree {
 
     @Override
     public boolean eliminateThis(Tree t) {
-        return t.eliminateThis(this);
+        return t.eliminateInput(this);
     }
 
     @Override
-    public boolean eliminateThis(Fagus f) {
+    public boolean eliminateInput(Fagus f) {
         return true;
     }
 
     @Override
-    public boolean eliminateThis(CarpinusBetulus c) {
+    public boolean eliminateInput(CarpinusBetulus c) {
         return c.height < this.height;
     }
 
     @Override
-    public boolean eliminateThis(Betula b) {
+    public boolean eliminateInput(Betula b) {
         return false;
     }
 
     @Override
-    public boolean eliminateThis(Quercus q) {
+    public boolean eliminateInput(Quercus q) {
         return false;
     }
 
