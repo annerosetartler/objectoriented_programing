@@ -1,4 +1,4 @@
-import java.util.LinkedList;
+import java.util.LinkedList; //ToDo: oder doch ArrayList?
 import java.util.List;
 
 public class Saplings {
@@ -123,22 +123,21 @@ public class Saplings {
 
     //
     public void establish(int x, int y){
-        establishBest(supsAtCoord(x, y));
+        Tree bestCandidate = evaluateBestTree(supsAtCoord(x, y));
+        shades[x][y] = bestCandidate.setShade();
     }
 
-    //Nimmt an, dass es nicht zu viele gibt?
-    private void establishBest(int[] possibleCandidates){
-        /*
-        Der am besten geeignete Jungbaum
-an den Koordinaten x,y in der Liste der Jungbäume etabliert sich.
-Dieser Baum wird aus der Liste der Jungbäume entfernt und die Art
-der Beschattung an diesen Koordinaten ändert sich auf BelowFagus
-oder BelowNonFagus, abhängig von der Art des Baums. Die Auswahl
-des am besten geeigneten Baums verwendet die gleichen Kriterien
-wie thin: geeignete Art der Beschattung, Hainbuche oder
-Eiche bevorzugt gegenüber Birke oder Buche, unter diesen Bäumen
-wird jener mit der größten Blattanzahl oder Wuchshöhe gewählt.
-         */
+    private Tree evaluateBestTree(int[] possibleCandidates){
+        Tree t = saplingList.get(possibleCandidates[0]);
+        for (int i = 0; i < possibleCandidates.length - 1; i++) {
+            boolean b = true;
+            t = saplingList.get(possibleCandidates[i]);
+            for (int j = 0; j < possibleCandidates.length - 1; j++) {
+               //Hier noch: wenn das eine jedes Mal besser ist, dann returne es
+            }
+        }
+
+        return t;
     }
 
     public void cut(int x, int y){
