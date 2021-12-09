@@ -28,6 +28,11 @@ public class CarpinusBetulus implements ShadowTree {
     }
 
     @Override
+    public Number getLeavesOrHeight() {
+        return height;
+    }
+
+    @Override
     public Shade setShade() {
         return new BelowNonFagus();
     }

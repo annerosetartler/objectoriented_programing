@@ -9,6 +9,8 @@ public interface Tree {
     //VORB: g > 0
     void grow(Number g);
 
+    Number getLeavesOrHeight();
+
     Shade setShade();
 
     boolean isShadeCompatible(Shade s);

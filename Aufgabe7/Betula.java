@@ -28,6 +28,11 @@ public class Betula implements LightTree {
     }
 
     @Override
+    public Number getLeavesOrHeight() {
+        return leaves;
+    }
+
+    @Override
     public Shade setShade() {
         return new BelowNonFagus();
     }
