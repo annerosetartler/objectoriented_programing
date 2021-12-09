@@ -15,10 +15,10 @@ public interface Tree {
 
     boolean eliminateThis(Tree t);
 
-    boolean eliminateInput(Fagus f);
-    boolean eliminateInput(CarpinusBetulus c);
-    boolean eliminateInput(Betula b);
-    boolean eliminateInput(Quercus q);
+    boolean eliminateThis(Fagus f);
+    boolean eliminateThis(CarpinusBetulus c);
+    boolean eliminateThis(Betula b);
+    boolean eliminateThis(Quercus q);
 
     String toString();
 }

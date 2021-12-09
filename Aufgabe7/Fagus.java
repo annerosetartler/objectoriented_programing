@@ -42,26 +42,26 @@ public class Fagus implements ShadowTree {
 
     @Override
     public boolean eliminateThis(Tree t) {
-        return t.eliminateInput(this);
+        return t.eliminateThis(this);
     }
 
     @Override
-    public boolean eliminateInput(Fagus f) {
+    public boolean eliminateThis(Fagus f) {
         return f.height < this.height;
     }
 
     @Override
-    public boolean eliminateInput(CarpinusBetulus c) {
+    public boolean eliminateThis(CarpinusBetulus c) {
         return false;
     }
 
     @Override
-    public boolean eliminateInput(Betula b) {
+    public boolean eliminateThis(Betula b) {
         return false;
     }
 
     @Override
-    public boolean eliminateInput(Quercus q) {
+    public boolean eliminateThis(Quercus q) {
         return false;
     }
 
