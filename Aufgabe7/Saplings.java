@@ -42,11 +42,11 @@ public class Saplings {
         }
     }
 
-    public void updateNrOfSapsplus(int[] position){
+    private void updateNrOfSapsplus(int[] position){
         nrOfSaps[position[0]][position[1]] += 1;
     }
 
-    public void updateNrOfSapsminus(int[] position){
+    private void updateNrOfSapsminus(int[] position){
         nrOfSaps[position[0]][position[1]] -= 1;
     }
 
