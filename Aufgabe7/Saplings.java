@@ -36,13 +36,17 @@ public class Saplings {
         int amount = (int) (Math.random() * (maxInsertAtOnce + 1));
         for (int i = 0; i < amount; i++) {
             Tree t = generateRandomTree();
-            saplingList.add(i, generateRandomTree());
-            updateNrOfSaps(t.getPosition());
+            saplingList.add(i, t);
+            updateNrOfSapsplus(t.getPosition());
         }
     }
 
-    public void updateNrOfSaps(int[] position){
+    public void updateNrOfSapsplus(int[] position){
         nrOfSaps[position[0]][position[1]] += 1;
+    }
+
+    public void updateNrOfSapsminus(int[] position){
+        nrOfSaps[position[0]][position[1]] -= 1;
     }
 
     //KOMMENTAR: Lässt jeden Baum der Liste um einen zufälligen Wert wachsen
@@ -74,14 +78,21 @@ public class Saplings {
     }
 
     public void thin(){
+        List<Tree> delete = new LinkedList<Tree>();
         for (Tree sap : saplingList) {
             int xCoord = sap.getPosition()[0];
             int yCoord = sap.getPosition()[1];
             if (!sap.isShadeCompatible(shades[xCoord][yCoord])){
-                saplingList.remove(sap); //ToDo: Geht so wohl nihct -> anders speichern und löschen?
+                delete.add(sap); //add zur Hilfslist
             }
         }
 
+        for (Tree sap : delete){
+            updateNrOfSapsminus(sap.getPosition());
+            saplingList.remove(sap);
+        }
+
+        //Wo sind zu viele Jungbäume an einem Ort
         for (int i = 0; i < maxX; i++) {
             for (int j = 0; j < maxY; j++) {
                 if (nrOfSaps[i][j] > maxSapAtCoord){
@@ -99,7 +110,7 @@ public class Saplings {
         int counter = 0;
         for (Tree sap : saplingList) {
             if (sap.getPosition()[0] == xCoord && sap.getPosition()[1] == yCoord){
-                presentPositions[amountAtLoc - 1] = counter;
+                presentPositions[amountAtLoc-1] = counter;
                 amountAtLoc--;
             }
             counter++;
@@ -134,7 +145,7 @@ public class Saplings {
                 }
             }
             deletionCandidates[toPluck - 1] = possibleCandidatePositions[indexOfMax]; //von hinten aufgefüllt...
-            possibleCandidatePositions[indexOfMax] = -1;
+            candidateWorseness[indexOfMax] = -1;
             toPluck--;
         }
 
@@ -218,4 +229,7 @@ public class Saplings {
         return s;
     }
 
+    public List<Tree> getSaplingList() {
+        return saplingList;
+    }
 }

@@ -207,7 +207,11 @@ public class Test {
         //vlt. zum "Testen" ein toString, das nur die Stellen mit zu vielen ausgibt??? und davor und danach aufrufen?
 
         System.out.println("Ausdünnung durch .thin()");
+        System.out.println(hugeSaplingAcc.getSaplingList().size());
         hugeSaplingAcc.thin();
+        System.out.println(hugeSaplingAcc.getSaplingList().size());
+
+
 
 
     }
