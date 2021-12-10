@@ -17,9 +17,8 @@ public class Fagus implements ShadowTree {
     }
 
     @Override
-    public boolean haveSamePosition(Tree t) {
-        int[] tPos = t.getPosition();
-        return position[0] == tPos[0] && position[1] == tPos[1];
+    public boolean hasSamePosition(int x, int y) {
+        return position[0] == x && position[1] == y;
     }
 
     //VORB: g > 0

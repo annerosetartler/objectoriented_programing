@@ -4,8 +4,7 @@ public interface Tree {
     int[] getPosition();
 
     //NACHB: gibt true zurück, wenn dieser Baum und t den gleichen Standort haben
-    //TODO vergleich koords und nicht tree
-    boolean haveSamePosition(Tree t);
+    boolean hasSamePosition(int x, int y);
 
     //VORB: g > 0
     void grow(Number g);
@@ -17,6 +16,7 @@ public interface Tree {
     boolean isShadeCompatible(Shade s);
 
     boolean isLessSuitableThan(Tree t);
+
     //TODO Methoden ergänzen um Zusicherungen nicht zu verletzten
     boolean isLessSuitableThan(Fagus f);
     boolean isLessSuitableThan(CarpinusBetulus c);

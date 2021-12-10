@@ -94,8 +94,7 @@ public class Test {
         System.out.println("Quercus kompatibel mit " + s3.toString() + ": " + q1s3 + ": " + testValues(true,q1s3));
         System.out.println();
 
-        //TODO: refactor wegen Methodenname
-        System.out.println("Tests zu eliminateThis() in Tree:");
+        System.out.println("Tests zu isLessSuitableThan() in Tree:");
         System.out.println();
         System.out.println(f1.toString());
         System.out.println("Überprüfung mit '" + f2.toString() + "' als Input");
@@ -109,7 +108,7 @@ public class Test {
         System.out.println("Erwartete Rückgabe: " + false + ": " + testValues(false,f1b1));
         System.out.println("Überprüfung mit '" + q1.toString() + "' als Input");
         boolean f1q1 = f1.isLessSuitableThan(q1);
-        System.out.println("Erwartete Rückgabe: " + false + ": " + testValues(false,f1q1));//TODO sollte Quercus auch gegenüber Fagus bevorzugt werden? Wenn ja, muss true zurückgegeben werden
+        System.out.println("Erwartete Rückgabe: " + true + ": " + testValues(true,f1q1));
         System.out.println();
 
         System.out.println(c2.toString());
@@ -133,7 +132,7 @@ public class Test {
         System.out.println("Erwartete Rückgabe: " + false + ": " + testValues(false,b1f1));
         System.out.println("Überprüfung mit '" + c1.toString() + "' als Input");
         boolean b1c1 = b1.isLessSuitableThan(c1);
-        System.out.println("Erwartete Rückgabe: " + false + ": " + testValues(false,b1c1));//TODO sollte CarpinusBetulus auch gegenüber Betula bevorzugt werden? Wenn ja, muss true zurückgegeben werden
+        System.out.println("Erwartete Rückgabe: " + true + ": " + testValues(true,b1c1));
         System.out.println("Überprüfung mit '" + b2.toString() + "' als Input");
         boolean b1b2 = b1.isLessSuitableThan(b2);
         System.out.println("Erwartete Rückgabe: " + true + ": " + testValues(true,b1b2));
