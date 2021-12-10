@@ -1,6 +1,7 @@
-import java.util.*; //ToDo: Was?
+import java.util.LinkedList;
+import java.util.List;
 
-public class Saplings2 {
+public class SaplingsArray {
     //INV: 0 <= x <= maxX, 0 <= y <= maxY
     private List<Tree> saplingList;
     private Shade[][] shades;
@@ -9,13 +10,13 @@ public class Saplings2 {
     private int maxSapAtCoord;
     private int maxInsertAtOnce;
 
-    public Saplings2(int maxX, int maxY, int maxInsertAtOnce, int maxSapAtCoord){
+    public SaplingsArray(int maxX, int maxY, int maxInsertAtOnce, int maxSapAtCoord){
         this.maxX = maxX;
         this.maxY = maxY;
-        this.maxInsertAtOnce = maxInsertAtOnce;
         this.maxSapAtCoord = maxSapAtCoord;
+        this.maxInsertAtOnce = maxInsertAtOnce;
 
-        saplingList = new ArrayList<Tree>();
+        saplingList = new LinkedList<Tree>();
         nrOfSaps = new int[maxX][maxY];
         for (int i = 0; i < maxX - 1; i++) {
             for (int j = 0; j < maxY - 1; j++) {
@@ -37,13 +38,16 @@ public class Saplings2 {
         for (int i = 0; i < amount; i++) {
             Tree t = generateRandomTree();
             saplingList.add(i, t);
-            updateNrOfSaps(t.getPosition(), true);
+            updateNrOfSapsplus(t.getPosition());
         }
     }
 
-    private void updateNrOfSaps(int[] position, boolean isPositive){
-        if (isPositive) nrOfSaps[position[0]][position[1]] += 1;
-        else nrOfSaps[position[0]][position[1]] -= 1;
+    private void updateNrOfSapsplus(int[] position){
+        nrOfSaps[position[0]][position[1]] += 1;
+    }
+
+    private void updateNrOfSapsminus(int[] position){
+        nrOfSaps[position[0]][position[1]] -= 1;
     }
 
     //KOMMENTAR: Lässt jeden Baum der Liste um einen zufälligen Wert wachsen
@@ -75,8 +79,7 @@ public class Saplings2 {
     }
 
     public void thin(){
-        //speichert eine Liste aller Indices in der saplingsList, die gelöscht werden müssen.
-        List<Tree> delete = new ArrayList<Tree>();
+        List<Tree> delete = new LinkedList<Tree>();
         for (Tree sap : saplingList) {
             int xCoord = sap.getPosition()[0];
             int yCoord = sap.getPosition()[1];
@@ -85,78 +88,85 @@ public class Saplings2 {
             }
         }
 
-        delete(delete);
+        for (Tree sap : delete){
+            updateNrOfSapsminus(sap.getPosition());
+            saplingList.remove(sap);
+        }
 
-        List<Tree> delete2 = new ArrayList<Tree>();
+        //Wo sind zu viele Jungbäume an einem Ort
         for (int i = 0; i < maxX; i++) {
             for (int j = 0; j < maxY; j++) {
                 if (nrOfSaps[i][j] > maxSapAtCoord){
-                    delete2.addAll(findDelCandidates(sapsAtCoord(i, j), nrOfSaps[i][j] - maxSapAtCoord));
+                    assesAndDelete(sapsAtCoord(i, j), nrOfSaps[i][j] - maxSapAtCoord);
                     nrOfSaps[i][j] = maxSapAtCoord; //Nicht mega elegant, dass das hier Außerhalb gemacht wird
                 }
             }
         }
-
-        delete(delete2);
     }
-
-    private void delete (List<Tree> removelist){
-        for (Tree sap : removelist){
-            updateNrOfSaps(sap.getPosition(), false);
-            saplingList.remove(sap);
-        }
-    }
-
 
     //Gibt eine Liste aller Saplings aus, die an einem bestimmten Ort (x,y) stehen
-    private List<Tree> sapsAtCoord(int xCoord, int yCoord){
+    private int[] sapsAtCoord(int xCoord, int yCoord){
         int amountAtLoc = nrOfSaps[xCoord][yCoord];
-        List<Tree> atPosition = new ArrayList<>();
+        int[] presentPositions = new int[amountAtLoc];
+        int counter = 0;
         for (Tree sap : saplingList) {
             if (sap.getPosition()[0] == xCoord && sap.getPosition()[1] == yCoord){
-                atPosition.add(sap);
+                presentPositions[amountAtLoc-1] = counter;
                 amountAtLoc--;
             }
+            counter++;
             if (amountAtLoc <= 0){
-                return atPosition;
+                return presentPositions;
             }
         }
-        return atPosition;
+        return presentPositions;
     }
 
-    private List<Tree> findDelCandidates(List<Tree> possibleCandidates, int elimAmount){
 
-        //Vergleiche die Trees und bewerte, wie oft sie "schlechter" sind
-        int[] candidateWorseness = new int[possibleCandidates.size()];
-        int counter = 0;
-        for (Tree assessTree : possibleCandidates) {
-            for (Tree compTrees : possibleCandidates) {
-                if (assessTree.isLessSuitableThan(compTrees)){
-                    candidateWorseness[counter]++;
+    //ToDo: Soll das alles in einer Methode stehen?
+    private void assesAndDelete(int[] possibleCandidatePositions, int elimAmount){
+
+        int[] candidateWorseness = new int[possibleCandidatePositions.length];
+        for (int i = 0; i < possibleCandidatePositions.length - 1; i++) {
+            Tree t = saplingList.get(possibleCandidatePositions[i]);
+            for (int j = 0; j < possibleCandidatePositions.length - 1; j++) {
+                if (t.isLessSuitableThan(saplingList.get(possibleCandidatePositions[j]))){
+                    candidateWorseness[i]++;
                 }
             }
-            counter++;
         }
 
-        //Suche die schlechtesten Raus und speichere sie in einer Liste
-        List<Tree> deletionCandidates = new ArrayList<>();
-        int pluckNumber = elimAmount;
-        while (pluckNumber > 0){
+        int[] deletionCandidates = new int[elimAmount];
+        int toPluck = elimAmount;
+        while (toPluck > 0) {
             int indexOfMax = 0;
-            for (int i = 0; i < candidateWorseness.length; i++) {
+            for (int i = 0; i < candidateWorseness.length - 1; i++) {
                 if (candidateWorseness[i] > candidateWorseness[indexOfMax]) {
                     indexOfMax = i;
                 }
             }
-            deletionCandidates.add(possibleCandidates.get(indexOfMax));
+            deletionCandidates[toPluck - 1] = possibleCandidatePositions[indexOfMax];
             candidateWorseness[indexOfMax] = -1;
-            pluckNumber--;
+            toPluck--;
         }
 
-        return deletionCandidates;
+        //deleteCand nach größe (größter index unbedingt zuerst)
+        //finde index mit größtem Inhalt (größtem Index)
+        toPluck = elimAmount;
+        while (toPluck > 0) {
+            int indexOfMax = 0;
+            for (int i = 0; i < deletionCandidates.length; i++) {
+                if (deletionCandidates[i] > deletionCandidates[indexOfMax]){
+                    indexOfMax = i;
+                }
+            }
+            saplingList.remove(deletionCandidates[indexOfMax]);
+            deletionCandidates[indexOfMax] = -1;
+            toPluck--;
+        }
     }
 
-
+    //
     public void establish(int x, int y){
         if (nrOfSaps[x][y] == 0){
             return;
@@ -166,26 +176,25 @@ public class Saplings2 {
         saplingList.remove(bestCandidate);
     }
 
-    private Tree evaluateBestTree(List<Tree> possibleCandidates){
-        Tree t = generateRandomTree(); //ToDo: passt noch nicht, aber sonst hab ich keine
-        for (Tree thisTree : possibleCandidates) {
+    private Tree evaluateBestTree(int[] possibleCandidates){
+        Tree t = saplingList.get(possibleCandidates[0]);
+        for (int i = 0; i < possibleCandidates.length - 1; i++) {
             boolean b = true;
-            t = thisTree;
-            for (Tree theOtherTree :possibleCandidates) {
-                if (thisTree.isLessSuitableThan(theOtherTree)){
+            t = saplingList.get(possibleCandidates[i]);
+            for (int j = 0; j < possibleCandidates.length - 1; j++) {
+                if (t.isLessSuitableThan(saplingList.get(possibleCandidates[j]))){
                     b = false;
                 }
             }
             if (b){
-                return thisTree;
+                return t;
             }
         }
+
         return t;
     }
 
-
-
-    public void cut(int x, int y){
+    public void cut(int x, int y){ //ToDo: Stimmt noch nicht
         shades[x][y] = shades[x][y].cut();
     }
 
@@ -224,5 +233,4 @@ public class Saplings2 {
     public List<Tree> getSaplingList() {
         return saplingList;
     }
-
 }
