@@ -43,26 +43,31 @@ public class Betula implements LightTree {
 
     @Override
     public boolean isLessSuitableThan(Tree t) {
+        return t.isInputLessSuitableThanThis(this);
+    }
+
+    @Override
+    public boolean isInputLessSuitableThanThis(Tree t) {
         return t.isLessSuitableThan(this);
     }
 
     @Override
-    public boolean isLessSuitableThan(Fagus f) {
+    public boolean isInputLessSuitableThanThis(Fagus f) {
         return false;
     }
 
     @Override
-    public boolean isLessSuitableThan(CarpinusBetulus c) {
+    public boolean isInputLessSuitableThanThis(CarpinusBetulus c) {
         return false;
     }
 
     @Override
-    public boolean isLessSuitableThan(Betula b) {
+    public boolean isInputLessSuitableThanThis(Betula b) {
         return b.leaves < this.leaves;
     }
 
     @Override
-    public boolean isLessSuitableThan(Quercus q) {
+    public boolean isInputLessSuitableThanThis(Quercus q) {
         return false;
     }
 

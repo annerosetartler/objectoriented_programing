@@ -15,13 +15,15 @@ public interface Tree {
 
     boolean isShadeCompatible(Shade s);
 
+    //NACHB: gibt true zurück wenn dieser Baum (this) weniger geeignet ist als t
     boolean isLessSuitableThan(Tree t);
 
-    //TODO Methoden ergänzen um Zusicherungen nicht zu verletzten
-    boolean isLessSuitableThan(Fagus f);
-    boolean isLessSuitableThan(CarpinusBetulus c);
-    boolean isLessSuitableThan(Betula b);
-    boolean isLessSuitableThan(Quercus q);
+    //NACHB: gibt true zurück, wenn t weniger geeignet ist als dieser Baum(this)
+    boolean isInputLessSuitableThanThis(Tree t);
+    boolean isInputLessSuitableThanThis(Fagus f);
+    boolean isInputLessSuitableThanThis(CarpinusBetulus c);
+    boolean isInputLessSuitableThanThis(Betula b);
+    boolean isInputLessSuitableThanThis(Quercus q);
 
     String toString();
 }
