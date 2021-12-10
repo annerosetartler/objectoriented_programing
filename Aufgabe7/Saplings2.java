@@ -37,12 +37,13 @@ public class Saplings2 {
         for (int i = 0; i < amount; i++) {
             Tree t = generateRandomTree();
             saplingList.add(i, t);
-            updateNrOfSaps(t.getPosition());
+            updateNrOfSaps(t.getPosition(), true);
         }
     }
 
-    private void updateNrOfSaps(int[] position){
-        nrOfSaps[position[0]][position[1]] += 1;
+    private void updateNrOfSaps(int[] position, boolean isPositive){
+        if (isPositive) nrOfSaps[position[0]][position[1]] += 1;
+        else nrOfSaps[position[0]][position[1]] -= 1;
     }
 
     //KOMMENTAR: Lässt jeden Baum der Liste um einen zufälligen Wert wachsen
@@ -84,10 +85,7 @@ public class Saplings2 {
             }
         }
 
-        for (Tree sap : delete){
-            updateNrOfSapsminus(sap.getPosition());
-            saplingList.remove(sap);
-        }
+        delete(delete);
 
         List<Tree> delete2 = new ArrayList<Tree>();
         for (int i = 0; i < maxX; i++) {
@@ -99,14 +97,14 @@ public class Saplings2 {
             }
         }
 
-        for (Tree sap : delete2){
-            updateNrOfSapsminus(sap.getPosition());
-            saplingList.remove(sap);
-        }
+        delete(delete2);
     }
 
-    private void updateNrOfSapsminus(int[] position){
-        nrOfSaps[position[0]][position[1]] -= 1;
+    private void delete (List<Tree> removelist){
+        for (Tree sap : removelist){
+            updateNrOfSaps(sap.getPosition(), false);
+            saplingList.remove(sap);
+        }
     }
 
 
@@ -187,7 +185,7 @@ public class Saplings2 {
 
 
 
-    public void cut(int x, int y){ //ToDo: Stimmt noch nicht
+    public void cut(int x, int y){
         shades[x][y] = shades[x][y].cut();
     }
 
