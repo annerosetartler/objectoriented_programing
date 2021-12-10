@@ -43,27 +43,27 @@ public class Betula implements LightTree {
     }
 
     @Override
-    public boolean eliminateThis(Tree t) {
-        return t.eliminateThis(this);
+    public boolean isLessSuitableThan(Tree t) {
+        return t.isLessSuitableThan(this);
     }
 
     @Override
-    public boolean eliminateThis(Fagus f) {
+    public boolean isLessSuitableThan(Fagus f) {
         return false;
     }
 
     @Override
-    public boolean eliminateThis(CarpinusBetulus c) {
+    public boolean isLessSuitableThan(CarpinusBetulus c) {
         return false;
     }
 
     @Override
-    public boolean eliminateThis(Betula b) {
+    public boolean isLessSuitableThan(Betula b) {
         return b.leaves < this.leaves;
     }
 
     @Override
-    public boolean eliminateThis(Quercus q) {
+    public boolean isLessSuitableThan(Quercus q) {
         return false;
     }
 

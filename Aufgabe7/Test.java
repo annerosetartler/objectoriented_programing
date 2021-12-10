@@ -1,8 +1,6 @@
-import java.util.Arrays;
-
 public class Test {
     public static void main(String[] args) {
-        /*
+
         //KOMMENTAR: Tests zu Tree und Shade zur Überprüfung des mehrfachen Bindens
         //////
         Tree f1 = new Fagus(0.6, 0,0);
@@ -101,70 +99,70 @@ public class Test {
         System.out.println();
         System.out.println(f1.toString());
         System.out.println("Überprüfung mit '" + f2.toString() + "' als Input");
-        boolean f1f2 = f1.eliminateThis(f2);
+        boolean f1f2 = f1.isLessSuitableThan(f2);
         System.out.println("Erwartete Rückgabe: " + true + ": " + testValues(true,f1f2));
         System.out.println("Überprüfung mit '" + c1.toString() + "' als Input");
-        boolean f1c1 = f1.eliminateThis(c1);
+        boolean f1c1 = f1.isLessSuitableThan(c1);
         System.out.println("Erwartete Rückgabe: " + true + ": " + testValues(true,f1c1));
         System.out.println("Überprüfung mit '" + b1.toString() + "' als Input");
-        boolean f1b1 = f1.eliminateThis(b1);
+        boolean f1b1 = f1.isLessSuitableThan(b1);
         System.out.println("Erwartete Rückgabe: " + false + ": " + testValues(false,f1b1));
         System.out.println("Überprüfung mit '" + q1.toString() + "' als Input");
-        boolean f1q1 = f1.eliminateThis(q1);
+        boolean f1q1 = f1.isLessSuitableThan(q1);
         System.out.println("Erwartete Rückgabe: " + false + ": " + testValues(false,f1q1));//TODO sollte Quercus auch gegenüber Fagus bevorzugt werden? Wenn ja, muss true zurückgegeben werden
         System.out.println();
 
         System.out.println(c2.toString());
         System.out.println("Überprüfung mit '" + f1.toString() + "' als Input");
-        boolean c2f1 = c2.eliminateThis(f1);
+        boolean c2f1 = c2.isLessSuitableThan(f1);
         System.out.println("Erwartete Rückgabe: " + false + ": " + testValues(false,c2f1));
         System.out.println("Überprüfung mit '" + c1.toString() + "' als Input");
-        boolean c2c1 = c2.eliminateThis(c1);
+        boolean c2c1 = c2.isLessSuitableThan(c1);
         System.out.println("Erwartete Rückgabe: " + false + ": " + testValues(false,c2c1));
         System.out.println("Überprüfung mit '" + b2.toString() + "' als Input");
-        boolean c2b2 = c2.eliminateThis(b2);
+        boolean c2b2 = c2.isLessSuitableThan(b2);
         System.out.println("Erwartete Rückgabe: " + false + ": " + testValues(false,c2b2));
         System.out.println("Überprüfung mit '" + q1.toString() + "' als Input");
-        boolean c2q1 = c2.eliminateThis(q1);
+        boolean c2q1 = c2.isLessSuitableThan(q1);
         System.out.println("Erwartete Rückgabe: " + false + ": " + testValues(false,c2q1));
         System.out.println();
 
         System.out.println(b1.toString());
         System.out.println("Überprüfung mit '" + f1.toString() + "' als Input");
-        boolean b1f1 = b1.eliminateThis(f1);
+        boolean b1f1 = b1.isLessSuitableThan(f1);
         System.out.println("Erwartete Rückgabe: " + false + ": " + testValues(false,b1f1));
         System.out.println("Überprüfung mit '" + c1.toString() + "' als Input");
-        boolean b1c1 = b1.eliminateThis(c1);
+        boolean b1c1 = b1.isLessSuitableThan(c1);
         System.out.println("Erwartete Rückgabe: " + false + ": " + testValues(false,b1c1));//TODO sollte CarpinusBetulus auch gegenüber Betula bevorzugt werden? Wenn ja, muss true zurückgegeben werden
         System.out.println("Überprüfung mit '" + b2.toString() + "' als Input");
-        boolean b1b2 = b1.eliminateThis(b2);
+        boolean b1b2 = b1.isLessSuitableThan(b2);
         System.out.println("Erwartete Rückgabe: " + true + ": " + testValues(true,b1b2));
         System.out.println("Überprüfung mit '" + q1.toString() + "' als Input");
-        boolean b1q1 = b1.eliminateThis(q1);
+        boolean b1q1 = b1.isLessSuitableThan(q1);
         System.out.println("Erwartete Rückgabe: " + true + ": " + testValues(true,b1q1));
         System.out.println();
 
         System.out.println(q2.toString());
         System.out.println("Überprüfung mit '" + f2.toString() + "' als Input");
-        boolean q2f1 = q2.eliminateThis(f2);
+        boolean q2f1 = q2.isLessSuitableThan(f2);
         System.out.println("Erwartete Rückgabe: " + false + ": " + testValues(false,q2f1));
         System.out.println("Überprüfung mit '" + c1.toString() + "' als Input");
-        boolean q2c1 = q2.eliminateThis(c1);
+        boolean q2c1 = q2.isLessSuitableThan(c1);
         System.out.println("Erwartete Rückgabe: " + false + ": " + testValues(false,q2c1));
         System.out.println("Überprüfung mit '" + b2.toString() + "' als Input");
-        boolean q2b2 = q2.eliminateThis(b2);
+        boolean q2b2 = q2.isLessSuitableThan(b2);
         System.out.println("Erwartete Rückgabe: " + false + ": " + testValues(false,q2b2));
         System.out.println("Überprüfung mit '" + q1.toString() + "' als Input");
-        boolean q2q1 = q2.eliminateThis(q1);
+        boolean q2q1 = q2.isLessSuitableThan(q1);
         System.out.println("Erwartete Rückgabe: " + false + ": " + testValues(false,q2q1));
         System.out.println();
 
 
 
-         */
+
 
         System.out.println("Tests zu Saplings: ");
-        Saplings smallSaplingAcc = new Saplings(20, 20, 10);
+        Saplings smallSaplingAcc = new Saplings(20, 20, 10, 4);
 
         System.out.println("Sehr kleines Sample für Demonstration von .print(), .fill() und .grow():");
         System.out.println("Verwendung der .print()-Methode auf neu erzeugtes Objekt: ");
@@ -184,7 +182,7 @@ public class Test {
 
         System.out.println("Größeres Sample für Demonstration von .thin(), .establish() und .cut():");
 
-        Saplings hugeSaplingAcc = new Saplings(20, 20, 12000);
+        Saplings hugeSaplingAcc = new Saplings(20, 20, 12000, 8);
         hugeSaplingAcc.fill();
         hugeSaplingAcc.fill();
 
@@ -202,6 +200,7 @@ public class Test {
         System.out.println(hugeSaplingAcc.get(10, 8));
 
         System.out.println("Shade an der Stelle (10/8) nachdem der entsprechende etablierte Baum wieder gefällt wurde: ");
+        hugeSaplingAcc.cut(10,8);
         System.out.println(hugeSaplingAcc.get(10, 8));
 
         //vlt. zum "Testen" ein toString, das nur die Stellen mit zu vielen ausgibt??? und davor und danach aufrufen?

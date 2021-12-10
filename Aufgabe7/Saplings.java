@@ -7,15 +7,16 @@ public class Saplings {
     private Shade[][] shades;
     private int[][] nrOfSaps;
     private int maxX, maxY; //Koord zw. 0 und maxX bzw. maxY
-    private int maxSapAtCoord = 6;
+    private int maxSapAtCoord;
     private int maxInsertAtOnce;
 
-    public Saplings(int maxX, int maxY, int maxInsertAtOnce){
+    public Saplings(int maxX, int maxY, int maxInsertAtOnce, int maxSapAtCoord){
         this.maxX = maxX;
         this.maxY = maxY;
+        this.maxSapAtCoord = maxSapAtCoord;
         this.maxInsertAtOnce = maxInsertAtOnce;
 
-        saplingList = new LinkedList<Tree>(); //ToDo: oder lieber Array List?
+        saplingList = new LinkedList<Tree>();
         nrOfSaps = new int[maxX][maxY];
         for (int i = 0; i < maxX - 1; i++) {
             for (int j = 0; j < maxY - 1; j++) {
@@ -83,7 +84,7 @@ public class Saplings {
             int xCoord = sap.getPosition()[0];
             int yCoord = sap.getPosition()[1];
             if (!sap.isShadeCompatible(shades[xCoord][yCoord])){
-                delete.add(sap); //add zur Hilfslist
+                delete.add(sap);
             }
         }
 
@@ -129,7 +130,7 @@ public class Saplings {
         for (int i = 0; i < possibleCandidatePositions.length - 1; i++) {
             Tree t = saplingList.get(possibleCandidatePositions[i]);
             for (int j = 0; j < possibleCandidatePositions.length - 1; j++) {
-                if (t.eliminateThis(saplingList.get(possibleCandidatePositions[j]))){  //Checken: hierfür muss die Methode so geschrieben sein, dass bei zwei Bäumen gleichen Wertes t BESSER ist! Also die Methode hier false bleibt
+                if (t.isLessSuitableThan(saplingList.get(possibleCandidatePositions[j]))){
                     candidateWorseness[i]++;
                 }
             }
@@ -144,7 +145,7 @@ public class Saplings {
                     indexOfMax = i;
                 }
             }
-            deletionCandidates[toPluck - 1] = possibleCandidatePositions[indexOfMax]; //von hinten aufgefüllt...
+            deletionCandidates[toPluck - 1] = possibleCandidatePositions[indexOfMax];
             candidateWorseness[indexOfMax] = -1;
             toPluck--;
         }
@@ -181,7 +182,7 @@ public class Saplings {
             boolean b = true;
             t = saplingList.get(possibleCandidates[i]);
             for (int j = 0; j < possibleCandidates.length - 1; j++) {
-                if (t.eliminateThis(saplingList.get(possibleCandidates[j]))){  //ToDo: checken: hierfür muss die Methode so geschrieben sein, dass bei zwei Bäumen gleichen Wertes t BESSER ist! Also die Methode hier false bleibt
+                if (t.isLessSuitableThan(saplingList.get(possibleCandidates[j]))){
                     b = false;
                 }
             }

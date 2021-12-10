@@ -43,27 +43,27 @@ public class CarpinusBetulus implements ShadowTree {
     }
 
     @Override
-    public boolean eliminateThis(Tree t) {
-        return t.eliminateThis(this);
+    public boolean isLessSuitableThan(Tree t) {
+        return t.isLessSuitableThan(this);
     }
 
     @Override
-    public boolean eliminateThis(Fagus f) {
+    public boolean isLessSuitableThan(Fagus f) {
         return true;
     }
 
     @Override
-    public boolean eliminateThis(CarpinusBetulus c) {
+    public boolean isLessSuitableThan(CarpinusBetulus c) {
         return c.height < this.height;
     }
 
     @Override
-    public boolean eliminateThis(Betula b) {
+    public boolean isLessSuitableThan(Betula b) {
         return false;
     }
 
     @Override
-    public boolean eliminateThis(Quercus q) {
+    public boolean isLessSuitableThan(Quercus q) {
         return false;
     }
 
