@@ -202,12 +202,13 @@ public class Test {
         hugeSaplingAcc.cut(10,8);
         System.out.println(hugeSaplingAcc.get(10, 8));
 
-        //vlt. zum "Testen" ein toString, das nur die Stellen mit zu vielen ausgibt??? und davor und danach aufrufen?
 
-        System.out.println("Ausdünnung durch .thin()");
-        System.out.println(hugeSaplingAcc.getSaplingList().size());
+        System.out.println("Ausdünnung durch .thin():");
+        System.out.println("Jungbäume an Stelle (10/8) vor thin:");
+        System.out.println(hugeSaplingAcc.sapAtCoordinates(10,8));
         hugeSaplingAcc.thin();
-        System.out.println(hugeSaplingAcc.getSaplingList().size());
+        System.out.println("Jungbäume an Stelle (10/8) nach thin:");
+        System.out.println(hugeSaplingAcc.sapAtCoordinates(10,8));
 
 
 
