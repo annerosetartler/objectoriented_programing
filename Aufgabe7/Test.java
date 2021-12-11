@@ -169,7 +169,7 @@ public class Test {
         System.out.println("Verwendung der .print()-Methode nach .fill(): \n");
         smallSaplingAcc.fill();
         smallSaplingAcc.print();
-        System.out.println("Anzahl von Saps in List: " + smallSaplingAcc.NrOfSapsInList());
+        System.out.println("Anzahl von Saps in List: " + smallSaplingAcc.NrOfSapsInList() + '\n');
 
         System.out.println("Verwendung der .print()-Methode nach .grow(): \n");
         smallSaplingAcc.grow();
@@ -216,19 +216,12 @@ public class Test {
         System.out.println("Reduktion um " + (nrOfSupsBefore - hugeSaplingAcc.getMaxSap()) + " nötig.");
 
 
-        System.out.println("\nJungbäume an Stelle ("+ x + "/" + y + ") nach thin:");
+        System.out.println("\nJungbäume an Stelle ("+ x + "/" + y + ") nach thin  unter " + hugeSaplingAcc.get(x, y) + ":");
         hugeSaplingAcc.thin();
         System.out.println(hugeSaplingAcc.sapAtCoordinates(x,y));
         System.out.println("Ablauf von .thin(): " + testValues(hugeSaplingAcc.nrOfSapsAt(x, y), hugeSaplingAcc.getMaxSap(), true));
         System.out.println("Anzahl der Jungbäume nach .thin(): " + hugeSaplingAcc.nrOfSapsAt(x,y));
-
-        System.out.println("Test nicht erfolgreich wenn durch weiteren Aufruf von .thin() vor weiterem .fill() Bäume entfernt werden:");
-        String t1 = hugeSaplingAcc.sapAtCoordinates(x,y);
-        hugeSaplingAcc.thin();
-        System.out.println(testValues(t1, hugeSaplingAcc.sapAtCoordinates(x,y)));
-
-
-
+        System.out.println("Gesamtreduktion der Jungbäume durch .thin() um " + (totalnNrOfSapBefore-hugeSaplingAcc.NrOfSapsInList()) + ", von " + totalnNrOfSapBefore + " auf " +hugeSaplingAcc.NrOfSapsInList());
     }
 
     private static String testValues(boolean expected, boolean received) {
