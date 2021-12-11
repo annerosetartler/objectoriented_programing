@@ -159,7 +159,7 @@ public class Test {
 
         System.out.println("*************************************************************************\n");
         System.out.println("Tests zu Saplings: \n");
-        Saplings smallSaplingAcc = new Saplings(20, 20, 10, 4);
+        Saplings smallSaplingAcc = new Saplings(20, 20, 7, 4);
 
         System.out.println("Sehr kleines Sample für Demonstration von .print(), .fill() und .grow():\n");
         System.out.println("Anzahl von Saps in leerer Jungbaumliste: " + smallSaplingAcc.NrOfSapsInList() + "\n");
@@ -168,12 +168,27 @@ public class Test {
         smallSaplingAcc.fill();
         smallSaplingAcc.print();
         System.out.println("Anzahl von Jungbäumen nach einmaligem Füllen: " + smallSaplingAcc.NrOfSapsInList()  + '\n');
-        String firstTreeString = smallSaplingAcc.getFirst().toString();
+
+        String firstTreeString = "";
+        try {
+            firstTreeString = smallSaplingAcc.getFirst().toString();
+        }
+        catch(NullPointerException e) {
+            System.out.println(e);
+        }
 
         System.out.println("Verwendung von .grow(): Sonnenblätter oder Baumhöhe nehmen bei jedem Jungbaum zu:");
         smallSaplingAcc.grow();
         smallSaplingAcc.print();
-        System.out.println("Beispielbaum: erster Baum in der Liste: \nVor Aufruf von .grow(): " + firstTreeString + '\n' + "Nach Aufruf von .grow(): " + smallSaplingAcc.getFirst().toString()  + '\n');
+        String secondTreeString = "";
+
+        try {
+            secondTreeString = smallSaplingAcc.getFirst().toString();
+            System.out.println("Beispielbaum: erster Baum in der Liste: \nVor Aufruf von .grow():  " + firstTreeString + '\n' + "Nach Aufruf von .grow(): " + secondTreeString  + '\n');
+        }
+        catch(NullPointerException e) {
+            System.out.println(e);
+        }
 
         System.out.println('\n' + "Verwendung der .print()-Methode nach wiederholtem .fill():");
         smallSaplingAcc.fill();
@@ -199,7 +214,20 @@ public class Test {
 
         //KOMMENTAR: Unsere "Testkoordinate" für die weiteren Tests
         int x = 10; int y = 8;
-        System.out.println("Im Konstruktor zufällig generiertes Shade an der Stelle (" + x + "/" + y + "): ");
+
+        System.out.println("\nAusdünnung durch .thin():");
+        int nrOfSupsBefore = hugeSaplingAcc.nrOfSapsAt(x,y);
+        System.out.println("Anzahl der Jungbäume vor .thin() an Stelle ("+ x + "/" + y +  "): " + nrOfSupsBefore + ". Maximal erlaubte Anzahl pro Koordinate: " + hugeSaplingAcc.getMaxSap() + ".");
+        System.out.println("Reduktion um " + (nrOfSupsBefore - hugeSaplingAcc.getMaxSap()) + " nötig.");
+
+        System.out.println("\nJungbäume an Stelle ("+ x + "/" + y + ") nach thin  unter " + hugeSaplingAcc.get(x, y) + ":");
+        hugeSaplingAcc.thin();
+        System.out.println("Ablauf von .thin(): " + testValues(hugeSaplingAcc.nrOfSapsAt(x, y), hugeSaplingAcc.getMaxSap(), true));
+        System.out.println("Anzahl der Jungbäume nach .thin(): " + hugeSaplingAcc.nrOfSapsAt(x,y));
+        System.out.println("Gesamtreduktion der Jungbäume durch .thin() um " + (totalnNrOfSapBefore-hugeSaplingAcc.NrOfSapsInList()) + ", von " + totalnNrOfSapBefore + " auf " +hugeSaplingAcc.NrOfSapsInList());
+
+
+        System.out.println("\nIm Konstruktor zufällig generiertes Shade an der Stelle (" + x + "/" + y + "): ");
         System.out.println(hugeSaplingAcc.get(x, y));
 
         System.out.println("\nShade an der Stelle ("+ x + "/" + y + ") nach der Etablierung eines Baumes: ");
@@ -213,18 +241,6 @@ public class Test {
         System.out.println("\nShade an der Stelle ("+ x + "/" + y + ") nach wiederholter Etablierung eines Baumes: ");
         hugeSaplingAcc.establish(x,y);
         System.out.println(hugeSaplingAcc.get(x,y));
-
-        System.out.println("\nAusdünnung durch .thin():");
-        int nrOfSupsBefore = hugeSaplingAcc.nrOfSapsAt(x,y);
-        System.out.println("Anzahl der Jungbäume vor .thin() an Stelle ("+ x + "/" + y +  "): " + nrOfSupsBefore + ". Maximal erlaubte Anzahl pro Koordinate: " + hugeSaplingAcc.getMaxSap() + ".");
-        System.out.println("Reduktion um " + (nrOfSupsBefore - hugeSaplingAcc.getMaxSap()) + " nötig.");
-
-
-        System.out.println("\nJungbäume an Stelle ("+ x + "/" + y + ") nach thin  unter " + hugeSaplingAcc.get(x, y) + ":");
-        hugeSaplingAcc.thin();
-        System.out.println("Ablauf von .thin(): " + testValues(hugeSaplingAcc.nrOfSapsAt(x, y), hugeSaplingAcc.getMaxSap(), true));
-        System.out.println("Anzahl der Jungbäume nach .thin(): " + hugeSaplingAcc.nrOfSapsAt(x,y));
-        System.out.println("Gesamtreduktion der Jungbäume durch .thin() um " + (totalnNrOfSapBefore-hugeSaplingAcc.NrOfSapsInList()) + ", von " + totalnNrOfSapBefore + " auf " +hugeSaplingAcc.NrOfSapsInList());
     }
 
     private static String testValues(boolean expected, boolean received) {
@@ -253,8 +269,7 @@ Arbeitsaufteilung Aufgabe 7:
 Konzeption Programmstruktur: Annerose, David, Maria
 Zusicherungen und Implementierung von Tree und Shade (samt aller Untertypen): Maria
 Tests zu Tree: Maria
-Zusicherungen von Saplings: David
-Implementierung von Saplings: Annerose, David
+Zusicherungen und Implementierung von Saplings: Annerose, David
 Tests zu Saplings: Annerose, David
 
 **************************************************************************************************************************

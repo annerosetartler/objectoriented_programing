@@ -2,20 +2,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Saplings {
-    //KOMMENTAR: In Saplings werde junbäume verwaltet. Diese sind in einer Liste gespeichert.
-    //INV:       saplingList enthält keine Nulleinträge
-    //           maxX >= 0 & maxY >= 0
-    //           0 <= x <= maxX
-    //           shades.length = maxX & shades[x].length = maxY
-    //           nrOfSaps.length = maxX & nrOfSaps[x].length = maxY
-    //           maxSapAtCoord >= 0
-    //           maxInsertAtCoord >= 0
+    //KOMMENTAR: Diese Klasse dient der Speicherung und Verwaltung von Jungbäumen vom deklarierten Typ Tree in einer Liste.
+    //           Jungbäume besitzen zusätzlich zu den vom dynamischen Typ festgelegten Eigenschaften zusätzlich Koordinaten
+    //           (x, y), die für die geographische Lage des jeweiligen Baumes stehen.
+    //           An einem Koordinatenpaar können jeweils mehrere Bäume gleichzeitig stehen. Zur Verwaltung des Verhältnisses
+    //           zwischen den Jungbäumen am selben Platz zueinander, werden zwei zweidimensionale int-Arrays verwendet.
+    //           shades dient der Verwaltung der Beschattungsart, während nrOfSaps für jedes Koordinatenpaar die Anzahl an
+    //           Jungbäumen beinhaltet.
+    //INV: saplingList enthält keine Nulleinträge
+    //     0 <= x < maxX & 0 < y <= maxY //ToDo: kann ich das nur als invariante hier oben schreiben, wenn es einfch für alle Koordinaten (auch input-parameter) gilt? oer muss ich die extra schreiben?
+    //     shades.length = maxX & shades[x].length = maxY
+    //     nrOfSaps.length = maxX & nrOfSaps[x].length = maxY
     private List<Tree> saplingList;
     private Shade[][] shades;
     private int[][] nrOfSaps;
-    private int maxX, maxY;
-    private int maxSapAtCoord;
-    private int maxInsertAtOnce;
+    private final int maxX, maxY;
+    private final int maxSapAtCoord;
+    private final int maxInsertAtOnce;
 
     //VORB: maxX >= 0 & maxY >= 0
     //      maxInsertAtOnce >= 0
@@ -28,8 +31,8 @@ public class Saplings {
 
         saplingList = new ArrayList<Tree>();
         nrOfSaps = new int[maxX][maxY];
-        for (int i = 0; i < maxX - 1; i++) {
-            for (int j = 0; j < maxY - 1; j++) {
+        for (int i = 0; i < maxX ; i++) {
+            for (int j = 0; j < maxY; j++) {
                 nrOfSaps[i][j] = 0;
             }
         }
@@ -37,14 +40,7 @@ public class Saplings {
         shades = new Shade[maxX][maxY];
         for (int i = 0; i < maxX; i++) {
             for (int j = 0; j < maxY; j++) {
-                double rand = Math.random();
-                if (rand < 0.33){
-                    shades[i][j] = new BelowNonFagus();
-                }else if (rand < 0.66){
-                    shades[i][j] = new BelowFagus();
-                }else{
-                    shades[i][j] = new OpenArea();
-                }
+                shades[i][j] = generateRandomShade();
             }
         }
     }
@@ -56,7 +52,8 @@ public class Saplings {
         for (int i = 0; i < amount; i++) {
             Tree t = generateRandomTree();
             saplingList.add(i, t);
-            updateNrOfSaps(t.getPosition(), true);
+            int[] position = t.getPosition();
+            nrOfSaps[position[0]][position[1]] += 1;
         }
     }
 
@@ -74,10 +71,9 @@ public class Saplings {
         }
     }
 
-    //NACHB: Bei randomNumber < 0.25 wird Betula zurückgegeben
-    //       sonst wird bei randomNumber < 0.5 wird Betula zurückgegeben
-    //       sonst wird bei randomNumber < 0.75 wird Fagus zurückgegeben
-    //       sonst wird Quercus zurückgegeben
+    //NACHB: Gibt ein Objekt vom deklarierten Typ Tree mit einem zufällig aus dessen Untertypen ausgewählten dynamischen Typen //ToDo: Formulierung?
+    //       zurück
+    //       Koordinaten in 0 <= x < maxX && 0 <= y < maxY
     private Tree generateRandomTree() {
         double randomNumber = Math.random();
 
@@ -92,13 +88,30 @@ public class Saplings {
         }
     }
 
+    //NACHB: Gibt ein Objekt vom deklarierten Typ Shade mit einem zufällig aus dessen Untertypen ausgewählten dynamischen Typen zurück
+    private Shade generateRandomShade(){
+        double rand = Math.random();
+
+        if (rand < 0.33){
+            return new BelowNonFagus();
+        } else if (rand < 0.66){
+            return new BelowFagus();
+        } else {
+            return new OpenArea();
+        }
+    }
+
     //VORB: max >= 0
+    //NACHB: Gibt eine ganze Zahl zwischen 0 und max zurück
     private int randomCoordinate(int max) {
         return (int) (Math.random() * (max + 1));
     }
 
-    //NACHB: Löscht einen Junbaum aus saplingList wenn dieser unpassend für die Beschattungsart ist
-    //       Löscht Bäume von einer Position bis nrOfSaps = maxSapAtCord
+    //NACHB: Löscht Bäume von einer Position, wenn diese unpassend sind. Bäume sind entweder unpassend, wenn sie für die
+    //       an der Position existierende Beschattung ungeeignet sind, oder wenn es zu viele Bäume an derselben Position
+    //       gibt und sie nicht zu den "auserwählten" gehören
+    //HISTORY CONSTRAINT: Löscht zuerst alle die Bäume, die für die Beschattung ungeeignet sind. Erst in einem zweiten
+    //                    Schritt wird die danach noch überzählige Anzahl an Bäumen ermittelt und der Bestand ausgedünnt  //ToDo: ist das ein History constraint?
     public void thin() {
         List<Tree> deleteList1 = new ArrayList<Tree>();
         for (Tree sap : saplingList) {
@@ -124,19 +137,18 @@ public class Saplings {
     }
 
     //VORB:  removelist != null
-    //NACHB: Löscht alle Trees aus removelist aus saplingList und updatet nrOfSaps nach jeder Löschung
+    //NACHB: Löscht alle Trees aus removelist aus saplingList und verringert die in nrOfSaplings vermerkte Anzahl an der entsprechenden Position um eins
     private void delete(List<Tree> removelist) {
         for (Tree sap : removelist) {
-            updateNrOfSaps(sap.getPosition(), false);
             saplingList.remove(sap);
+            int[] position = sap.getPosition();
+            nrOfSaps[position[0]][position[1]] -= 1;
         }
     }
 
 
-    //VORB:  xCoord >= 0 & yCoord >= 0
-    //NACHB: Wenn sap.getPosition()[0] == xCoord & sap.getPosition()[1] == yCoord wird der Baum zu einer Liste hinzugefügt
-    //       sonst passiert nichts
-    //       Wenn alle Bäume gefunden oder alle Bäume aus saplingList gecheckt wurden wird die Liste zurückgegeben
+    //VORB:  0 <= xCoord < maxX & 0 <= yCoord < maxY
+    //NACHB: gibt eine Liste aller der Bäume aus saplingList zurück, die sich an (xCoord, yCoord) befinden
     private List<Tree> sapsAtCoord(int xCoord, int yCoord) {
         int amountAtLoc = nrOfSaps[xCoord][yCoord];
         List<Tree> atPosition = new ArrayList<>();
@@ -152,12 +164,10 @@ public class Saplings {
         return atPosition;
     }
 
-    //VORB:  possibleCandidates != null & elimAmount >= 0
-    //NACHB: deleetionCandidates.size = elimAmount
-    //       gibt eine Liste zurück mit den unpassensten Bäumen für die Beschattung
+    //VORB:  possibleCandidates != null & elimAmount > 0
+    //NACHB: gibt eine Liste zurück, die die "elimAmount" kleinsten/unbeschattetsten Trees beinhaltet
     private List<Tree> findDelCandidates(List<Tree> possibleCandidates, int elimAmount) {
 
-        //KOMMENTAR: Vergleiche die Trees und bewerte, wie oft sie "schlechter" sind
         int[] candidateWorseness = new int[possibleCandidates.size()];
         int counter = 0;
         for (Tree assessTree : possibleCandidates) {
@@ -169,7 +179,6 @@ public class Saplings {
             counter++;
         }
 
-        //KOMMENTAR: Suche die schlechtesten Raus und speichere sie in einer Liste
         List<Tree> deletionCandidates = new ArrayList<>();
         int pluckNumber = elimAmount;
         while (pluckNumber > 0) {
@@ -187,11 +196,9 @@ public class Saplings {
         return deletionCandidates;
     }
 
-    //VORB:  0 <= x <= maxX & 0 <= y <= maxY
-    //NACHB: wenn nrOfSaps[x][y] = 0 passiert nichts
-    //       sonst wird der beste Baum am Standort x,y gesucht und aus der Liste entfernt
-    //       wodurch nrofSaps geupdatet wird
-    //       und die Beschattungsart abhängig von diesem Baum verändert
+    //VORB:  0 <= x < maxX & 0 <= y < maxY
+    //NACHB: ermittelt den Besten Baum an Standort x,y und ändert die Beschattungsart dementsprechend. Der Baum wird aus
+    //       der Jungbaumliste entfernt und auch nrOfSaps[x][y] wird um eins verringert
     public void establish(int x, int y) {
         if (nrOfSaps[x][y] == 0) {
             return;
@@ -199,13 +206,11 @@ public class Saplings {
         Tree bestCandidate = evaluateBestTree(sapsAtCoord(x, y));
         shades[x][y] = bestCandidate.setShade();
         saplingList.remove(bestCandidate);
-        int[] array = {x, y};
-        updateNrOfSaps(array, false);
+        nrOfSaps[x][y] -= 1;
     }
 
     //VORB:  possiblecandidates != null
-    //NACHB: Geht alle Bäume aus possiblecandidates durch und vergleicht sie mit der Methode isLessSuitable
-    //       Gibt den am besten geeigneten Baum aus der Liste zurück
+    //NACHB: Gibt den am besten geeigneten Baum aus der Liste möglicher Kandidaten zurück
     private Tree evaluateBestTree(List<Tree> possibleCandidates) {
         Tree t = possibleCandidates.get(0);
         for (Tree thisTree : possibleCandidates) {
@@ -223,11 +228,12 @@ public class Saplings {
         return t;
     }
 
+    //KOMMENTAR: Entfernt den Baum an Position x,y, wodurch sich die Beschattung ändert
     public void cut(int x, int y) {
         shades[x][y] = shades[x][y].cut();
     }
 
-    //VORB:  0 <= x <= maxX & 0 <= y <= maxY
+    //VORB:  0 <= x < maxX & 0 <= y < maxY
     //NACHB: gibt die Beschattungsart am Standort x, y zurück
     public Shade get(int x, int y) {
         return shades[x][y];
@@ -248,7 +254,7 @@ public class Saplings {
         System.out.println(s);
     }
 
-    //VORB:  0 <= x <= maxX & 0 <= y <= maxY
+    //VORB:  0 <= x < maxX & 0 <= y < maxY
     //NACHB: Gibt einen String zurück welcher alle Bäume an der Position x,y beinhaltet
     public String sapAtCoordinates(int x, int y) {
         String s = "";
@@ -260,17 +266,19 @@ public class Saplings {
         return s;
     }
 
-    //ToDo Zusicherungen
+    //KOMMENTAR: Fürs Testen
+    //NACHB: Gibt die Anzahl der Saps an einer bestimmten Position x,y zurück
     public int nrOfSapsAt(int x, int y){
         return nrOfSaps[x][y];
     }
 
-    //ToDo Zusicherungen
+    //KOMMENTAR: Fürs Testen
     public int getMaxSap(){
         return maxSapAtCoord;
     }
 
-    //ToDo Zusicherungen
+    //KOMMENTAR: Fürs Testen
+    //NACHB: Gibt die Gesamtanzahl an Jungbäumen zurück
     public int NrOfSapsInList(){
         int i = 0;
         for (Tree sap :saplingList) {
@@ -279,9 +287,13 @@ public class Saplings {
         return i;
     }
 
-    public Tree getFirst(){
+    //KOMMENTAR: Fürs Testen
+    //NACHB: Gibt den ersten Tree der Liste zurück //ToDo: was, wenn saplingList noch null ist? Welche Bedingungsart ist das?
+    public Tree getFirst() throws NullPointerException {
+        if (saplingList.size() == 0){
+            throw new NullPointerException("Die Jungbaumliste mit zufälliger Anzahl von Bäumen ist leider diesmal leer geblieben.");
+        }
         return saplingList.get(0);
     }
-
 }
 
