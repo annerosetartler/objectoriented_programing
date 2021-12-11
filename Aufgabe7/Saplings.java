@@ -10,8 +10,7 @@ public class Saplings {
     //           shades dient der Verwaltung der Beschattungsart, während nrOfSaps für jedes Koordinatenpaar die Anzahl an
     //           Jungbäumen beinhaltet.
     //INV: saplingList enthält keine Nulleinträge
-    //     0 <= x < maxX & 0 < y <= maxY //ToDo: kann ich das nur als invariante hier oben schreiben, wenn es einfch für alle Koordinaten (auch input-parameter) gilt? oer muss ich die extra schreiben?
-                                            //Antwort: eine Invariante gilt als Nachbedingung für alle Methoden, aber die Vorbedingungen müssen trotzdem überprüft werden (= VORB extra schreiben)
+    //     0 <= x < maxX & 0 <= y < maxY
     //     shades.length = maxX & shades[x].length = maxY
     //     nrOfSaps.length = maxX & nrOfSaps[x].length = maxY
     private List<Tree> saplingList;
@@ -21,7 +20,7 @@ public class Saplings {
     private final int maxSapAtCoord;
     private final int maxInsertAtOnce;
 
-    //VORB: maxX >= 0 & maxY >= 0
+    //VORB: maxX > 0 & maxY > 0
     //      maxInsertAtOnce >= 0
     //      maxsapAtChoord >= 0
     public Saplings(int maxX, int maxY, int maxInsertAtOnce, int maxSapAtCoord) {
@@ -47,7 +46,7 @@ public class Saplings {
     }
 
 
-    //NACHB: Fügt eine zufällige Zahl an Bäumen in saplingList ein.
+    //NACHB: Fügt eine zufällige Zahl an Jungbäumen in saplingList ein.
     public void fill() {
         int amount = (int) (Math.random() * (maxInsertAtOnce + 1));
         for (int i = 0; i < amount; i++) {
@@ -72,8 +71,7 @@ public class Saplings {
         }
     }
 
-    //NACHB: Gibt ein Objekt vom deklarierten Typ Tree mit einem zufällig aus dessen Untertypen ausgewählten dynamischen Typen //ToDo: Formulierung? //Antwort: würde hier nur schreiben: Gibt ein Objekt vom Typ Tree zurück. Erklärung: es kann ja auch ein Untertyp ein statischer Typ sein, das kommt ja nur auf die Deklaration der Variable an
-    //       zurück
+    //NACHB: Gibt ein Objekt vom Typ Tree zurück
     //       Koordinaten in 0 <= x < maxX && 0 <= y < maxY
     private Tree generateRandomTree() {
         double randomNumber = Math.random();
@@ -108,11 +106,11 @@ public class Saplings {
         return (int) (Math.random() * (max + 1));
     }
 
+    //KOMMENTAR: Löscht zuerst alle die Bäume, die für die Beschattung ungeeignet sind. Erst in einem zweiten Schritt wird die
+    //           danach noch überzählige Anzahl an Bäumen ermittelt und der Bestand ausgedünnt
     //NACHB: Löscht Bäume von einer Position, wenn diese unpassend sind. Bäume sind entweder unpassend, wenn sie für die
     //       an der Position existierende Beschattung ungeeignet sind, oder wenn es zu viele Bäume an derselben Position
     //       gibt und sie nicht zu den "auserwählten" gehören
-    //HISTORY CONSTRAINT: Löscht zuerst alle die Bäume, die für die Beschattung ungeeignet sind. Erst in einem zweiten
-    //                    Schritt wird die danach noch überzählige Anzahl an Bäumen ermittelt und der Bestand ausgedünnt  //ToDo: ist das ein History constraint? Antwort: Nein, liest sich eher wie eine Nachbedingung. Es beschreibt ja nur was die Methode macht, somit ist es kein Constraint.
     public void thin() {
         List<Tree> deleteList1 = new ArrayList<Tree>();
         for (Tree sap : saplingList) {
@@ -288,12 +286,14 @@ public class Saplings {
         return i;
     }
 
+    //KOMMENTAR: Fürs Testen:
+    public int getSize(){
+        return saplingList.size();
+    }
+
     //KOMMENTAR: Fürs Testen
-    //NACHB: Gibt den ersten Tree der Liste zurück //ToDo: was, wenn saplingList noch null ist? Welche Bedingungsart ist das? Antwort: in der Angabe wird explizit gesagt, dass keine Exceptions gehandelt werden sollen. Also bitte rausnehmen. Mach eine Vorbedingung stattdessen oder stelle sicher, dass die saplingList nicht null sein darf. Wenn sie im Konstruktor initialisiet wird, kann sie ja nicht null sein, oder?
-    public Tree getFirst() throws NullPointerException {
-        if (saplingList.size() == 0){
-            throw new NullPointerException("Die Jungbaumliste mit zufälliger Anzahl von Bäumen ist leider diesmal leer geblieben.");
-        }
+    //NACHB: Gibt den ersten Tree der Liste zurück
+    public Tree getFirst() {
         return saplingList.get(0);
     }
 }

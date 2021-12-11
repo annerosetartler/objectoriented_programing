@@ -159,7 +159,7 @@ public class Test {
 
         System.out.println("*************************************************************************\n");
         System.out.println("Tests zu Saplings: \n");
-        Saplings smallSaplingAcc = new Saplings(20, 20, 7, 4);
+        Saplings smallSaplingAcc = new Saplings(20, 20, 8, 4);
 
         System.out.println("Sehr kleines Sample für Demonstration von .print(), .fill() und .grow():\n");
         System.out.println("Anzahl von Saps in leerer Jungbaumliste: " + smallSaplingAcc.NrOfSapsInList() + "\n");
@@ -170,11 +170,8 @@ public class Test {
         System.out.println("Anzahl von Jungbäumen nach einmaligem Füllen: " + smallSaplingAcc.NrOfSapsInList()  + '\n');
 
         String firstTreeString = "";
-        try {
+        if (smallSaplingAcc.getSize() != 0) {
             firstTreeString = smallSaplingAcc.getFirst().toString();
-        }
-        catch(NullPointerException e) {
-            System.out.println(e);
         }
 
         System.out.println("Verwendung von .grow(): Sonnenblätter oder Baumhöhe nehmen bei jedem Jungbaum zu:");
@@ -182,12 +179,9 @@ public class Test {
         smallSaplingAcc.print();
         String secondTreeString = "";
 
-        try {
+        if (smallSaplingAcc.getSize() != 0) {
             secondTreeString = smallSaplingAcc.getFirst().toString();
-            System.out.println("Beispielbaum: erster Baum in der Liste: \nVor Aufruf von .grow():  " + firstTreeString + '\n' + "Nach Aufruf von .grow(): " + secondTreeString  + '\n');
-        }
-        catch(NullPointerException e) {
-            System.out.println(e);
+            System.out.println("Beispielbaum: erster Baum in der Liste: \nVor Aufruf von .grow():  " + firstTreeString + '\n' + "Nach Aufruf von .grow(): " + secondTreeString + '\n');
         }
 
         System.out.println('\n' + "Verwendung der .print()-Methode nach wiederholtem .fill():");
