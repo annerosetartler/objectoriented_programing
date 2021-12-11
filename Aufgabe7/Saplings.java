@@ -141,7 +141,7 @@ public class Saplings {
         int amountAtLoc = nrOfSaps[xCoord][yCoord];
         List<Tree> atPosition = new ArrayList<>();
         for (Tree sap : saplingList) {
-            if (sap.getPosition()[0] == xCoord && sap.getPosition()[1] == yCoord) {
+            if (sap.hasSamePosition(xCoord, yCoord)) {
                 atPosition.add(sap);
                 amountAtLoc--;
             }
@@ -241,7 +241,7 @@ public class Saplings {
             for (int j = 0; j < maxY; j++) {
                 String string = sapAtCoordinates(i, j);
                 if (!string.equals("")) {
-                    s += "Bäume an Stelle (" + i + "/" + j + "): \n" + string + "Beschattung: " + shades[i][j].toString() + '\n';
+                    s += "*Bäume an Stelle (" + i + "/" + j + ") unter Beschattung " + shades[i][j].toString() + ": \n" + string;
                 }
             }
         }
@@ -253,8 +253,8 @@ public class Saplings {
     public String sapAtCoordinates(int x, int y) {
         String s = "";
         for (Tree sap : saplingList) {
-            if (sap.getPosition()[0] == x && sap.getPosition()[1] == y) {
-                s += sap.toString() + '\n';
+            if (sap.hasSamePosition(x, y)) {
+                s += "   -" + sap.toString() + '\n';
             }
         }
         return s;
@@ -265,17 +265,22 @@ public class Saplings {
         return nrOfSaps[x][y];
     }
 
+    //ToDo Zusicherungen
     public int getMaxSap(){
         return maxSapAtCoord;
     }
 
-
+    //ToDo Zusicherungen
     public int NrOfSapsInList(){
         int i = 0;
         for (Tree sap :saplingList) {
             i++;
         }
         return i;
+    }
+
+    public Tree getFirst(){
+        return saplingList.get(0);
     }
 
 }
