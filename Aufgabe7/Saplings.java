@@ -222,6 +222,8 @@ public class Saplings {
     }
 
     public void cut(int x, int y) {
+        int[] array = {x, y};
+        updateNrOfSaps(array, false);
         shades[x][y] = shades[x][y].cut();
     }
 
