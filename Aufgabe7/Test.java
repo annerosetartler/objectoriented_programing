@@ -160,26 +160,26 @@ public class Test {
 
 
 
-        System.out.println("Tests zu Saplings: ");
+        System.out.println("Tests zu Saplings: \n");
         Saplings smallSaplingAcc = new Saplings(20, 20, 10, 4);
 
-        System.out.println("Sehr kleines Sample für Demonstration von .print(), .fill() und .grow():");
+        System.out.println("Sehr kleines Sample für Demonstration von .print(), .fill() und .grow():\n");
         System.out.println("Verwendung der .print()-Methode auf neu erzeugtes Objekt: ");
         smallSaplingAcc.print();
 
-        System.out.println("Verwendung der .print()-Methode nach .fill(): ");
+        System.out.println("Verwendung der .print()-Methode nach .fill(): \n");
         smallSaplingAcc.fill();
         smallSaplingAcc.print();
 
-        System.out.println("Verwendung der .print()-Methode nach .grow(): ");
+        System.out.println("Verwendung der .print()-Methode nach .grow(): \n");
         smallSaplingAcc.grow();
         smallSaplingAcc.print();
 
-        System.out.println("Verwendung der .print()-Methode nach wiederholtem .fill(): ");
+        System.out.println("Verwendung der .print()-Methode nach wiederholtem .fill(): \n");
         smallSaplingAcc.fill();
         smallSaplingAcc.print();
 
-        System.out.println("Größeres Sample für Demonstration von .thin(), .establish() und .cut():");
+        System.out.println("Größeres Sample für Demonstration von .thin(), .establish() und .cut():\n");
 
         Saplings hugeSaplingAcc = new Saplings(20, 20, 12000, 8);
         hugeSaplingAcc.fill();
@@ -195,16 +195,16 @@ public class Test {
 
         hugeSaplingAcc.establish(10, 8);
 
-        System.out.println("Shade an der Stelle (10/8) nach der Etablierung eines Baumes: ");
+        System.out.println("\nShade an der Stelle (10/8) nach der Etablierung eines Baumes: ");
         System.out.println(hugeSaplingAcc.get(10, 8));
 
-        System.out.println("Shade an der Stelle (10/8) nachdem der entsprechende etablierte Baum wieder gefällt wurde: ");
+        System.out.println("\nShade an der Stelle (10/8) nachdem der entsprechende etablierte Baum wieder gefällt wurde: ");
         hugeSaplingAcc.cut(10,8);
         System.out.println(hugeSaplingAcc.get(10, 8));
 
 
-        System.out.println("Ausdünnung durch .thin():");
-        System.out.println("Jungbäume an Stelle (10/8) vor thin:");
+        System.out.println("\nAusdünnung durch .thin():");
+        System.out.println("\nJungbäume an Stelle (10/8) vor thin:");
         System.out.println(hugeSaplingAcc.sapAtCoordinates(10,8));
         hugeSaplingAcc.thin();
         System.out.println("Jungbäume an Stelle (10/8) nach thin:");

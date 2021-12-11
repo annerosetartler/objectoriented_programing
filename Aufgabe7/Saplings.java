@@ -40,7 +40,7 @@ public class Saplings {
                 double rand = Math.random();
                 if (rand < 0.33){
                     shades[i][j] = new BelowNonFagus();
-                }else if (rand <=0.33 && rand < 0.66){
+                }else if (rand < 0.66){
                     shades[i][j] = new BelowFagus();
                 }else{
                     shades[i][j] = new OpenArea();
@@ -50,7 +50,7 @@ public class Saplings {
     }
 
 
-    //NACHB: Fügt eine zufällige Zahl an Bäumen in saplingList ein
+    //NACHB: Fügt eine zufällige Zahl an Bäumen in saplingList ein.
     public void fill() {
         int amount = (int) (Math.random() * (maxInsertAtOnce + 1));
         for (int i = 0; i < amount; i++) {
@@ -75,7 +75,7 @@ public class Saplings {
     }
 
     //NACHB: Bei randomNumber < 0.25 wird Betula zurückgegeben
-    //       sonst wird bei randomNumber < 0.5 wird Betula
+    //       sonst wird bei randomNumber < 0.5 wird Betula zurückgegeben
     //       sonst wird bei randomNumber < 0.75 wird Fagus zurückgegeben
     //       sonst wird Quercus zurückgegeben
     private Tree generateRandomTree() {
@@ -111,7 +111,6 @@ public class Saplings {
 
         delete(deleteList1);
 
-        //Fall 2: Für alle, wo es zu viele gibt
         List<Tree> deleteList2 = new ArrayList<Tree>();
         for (int i = 0; i < maxX; i++) {
             for (int j = 0; j < maxY; j++) {
@@ -125,7 +124,7 @@ public class Saplings {
     }
 
     //VORB:  removelist != null
-    //NACHB: Löscht alle Trees aus removelist aus saplingList und updatet nrOfSaps nach jeder löschung
+    //NACHB: Löscht alle Trees aus removelist aus saplingList und updatet nrOfSaps nach jeder Löschung
     private void delete(List<Tree> removelist) {
         for (Tree sap : removelist) {
             updateNrOfSaps(sap.getPosition(), false);
@@ -137,7 +136,7 @@ public class Saplings {
     //VORB:  xCoord >= 0 & yCoord >= 0
     //NACHB: Wenn sap.getPosition()[0] == xCoord & sap.getPosition()[1] == yCoord wird der Baum zu einer Liste hinzugefügt
     //       sonst passiert nichts
-    //       Wenn alle Bäume gefunden oder alle Büme aus saplingList gecheckt wurden wird die Liste zurückgegeben
+    //       Wenn alle Bäume gefunden oder alle Bäume aus saplingList gecheckt wurden wird die Liste zurückgegeben
     private List<Tree> sapsAtCoord(int xCoord, int yCoord) {
         int amountAtLoc = nrOfSaps[xCoord][yCoord];
         List<Tree> atPosition = new ArrayList<>();
@@ -158,7 +157,7 @@ public class Saplings {
     //       gibt eine Liste zurück mit den unpassensten Bäumen für die Beschattung
     private List<Tree> findDelCandidates(List<Tree> possibleCandidates, int elimAmount) {
 
-        //Vergleiche die Trees und bewerte, wie oft sie "schlechter" sind
+        //KOMMENTAR: Vergleiche die Trees und bewerte, wie oft sie "schlechter" sind
         int[] candidateWorseness = new int[possibleCandidates.size()];
         int counter = 0;
         for (Tree assessTree : possibleCandidates) {
@@ -170,7 +169,7 @@ public class Saplings {
             counter++;
         }
 
-        //Suche die schlechtesten Raus und speichere sie in einer Liste
+        //KOMMENTAR: Suche die schlechtesten Raus und speichere sie in einer Liste
         List<Tree> deletionCandidates = new ArrayList<>();
         int pluckNumber = elimAmount;
         while (pluckNumber > 0) {
@@ -192,7 +191,7 @@ public class Saplings {
     //VORB:  0 <= x <= maxX & 0 <= y <= maxY
     //NACHB: wenn nrOfSaps[x][y] = 0 passiert nichts
     //       sonst wird der beste Baum am Standort x,y gesucht und aus der Liste entfernt
-    //       und die Beschattungsart abhängig von diesem baum verändert
+    //       und die Beschattungsart abhängig von diesem Baum verändert
     public void establish(int x, int y) {
         if (nrOfSaps[x][y] == 0) {
             return;
@@ -256,7 +255,6 @@ public class Saplings {
                 s += sap.toString() + '\n';
             }
         }
-        s += nrOfSaps[x][y];
         return s;
     }
 
