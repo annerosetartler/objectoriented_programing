@@ -191,10 +191,13 @@ public class Test {
         System.out.println("Shade an der Stelle (10/8) vor jeglichen Eingriffen: ");
         System.out.println(hugeSaplingAcc.get(10, 8));
 
-        hugeSaplingAcc.establish(10, 8);
 
         System.out.println("\nShade an der Stelle (10/8) nach der Etablierung eines Baumes: ");
+        String e1 = hugeSaplingAcc.sapAtCoordinates(10,8);
+        hugeSaplingAcc.establish(10, 8);
         System.out.println(hugeSaplingAcc.get(10, 8));
+        System.out.println("Test Nicht erfolgreich wenn ein Baum established wurde:");
+        System.out.println(testValues(e1, hugeSaplingAcc.sapAtCoordinates(10,8)));
 
         System.out.println("\nShade an der Stelle (10/8) nachdem der entsprechende etablierte Baum wieder gefällt wurde: ");
         hugeSaplingAcc.cut(10,8);
@@ -203,11 +206,13 @@ public class Test {
 
         System.out.println("\nAusdünnung durch .thin():");
         System.out.println("\nJungbäume an Stelle (10/8) vor thin:");
+        String t1 = hugeSaplingAcc.sapAtCoordinates(10,8);
         System.out.println(hugeSaplingAcc.sapAtCoordinates(10,8));
         hugeSaplingAcc.thin();
         System.out.println("Jungbäume an Stelle (10/8) nach thin:");
         System.out.println(hugeSaplingAcc.sapAtCoordinates(10,8));
-
+        System.out.println("Test Nicht erfolgreich wenn durch thin Bäume entfernt wurden:");
+        System.out.println(testValues(t1, hugeSaplingAcc.sapAtCoordinates(10,8)));
 
 
 
