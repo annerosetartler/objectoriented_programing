@@ -188,6 +188,7 @@ public class Saplings {
     }
 
 
+    //ToDo: noch in die Bedingen vlt.: weil der Baum im Baumhimmel ist wird er aus dem nrOfSaps[][] gelöscht
     //VORB:  0 <= x <= maxX & 0 <= y <= maxY
     //NACHB: wenn nrOfSaps[x][y] = 0 passiert nichts
     //       sonst wird der beste Baum am Standort x,y gesucht und aus der Liste entfernt
@@ -199,6 +200,8 @@ public class Saplings {
         Tree bestCandidate = evaluateBestTree(sapsAtCoord(x, y));
         shades[x][y] = bestCandidate.setShade();
         saplingList.remove(bestCandidate);
+        int[] array = {x, y};
+        updateNrOfSaps(array, false);
     }
 
     //VORB:  possiblecandidates != null
@@ -222,8 +225,6 @@ public class Saplings {
     }
 
     public void cut(int x, int y) {
-        int[] array = {x, y};
-        updateNrOfSaps(array, false);
         shades[x][y] = shades[x][y].cut();
     }
 
