@@ -106,11 +106,12 @@ public class Saplings {
         return (int) (Math.random() * (max + 1));
     }
 
-    //KOMMENTAR: Löscht zuerst alle die Bäume, die für die Beschattung ungeeignet sind. Erst in einem zweiten Schritt wird die
-    //           danach noch überzählige Anzahl an Bäumen ermittelt und der Bestand ausgedünnt
+
     //NACHB: Löscht Bäume von einer Position, wenn diese unpassend sind. Bäume sind entweder unpassend, wenn sie für die
     //       an der Position existierende Beschattung ungeeignet sind, oder wenn es zu viele Bäume an derselben Position
     //       gibt und sie nicht zu den "auserwählten" gehören
+    //       Löscht zuerst alle die Bäume, die für die Beschattung ungeeignet sind. Erst in einem zweiten Schritt wird die
+    //       danach noch überzählige Anzahl an Bäumen ermittelt und der Bestand ausgedünnt
     public void thin() {
         List<Tree> deleteList1 = new ArrayList<Tree>();
         for (Tree sap : saplingList) {
