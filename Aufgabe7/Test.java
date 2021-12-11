@@ -31,10 +31,10 @@ public class Test {
         c2.grow(growth);
         b2.grow(growth);
         q2.grow(growth);
-        System.out.println(f2.toString() +": " + testValues(1.8f,f2.getLeavesOrHeight(),false));
-        System.out.println(c2.toString() +": " + testValues(1.9f,c2.getLeavesOrHeight(),false));
-        System.out.println(b2.toString() +": " + testValues(6,b2.getLeavesOrHeight(),true));
-        System.out.println(q2.toString() +": " + testValues(7,q2.getLeavesOrHeight(),true));
+        System.out.println(f2.toString() +": " + testValues(1.8f,f2.getLeavesOrHeight().floatValue()));
+        System.out.println(c2.toString() +": " + testValues(1.9f,c2.getLeavesOrHeight().floatValue()));
+        System.out.println(b2.toString() +": " + testValues(6,b2.getLeavesOrHeight().intValue()));
+        System.out.println(q2.toString() +": " + testValues(7,q2.getLeavesOrHeight().intValue()));
         System.out.println();
 
         System.out.println("Tests zu setShade() in Tree:");
@@ -222,7 +222,7 @@ public class Test {
 
         System.out.println("\nJungbäume an Stelle ("+ x + "/" + y + ") nach thin  unter " + hugeSaplingAcc.get(x, y) + ":");
         hugeSaplingAcc.thin();
-        System.out.println("Ablauf von .thin(): " + testValues(hugeSaplingAcc.nrOfSapsAt(x, y), hugeSaplingAcc.getMaxSap(), true));
+        System.out.println("Ablauf von .thin(): " + testValues(hugeSaplingAcc.nrOfSapsAt(x, y), hugeSaplingAcc.getMaxSap()));
         System.out.println("Anzahl der Jungbäume nach .thin(): " + hugeSaplingAcc.nrOfSapsAt(x,y));
         System.out.println("Gesamtreduktion der Jungbäume durch .thin() um " + (totalnNrOfSapBefore-hugeSaplingAcc.NrOfSapsInList()) + ", von " + totalnNrOfSapBefore + " auf " +hugeSaplingAcc.NrOfSapsInList());
 
@@ -251,12 +251,13 @@ public class Test {
         return expected.equals(received) ? "Test erfolgreich!" : "Test fehlgeschlagen!";
     }
 
-    private static String testValues(Number expected, Number received, boolean IsInt) {
-        if (IsInt) {
-            return expected.intValue() == received.intValue() ? "Test erfolgreich!" : "Test fehlgeschlagen!";
-        } else {
-            return expected.floatValue() == received.floatValue() ? "Test erfolgreich!" : "Test fehlgeschlagen!";
-        }
+    private static String testValues(int expected,int received) {
+        return expected == received ? "Test erfolgreich!" : "Test fehlgeschlagen!";
+    }
+
+    private static String testValues(float expected, float received) {
+        float delta = 0.0000001f;
+        return expected <= received + 0.0000001f && expected >= received - 0.0000001f? "Test erfolgreich!" : "Test fehlgeschlagen!";
     }
 
 
