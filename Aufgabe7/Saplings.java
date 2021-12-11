@@ -187,11 +187,10 @@ public class Saplings {
         return deletionCandidates;
     }
 
-
-    //ToDo: noch in die Bedingen vlt.: weil der Baum im Baumhimmel ist wird er aus dem nrOfSaps[][] gelöscht
     //VORB:  0 <= x <= maxX & 0 <= y <= maxY
     //NACHB: wenn nrOfSaps[x][y] = 0 passiert nichts
     //       sonst wird der beste Baum am Standort x,y gesucht und aus der Liste entfernt
+    //       wodurch nrofSaps geupdatet wird
     //       und die Beschattungsart abhängig von diesem Baum verändert
     public void establish(int x, int y) {
         if (nrOfSaps[x][y] == 0) {

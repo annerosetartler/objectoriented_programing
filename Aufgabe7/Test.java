@@ -157,9 +157,7 @@ public class Test {
         System.out.println();
 
 
-
-
-
+        System.out.println("*************************************************************************\n");
         System.out.println("Tests zu Saplings: \n");
         Saplings smallSaplingAcc = new Saplings(20, 20, 10, 4);
 
