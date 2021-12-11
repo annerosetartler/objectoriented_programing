@@ -260,5 +260,23 @@ public class Saplings {
         return s;
     }
 
+    //ToDo Zusicherungen
+    public int nrOfSapsAt(int x, int y){
+        return nrOfSaps[x][y];
+    }
+
+    public int getMaxSap(){
+        return maxSapAtCoord;
+    }
+
+
+    public int NrOfSapsInList(){
+        int i = 0;
+        for (Tree sap :saplingList) {
+            i++;
+        }
+        return i;
+    }
+
 }
 

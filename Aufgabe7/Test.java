@@ -162,12 +162,14 @@ public class Test {
         Saplings smallSaplingAcc = new Saplings(20, 20, 10, 4);
 
         System.out.println("Sehr kleines Sample für Demonstration von .print(), .fill() und .grow():\n");
-        System.out.println("Verwendung der .print()-Methode auf neu erzeugtes Objekt: ");
+        System.out.println("Verwendung der .print()-Methode auf neu erzeugtes (= leeres) Objekt: ");
         smallSaplingAcc.print();
+        System.out.println("Anzahl von Saps in List: " + smallSaplingAcc.NrOfSapsInList());
 
         System.out.println("Verwendung der .print()-Methode nach .fill(): \n");
         smallSaplingAcc.fill();
         smallSaplingAcc.print();
+        System.out.println("Anzahl von Saps in List: " + smallSaplingAcc.NrOfSapsInList());
 
         System.out.println("Verwendung der .print()-Methode nach .grow(): \n");
         smallSaplingAcc.grow();
@@ -176,6 +178,7 @@ public class Test {
         System.out.println("Verwendung der .print()-Methode nach wiederholtem .fill(): \n");
         smallSaplingAcc.fill();
         smallSaplingAcc.print();
+        System.out.println("Anzahl der Bäume nach wiederholtem .fill(): " + smallSaplingAcc.NrOfSapsInList());
 
         System.out.println("Größeres Sample für Demonstration von .thin(), .establish() und .cut():\n");
 
@@ -188,31 +191,41 @@ public class Test {
         hugeSaplingAcc.fill();
         hugeSaplingAcc.grow();
 
-        System.out.println("Shade an der Stelle (10/8) vor jeglichen Eingriffen: ");
-        System.out.println(hugeSaplingAcc.get(10, 8));
+        int totalnNrOfSapBefore = hugeSaplingAcc.NrOfSapsInList();
+        System.out.println("Anzahl von Saps in der großen Sapling-List: " + totalnNrOfSapBefore);
 
 
-        System.out.println("\nShade an der Stelle (10/8) nach der Etablierung eines Baumes: ");
-        String e1 = hugeSaplingAcc.sapAtCoordinates(10,8);
-        hugeSaplingAcc.establish(10, 8);
-        System.out.println(hugeSaplingAcc.get(10, 8));
-        System.out.println("Test Nicht erfolgreich wenn ein Baum established wurde:");
-        System.out.println(testValues(e1, hugeSaplingAcc.sapAtCoordinates(10,8)));
+        //KOMMENTAR: Unsere "Testkoordinate" für die weiteren Tests
+        int x = 10; int y = 8;
+        System.out.println("Shade an der Stelle (" + x + "/" + y + ") vor jeglichen Eingriffen: ");
+        System.out.println(hugeSaplingAcc.get(x, y));
 
-        System.out.println("\nShade an der Stelle (10/8) nachdem der entsprechende etablierte Baum wieder gefällt wurde: ");
-        hugeSaplingAcc.cut(10,8);
-        System.out.println(hugeSaplingAcc.get(10, 8));
+        System.out.println("\nShade an der Stelle ("+ x + "/" + y + ") nach der Etablierung eines Baumes: ");
+        hugeSaplingAcc.establish(x,y);
+        System.out.println(hugeSaplingAcc.get(x,y));
 
+        System.out.println("\nShade an der Stelle ("+ x + "/" + y + ") nachdem der entsprechende etablierte Baum wieder gefällt wurde: ");
+        hugeSaplingAcc.cut(x,y);
+        System.out.println(hugeSaplingAcc.get(x, y));
 
         System.out.println("\nAusdünnung durch .thin():");
-        System.out.println("\nJungbäume an Stelle (10/8) vor thin:");
-        String t1 = hugeSaplingAcc.sapAtCoordinates(10,8);
-        System.out.println(hugeSaplingAcc.sapAtCoordinates(10,8));
+        System.out.println("\nJungbäume an Stelle ("+ x + "/" + y + ") vor thin:");
+        System.out.println(hugeSaplingAcc.sapAtCoordinates(x,y));
+        int nrOfSupsBefore = hugeSaplingAcc.nrOfSapsAt(x,y);
+        System.out.println("Anzahl der Jungbäume vor .thin() an Stelle ("+ x + "/" + y +  "): " + nrOfSupsBefore + ". Maximal erlaubte Anzahl pro Koordinate: " + hugeSaplingAcc.getMaxSap() + ".");
+        System.out.println("Reduktion um " + (nrOfSupsBefore - hugeSaplingAcc.getMaxSap()) + " nötig.");
+
+
+        System.out.println("\nJungbäume an Stelle ("+ x + "/" + y + ") nach thin:");
         hugeSaplingAcc.thin();
-        System.out.println("Jungbäume an Stelle (10/8) nach thin:");
-        System.out.println(hugeSaplingAcc.sapAtCoordinates(10,8));
-        System.out.println("Test Nicht erfolgreich wenn durch thin Bäume entfernt wurden:");
-        System.out.println(testValues(t1, hugeSaplingAcc.sapAtCoordinates(10,8)));
+        System.out.println(hugeSaplingAcc.sapAtCoordinates(x,y));
+        System.out.println("Ablauf von .thin(): " + testValues(hugeSaplingAcc.nrOfSapsAt(x, y), hugeSaplingAcc.getMaxSap(), true));
+        System.out.println("Anzahl der Jungbäume nach .thin(): " + hugeSaplingAcc.nrOfSapsAt(x,y));
+
+        System.out.println("Test nicht erfolgreich wenn durch weiteren Aufruf von .thin() vor weiterem .fill() Bäume entfernt werden:");
+        String t1 = hugeSaplingAcc.sapAtCoordinates(x,y);
+        hugeSaplingAcc.thin();
+        System.out.println(testValues(t1, hugeSaplingAcc.sapAtCoordinates(x,y)));
 
 
 
