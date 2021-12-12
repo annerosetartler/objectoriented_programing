@@ -1,5 +1,6 @@
 public interface Tree {
-    //KOMMENTAR: Tree ist ein Jungbaum.
+    //KOMMENTAR: Tree ist ein Jungbaum. Ein Jungbaum hat einen Standort und entsprechend der Art noch eine Wuchshöhe oder
+    //           eine Anzahl an mit Licht versorgten Blättern.
 
     //NACHB: gibt den Standort des Baums zurück
     int[] getPosition();

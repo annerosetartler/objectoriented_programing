@@ -5,19 +5,19 @@ public interface Shade {
     Shade cut();
 
     //VORB: f != null
-    //NACHB: gibt true zurück, wenn f unter dieser Beschattungsart wachsen kann
+    //NACHB: gibt true zurück, wenn f unter dieser Beschattungsart wachsen kann, sonst false
     boolean isTreeCompatible(Fagus f);
 
     //VORB: c != null
-    //NACHB: gibt true zurück, wenn c unter dieser Beschattungsart wachsen kann
+    //NACHB: gibt true zurück, wenn c unter dieser Beschattungsart wachsen kann, sonst false
     boolean isTreeCompatible(CarpinusBetulus c);
 
     //VORB: b != null
-    //NACHB: gibt true zurück, wenn b unter dieser Beschattungsart wachsen kann
+    //NACHB: gibt true zurück, wenn b unter dieser Beschattungsart wachsen kann, sonst false
     boolean isTreeCompatible(Betula b);
 
     //VORB: q != null
-    //NACHB: gibt true zurück, wenn q unter dieser Beschattungsart wachsen kann
+    //NACHB: gibt true zurück, wenn q unter dieser Beschattungsart wachsen kann, sonst false
     boolean isTreeCompatible(Quercus q);
 
     //NACHB: gibt einen String zurück, der die Art der Beschattung ausgibt
