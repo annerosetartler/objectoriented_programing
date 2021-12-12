@@ -3,11 +3,11 @@ import java.util.List;
 
 public class Saplings {
     //KOMMENTAR: Diese Klasse dient der Speicherung und Verwaltung von Jungbäumen vom deklarierten Typ Tree in einer Liste.
-    //           Jungbäume besitzen zusätzlich zu den vom dynamischen Typ festgelegten Eigenschaften zusätzlich Koordinaten
-    //           (x, y), die für die geographische Lage des jeweiligen Baumes stehen.
+    //           Jungbäume besitzen zusätzlich zu den vom dynamischen Typ festgelegten Eigenschaften Koordinaten (x, y), die
+    //           für die geographische Lage des jeweiligen Baumes stehen.
     //           An einem Koordinatenpaar können jeweils mehrere Bäume gleichzeitig stehen. Zur Verwaltung des Verhältnisses
-    //           zwischen den Jungbäumen am selben Platz zueinander, werden zwei zweidimensionale int-Arrays verwendet.
-    //           shades dient der Verwaltung der Beschattungsart, während nrOfSaps für jedes Koordinatenpaar die Anzahl an
+    //           zwischen den Jungbäumen am selben Standort (selbe (x,y)) zueinander werden zwei zweidimensionale int-Arrays verwendet:
+    //           shades[][] dient der Verwaltung der Beschattungsart, während nrOfSaps[][] für jedes Koordinatenpaar die Anzahl an
     //           Jungbäumen beinhaltet.
     //INV: saplingList enthält keine Nulleinträge
     //     0 <= x < maxX & 0 <= y < maxY
@@ -21,8 +21,8 @@ public class Saplings {
     private final int maxInsertAtOnce;
 
     //VORB: maxX > 0 & maxY > 0
-    //      maxInsertAtOnce >= 0
-    //      maxsapAtChoord >= 0
+    //      maxInsertAtOnce > 0
+    //      maxsapAtChoord > 0
     public Saplings(int maxX, int maxY, int maxInsertAtOnce, int maxSapAtCoord) {
         this.maxX = maxX;
         this.maxY = maxY;
@@ -46,7 +46,7 @@ public class Saplings {
     }
 
 
-    //NACHB: Fügt eine zufällige Zahl an Jungbäumen in saplingList ein.
+    //NACHB: Fügt eine zufällige Zahl an Jungbäumen (zwischen 0 und maxInstertAtOnce) in saplingList ein.
     public void fill() {
         int amount = (int) (Math.random() * (maxInsertAtOnce + 1));
         for (int i = 0; i < amount; i++) {
@@ -55,13 +55,6 @@ public class Saplings {
             int[] position = t.getPosition();
             nrOfSaps[position[0]][position[1]] += 1;
         }
-    }
-
-    //VORB:  position != null
-    //NACHB: wenn isPositive true ist, wird nrOfSaps inkrementiert
-    //       wenn isPositive false ist wird nrOfSaps dekrementiert
-    private void updateNrOfSaps(int[] position, boolean isPositive) {
-        nrOfSaps[position[0]][position[1]] += (isPositive ? 1 : -1);
     }
 
     //NACHB: Lässt jeden Baum der Liste um einen zufälligen Wert wachsen
@@ -87,7 +80,7 @@ public class Saplings {
         }
     }
 
-    //NACHB: Gibt ein Objekt vom deklarierten Typ Shade mit einem zufällig aus dessen Untertypen ausgewählten dynamischen Typen zurück
+    //NACHB: Gibt ein zufällig generiertes Objekt vom Typ Shade zurück
     private Shade generateRandomShade(){
         double rand = Math.random();
 
@@ -100,7 +93,7 @@ public class Saplings {
         }
     }
 
-    //VORB: max >= 0
+    //VORB: max >= 0 und max < maxX (generierung einer x-Koordinate) oder max < maxY (generierung einer y-Koordinate)
     //NACHB: Gibt eine ganze Zahl zwischen 0 und max zurück
     private int randomCoordinate(int max) {
         return (int) (Math.random() * (max + 1));
@@ -137,7 +130,8 @@ public class Saplings {
     }
 
     //VORB:  removelist != null
-    //NACHB: Löscht alle Trees aus removelist aus saplingList und verringert die in nrOfSaplings vermerkte Anzahl an der entsprechenden Position um eins
+    //NACHB: Löscht alle Trees aus removelist aus saplingList und verringert jeweils die in nrOfSaplings[][] vermerkte Anzahl
+    //       an der entsprechenden Position
     private void delete(List<Tree> removelist) {
         for (Tree sap : removelist) {
             saplingList.remove(sap);
@@ -147,13 +141,13 @@ public class Saplings {
     }
 
 
-    //VORB:  0 <= xCoord < maxX & 0 <= yCoord < maxY
-    //NACHB: gibt eine Liste aller der Bäume aus saplingList zurück, die sich an (xCoord, yCoord) befinden
-    private List<Tree> sapsAtCoord(int xCoord, int yCoord) {
-        int amountAtLoc = nrOfSaps[xCoord][yCoord];
+    //VORB:  0 <= x < maxX & 0 <= y < maxY
+    //NACHB: gibt eine Liste aller der Jungbäume aus saplingList zurück, die sich an (x, y) befinden
+    private List<Tree> sapsAtCoord(int x, int y) {
+        int amountAtLoc = nrOfSaps[x][y];
         List<Tree> atPosition = new ArrayList<>();
         for (Tree sap : saplingList) {
-            if (sap.hasSamePosition(xCoord, yCoord)) {
+            if (sap.hasSamePosition(x, y)) {
                 atPosition.add(sap);
                 amountAtLoc--;
             }
@@ -197,7 +191,7 @@ public class Saplings {
     }
 
     //VORB:  0 <= x < maxX & 0 <= y < maxY
-    //NACHB: ermittelt den Besten Baum an Standort x,y und ändert die Beschattungsart dementsprechend. Der Baum wird aus
+    //NACHB: ermittelt den besten Baum an Standort x,y und ändert die Beschattungsart dementsprechend. Der Baum wird aus
     //       der Jungbaumliste entfernt und auch nrOfSaps[x][y] wird um eins verringert
     public void establish(int x, int y) {
         if (nrOfSaps[x][y] == 0) {
@@ -228,19 +222,20 @@ public class Saplings {
         return t;
     }
 
-    //KOMMENTAR: Entfernt den Baum an Position x,y, wodurch sich die Beschattung ändert
+    //KOMMENTAR: "Entfernt" den etablierten Baum an Position x,y, wodurch sich die Beschattung ändert
     public void cut(int x, int y) {
         shades[x][y] = shades[x][y].cut();
     }
 
     //VORB:  0 <= x < maxX & 0 <= y < maxY
-    //NACHB: gibt die Beschattungsart am Standort x, y zurück
+    //NACHB: gibt die Beschattungsart am Standort (x, y) zurück
     public Shade get(int x, int y) {
         return shades[x][y];
     }
 
 
     //NACHB: Gibt den Inhalt von saplingList nach Koordinaten aus
+    //       Die Ausgabe beinhaltet der übersicht halber nur solche Koordinaten, an denen sich auch Jungbäume befinden
     public void print() {
         String s = "";
         for (int i = 0; i < maxX; i++) {
@@ -255,8 +250,8 @@ public class Saplings {
     }
 
     //VORB:  0 <= x < maxX & 0 <= y < maxY
-    //NACHB: Gibt einen String zurück welcher alle Bäume an der Position x,y beinhaltet
-    public String sapAtCoordinates(int x, int y) {
+    //NACHB: Gibt einen String zurück, der alle Bäume an der Position (x,y) beinhaltet
+    private String sapAtCoordinates(int x, int y) {
         String s = "";
         for (Tree sap : saplingList) {
             if (sap.hasSamePosition(x, y)) {
