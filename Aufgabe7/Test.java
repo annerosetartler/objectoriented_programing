@@ -267,7 +267,7 @@ Arbeitsaufteilung Aufgabe 7:
 
 Konzeption Programmstruktur: Annerose, David, Maria
 Zusicherungen und Implementierung von Tree und Shade (samt aller Untertypen): Maria
-Tests zu Tree: Maria
+Tests zu Tree und Shade: Maria
 Zusicherungen und Implementierung von Saplings: Annerose, David
 Tests zu Saplings: Annerose, David
 
