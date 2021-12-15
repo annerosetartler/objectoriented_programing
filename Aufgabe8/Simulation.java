@@ -12,11 +12,39 @@ public class Simulation {
         this.forest = forest;
     }
 
-    //TODO: - Methode, die alle threads löscht, (passiert wenn eine Borkenkäferpopulation Generation 32 erreicht oder alle Borkenkäfer ausgestorben sind)
-    //      - Methode, die neue Threads einmal für Borkenkäfer und einmal für Ameisenbuntkäfer in die Listen einfügt
-    //      - Methode, die Ausgabe der Werte aller Populationen generiert
-    //      - Methode, die Ausgabe des Waldes generiert
+    //TODO: - Methode, die checkt, ob alle barkBeetles interrupted sind und wenn ja, dann endAll() aufruft (sollte vll immer von Ameisenbuntkäfer aufgerufen werden, weiß nicht ob es zu langsam wird dann...)
+    //      - Methode, die neue Threads für Ameisenbuntkäfer in die Listen einfügt
 
+    public void addBBeetlesAndStart(BarkBeetle b1, BarkBeetle b2){
+        barkBeetles.add(b1);
+        barkBeetles.add(b2);
+        new Thread(b1,"BarkBeetle").start();
+        new Thread(b2,"BarkBeetle").start();
+    }
+
+
+    public void endAll(){
+        for(BarkBeetle b : barkBeetles){
+            b.endThread();
+        }
+        for(AntBeetle a : antBeetles){
+            a.endThread();
+        }
+    }
+
+    public void stats(){
+        System.out.println("Finaler Zustand der Käferpopulationen: ");
+        for(BarkBeetle b : barkBeetles){
+            System.out.println(b.toString());
+        }
+        for(AntBeetle a : antBeetles){
+            System.out.println(a.toString());
+        }
+    }
+
+    public void print(){
+        forest.print();
+    }
 
     //VORB: bB != null & aB != null & alle Einträge von bB != null & alle Einträge von aB != null
     //      Objekte in bB & aB dürfen sich icht überlappen und dürfen nicht auf einer Stelle im Wald

@@ -64,11 +64,31 @@ public class Field {
         return content;
     }
 
+    public int getxPos(){
+        return xPos;
+    }
+
+    public int getyPos(){
+        return yPos;
+    }
+
     public String toString(){
         if(content == 'X'){
             return " ";
         }else{
             return "" + content;
+        }
+    }
+
+    public synchronized String print() {
+        if (xPos != forest[0].length - 2) {
+            return this + getField(xPos + 1, yPos).print();
+        } else {
+            if (yPos != forest.length - 2) {
+                return this + "\n" + getField(1, yPos + 1).print();
+            } else {
+                return "" + this;
+            }
         }
     }
 
