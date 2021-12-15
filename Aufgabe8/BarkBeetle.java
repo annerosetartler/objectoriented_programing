@@ -61,6 +61,7 @@ public class BarkBeetle implements Runnable {
         }
         if(waitingCount >= maxWaitingTime){
             currentField.setContent('X');
+            currentField.setBarkBThread(null);
             this.endThread();
         }
     }
