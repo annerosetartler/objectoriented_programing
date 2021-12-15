@@ -13,6 +13,7 @@ public class BarkBeetle implements Runnable {
     private Field childField2;
     private Thread bBeetle;
 
+    //TODO: könnte sein, dass der Thread bereits im Konstruktor auf das Feld gesetzt werden muss
     public BarkBeetle(Simulation s, int x, int y, int generation){
         thisSim = s;
         currentField = s.getField(x,y);
@@ -38,7 +39,7 @@ public class BarkBeetle implements Runnable {
                         int newGen = generation + 1;
                         BarkBeetle bChild1 = new BarkBeetle(thisSim,childField1.getxPos(),childField1.getyPos(),newGen);
                         BarkBeetle bChild2 = new BarkBeetle(thisSim,childField2.getxPos(),childField2.getyPos(),newGen);
-                        thisSim.addBBeetlesAndStart(bChild1,bChild2);
+                        thisSim.addBBeetlesAndStart(bChild1,bChild2);//vll außerhalb des synchronized
                     }
                 }
             }

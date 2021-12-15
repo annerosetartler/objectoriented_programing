@@ -22,7 +22,6 @@ public class Simulation {
         new Thread(b2,"BarkBeetle").start();
     }
 
-
     public void endAll(){
         for(BarkBeetle b : barkBeetles){
             b.endThread();
