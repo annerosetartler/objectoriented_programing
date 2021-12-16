@@ -12,8 +12,22 @@ public class Simulation {
         this.forest = forest;
     }
 
-    //TODO: - Methode, die checkt, ob alle barkBeetles interrupted sind und wenn ja, dann endAll() aufruft (sollte vll immer von Ameisenbuntkäfer aufgerufen werden, weiß nicht ob es zu langsam wird dann...)
-    //      - Methode, die neue Threads für Ameisenbuntkäfer in die Listen einfügt
+    public void checkBarkBeetles(){
+        int count = 0;
+        for(BarkBeetle b : barkBeetles){
+            if(b.isActive()){
+                count++;
+            }
+        }
+        if(count == 0){
+            endAll();
+        }
+    }
+
+    public void addABeetleAndStart(AntBeetle a){
+        antBeetles.add(a);
+        new Thread(a,"AntBeetle").start();
+    }
 
     public void addBBeetlesAndStart(BarkBeetle b1, BarkBeetle b2){
         barkBeetles.add(b1);
@@ -48,7 +62,7 @@ public class Simulation {
     //VORB: bB != null & aB != null & alle Einträge von bB != null & alle Einträge von aB != null
     //      Objekte in bB & aB dürfen sich icht überlappen und dürfen nicht auf einer Stelle im Wald
     //      positioniert sein, die mit 'X' markiert ist.
-    //TODO: der folgende Abschnitt der Vorbedingung gehört hier nicht hin, aber er steht jetzt einfach mal hier, damit wir das nicht vergessen!!
+    //TODO: gehört hier schon hin, aber anders formuliert. Es geht um die erlaubten Feldkoordinaten der Käferpopulationen, die sollten passen
     //      erlaubte x- & y-Werte für die Positionen der Käfer sind: x >= 1 & x <= forest[0].length-2
     //                                                               y >= 1 & y <= forest.length-2
     //NACHB: startet die Simulation mit den in bB enthaltenen Borkenkäferpopulationen und den in

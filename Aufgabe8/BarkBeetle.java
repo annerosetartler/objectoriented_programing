@@ -63,7 +63,8 @@ public class BarkBeetle implements Runnable {
         if(waitingCount >= maxWaitingTime){
             currentField.setContent('X');
             currentField.setBarkBThread(null);
-            this.endThread();
+            this.endThread();//weiß nicht, ob dann die ganze Methode abgebrochen wird...
+            thisSim.checkBarkBeetles();
         }
     }
 
@@ -92,6 +93,10 @@ public class BarkBeetle implements Runnable {
         if(!bBeetle.isInterrupted()){
             bBeetle.interrupt();
         }
+    }
+
+    public boolean isActive(){
+        return !bBeetle.isInterrupted();
     }
 
     public String toString(){

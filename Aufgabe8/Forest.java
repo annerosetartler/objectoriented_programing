@@ -1,6 +1,16 @@
 public class Forest {
+    //KOMMENTAR: Forest repräsentiert einen Wald bestehend aus Feldern.
+
+    //INV:  forest != null; alle Zeilen von forest sind gleich lang
+    //      forest hat keine Null-Einträge
+    //      leere Grenzfelder in forest bleiben leer
     private Field[][] forest;
 
+    //VORB: f != null; alle Zeilen von f sind gleich lang; f hat keine Null-Einträge
+    //      Einträge in f sind entweder 'X' oder '*'
+    //NACHB: erzeugt einen forest, der in jede Dimension um 2 größer ist als f
+    //       und für jeden Wert in f ein Feld in forest anlegt, sowie leere Grenzfelder erzeugt
+    //KOMMENTAR: die leeren Grenzfelder dienen zur Erleichterung späterer Abfragen von Nachbarfeldern
     public Forest(char[][] f){
         forest = new Field[f.length + 2][f[0].length + 2];
         FillBorder();
@@ -13,6 +23,7 @@ public class Forest {
         }
     }
 
+    //NACHB: Befüllt alle Grenzfelder von forest mit leeren Feldern
     private void FillBorder(){
         int lastY = forest.length-1;
         int lastX = forest[0].length-1;
@@ -26,13 +37,17 @@ public class Forest {
         }
     }
 
+    //VORB: x >= 0 & x <= forest[0].length-1
+    //      y >= 0 & y <= forest.length-1
+    //NACHB: gibt das Feld an den Koordinaten x,y zurück
     public Field getField(int x, int y){
         return forest[y][x];
     }
 
-    //KOMMENTAR: ruft die synchronisierte Methode in Field auf
-    //           wenn es sich vom Stack her nicht ausgeht, wird
-    //           die nicht synchronisierte Methode printWald() aufgerufen --> kann inkonsistent sein
+    //NACHB: Gibt den Zustand des Walds auf der Konsole aus
+    //       ruft dafür die synchronisierte Methode in Field auf;
+    //       wenn es sich vom Stack her nicht ausgeht, wird
+    //       die nicht synchronisierte Methode printWald() aufgerufen --> kann inkonsistent sein
     public void print(){
         try {
             System.out.println(forest[1][1].print());
@@ -42,6 +57,9 @@ public class Forest {
         System.out.println();
     }
 
+    //NACHB: gibt einen String zurück, der den Zustand des Walds ausgibt
+    //       dabei wird der Inhalt jedes Felds zurückgegeben
+    //       könnte bei laufenden Threads zu Inkonsistenzen führen
     public String printWald(){
         String s = "";
         for (int i = 1; i < forest.length-1; i++) {
