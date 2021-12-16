@@ -70,12 +70,15 @@ public class Field {
     //       setzt den Inhalt dieses Felds auf '+' und unterbricht den Borkenkäfer-Thread,
     //       falls sich auf diesem Feld ein derartiger Thread befindet (= Ameisenbuntkäferpopulation
     //       frisst Borkenkäferpopulation)
-    public void antBeetleMove(){
+    //       Gibt true aus, wenn sich eine Borkenkäferpopulation auf dem Feld befunden hat
+    public boolean antBeetleMove(){
         content = '+';
         if(barkBThread != null){
             barkBThread.interrupt();
             barkBThread = null;
+            return true;
         }
+        return false;
     }
 
     //VORB: c = 'X' || c = '*' || c = '+' || c = '0'
