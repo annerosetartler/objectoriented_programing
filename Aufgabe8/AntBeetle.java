@@ -28,6 +28,8 @@ public class AntBeetle implements Runnable {
 
         while (!aBeetle.isInterrupted() && stepsToStarvation > 0) {
             boolean gotFood = false;
+
+            /*
             boolean alreadyUsed = false;
 
             while (!aBeetle.isInterrupted() && !alreadyUsed) {
@@ -86,6 +88,50 @@ public class AntBeetle implements Runnable {
                     }
                 }
             }
+             */
+
+            Field oldField = occupiedField;
+            nextField = getFreeField(stepsToStarvation < 2); //ToDo: noch überlegen, ob <= besser wäre
+
+            if (nextField != null) {
+                synchronized (occupiedField) {
+                    synchronized (nextField) {
+                        if (Thread.currentThread().isInterrupted()) {
+                            break;
+                        }
+                        gotFood = nextField.antBeetleMove();
+                        occupiedField.setContent('*');
+                        occupiedField = nextField; //ToDo: geht das so?
+                        nextField = null; //ToDo: geht das so?
+
+                        if (reproductionCount * Math.random() > 2) {  //ToDo: noch überlegen, ob andere Zahl besser wäre
+                            childField = getFreeField(false);
+                            synchronized (childField) { //ToDo: ist das ein Problem, falls es null wäre?
+                                if (Thread.currentThread().isInterrupted()) {
+                                    break;
+                                }
+                                if (childField == null) {
+                                    childField = oldField; //ToDo: geht das? Ansonsten müssen wir's in zwei Threads machen
+                                }
+                                childField.setContent('+');
+                                AntBeetle child = new AntBeetle(simRef, childField.getxPos(), childField.getyPos());
+                                simRef.addABeetleAndStart(child); //ToDo: geht das so?
+                                childField = null;
+                            }
+                            reproductionCount = 0;
+                        }
+
+                    }
+                }
+            }
+
+            long waitTime = (long) (Math.random() * 45 + 5);
+            try {
+                Thread.sleep(waitTime);
+            } catch (InterruptedException e) {
+                break;
+            }
+
 
             if (gotFood) {
                 stepsToStarvation = 3;
