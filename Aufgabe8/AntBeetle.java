@@ -29,29 +29,29 @@ public class AntBeetle implements Runnable {
         while (!aBeetle.isInterrupted() && stepsToStarvation > 0) {
             boolean gotFood = false;
 
-            nextField = getFreeField(stepsToStarvation < 2); //ToDo: noch überlegen, ob <= besser wäre
+            nextField = getFreeField(stepsToStarvation < 2); //Evtl. <=, wenn es nicht genug "jagd auf die Bark beetles macht"
 
             if (nextField != null) {
                 synchronized (occupiedField) {
-                    synchronized (nextField) {
+                    synchronized (nextField) { //Was passiert eigentlich, wenn es das nicht gibt?
                         if (Thread.currentThread().isInterrupted()) {
                             break;
                         }
                         gotFood = nextField.antBeetleMove();
                         occupiedField.setContent('*');
-                        occupiedField = nextField; //ToDo: geht das so?
-                        nextField = null; //ToDo: geht das so?
+                        occupiedField = nextField;
+                        nextField = null;
 
-                        if (reproductionCount * Math.random() > 2) {  //ToDo: noch überlegen, ob andere Zahl besser wäre
+                        if (reproductionCount * Math.random() > 2) {  //Evtl andere Zahl, wenn es sich nicht oft genug vermehrt
                             childField = getFreeField(false); //Hier müsste jetzt ja eh auch das ehemals occupied field gehen, denn das ist ja bereits frei und ich bin innerhalb des synch?
-                            synchronized (childField) { //ToDo: ist das ein Problem, falls es null wäre?
+                            synchronized (childField) {
                                 if (Thread.currentThread().isInterrupted()) {
                                     break;
                                 }
                                 if (childField != null) { //ToDo: müsste ich eigentlich nicht fragen, denn es ist immer zumindest das alte Eltern-Feld frei gewesen! Soll ichs weglassen?
                                     childField.setContent('+');
                                     AntBeetle child = new AntBeetle(simRef, childField.getxPos(), childField.getyPos());
-                                    simRef.addABeetleAndStart(child); //ToDo: geht das so?
+                                    simRef.addABeetleAndStart(child);
                                     childField = null;
                                 }
                             }
@@ -87,7 +87,7 @@ public class AntBeetle implements Runnable {
         occupiedField.setContent('+');
     }
 
-    private Field getFreeField(boolean hungryBeetle) {
+    private Field getFreeField(boolean hungryBeetle) { //ToDo: Hab grad beim Debugging anschauen gemerkt, dass ja hier die ergebnisse nicht mehr stimmen, wenn wir es verwenden (muss man wohl auch "sperren") - mein Bug hat sich grad auf ein X gesetzt...
         List<Field> neighbours = occupiedField.getNeighbours();
         List<Field> firstSelection = new LinkedList<Field>();
         for (Field f : neighbours) {
