@@ -17,13 +17,14 @@ public class Test {
         System.out.println("Kleiner Wald:");
         Forest forest1 = new Forest(
                 new char[][]{
-                        {'*', '*'},
-                        {'*', '*'},
+                        {'*', '*', '*'},
+                        {'*', '*', '*'},
+                        {'*', '*', '*'},
                 });
 
         Simulation s1 = new Simulation(forest1);
-        BarkBeetle b1t1 = new BarkBeetle(s1, 0, 0, 1);
-        AntBeetle a1t1 = new AntBeetle(s1, 1,1);
+        BarkBeetle b1t1 = new BarkBeetle(s1, 1, 1, 1);
+        AntBeetle a1t1 = new AntBeetle(s1, 2,1);
         LinkedList<BarkBeetle> BBlist1 = new LinkedList<BarkBeetle>();
         LinkedList<AntBeetle> ABlist1 = new LinkedList<AntBeetle>();
         BBlist1.add(b1t1);
@@ -48,16 +49,16 @@ public class Test {
                 });
 
         Simulation s2 = new Simulation(forest2);
-        BarkBeetle b1t2 = new BarkBeetle(s1, 1, 0, 1);
+        BarkBeetle b1t2 = new BarkBeetle(s1, 1, 1, 1);
         BarkBeetle b2t2 = new BarkBeetle(s1, 4, 1, 1);
         BarkBeetle b3t2 = new BarkBeetle(s1, 2, 4, 1);
-        AntBeetle a1t2 = new AntBeetle(s1, 5,3);
+        AntBeetle a1t2 = new AntBeetle(s1, 3,3);
         LinkedList<BarkBeetle> BBlist2 = new LinkedList<BarkBeetle>();
         LinkedList<AntBeetle> ABlist2 = new LinkedList<AntBeetle>();
-        BBlist1.add(b1t2);
-        BBlist1.add(b2t2);
-        BBlist1.add(b3t2);
-        ABlist1.add(a1t2);
+        BBlist2.add(b1t2);
+        BBlist2.add(b2t2);
+        BBlist2.add(b3t2);
+        ABlist2.add(a1t2);
         s2.startSim(BBlist2, ABlist2);
 
         try {
@@ -95,10 +96,10 @@ public class Test {
         BarkBeetle b3t3 = new BarkBeetle(s1, 5, 4, 1);
         BarkBeetle b4t3 = new BarkBeetle(s1, 8, 5, 1);
         BarkBeetle b5t3 = new BarkBeetle(s1, 10, 13, 1);
-        BarkBeetle b6t3 = new BarkBeetle(s1, 15, 16, 1);
+        BarkBeetle b6t3 = new BarkBeetle(s1, 15, 14, 1);
         BarkBeetle b7t3 = new BarkBeetle(s1, 19, 3, 1);
         BarkBeetle b8t3 = new BarkBeetle(s1, 21, 10, 1);
-        BarkBeetle b9t3 = new BarkBeetle(s1, 25, 15, 1);
+        BarkBeetle b9t3 = new BarkBeetle(s1, 24, 14, 1);
         AntBeetle a1t3 = new AntBeetle(s1, 7,12);
         AntBeetle a2t3 = new AntBeetle(s1, 13,4);
         AntBeetle a3t3 = new AntBeetle(s1, 22,7);

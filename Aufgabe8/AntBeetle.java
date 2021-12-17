@@ -15,7 +15,7 @@ public class AntBeetle implements Runnable {
 
     public AntBeetle(Simulation s, int x, int y) {
         simRef = s;
-        occupiedField = s.getField(x, y);
+        occupiedField = s.getField(x+1, y+1);
         reproductionCount = 0;
         stepsToStarvation = 3;
         setContent();
