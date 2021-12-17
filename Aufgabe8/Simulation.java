@@ -12,6 +12,7 @@ public class Simulation {
         this.forest = forest;
     }
 
+    //NACHB: Checkt ob es noch BarkBettle Populationen gibt, wenn nicht werden alle Threads beendet
     public void checkBarkBeetles(){
         int count = 0;
         for(BarkBeetle b : barkBeetles){
@@ -24,11 +25,15 @@ public class Simulation {
         }
     }
 
+    //VORB: a != null
+    //NACHB: fügt eine AntBeetle zur List antBeetles hinzu und startet einen neuen Thread
     public void addABeetleAndStart(AntBeetle a){
         antBeetles.add(a);
         new Thread(a,"AntBeetle").start();
     }
 
+    //VORB: b1 != null & b2 != null
+    //NACHB: fügt zwei BarkBeetles zur List barkBeetles hinzu und startet jweils einen neuen Thread
     public void addBBeetlesAndStart(BarkBeetle b1, BarkBeetle b2){
         barkBeetles.add(b1);
         barkBeetles.add(b2);
@@ -36,6 +41,7 @@ public class Simulation {
         new Thread(b2,"BarkBeetle").start();
     }
 
+    //NACHB: beendet alle laufenden Threads
     public void endAll(){
         for(BarkBeetle b : barkBeetles){
             b.endThread();
@@ -45,6 +51,7 @@ public class Simulation {
         }
     }
 
+    //NACHB: gibt toString aller BarkBeetles und aller antBeetles aus
     public void stats(){
         System.out.println("Finaler Zustand der Käferpopulationen: ");
         for(BarkBeetle b : barkBeetles){
@@ -78,6 +85,7 @@ public class Simulation {
         }
     }
 
+    //NACHB: gibt das Feld and Stelle x,y zurück
     public Field getField(int x, int y){
         return forest.getField(x,y);
     }
