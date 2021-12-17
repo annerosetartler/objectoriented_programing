@@ -66,7 +66,6 @@ public class BarkBeetle implements Runnable {
             thisSim.endAll();
             return;
         }
-
     }
 
     private void setContent(){
