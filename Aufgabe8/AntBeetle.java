@@ -29,68 +29,6 @@ public class AntBeetle implements Runnable {
         while (!aBeetle.isInterrupted() && stepsToStarvation > 0) {
             boolean gotFood = false;
 
-            /*
-            boolean alreadyUsed = false;
-
-            while (!aBeetle.isInterrupted() && !alreadyUsed) {
-                nextField = getFreeField(stepsToStarvation < 2); //ToDo: noch überlegen, ob <= besser wäre
-                if (nextField != null) {
-                    synchronized (occupiedField) {
-                        synchronized (nextField) {
-                            if (Thread.currentThread().isInterrupted()) {
-                                break;
-                            }
-                            gotFood = nextField.antBeetleMove();
-                            occupiedField.setContent('*');
-                            occupiedField = nextField; //ToDo: geht das so?
-                            nextField = null; //ToDo: geht das so?
-                            alreadyUsed = true;
-                        }
-                    }
-                }
-
-                long waitTime = (long) (Math.random() * 45 + 5);
-                try {
-                    Thread.sleep(waitTime);
-                } catch (InterruptedException e) {
-                    break;
-                }
-
-            }
-
-            if (alreadyUsed) { //Damit dieser atomare Teil nicht vorm anderen passiert ToDO: Bessere möglichkeit, vlt. steht was im Skriptum?
-
-                boolean alreadyUsed2 = false; //Haha
-
-                while (!aBeetle.isInterrupted() && !alreadyUsed2) {
-                    if (reproductionCount * Math.random() > 2) {  //ToDo: noch überlegen, ob andere Zahl besser wäre
-                        getFreeField(false);
-                        if (childField != null) {
-                            synchronized (childField) {
-                                if (Thread.currentThread().isInterrupted()) {
-                                    break;
-                                }
-                                childField.setContent('+');
-                                AntBeetle child = new AntBeetle(simRef, childField.getxPos(), childField.getyPos());
-                                simRef.addABeetleAndStart(child); //ToDo: geht das so?
-                                childField = null;
-                            }
-                        }
-                        reproductionCount = 0;
-                        alreadyUsed2 = true;
-                    }
-
-                    long waitTime = (long) (Math.random() * 45 + 5);
-                    try {
-                        Thread.sleep(waitTime);
-                    } catch (InterruptedException e) {
-                        break;
-                    }
-                }
-            }
-             */
-
-            Field oldField = occupiedField;
             nextField = getFreeField(stepsToStarvation < 2); //ToDo: noch überlegen, ob <= besser wäre
 
             if (nextField != null) {
@@ -105,18 +43,17 @@ public class AntBeetle implements Runnable {
                         nextField = null; //ToDo: geht das so?
 
                         if (reproductionCount * Math.random() > 2) {  //ToDo: noch überlegen, ob andere Zahl besser wäre
-                            childField = getFreeField(false);
+                            childField = getFreeField(false); //Hier müsste jetzt ja eh auch das ehemals occupied field gehen, denn das ist ja bereits frei und ich bin innerhalb des synch?
                             synchronized (childField) { //ToDo: ist das ein Problem, falls es null wäre?
                                 if (Thread.currentThread().isInterrupted()) {
                                     break;
                                 }
-                                if (childField == null) {
-                                    childField = oldField; //ToDo: geht das? Ansonsten müssen wir's in zwei Threads machen
+                                if (childField != null) { //ToDo: müsste ich eigentlich nicht fragen, denn es ist immer zumindest das alte Eltern-Feld frei gewesen! Soll ichs weglassen?
+                                    childField.setContent('+');
+                                    AntBeetle child = new AntBeetle(simRef, childField.getxPos(), childField.getyPos());
+                                    simRef.addABeetleAndStart(child); //ToDo: geht das so?
+                                    childField = null;
                                 }
-                                childField.setContent('+');
-                                AntBeetle child = new AntBeetle(simRef, childField.getxPos(), childField.getyPos());
-                                simRef.addABeetleAndStart(child); //ToDo: geht das so?
-                                childField = null;
                             }
                             reproductionCount = 0;
                         }
