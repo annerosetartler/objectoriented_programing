@@ -53,19 +53,20 @@ public class BarkBeetle implements Runnable {
             generation++;
             System.out.println("Borkenkäfer haben gewartet: ");
             thisSim.print();
+            if(waitingCount >= maxWaitingTime){
+                currentField.setContent('X');
+                currentField.setBarkBThread(null);
+                thisSim.checkBarkBeetles();
+                bBeetle.interrupt();//weiß nicht, ob dann die ganze Methode abgebrochen wird...
+                return;
+            }
         }
         if(generation >= 32){
             System.out.println("Finaler Zustand der Käferpopulationen:");
             thisSim.endAll();
-            thisSim.stats();
-            thisSim.print();
+            return;
         }
-        if(waitingCount >= maxWaitingTime){
-            currentField.setContent('X');
-            currentField.setBarkBThread(null);
-            this.endThread();//weiß nicht, ob dann die ganze Methode abgebrochen wird...
-            thisSim.checkBarkBeetles();
-        }
+
     }
 
     private void setContent(){
@@ -96,7 +97,11 @@ public class BarkBeetle implements Runnable {
     }
 
     public boolean isActive(){
-        return !bBeetle.isInterrupted();
+        if(bBeetle == null){
+            return false;
+        }else{
+            return !bBeetle.isInterrupted();
+        }
     }
 
     public String toString(){

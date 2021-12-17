@@ -27,14 +27,14 @@ public class Simulation {
 
     //VORB: a != null
     //NACHB: fügt eine AntBeetle zur List antBeetles hinzu und startet einen neuen Thread
-    public void addABeetleAndStart(AntBeetle a){
+    public synchronized void addABeetleAndStart(AntBeetle a){
         antBeetles.add(a);
         new Thread(a,"AntBeetle").start();
     }
 
     //VORB: b1 != null & b2 != null
     //NACHB: fügt zwei BarkBeetles zur List barkBeetles hinzu und startet jweils einen neuen Thread
-    public void addBBeetlesAndStart(BarkBeetle b1, BarkBeetle b2){
+    public synchronized void addBBeetlesAndStart(BarkBeetle b1, BarkBeetle b2){
         barkBeetles.add(b1);
         barkBeetles.add(b2);
         new Thread(b1,"BarkBeetle").start();
@@ -43,12 +43,15 @@ public class Simulation {
 
     //NACHB: beendet alle laufenden Threads
     public void endAll(){
-        for(BarkBeetle b : barkBeetles){
-            b.endThread();
-        }
+        System.out.println("Finaler Zustand der Käferpopulationen:");
         for(AntBeetle a : antBeetles){
             a.endThread();
         }
+        for(BarkBeetle b : barkBeetles){
+            b.endThread();
+        }
+        stats();
+        print();
     }
 
     //NACHB: gibt toString aller BarkBeetles und aller antBeetles aus
@@ -77,11 +80,15 @@ public class Simulation {
     public void startSim(LinkedList<BarkBeetle> bB, LinkedList<AntBeetle> aB){
         this.barkBeetles = bB;
         this.antBeetles = aB;
-        for(BarkBeetle b : barkBeetles){
-            new Thread(b, "BarkBeetle").start();
+        synchronized (barkBeetles) {
+            for(BarkBeetle b : barkBeetles){
+                new Thread(b, "BarkBeetle").start();
+            }
         }
-        for(AntBeetle a : antBeetles){
-            new Thread(a, "AntBeetle").start();
+        synchronized (antBeetles) {
+            for (AntBeetle a : antBeetles) {
+                new Thread(a, "AntBeetle").start();
+            }
         }
     }
 
