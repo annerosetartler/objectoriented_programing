@@ -13,7 +13,7 @@ public class Simulation {
     }
 
     //NACHB: Checkt ob es noch BarkBettle Populationen gibt, wenn nicht werden alle Threads beendet
-    public void checkBarkBeetles(){
+    public synchronized void checkBarkBeetles(){
         int count = 0;
         for(BarkBeetle b : barkBeetles){
             if(b.isActive()){
@@ -42,7 +42,7 @@ public class Simulation {
     }
 
     //NACHB: beendet alle laufenden Threads
-    public void endAll(){
+    public synchronized void endAll(){
         System.out.println("Finaler Zustand der Käferpopulationen:");
         for(AntBeetle a : antBeetles){
             a.endThread();

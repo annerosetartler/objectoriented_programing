@@ -95,11 +95,14 @@ public class Test {
         BarkBeetle b2t3 = new BarkBeetle(s3, 4, 11, 1);
         BarkBeetle b3t3 = new BarkBeetle(s3, 5, 4, 1);
         BarkBeetle b4t3 = new BarkBeetle(s3, 8, 5, 1);
+        /*
         BarkBeetle b5t3 = new BarkBeetle(s3, 10, 13, 1);
         BarkBeetle b6t3 = new BarkBeetle(s3, 15, 14, 1);
         BarkBeetle b7t3 = new BarkBeetle(s3, 19, 3, 1);
         BarkBeetle b8t3 = new BarkBeetle(s3, 21, 10, 1);
         BarkBeetle b9t3 = new BarkBeetle(s3, 24, 14, 1);
+
+         */
         AntBeetle a1t3 = new AntBeetle(s3, 7,12);
         AntBeetle a2t3 = new AntBeetle(s3, 13,4);
         AntBeetle a3t3 = new AntBeetle(s3, 22,7);
@@ -109,11 +112,14 @@ public class Test {
         BBlist3.add(b2t3);
         BBlist3.add(b3t3);
         BBlist3.add(b4t3);
+        /*
         BBlist3.add(b5t3);
         BBlist3.add(b6t3);
         BBlist3.add(b7t3);
         BBlist3.add(b8t3);
         BBlist3.add(b9t3);
+
+         */
         ABlist3.add(a1t3);
         ABlist3.add(a2t3);
         ABlist3.add(a3t3);

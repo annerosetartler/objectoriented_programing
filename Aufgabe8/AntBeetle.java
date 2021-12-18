@@ -29,7 +29,7 @@ public class AntBeetle implements Runnable {
         while (!aBeetle.isInterrupted() && stepsToStarvation > 0) {
             boolean gotFood = false;
 
-            nextField = getFreeField(stepsToStarvation < 2); //Evtl. <=, wenn es nicht genug "jagd auf die Bark beetles macht"
+            nextField = getFreeField(stepsToStarvation <= 2); //Evtl. <=, wenn es nicht genug "jagd auf die Bark beetles macht"
 
             if (nextField != null) {
                 synchronized (occupiedField) {
@@ -42,7 +42,7 @@ public class AntBeetle implements Runnable {
                         occupiedField = nextField;
                         nextField = null;
 
-                        if (reproductionCount * Math.random() > 2) {  //Evtl andere Zahl, wenn es sich nicht oft genug vermehrt
+                        if (reproductionCount * Math.random() >= 2) {  //Evtl andere Zahl, wenn es sich nicht oft genug vermehrt
                             childField = getFreeField(false); //Hier müsste jetzt ja eh auch das ehemals occupied field gehen, denn das ist ja bereits frei und ich bin innerhalb des synch?
                             synchronized (childField) {
                                 if (Thread.currentThread().isInterrupted()) {
