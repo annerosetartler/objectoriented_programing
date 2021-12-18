@@ -50,11 +50,14 @@ public class Forest {
     //       die nicht synchronisierte Methode printWald() aufgerufen --> kann inkonsistent sein
     public void print(String message){
         System.out.println(message);
+        /*
         try {
             System.out.println(forest[1][1].print());
         } catch (StackOverflowError e) {
             System.out.println(printWald());
         }
+         */
+        System.out.println(printWald());
         System.out.println();
     }
 

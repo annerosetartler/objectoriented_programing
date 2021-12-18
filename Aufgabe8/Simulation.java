@@ -24,18 +24,22 @@ public class Simulation {
     public void addBBeetlesAndStart(BarkBeetle b1, BarkBeetle b2){
         barkBeetles.add(0, b1);
         barkBeetles.add(0, b2);
-        new Thread(b1,"BarkBeetle").start();
-        new Thread(b2,"BarkBeetle").start();
+        //new Thread(b1,"BarkBeetle").start();
+        //new Thread(b2,"BarkBeetle").start();
     }
 
     //NACHB: beendet alle laufenden Threads
     public synchronized void endAll(){ //ToDo: ist hier das Problem, dass die Simulation-Referenz in dem BArkBeetle, von dem aus wir das aufrufen, iwie nicht mehr "funktioniert"
         System.out.println("Finaler Zustand der Käferpopulationen:");
-        for(AntBeetle a : antBeetles){
-            a.endThread();
+        synchronized (antBeetles){
+            for(AntBeetle a : antBeetles){
+                if(a != null)a.endThread();
+            }
         }
-        for(BarkBeetle b : barkBeetles){
-            b.endThread();
+        synchronized (barkBeetles){
+            for(BarkBeetle b : barkBeetles){
+                if(b != null)b.endThread();
+            }
         }
         BarkBeetle.countThreads = 0;
         stats();
@@ -53,7 +57,7 @@ public class Simulation {
         }
     }
 
-    public void print(String message){
+    public synchronized void print(String message){
         forest.print(message);
     }
 
@@ -68,7 +72,6 @@ public class Simulation {
     public void startSim(LinkedList<BarkBeetle> bB, LinkedList<AntBeetle> aB){
         this.barkBeetles = bB;
         this.antBeetles = aB;
-
         synchronized (barkBeetles) {
             for(BarkBeetle b : barkBeetles){
                 new Thread(b, "BarkBeetle").start();

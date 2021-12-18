@@ -3,7 +3,7 @@ import java.util.LinkedList;
 public class Test {
     public static void main(String[] args) {
 
-        /*
+  /*
         char[][] testArr = new char[][]{
                 {'*','*','*','*','X'},
                 {'X','*','*','*','*'},
@@ -63,13 +63,13 @@ public class Test {
         BBlist2.add(b3t2);
         ABlist2.add(a1t2);
         s2.startSim(BBlist2, ABlist2);
-
+*/
         try {
             Thread.sleep(5000);
         } catch (InterruptedException e) {
             return;
         }
-*/
+
         System.out.println("Großer Wald:"); //ToDo: Quadratisch (nachzulesen unter: "Wie die Aufgabe zu lösen ist")
         Forest forest3 = new Forest(
                 new char[][]{
@@ -112,7 +112,7 @@ public class Test {
         BBlist3.add(b1t3);
         BBlist3.add(b2t3);
         BBlist3.add(b3t3);
-        BBlist3.add(b4t3);
+        //BBlist3.add(b4t3);
         //BBlist3.add(b5t3);
         //BBlist3.add(b6t3);
         //BBlist3.add(b7t3);
@@ -124,6 +124,6 @@ public class Test {
         ABlist3.add(a2t3);
         ABlist3.add(a3t3);
         s3.startSim(BBlist3, ABlist3);
-
+        //*/
     }
 }
