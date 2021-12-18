@@ -2,6 +2,8 @@ import java.util.LinkedList;
 
 public class Test {
     public static void main(String[] args) {
+
+        /*
         char[][] testArr = new char[][]{
                 {'*','*','*','*','X'},
                 {'X','*','*','*','*'},
@@ -24,7 +26,7 @@ public class Test {
 
         Simulation s1 = new Simulation(forest1);
         BarkBeetle b1t1 = new BarkBeetle(s1, 1, 1, 1);
-        AntBeetle a1t1 = new AntBeetle(s1, 2,1);
+        AntBeetle a1t1 = new AntBeetle(s1, 3,1);
         LinkedList<BarkBeetle> BBlist1 = new LinkedList<BarkBeetle>();
         LinkedList<AntBeetle> ABlist1 = new LinkedList<AntBeetle>();
         BBlist1.add(b1t1);
@@ -36,6 +38,7 @@ public class Test {
         } catch (InterruptedException e) {
             return;
         }
+
 
         System.out.println("Mittelgroßer Wald:");
         Forest forest2 = new Forest(
@@ -66,8 +69,8 @@ public class Test {
         } catch (InterruptedException e) {
             return;
         }
-
-        System.out.println("Großer Wald:");
+*/
+        System.out.println("Großer Wald:"); //ToDo: Quadratisch (nachzulesen unter: "Wie die Aufgabe zu lösen ist")
         Forest forest3 = new Forest(
                 new char[][]{
                         {'*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*'},
@@ -92,17 +95,15 @@ public class Test {
 
         Simulation s3 = new Simulation(forest3);
         BarkBeetle b1t3 = new BarkBeetle(s3, 3, 2, 1);
-        BarkBeetle b2t3 = new BarkBeetle(s3, 4, 11, 1);
-        BarkBeetle b3t3 = new BarkBeetle(s3, 5, 4, 1);
-        BarkBeetle b4t3 = new BarkBeetle(s3, 8, 5, 1);
-        /*
+        BarkBeetle b2t3 = new BarkBeetle(s3, 9, 10, 1);
+        BarkBeetle b3t3 = new BarkBeetle(s3, 1, 17, 1);
+        BarkBeetle b4t3 = new BarkBeetle(s3, 23, 7, 1);
         BarkBeetle b5t3 = new BarkBeetle(s3, 10, 13, 1);
         BarkBeetle b6t3 = new BarkBeetle(s3, 15, 14, 1);
         BarkBeetle b7t3 = new BarkBeetle(s3, 19, 3, 1);
         BarkBeetle b8t3 = new BarkBeetle(s3, 21, 10, 1);
         BarkBeetle b9t3 = new BarkBeetle(s3, 24, 14, 1);
 
-         */
         AntBeetle a1t3 = new AntBeetle(s3, 7,12);
         AntBeetle a2t3 = new AntBeetle(s3, 13,4);
         AntBeetle a3t3 = new AntBeetle(s3, 22,7);
@@ -112,17 +113,17 @@ public class Test {
         BBlist3.add(b2t3);
         BBlist3.add(b3t3);
         BBlist3.add(b4t3);
-        /*
-        BBlist3.add(b5t3);
-        BBlist3.add(b6t3);
-        BBlist3.add(b7t3);
-        BBlist3.add(b8t3);
-        BBlist3.add(b9t3);
+        //BBlist3.add(b5t3);
+        //BBlist3.add(b6t3);
+        //BBlist3.add(b7t3);
+        //BBlist3.add(b8t3);
+        //BBlist3.add(b9t3);
 
-         */
+
         ABlist3.add(a1t3);
         ABlist3.add(a2t3);
         ABlist3.add(a3t3);
         s3.startSim(BBlist3, ABlist3);
+
     }
 }

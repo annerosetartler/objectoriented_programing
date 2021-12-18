@@ -4,7 +4,7 @@ public class Forest {
     //INV:  forest != null; alle Zeilen von forest sind gleich lang
     //      forest hat keine Null-Einträge
     //      leere Grenzfelder in forest bleiben leer
-    private Field[][] forest;
+    private final Field[][] forest;
 
     //VORB: f != null; alle Zeilen von f sind gleich lang; f hat keine Null-Einträge
     //      Einträge in f sind entweder 'X' oder '*'

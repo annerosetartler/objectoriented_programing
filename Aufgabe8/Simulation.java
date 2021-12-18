@@ -2,7 +2,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Simulation {
-    private Forest forest;
+    private final Forest forest;
     private List<BarkBeetle> barkBeetles;
     private List<AntBeetle> antBeetles;
 
@@ -15,15 +15,15 @@ public class Simulation {
     //VORB: a != null
     //NACHB: fügt eine AntBeetle zur List antBeetles hinzu und startet einen neuen Thread
     public void addABeetleAndStart(AntBeetle a){
-        antBeetles.add(a);
+        antBeetles.add(0, a);
         new Thread(a,"AntBeetle").start();
     }
 
     //VORB: b1 != null & b2 != null
     //NACHB: fügt zwei BarkBeetles zur List barkBeetles hinzu und startet jweils einen neuen Thread
     public void addBBeetlesAndStart(BarkBeetle b1, BarkBeetle b2){
-        barkBeetles.add(b1);
-        barkBeetles.add(b2);
+        barkBeetles.add(0, b1);
+        barkBeetles.add(0, b2);
         new Thread(b1,"BarkBeetle").start();
         new Thread(b2,"BarkBeetle").start();
     }
@@ -53,7 +53,7 @@ public class Simulation {
         }
     }
 
-    public synchronized void print(String message){
+    public void print(String message){
         forest.print(message);
     }
 
@@ -68,6 +68,7 @@ public class Simulation {
     public void startSim(LinkedList<BarkBeetle> bB, LinkedList<AntBeetle> aB){
         this.barkBeetles = bB;
         this.antBeetles = aB;
+
         synchronized (barkBeetles) {
             for(BarkBeetle b : barkBeetles){
                 new Thread(b, "BarkBeetle").start();

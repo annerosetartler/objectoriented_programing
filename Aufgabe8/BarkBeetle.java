@@ -15,9 +15,9 @@ public class BarkBeetle implements Runnable {
     private Thread bBeetle;
 
     //TODO: könnte sein, dass der Thread bereits im Konstruktor auf das Feld gesetzt werden muss
-    public BarkBeetle(Simulation s, int x, int y, int generation){
+    public BarkBeetle(Simulation s, int x, int y, int generation) {
         thisSim = s;
-        currentField = s.getField(x,y);
+        currentField = s.getField(x, y);
         waitingCount = 0;
         this.generation = generation;
         setContent();
@@ -27,18 +27,20 @@ public class BarkBeetle implements Runnable {
     //      weiß auch nicht wie und wann man am besten die Generationen zählen sollte
     @Override
     public void run() {
-        countThreads++;
+        synchronized (this) {
+            countThreads++;
+        }
         bBeetle = Thread.currentThread();
         currentField.setBarkBThread(bBeetle);
-        while(!bBeetle.isInterrupted() && waitingCount < maxWaitingTime && generation < 32 && countThreads > 0){
-            getChildFields();
-            if(childField1 != null && childField2 != null){
-                synchronized (currentField) {
-                    synchronized (childField1) {
-                        synchronized (childField2) {
-                            if (Thread.currentThread().isInterrupted()) {
-                                break;
-                            }
+        while (!bBeetle.isInterrupted() && waitingCount < maxWaitingTime && generation < 32 && countThreads > 0) {
+            synchronized (currentField) {
+                getChildFields();
+                if (childField1 != null && childField2 != null) {
+                synchronized (childField1) {
+                    synchronized (childField2) {
+                        if (Thread.currentThread().isInterrupted()) {
+                            break;
+                        }
                             int newGen = generation + 1;
                             BarkBeetle bChild1 = new BarkBeetle(thisSim, childField1.getxPos(), childField1.getyPos(), newGen);
                             BarkBeetle bChild2 = new BarkBeetle(thisSim, childField2.getxPos(), childField2.getyPos(), newGen);
@@ -48,63 +50,66 @@ public class BarkBeetle implements Runnable {
                 }
             }
             long waitTime = (long) (Math.random() * 45 + 5);
-            try{
+            try {
                 Thread.sleep(waitTime);
-            }catch(InterruptedException e){
+            } catch (InterruptedException e) {
                 return;
             }
             waitingCount++;
             generation++;
             thisSim.print("Borkenkäfer haben gewartet: ");
-            if(waitingCount >= maxWaitingTime){
+            if (waitingCount >= maxWaitingTime) {
                 currentField.setContent('X');
                 currentField.setBarkBThread(null);
                 this.endThread();
-                countThreads--;
+                synchronized (this) {
+                    countThreads--;
+                }
             }
         }
-        if(countThreads <= 0 || generation >= 32){
+        if (countThreads <= 0 || generation >= 32) {
+            this.endThread();
             thisSim.endAll();
             return;
         }
     }
 
-    private void setContent(){
+    private void setContent() {
         currentField.setContent('0');
     }
 
-    private synchronized void getChildFields(){
+    private synchronized void getChildFields() {
         List<Field> neighbours = currentField.getNeighbours();
         List<Field> firstSelection = new LinkedList<Field>();
-        for(Field f : neighbours){
-            if(f.getContent() == '*'){
+        for (Field f : neighbours) {
+            if (f.getContent() == '*') {
                 firstSelection.add(f);
             }
         }
-        if(firstSelection.size()>= 2){
+        if (firstSelection.size() >= 2) {
             childField1 = firstSelection.get(0);
             childField2 = firstSelection.get(1);
-        }else{
+        } else {
             childField1 = null;
             childField2 = null;
         }
     }
 
-    public void endThread(){
-        if(!bBeetle.isInterrupted()){
+    public void endThread() {
+        if (!bBeetle.isInterrupted()) {
             bBeetle.interrupt();
         }
     }
 
-    public boolean isActive(){
-        if(bBeetle == null){
+    public boolean isActive() {
+        if (bBeetle == null) {
             return false;
-        }else{
+        } else {
             return !bBeetle.isInterrupted();
         }
     }
 
-    public String toString(){
+    public String toString() {
         return "Borkenkäfer: Generationen: " + waitingCount + "; Feldkoordinaten: " + currentField.getxPos() + ", " + currentField.getyPos() + "\n";
     }
 }

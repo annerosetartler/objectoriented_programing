@@ -10,10 +10,10 @@ public class Field {
     //      yPos >= 0 & yPos <= forest.length-1
     //      content = ein Element aus der Menge: {'X','*','0','+'}
     //      barkBThread = null || barkBThread ist ein BarkBeetle-Thread
-    private Field[][] forest;
+    private final Field[][] forest;
     private char content;
-    private int xPos;
-    private int yPos;
+    private final int xPos;
+    private final int yPos;
     private Thread barkBThread;
 
     //VORB: f != null; alle Zeilen von f sind gleich lang; f hat keine Null-Einträge
@@ -76,7 +76,9 @@ public class Field {
         if(barkBThread != null){
             barkBThread.interrupt();
             barkBThread = null;
-            BarkBeetle.countThreads--;
+            synchronized (this) {
+                BarkBeetle.countThreads--;
+            }
             return true;
         }
         return false;
