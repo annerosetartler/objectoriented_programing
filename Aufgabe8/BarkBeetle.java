@@ -69,7 +69,6 @@ public class BarkBeetle implements Runnable {
         }
         if (countThreads <= 0 || generation >= 32) {
             thisSim.endAll();
-            return;
         }
     }
 
