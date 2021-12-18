@@ -8,6 +8,7 @@ public class BarkBeetle implements Runnable {
     private int generation;
     private int maxWaitingTime = 3;
     private Simulation thisSim;
+    public static int countThreads;
 
     private Field childField1;
     private Field childField2;
@@ -26,20 +27,23 @@ public class BarkBeetle implements Runnable {
     //      weiß auch nicht wie und wann man am besten die Generationen zählen sollte
     @Override
     public void run() {
+        countThreads++;
         bBeetle = Thread.currentThread();
         currentField.setBarkBThread(bBeetle);
-        while(!bBeetle.isInterrupted() && waitingCount < maxWaitingTime && generation < 32){
+        while(!bBeetle.isInterrupted() && waitingCount < maxWaitingTime && generation < 32 && countThreads > 0){
             getChildFields();
             if(childField1 != null && childField2 != null){
-                synchronized (childField1){
-                    synchronized (childField2){
-                        if(Thread.currentThread().isInterrupted()){
-                            break;
+                synchronized (currentField) {
+                    synchronized (childField1) {
+                        synchronized (childField2) {
+                            if (Thread.currentThread().isInterrupted()) {
+                                break;
+                            }
+                            int newGen = generation + 1;
+                            BarkBeetle bChild1 = new BarkBeetle(thisSim, childField1.getxPos(), childField1.getyPos(), newGen);
+                            BarkBeetle bChild2 = new BarkBeetle(thisSim, childField2.getxPos(), childField2.getyPos(), newGen);
+                            thisSim.addBBeetlesAndStart(bChild1, bChild2);
                         }
-                        int newGen = generation + 1;
-                        BarkBeetle bChild1 = new BarkBeetle(thisSim,childField1.getxPos(),childField1.getyPos(),newGen);
-                        BarkBeetle bChild2 = new BarkBeetle(thisSim,childField2.getxPos(),childField2.getyPos(),newGen);
-                        thisSim.addBBeetlesAndStart(bChild1,bChild2);//vll außerhalb des synchronized
                     }
                 }
             }
@@ -47,22 +51,19 @@ public class BarkBeetle implements Runnable {
             try{
                 Thread.sleep(waitTime);
             }catch(InterruptedException e){
-                return; //TODO: weiß noch nicht, ob das so funktioniert...
+                return;
             }
             waitingCount++;
             generation++;
-            System.out.println("Borkenkäfer haben gewartet: ");
-            thisSim.print();
+            thisSim.print("Borkenkäfer haben gewartet: ");
             if(waitingCount >= maxWaitingTime){
                 currentField.setContent('X');
                 currentField.setBarkBThread(null);
-                thisSim.checkBarkBeetles();
-                bBeetle.interrupt();//weiß nicht, ob dann die ganze Methode abgebrochen wird...
-                return;
+                this.endThread();
+                countThreads--;
             }
         }
-        if(generation >= 32){
-            System.out.println("Finaler Zustand der Käferpopulationen:");
+        if(countThreads <= 0 || generation >= 32){
             thisSim.endAll();
             return;
         }
@@ -72,7 +73,7 @@ public class BarkBeetle implements Runnable {
         currentField.setContent('0');
     }
 
-    private void getChildFields(){
+    private synchronized void getChildFields(){
         List<Field> neighbours = currentField.getNeighbours();
         List<Field> firstSelection = new LinkedList<Field>();
         for(Field f : neighbours){

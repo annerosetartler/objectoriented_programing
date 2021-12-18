@@ -48,7 +48,8 @@ public class Forest {
     //       ruft dafür die synchronisierte Methode in Field auf;
     //       wenn es sich vom Stack her nicht ausgeht, wird
     //       die nicht synchronisierte Methode printWald() aufgerufen --> kann inkonsistent sein
-    public void print(){
+    public void print(String message){
+        System.out.println(message);
         try {
             System.out.println(forest[1][1].print());
         } catch (StackOverflowError e) {

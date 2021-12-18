@@ -62,7 +62,7 @@ public class Test {
         s2.startSim(BBlist2, ABlist2);
 
         try {
-            Thread.sleep(2000);
+            Thread.sleep(5000);
         } catch (InterruptedException e) {
             return;
         }

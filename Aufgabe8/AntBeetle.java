@@ -66,7 +66,7 @@ public class AntBeetle implements Runnable {
             try {
                 Thread.sleep(waitTime);
             } catch (InterruptedException e) {
-                break;
+                return;
             }
 
 
@@ -87,7 +87,7 @@ public class AntBeetle implements Runnable {
         occupiedField.setContent('+');
     }
 
-    private Field getFreeField(boolean hungryBeetle) { //ToDo: Hab grad beim Debugging anschauen gemerkt, dass ja hier die ergebnisse nicht mehr stimmen, wenn wir es verwenden (muss man wohl auch "sperren") - mein Bug hat sich grad auf ein X gesetzt...
+    private synchronized Field getFreeField(boolean hungryBeetle) { //ToDo: Hab grad beim Debugging anschauen gemerkt, dass ja hier die ergebnisse nicht mehr stimmen, wenn wir es verwenden (muss man wohl auch "sperren") - mein Bug hat sich grad auf ein X gesetzt...
         List<Field> neighbours = occupiedField.getNeighbours();
         List<Field> firstSelection = new LinkedList<Field>();
         for (Field f : neighbours) {
@@ -96,15 +96,15 @@ public class AntBeetle implements Runnable {
             }
         }
         if (firstSelection.size() > 0) {
-            if (hungryBeetle) {
+            //if (hungryBeetle) {
                 for (Field field : firstSelection) {
                     if (field.getContent() == '0') {
                         return field;
                     }
                 }
-            } else {
+            //} else {
                 return firstSelection.get(0);
-            }
+            //}
         }
         return null;
     }

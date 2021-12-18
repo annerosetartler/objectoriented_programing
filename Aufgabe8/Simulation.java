@@ -12,29 +12,16 @@ public class Simulation {
         this.forest = forest;
     }
 
-    //NACHB: Checkt ob es noch BarkBettle Populationen gibt, wenn nicht werden alle Threads beendet
-    public synchronized void checkBarkBeetles(){
-        int count = 0;
-        for(BarkBeetle b : barkBeetles){
-            if(b.isActive()){
-                count++;
-            }
-        }
-        if(count == 0){
-            endAll();
-        }
-    }
-
     //VORB: a != null
     //NACHB: fügt eine AntBeetle zur List antBeetles hinzu und startet einen neuen Thread
-    public synchronized void addABeetleAndStart(AntBeetle a){
+    public void addABeetleAndStart(AntBeetle a){
         antBeetles.add(a);
         new Thread(a,"AntBeetle").start();
     }
 
     //VORB: b1 != null & b2 != null
     //NACHB: fügt zwei BarkBeetles zur List barkBeetles hinzu und startet jweils einen neuen Thread
-    public synchronized void addBBeetlesAndStart(BarkBeetle b1, BarkBeetle b2){
+    public void addBBeetlesAndStart(BarkBeetle b1, BarkBeetle b2){
         barkBeetles.add(b1);
         barkBeetles.add(b2);
         new Thread(b1,"BarkBeetle").start();
@@ -50,8 +37,9 @@ public class Simulation {
         for(BarkBeetle b : barkBeetles){
             b.endThread();
         }
+        BarkBeetle.countThreads = 0;
         stats();
-        print();
+        print("Finaler Zustand des Walds: ");
     }
 
     //NACHB: gibt toString aller BarkBeetles und aller antBeetles aus
@@ -65,8 +53,8 @@ public class Simulation {
         }
     }
 
-    public void print(){
-        forest.print();
+    public synchronized void print(String message){
+        forest.print(message);
     }
 
     //VORB: bB != null & aB != null & alle Einträge von bB != null & alle Einträge von aB != null

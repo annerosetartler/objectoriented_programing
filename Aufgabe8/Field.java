@@ -76,6 +76,7 @@ public class Field {
         if(barkBThread != null){
             barkBThread.interrupt();
             barkBThread = null;
+            BarkBeetle.countThreads--;
             return true;
         }
         return false;
