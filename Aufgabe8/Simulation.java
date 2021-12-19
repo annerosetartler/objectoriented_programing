@@ -1,5 +1,8 @@
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+
+
 
 public class Simulation {
     private final Forest forest;
@@ -8,24 +11,21 @@ public class Simulation {
 
     //VORB: forest != null
     //      alle Zeilen sind gleich lang & es gibt keine null-Einträge
-    public Simulation(Forest forest){
+    public Simulation(Forest forest,List<BarkBeetle> bB, List<AntBeetle> aB){
         this.forest = forest;
+        barkBeetles = Collections.synchronizedList(bB);
+        antBeetles = Collections.synchronizedList(aB);
     }
 
     //VORB: a != null
     //NACHB: fügt eine AntBeetle zur List antBeetles hinzu und startet einen neuen Thread
     public void addABeetleAndStart(AntBeetle a){
-        antBeetles.add(0, a);
-        new Thread(a,"AntBeetle").start();
-    }
-
-    //VORB: b1 != null & b2 != null
-    //NACHB: fügt zwei BarkBeetles zur List barkBeetles hinzu und startet jweils einen neuen Thread
-    public void addBBeetlesAndStart(BarkBeetle b1, BarkBeetle b2){
-        barkBeetles.add(0, b1);
-        barkBeetles.add(0, b2);
-        //new Thread(b1,"BarkBeetle").start();
-        //new Thread(b2,"BarkBeetle").start();
+        try{
+            antBeetles.put(a);
+            new Thread(a,"AntBeetle").start();
+        }catch  (InterruptedException e){
+            System.out.println(e + "Ameisenbuntkäfer wurde unterbrochen");
+        }
     }
 
     //NACHB: beendet alle laufenden Threads
@@ -65,15 +65,13 @@ public class Simulation {
     //                                                               y >= 1 & y <= forest.length-2
     //NACHB: startet die Simulation mit den in bB enthaltenen Borkenkäferpopulationen und den in
     //       aB enthaltenen Ameisenbuntkäferpopulationen auf dem Wald(=Forest) der Simulation
-    public void startSim(LinkedList<BarkBeetle> bB, LinkedList<AntBeetle> aB){
-        this.barkBeetles = bB;
-        this.antBeetles = aB;
-        synchronized (barkBeetles) {
-            for(BarkBeetle b : barkBeetles){
+    public void startSim(){
+        synchronized (barkBeetles){
+            for (BarkBeetle b : barkBeetles) {
                 new Thread(b, "BarkBeetle").start();
             }
         }
-        synchronized (antBeetles) {
+        synchronized (antBeetles){
             for (AntBeetle a : antBeetles) {
                 new Thread(a, "AntBeetle").start();
             }

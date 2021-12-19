@@ -76,7 +76,7 @@ public class Field {
         if(barkBThread != null){
             barkBThread.interrupt();
             barkBThread = null;
-            synchronized (this) {
+            synchronized (BarkBeetle.lock) {
                 BarkBeetle.countThreads--;
             }
             return true;
