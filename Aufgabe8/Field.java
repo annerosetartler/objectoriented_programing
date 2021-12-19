@@ -13,7 +13,6 @@ public class Field {
     //      content = ein Element aus der Menge: {'X','*','0','+'}
     //      barkBThread = null || barkBThread ist ein BarkBeetle-Thread
     private final Field[][] forest;
-    //private char content;
     private final int xPos;
     private final int yPos;
     private int treeVitality;
@@ -30,7 +29,6 @@ public class Field {
         yPos = y;
         treeVitality = (c == '*') ? 3 : 0;
         lock = new ReentrantLock();
-        //content = c;
     }
 
     //ToDo: schleife oder Liste mit nachbarn statt feld
@@ -74,23 +72,6 @@ public class Field {
         if (treeVitality <= 0) {
             beetle.endThread();
         }
-    }
-
-    //NACHB: simuliert, wenn sich eine Ameisenbuntkäferpopulation auf dieses Feld bewegt
-    //       setzt den Inhalt dieses Felds auf '+' und unterbricht den Borkenkäfer-Thread,
-    //       falls sich auf diesem Feld ein derartiger Thread befindet (= Ameisenbuntkäferpopulation
-    //       frisst Borkenkäferpopulation)
-    //       Gibt true aus, wenn sich eine Borkenkäferpopulation auf dem Feld befunden hat
-    public boolean antBeetleMove(Beetle b) {
-        if (beetle.isPrey()) {
-            beetle.endThread();
-            setBeetle(b);
-            synchronized (BarkBeetle.lock) {
-                BarkBeetle.countThreads--;
-            }
-            return true;
-        }
-        return false;
     }
 
     //NACHB: gibt die x-Koordinate dieses Felds zurück

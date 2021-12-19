@@ -64,6 +64,7 @@ public class Test {
         ABlist2.add(a1t2);
         s2.startSim(BBlist2, ABlist2);
 */
+
         try {
             Thread.sleep(5000);
         } catch (InterruptedException e) {

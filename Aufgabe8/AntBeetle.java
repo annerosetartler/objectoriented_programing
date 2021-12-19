@@ -1,105 +1,130 @@
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
 public class AntBeetle implements Beetle {
 
-    private Field occupiedField;
+    private Field currentField;
     private int stepsToStarvation;
-    private int reproductionCount;
-    private Simulation simRef;
+    private Simulation thisSim;
     private List<Beetle> antBList;
-
-    private Field nextField;
-    private Field childField;
-    private Thread aBeetle;
+    private Thread currentThread;
+    private boolean running;
 
 
     public AntBeetle(Simulation s, int x, int y, List<Beetle> aB) {
         antBList = aB;
-        simRef = s;
-        occupiedField = s.getField(x, y);
-        reproductionCount = 0;
+        thisSim = s;
+        currentField = s.getField(x, y);
+        currentField.setBeetle(this);
         stepsToStarvation = 3;
-        setContent();
+        currentThread = Thread.currentThread();
+        running = false;
     }
-
 
     @Override
     public void run() {
-        aBeetle = Thread.currentThread();
-
-        while (!aBeetle.isInterrupted() && stepsToStarvation > 0) {
-            boolean gotFood = false;
-
-            nextField = getFreeField(stepsToStarvation <= 2); //Evtl. <=, wenn es nicht genug "jagd auf die Bark beetles macht"
-
-            if (nextField != null) {
-                synchronized (occupiedField) {
-                    synchronized (nextField) { //Was passiert eigentlich, wenn es das nicht gibt?
-                        if (Thread.currentThread().isInterrupted()) {
-                            break;
-                        }
-                        gotFood = nextField.antBeetleMove(this);
-                        occupiedField.setContent('*');
-                        occupiedField.setBeetle(null);
-                        occupiedField = nextField;
-                        occupiedField.setBeetle(this);
-                        nextField = null;
-
-                        if (reproductionCount * Math.random() >= 2) {  //Evtl andere Zahl, wenn es sich nicht oft genug vermehrt
-                            childField = getFreeField(false); //Hier müsste jetzt ja eh auch das ehemals occupied field gehen, denn das ist ja bereits frei und ich bin innerhalb des synch?
-                            synchronized (childField) {
-                                if (Thread.currentThread().isInterrupted()) {
-                                    break;
-                                }
-                                if (childField != null) { //ToDo: müsste ich eigentlich nicht fragen, denn es ist immer zumindest das alte Eltern-Feld frei gewesen! Soll ichs weglassen?
-                                    childField.setContent('+');
-                                    AntBeetle child = new AntBeetle(simRef, childField.getxPos(), childField.getyPos(), antBList);
-                                    //simRef.addABeetleAndStart(child);
-                                    addToAntBList(child);
-                                    childField.setBeetle(child);
-                                    childField = null;
-                                }
-                            }
-                            reproductionCount = 0;
-                        }
-
-                    }
-                }
-            }
-
+        running = true;
+        while (beetleActive()) {
             long waitTime = (long) (Math.random() * 45 + 5);
             try {
                 Thread.sleep(waitTime);
-            } catch (InterruptedException e) {
-                return;
+            } catch (InterruptedException ignored) {
             }
 
+            tryToMove();
+            spawnChildren();
 
-            if (gotFood) {
-                stepsToStarvation = 3;
-            } else stepsToStarvation--;
+            stepsToStarvation--;
 
-            reproductionCount++;
-        }
-
-        if (stepsToStarvation <= 0) {
-            occupiedField.setContent('*');
-            this.endThread(); //aBeetle.interrupt() wird ja nicht richtig sein vermute ich
+            if (stepsToStarvation < 0){
+                endThread();
+            }
         }
     }
 
-    private void addToAntBList(AntBeetle childA){
-        antBList.add(childA);
-        new Thread(childA, "AntBeetle").start();
+    private void tryToMove(){
+        List<Field> neighbourFields = getMoveNeighbours();
+        if (neighbourFields.size() == 1){
+            attackMove(neighbourFields.get(0));
+        }
+        for (Field f : neighbourFields) {
+            f.getLock().unlock();
+        }
+    }
+
+    private void attackMove(Field field){
+        if (field.getBeetle() != null){
+            field.getBeetle().endThread();
+            stepsToStarvation = 3;
+        }
+        currentField.getLock().lock();
+        field.setBeetle(this);
+        currentField.setBeetle(null);
+        currentField.getLock().unlock();
+        currentField = field;
+    }
+
+    private void spawnChildren(){
+        List<Field> childFields = getFreeNeighbours();
+        if (childFields.size() == 1){
+            spawnChild(childFields.get(0));
+        }
+        for (Field f : childFields) {
+            f.getLock().unlock();
+        }
+    }
+
+    private void spawnChild(Field field){
+        AntBeetle a = new AntBeetle(thisSim, field.getxPos(), field.getyPos(), antBList);//toDO: theBeetlesLIST!
+        antBList.add(a);
+        new Thread(a, "AntBeetle").start();
+    }
+
+    private List<Field> getFreeNeighbours(){
+        List<Field> neighbours = currentField.getNeighbours();
+        Collections.shuffle(neighbours);
+        List<Field> selection = new LinkedList<Field>();
+        for (Field f : neighbours) {
+            if (f.hasTree() && f.getBeetle() == null && f.getLock().tryLock()){ //ToDo: barkbeetles
+                selection.add(f);
+                break;
+            }
+        }
+        return selection;
+    }
+
+    private List<Field> getMoveNeighbours(){
+        List<Field> neighbours = currentField.getNeighbours();
+        Collections.shuffle(neighbours);
+        List<Field> selection = new LinkedList<Field>();
+        for (Field f : neighbours) {
+            if (f.hasTree() && (f.getBeetle() == null || f.getBeetle().isPrey()) && f.getLock().tryLock()){ //ToDo: barkbeetles
+                selection.add(f);
+                break;
+            }
+        }
+        return selection;
+    }
+
+    private boolean beetleActive(){
+        if (Thread.currentThread().isInterrupted()){
+            return false;
+        }
+        if (stepsToStarvation < 0){
+            return false;
+        }
+        if (!running){
+            return false;
+        }
+        if (thisSim.getGlobalInterrupt()){
+            return false;
+        }
+        return true;
     }
 
     public boolean isPrey(){
         return false;
-    }
-
-    private void setContent() {
-        occupiedField.setContent('+');
     }
 
     @Override
@@ -107,35 +132,19 @@ public class AntBeetle implements Beetle {
         return "+";
     }
 
-    private synchronized Field getFreeField(boolean hungryBeetle) { //ToDo: Hab grad beim Debugging anschauen gemerkt, dass ja hier die ergebnisse nicht mehr stimmen, wenn wir es verwenden (muss man wohl auch "sperren") - mein Bug hat sich grad auf ein X gesetzt...
-        List<Field> neighbours = occupiedField.getNeighbours();
-        List<Field> firstSelection = new LinkedList<Field>();
-        for (Field f : neighbours) {
-            if (f.getContent() == '*' || f.getContent() == '0') {
-                firstSelection.add(f);
-            }
-        }
-        if (firstSelection.size() > 0) {
-            //if (hungryBeetle) {
-                for (Field field : firstSelection) {
-                    if (field.getContent() == '0') {
-                        return field;
-                    }
-                }
-            //} else {
-                return firstSelection.get(0);
-            //}
-        }
-        return null;
-    }
-
     public void endThread() {
-        if (!aBeetle.isInterrupted()) {
-            aBeetle.interrupt();
+        if (!running){
+            return;
+        }
+        running = false;
+        currentThread.interrupt();
+        if (currentField.getLock().tryLock()) {
+            currentField.setBeetle(null);
+            currentField.getLock().unlock();
         }
     }
 
     public String toString() {
-        return "Ameisenbuntkäfer: Hungrigkeit: " + (stepsToStarvation == 3 ? "satt" : (stepsToStarvation == 2 ? "mäßig hungrig" : "sehr hungrig")) + "Feldkoordinaten: " + occupiedField.getxPos() + ", " + occupiedField.getyPos() + "\n";
+        return "Ameisenbuntkäfer: Hungrigkeit: " + (stepsToStarvation == 3 ? "satt" : (stepsToStarvation == 2 ? "mäßig hungrig" : "sehr hungrig")) + "Feldkoordinaten: " + currentField.getxPos() + ", " + currentField.getyPos() + "\n";
     }
 }

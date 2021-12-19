@@ -5,17 +5,11 @@ import java.util.concurrent.TimeUnit;
 public class BarkBeetle implements Beetle {
 
     private Field currentField;
-    private int waitingCount;
     private int generation;
-    private int maxWaitingTime = 3;
     private final Simulation thisSim;
-    public static int countThreads;
-    public static Object lock = new Object();
-    private static boolean globalInterrupt;
+    private static int countThreads;
     private List<Beetle> barkBList;
-
-    private Field childField1;
-    private Field childField2;
+    private boolean running;
     private Thread currentThread;
 
     //TODO: könnte sein, dass der Thread bereits im Konstruktor auf das Feld gesetzt werden muss
@@ -24,43 +18,44 @@ public class BarkBeetle implements Beetle {
         thisSim = s;
         currentField = s.getField(x, y);
         currentField.setBeetle(this);
-        waitingCount = 0;
         this.generation = generation;
         synchronized (BarkBeetle.class) {
             countThreads++;
         }
         currentThread = Thread.currentThread();
+        running = false;
     }
 
     @Override
     public void run() {
+        running = true;
         while (beetleActive()){
-
-            spawnChildren();
-
-            try {
-                if (currentField.getLock().tryLock(1, TimeUnit.MILLISECONDS)){
-                    currentField.damageTree();
-                    currentField.getLock().unlock();
-                }
-            } catch (InterruptedException e) {
-                System.out.println(e);
-            }
 
             long waitTime = (long) (Math.random() * 45 + 5);
             try {
                 Thread.sleep(waitTime);
-            } catch (InterruptedException e) {
-                System.out.println(e);
+            } catch (InterruptedException ignored) {
             }
             thisSim.print("Borkenkäfer haben gewartet: ");
 
-            waitingCount++;
+            spawnChildren();
+
+            try {
+                if (currentField.getLock().tryLock(100, TimeUnit.MILLISECONDS)){
+                    if (running) {
+                        currentField.damageTree();
+                    }
+                    currentField.getLock().unlock();
+                }
+            } catch (InterruptedException ignored) {}
+
             generation++;
 
-            if (countThreads <= 0 || generation >= 32) {
-                globalInterrupt = true;
-                thisSim.endAll();
+            synchronized (BarkBeetle.class) {
+                if (countThreads <= 0 || generation >= 32) {
+                    thisSim.interruptGlobally();
+                    thisSim.endAll();
+                }
             }
         }
     }
@@ -78,10 +73,10 @@ public class BarkBeetle implements Beetle {
         if (Thread.currentThread().isInterrupted()){
             return false;
         }
-        if (waitingCount >= maxWaitingTime){
+        if (thisSim.getGlobalInterrupt()){
             return false;
         }
-        if (globalInterrupt){
+        if (!running){
             return false;
         }
         return true;
@@ -119,15 +114,26 @@ public class BarkBeetle implements Beetle {
     }
 
     public void endThread() {
-        if (!currentThread.isInterrupted()) {
-            currentThread.interrupt();
-            synchronized (BarkBeetle.class) {
-                countThreads--;
-            }
+        if (!running){
+            return;
+        }
+        running = false;
+        currentThread.interrupt();
+        synchronized (BarkBeetle.class) {
+            countThreads--;
+        }
+
+        if (currentField.getLock().tryLock()) {
+            currentField.setBeetle(null);
+            currentField.getLock().unlock();
         }
     }
 
+    public static void resetCountThreads(){
+        countThreads = 0;
+    }
+
     public String toString() {
-        return "Borkenkäfer: Generationen: " + waitingCount + "; Feldkoordinaten: " + currentField.getxPos() + ", " + currentField.getyPos() + "\n";
+        return "Borkenkäfer: Generationen: " + generation + "; Feldkoordinaten: " + currentField.getxPos() + ", " + currentField.getyPos() + "\n";
     }
 }
