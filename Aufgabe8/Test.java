@@ -1,22 +1,9 @@
-import java.util.LinkedList;
-
 public class Test {
     public static void main(String[] args) {
 
-  /*
-        char[][] testArr = new char[][]{
-                {'*','*','*','*','X'},
-                {'X','*','*','*','*'},
-                {'*','*','*','*','*'},
-                {'*','*','*','*','*'},
-                {'*','*','*','*','X'}
-        };
-
-        Forest f1 = new Forest(testArr);
-        System.out.println(f1.printWald());
 
 
-        System.out.println("Kleiner Wald:");
+        System.out.println("Kleiner Wald - 3x3 Wald-Grundfläche:"); //5 mit Rand
         Forest forest1 = new Forest(
                 new char[][]{
                         {'*', '*', '*'},
@@ -24,54 +11,66 @@ public class Test {
                         {'*', '*', '*'},
                 });
 
+        int[][] barkBeetleInfo1 = new int[][] {
+                {2, 2, 1}
+        };
+
+        int[][] antBeetleInfo1 = new int[][]{
+                {1, 1}
+        };
+
         Simulation s1 = new Simulation(forest1);
-        BarkBeetle b1t1 = new BarkBeetle(s1, 1, 1, 1);
-        AntBeetle a1t1 = new AntBeetle(s1, 3,1);
-        LinkedList<BarkBeetle> BBlist1 = new LinkedList<BarkBeetle>();
-        LinkedList<AntBeetle> ABlist1 = new LinkedList<AntBeetle>();
-        BBlist1.add(b1t1);
-        ABlist1.add(a1t1);
-        s1.startSim(BBlist1, ABlist1);
+
+        s1.populate(barkBeetleInfo1, antBeetleInfo1);
+        s1.startSim();
 
         try {
-            Thread.sleep(2000);
+            Thread.sleep(2000000);
         } catch (InterruptedException e) {
             return;
         }
 
 
-        System.out.println("Mittelgroßer Wald:");
+
+        System.out.println("********************************************");
+
+        System.out.println("Mittelgroßer Wald - 6x6 Wald Grundfläche:"); //8 mit Rand
         Forest forest2 = new Forest(
                 new char[][]{
                         {'*', '*', 'X', 'X', '*', 'X'},
-                        {'*', '*', '*', '*', '*', 'X'},
-                        {'*', 'X', '*', '*', '*', '*'},
+                        {'*', '*', '*', 'X', '*', 'X'},
+                        {'*', '*', '*', '*', '*', '*'},
                         {'X', '*', '*', '*', '*', '*'},
                         {'*', '*', '*', '*', 'X', 'X'},
                         {'X', '*', 'X', '*', '*', '*'},
                 });
 
+
+        int[][] barkBeetleInfo2 = new int[][] {
+                {3, 2, 1},
+                {6, 6, 1},
+                {3, 5, 1}
+        };
+
+        int[][] antBeetleInfo2 = new int[][] {
+                {4, 4}
+        };
+
         Simulation s2 = new Simulation(forest2);
-        BarkBeetle b1t2 = new BarkBeetle(s2, 1, 1, 1);
-        BarkBeetle b2t2 = new BarkBeetle(s2, 4, 1, 1);
-        BarkBeetle b3t2 = new BarkBeetle(s2, 2, 4, 1);
-        AntBeetle a1t2 = new AntBeetle(s2, 3,3);
-        LinkedList<BarkBeetle> BBlist2 = new LinkedList<BarkBeetle>();
-        LinkedList<AntBeetle> ABlist2 = new LinkedList<AntBeetle>();
-        BBlist2.add(b1t2);
-        BBlist2.add(b2t2);
-        BBlist2.add(b3t2);
-        ABlist2.add(a1t2);
-        s2.startSim(BBlist2, ABlist2);
-*/
+        s2.populate(barkBeetleInfo2, antBeetleInfo2);
+        s2.startSim();
 
         try {
-            Thread.sleep(5000);
+            Thread.sleep(500000000);
         } catch (InterruptedException e) {
             return;
         }
 
-        System.out.println("Großer Wald:"); //ToDo: Quadratisch (nachzulesen unter: "Wie die Aufgabe zu lösen ist")
+        System.out.println("********************************************");
+
+
+
+        System.out.println("Großer Wald - 27x27 Wald Grundfläche:"); //29 mit Rand
         Forest forest3 = new Forest(
                 new char[][]{
                         {'*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*'},
@@ -83,28 +82,44 @@ public class Test {
                         {'*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', 'X', 'X', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', 'X', '*', '*'},
                         {'*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', 'X', 'X', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*'},
                         {'*', '*', '*', '*', '*', '*', 'X', 'X', 'X', '*', '*', 'X', 'X', 'X', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*'},
-                        {'*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', 'X', 'X', 'X', '*', '*', '*', '*', '*'},
-                        {'*', 'X', 'X', 'X', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', 'X', 'X', '*', '*', 'X', 'X', '*', '*', 'X', 'X', '*', '*'},
-                        {'*', '*', 'X', '*', '*', '*', '*', 'X', 'X', 'X', '*', '*', '*', '*', 'X', 'X', 'X', '*', '*', 'X', '*', 'X', '*', 'X', 'X', '*', '*'},
-                        {'*', '*', 'X', 'X', '*', '*', '*', '*', 'X', 'X', '*', '*', '*', '*', 'X', 'X', '*', '*', '*', '*', '*', '*', '*', 'X', 'X', '*', '*'},
-                        {'*', '*', 'X', 'X', '*', '*', '*', '*', 'X', 'X', '*', '*', '*', '*', 'X', 'X', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*'},
+                        {'*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*','*', '*', '*', '*', 'X', 'X', 'X', '*', '*', '*', '*', '*'},
+                        {'*', 'X', '*', 'X', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', 'X', 'X', '*', '*', 'X', 'X', '*', '*', 'X', 'X', '*', '*'},
+                        {'*', '*', '*', '*', '*', '*', '*', 'X', 'X', 'X', '*', '*', '*', '*', 'X', 'X', 'X', '*', '*', 'X', '*', 'X', '*', 'X', 'X', '*', '*'},
+                        {'*', '*', '*', '*', '*', '*', '*', '*', 'X', 'X', '*', '*', '*', '*', 'X', 'X', '*', '*', '*', '*', '*', '*', '*', 'X', 'X', '*', '*'},
+                        {'*', '*', '*', '*', '*', '*', '*', '*', 'X', 'X', '*', '*', '*', '*', 'X', 'X', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*'},
                         {'*', '*', '*', 'X', '*', '*', '*', '*', 'X', 'X', '*', '*', '*', '*', 'X', 'X', '*', '*', '*', '*', '*', '*', 'X', '*', '*', '*', '*'},
                         {'*', '*', 'X', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', 'X', 'X', '*', '*', '*'},
                         {'*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*'},
-
+                        {'*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', 'X', 'X', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*'},
+                        {'*', '*', '*', '*', '*', '*', 'X', 'X', 'X', '*', '*', 'X', 'X', 'X', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*'},
+                        {'*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', 'X', '*', '*', 'X', 'X', '*', '*', '*', '*', '*'},
+                        {'*', 'X', 'X', 'X', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', 'X', 'X', 'X', '*', '*', 'X', '*', '*', '*', 'X', '*', '*'},
+                        {'*', '*', 'X', '*', '*', '*', '*', 'X', 'X', 'X', '*', '*', '*', '*', 'X', 'X', 'X', '*', '*', 'X', '*', 'X', '*', 'X', '*', '*', '*'},
+                        {'*', '*', 'X', 'X', '*', '*', '*', '*', 'X', 'X', '*', '*', '*', '*', 'X', 'X', 'X', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*'},
+                        {'*', '*', 'X', 'X', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', 'X', 'X', 'X', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*'},
+                        {'*', '*', '*', 'X', '*', '*', '*', '*', 'X', '*', '*', '*', '*', '*', 'X', 'X', '*', '*', '*', '*', '*', '*', 'X', '*', '*', '*', '*'},
+                        {'*', '*', 'X', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', 'X', 'X', '*', '*', '*'},
+                        {'*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*'},
                 });
 
         int[][] barkBeetleInfo = new int[][] {
                 {3, 2, 1},
                 {9, 10, 1},
                 {1, 17, 1},
-                {23, 7, 1}
+                {23, 7, 1},
+                {9, 6, 1},
+                {22, 4, 1},
+                {22, 23, 1},
+                {25, 25, 1}
         };
 
-        int[][] antBeetleInfo = new int[][] {
-                {7, 12},
+        int[][] antBeetleInfo = new int[][] { //ToDo: vlt. hier einmal dieselbe Sim mit vielem einmal mit wenigen?
+                {7, 12} /*,
                 {13, 4},
-                {22, 7}
+                {22, 7},
+                {27, 25},
+                {1, 27}
+                */
         };
 
 
@@ -112,41 +127,9 @@ public class Test {
 
         s3.populate(barkBeetleInfo, antBeetleInfo);
         s3.startSim();
-
-        /*BarkBeetle b1t3 = new BarkBeetle(s3, 3, 2, 1);
-        BarkBeetle b2t3 = new BarkBeetle(s3, 9, 10, 1);
-        BarkBeetle b3t3 = new BarkBeetle(s3, 1, 17, 1);
-        BarkBeetle b4t3 = new BarkBeetle(s3, 23, 7, 1);
-        BarkBeetle b5t3 = new BarkBeetle(s3, 10, 13, 1);
-        BarkBeetle b6t3 = new BarkBeetle(s3, 15, 14, 1);
-        BarkBeetle b7t3 = new BarkBeetle(s3, 19, 3, 1);
-        BarkBeetle b8t3 = new BarkBeetle(s3, 21, 10, 1);
-        BarkBeetle b9t3 = new BarkBeetle(s3, 24, 14, 1);
-
-
-
-
-
-        AntBeetle a1t3 = new AntBeetle(s3, 7,12);
-        AntBeetle a2t3 = new AntBeetle(s3, 13,4);
-        AntBeetle a3t3 = new AntBeetle(s3, 22,7);
-        LinkedList<BarkBeetle> BBlist3 = new LinkedList<BarkBeetle>();
-        LinkedList<AntBeetle> ABlist3 = new LinkedList<AntBeetle>();
-        BBlist3.add(b1t3);
-        BBlist3.add(b2t3);
-        BBlist3.add(b3t3);
-        //BBlist3.add(b4t3);
-        //BBlist3.add(b5t3);
-        //BBlist3.add(b6t3);
-        //BBlist3.add(b7t3);
-        //BBlist3.add(b8t3);
-        //BBlist3.add(b9t3);
-
-
-        ABlist3.add(a1t3);
-        ABlist3.add(a2t3);
-        ABlist3.add(a3t3);
-        s3.startSim(BBlist3, ABlist3);
-        //*/
     }
+
+
+
+
 }
