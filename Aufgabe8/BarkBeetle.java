@@ -12,7 +12,6 @@ public class BarkBeetle implements Beetle {
     private boolean running;
     private Thread currentThread;
 
-    //TODO: könnte sein, dass der Thread bereits im Konstruktor auf das Feld gesetzt werden muss
     public BarkBeetle(Simulation s, int x, int y, int generation, List<Beetle> bB) {
         barkBList = bB;
         thisSim = s;

@@ -25,10 +25,11 @@ public class Test {
         s1.startSim();
 
         try {
-            Thread.sleep(2000000);
-        } catch (InterruptedException e) {
+            Thread.sleep(5000);
+        } catch (InterruptedException ignored) {
             return;
         }
+
 
 
 
@@ -60,8 +61,9 @@ public class Test {
         s2.populate(barkBeetleInfo2, antBeetleInfo2);
         s2.startSim();
 
+
         try {
-            Thread.sleep(500000000);
+            Thread.sleep(5000);
         } catch (InterruptedException e) {
             return;
         }

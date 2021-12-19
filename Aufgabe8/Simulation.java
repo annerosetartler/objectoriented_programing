@@ -13,6 +13,7 @@ public class Simulation {
         theBeetles = Collections.synchronizedList(new ArrayList<Beetle>());
         running = false;
         globalInterrupt = false;
+        BarkBeetle.resetCountThreads();
     }
 
     //NACHB: beendet alle laufenden Threads
@@ -27,7 +28,6 @@ public class Simulation {
                 if (b != null) b.endThread();
             }
         }
-        //BarkBeetle.countThreads = 0;
         stats();
         print("Finaler Zustand des Walds: ");
     }
@@ -65,7 +65,6 @@ public class Simulation {
     //NACHB: startet die Simulation mit den in bB enthaltenen Borkenkäferpopulationen und den in
     //       aB enthaltenen Ameisenbuntkäferpopulationen auf dem Wald(=Forest) der Simulation
     public void startSim(){
-        BarkBeetle.resetCountThreads();
         running = true;
         synchronized (theBeetles){
             for (Beetle b : theBeetles) {
