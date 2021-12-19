@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -11,21 +12,10 @@ public class Simulation {
 
     //VORB: forest != null
     //      alle Zeilen sind gleich lang & es gibt keine null-Einträge
-    public Simulation(Forest forest,List<BarkBeetle> bB, List<AntBeetle> aB){
+    public Simulation(Forest forest){
         this.forest = forest;
-        barkBeetles = Collections.synchronizedList(bB);
-        antBeetles = Collections.synchronizedList(aB);
-    }
-
-    //VORB: a != null
-    //NACHB: fügt eine AntBeetle zur List antBeetles hinzu und startet einen neuen Thread
-    public void addABeetleAndStart(AntBeetle a){
-        try{
-            antBeetles.put(a);
-            new Thread(a,"AntBeetle").start();
-        }catch  (InterruptedException e){
-            System.out.println(e + "Ameisenbuntkäfer wurde unterbrochen");
-        }
+        barkBeetles = Collections.synchronizedList(new ArrayList<BarkBeetle>());
+        antBeetles = Collections.synchronizedList(new ArrayList<AntBeetle>());
     }
 
     //NACHB: beendet alle laufenden Threads
@@ -55,6 +45,15 @@ public class Simulation {
 
     public synchronized void print(String message){
         forest.print(message);
+    }
+
+    public void populate(int[][] BarkBInfo, int[][] AntBInfo){
+        for (int[] info : BarkBInfo) {
+            barkBeetles.add(new BarkBeetle(this, info[0], info[1], info[2], barkBeetles));
+        }
+        for (int[] info : AntBInfo) {
+            antBeetles.add(new AntBeetle(this, info[0], info[1], antBeetles));
+        }
     }
 
     //VORB: bB != null & aB != null & alle Einträge von bB != null & alle Einträge von aB != null

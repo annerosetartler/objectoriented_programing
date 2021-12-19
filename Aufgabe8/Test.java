@@ -93,8 +93,26 @@ public class Test {
 
                 });
 
+        int[][] barkBeetleInfo = new int[][] {
+                {3, 2, 1},
+                {9, 10, 1},
+                {1, 17, 1},
+                {23, 7, 1}
+        };
+
+        int[][] antBeetleInfo = new int[][] {
+                {7, 12},
+                {13, 4},
+                {22, 7}
+        };
+
+
         Simulation s3 = new Simulation(forest3);
-        BarkBeetle b1t3 = new BarkBeetle(s3, 3, 2, 1);
+
+        s3.populate(barkBeetleInfo, antBeetleInfo);
+        s3.startSim();
+
+        /*BarkBeetle b1t3 = new BarkBeetle(s3, 3, 2, 1);
         BarkBeetle b2t3 = new BarkBeetle(s3, 9, 10, 1);
         BarkBeetle b3t3 = new BarkBeetle(s3, 1, 17, 1);
         BarkBeetle b4t3 = new BarkBeetle(s3, 23, 7, 1);
@@ -103,6 +121,10 @@ public class Test {
         BarkBeetle b7t3 = new BarkBeetle(s3, 19, 3, 1);
         BarkBeetle b8t3 = new BarkBeetle(s3, 21, 10, 1);
         BarkBeetle b9t3 = new BarkBeetle(s3, 24, 14, 1);
+
+
+
+
 
         AntBeetle a1t3 = new AntBeetle(s3, 7,12);
         AntBeetle a2t3 = new AntBeetle(s3, 13,4);

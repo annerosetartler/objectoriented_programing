@@ -1,6 +1,5 @@
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.LinkedBlockingQueue;
 
 public class BarkBeetle implements Runnable {
 
@@ -12,7 +11,7 @@ public class BarkBeetle implements Runnable {
     public static int countThreads;
     public static Object lock = new Object();
     private static boolean interrupted;
-    private List<BarkBeetle> barkBQueue;
+    private List<BarkBeetle> barkBList;
 
     private Field childField1;
     private Field childField2;
@@ -20,7 +19,7 @@ public class BarkBeetle implements Runnable {
 
     //TODO: könnte sein, dass der Thread bereits im Konstruktor auf das Feld gesetzt werden muss
     public BarkBeetle(Simulation s, int x, int y, int generation, List<BarkBeetle> bB) {
-        barkBQueue = bB;
+        barkBList = bB;
         thisSim = s;
         currentField = s.getField(x, y);
         waitingCount = 0;
@@ -46,9 +45,9 @@ public class BarkBeetle implements Runnable {
                                     break;
                                 }
                                 int newGen = generation + 1;
-                                BarkBeetle bChild1 = new BarkBeetle(thisSim, childField1.getxPos(), childField1.getyPos(), newGen,barkBQueue);
-                                BarkBeetle bChild2 = new BarkBeetle(thisSim, childField2.getxPos(), childField2.getyPos(), newGen,barkBQueue);
-                                addToBarkBQueue(bChild1,bChild2);
+                                BarkBeetle bChild1 = new BarkBeetle(thisSim, childField1.getxPos(), childField1.getyPos(), newGen,barkBList);
+                                BarkBeetle bChild2 = new BarkBeetle(thisSim, childField2.getxPos(), childField2.getyPos(), newGen,barkBList);
+                                addToBarkBList(bChild1,bChild2);
                             }
                         }
                     }
@@ -80,9 +79,9 @@ public class BarkBeetle implements Runnable {
         }
     }
 
-    private void addToBarkBQueue(BarkBeetle b1, BarkBeetle b2){
-        barkBQueue.add(b1);
-        barkBQueue.add(b2);
+    private void addToBarkBList(BarkBeetle b1, BarkBeetle b2){
+        barkBList.add(b1);
+        barkBList.add(b2);
         new Thread(b1, "BarkBeetle").start();
         new Thread(b2, "BarkBeetle").start();
     }

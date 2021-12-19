@@ -7,13 +7,15 @@ public class AntBeetle implements Runnable {
     private int stepsToStarvation;
     private int reproductionCount;
     private Simulation simRef;
+    private List<AntBeetle> antBList;
 
     private Field nextField;
     private Field childField;
     private Thread aBeetle;
 
 
-    public AntBeetle(Simulation s, int x, int y) {
+    public AntBeetle(Simulation s, int x, int y, List<AntBeetle> aB) {
+        antBList = aB;
         simRef = s;
         occupiedField = s.getField(x, y);
         reproductionCount = 0;
@@ -50,8 +52,9 @@ public class AntBeetle implements Runnable {
                                 }
                                 if (childField != null) { //ToDo: müsste ich eigentlich nicht fragen, denn es ist immer zumindest das alte Eltern-Feld frei gewesen! Soll ichs weglassen?
                                     childField.setContent('+');
-                                    AntBeetle child = new AntBeetle(simRef, childField.getxPos(), childField.getyPos());
-                                    simRef.addABeetleAndStart(child);
+                                    AntBeetle child = new AntBeetle(simRef, childField.getxPos(), childField.getyPos(), antBList);
+                                    //simRef.addABeetleAndStart(child);
+                                    addToAntBList(child);
                                     childField = null;
                                 }
                             }
@@ -81,6 +84,11 @@ public class AntBeetle implements Runnable {
             occupiedField.setContent('*');
             this.endThread(); //aBeetle.interrupt() wird ja nicht richtig sein vermute ich
         }
+    }
+
+    private void addToAntBList(AntBeetle childA){
+        antBList.add(childA);
+        new Thread(childA, "AntBeetle").start();
     }
 
     private void setContent() {
