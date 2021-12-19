@@ -31,16 +31,12 @@ public class Simulation {
     //NACHB: beendet alle laufenden Threads
     public synchronized void endAll(){ //ToDo: ist hier das Problem, dass die Simulation-Referenz in dem BArkBeetle, von dem aus wir das aufrufen, iwie nicht mehr "funktioniert"
         System.out.println("Finaler Zustand der Käferpopulationen:");
-        synchronized (antBeetles){
             for(AntBeetle a : antBeetles){
                 if(a != null)a.endThread();
             }
-        }
-        synchronized (barkBeetles){
             for(BarkBeetle b : barkBeetles){
                 if(b != null)b.endThread();
             }
-        }
         BarkBeetle.countThreads = 0;
         stats();
         print("Finaler Zustand des Walds: ");

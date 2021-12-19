@@ -9,6 +9,7 @@ public class BarkBeetle implements Runnable {
     private int maxWaitingTime = 3;
     private final Simulation thisSim;
     public static int countThreads;
+    private static boolean interrupted;
 
     private Field childField1;
     private Field childField2;
@@ -32,7 +33,7 @@ public class BarkBeetle implements Runnable {
         }
         bBeetle = Thread.currentThread();
         currentField.setBarkBThread(Thread.currentThread());
-        while (!bBeetle.isInterrupted() && waitingCount < maxWaitingTime && generation < 32 && countThreads > 0) {
+        while (!bBeetle.isInterrupted() && waitingCount < maxWaitingTime && generation < 32 && countThreads > 0 && !interrupted) {
             BarkBeetle bChild1 = null;
             BarkBeetle bChild2 = null;
             synchronized (currentField) {
@@ -40,7 +41,7 @@ public class BarkBeetle implements Runnable {
                 if (childField1 != null && childField2 != null) {
                     synchronized (childField1) {
                         synchronized (childField2) {
-                            if (Thread.currentThread().isInterrupted()) {
+                            if (Thread.currentThread().isInterrupted() || interrupted) {
                                 break;
                             }
                                 int newGen = generation + 1;
@@ -75,6 +76,7 @@ public class BarkBeetle implements Runnable {
             }
         }
         if (countThreads <= 0 || generation >= 32) {
+            interrupted = true;
             thisSim.endAll();
         }
     }
