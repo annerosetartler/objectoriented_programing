@@ -1,6 +1,9 @@
 public class Test {
+
+
     public static void main(String[] args) {
 
+        Object o = new Object(); //ToDo: Not too happy with that
 
         System.out.println("********************************************1");
         System.out.println("Kleiner Wald - 3x3 Wald-Grundfläche:"); //5 mit Rand
@@ -19,11 +22,13 @@ public class Test {
                 {1, 1}
         };
 
-        Simulation s1 = new Simulation(forest1);
-        System.out.println("********************************************2");
+        synchronized (o) {
+            Simulation s1 = new Simulation(forest1);
+            System.out.println("********************************************2");
 
-        s1.populate(barkBeetleInfo1, antBeetleInfo1);
-        s1.startSim();
+            s1.populate(barkBeetleInfo1, antBeetleInfo1);
+            s1.startSim();
+        }
 
         System.out.println("********************************************3");
         try {
@@ -32,7 +37,6 @@ public class Test {
             System.out.println("********************************************5");
         } catch (InterruptedException ignored) {
             System.out.println("return statement1");
-            return;
         }
 
 
@@ -61,16 +65,17 @@ public class Test {
                 {4, 4}
         };
 
-        Simulation s2 = new Simulation(forest2);
-        s2.populate(barkBeetleInfo2, antBeetleInfo2);
-        s2.startSim();
-
+        synchronized (o) {
+            Simulation s2 = new Simulation(forest2);
+            s2.populate(barkBeetleInfo2, antBeetleInfo2);
+            s2.startSim();
+        }
 
         try {
             Thread.sleep(5000);
         } catch (InterruptedException e) {
             System.out.println("return statement2");
-            return;
+
         }
 
         System.out.println("********************************************");
@@ -129,11 +134,12 @@ public class Test {
                 */
         };
 
+        synchronized (o) {
+            Simulation s3 = new Simulation(forest3);
 
-        Simulation s3 = new Simulation(forest3);
-
-        s3.populate(barkBeetleInfo, antBeetleInfo);
-        s3.startSim();
+            s3.populate(barkBeetleInfo, antBeetleInfo);
+            s3.startSim();
+        }
     }
 
 
