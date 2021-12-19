@@ -7,7 +7,7 @@ public class BarkBeetle implements Beetle {
     private Field currentField;
     private int generation;
     private final Simulation thisSim;
-    private static int countThreads;
+    //private static int countThreads;
     private List<Beetle> barkBList;
     private boolean running;
     private Thread currentThread;
@@ -19,7 +19,8 @@ public class BarkBeetle implements Beetle {
         currentField.setBeetle(this);
         this.generation = generation;
         synchronized (BarkBeetle.class) {
-            countThreads++;
+            thisSim.changeNrOfThread(1);
+            //countThreads++;
         }
         currentThread = Thread.currentThread();
         running = false;
@@ -51,7 +52,8 @@ public class BarkBeetle implements Beetle {
             generation++;
 
             synchronized (BarkBeetle.class) {
-                if (countThreads <= 0 || generation >= 32) {
+                //if (countThreads <= 0 || generation >= 32) {
+                if (thisSim.getNrOfBarkThreads() <= 0 || generation >= 32) {
                     thisSim.interruptGlobally();
                     thisSim.endAll();
                 }
@@ -119,7 +121,8 @@ public class BarkBeetle implements Beetle {
         running = false;
         currentThread.interrupt();
         synchronized (BarkBeetle.class) {
-            countThreads--;
+            //countThreads--;
+            thisSim.changeNrOfThread(-1);
         }
 
         if (currentField.getLock().tryLock()) {
@@ -128,8 +131,9 @@ public class BarkBeetle implements Beetle {
         }
     }
 
-    public static void resetCountThreads(){
-        countThreads = 0;
+    public void resetCountThreads(){
+        thisSim.resetNrOfThreads();
+        //countThreads = 0;
     }
 
     public String toString() {

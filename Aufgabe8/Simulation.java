@@ -4,7 +4,8 @@ public class Simulation {
     private final Forest forest;
     private List<Beetle> theBeetles;
     private boolean running;
-    private static boolean globalInterrupt;
+    private boolean globalInterrupt;
+    private int countBarkThreads;
 
     //VORB: forest != null
     //      alle Zeilen sind gleich lang & es gibt keine null-Einträge
@@ -13,7 +14,8 @@ public class Simulation {
         theBeetles = Collections.synchronizedList(new ArrayList<Beetle>());
         running = false;
         globalInterrupt = false;
-        BarkBeetle.resetCountThreads();
+        countBarkThreads = 0;
+        //BarkBeetle.resetCountThreads();
     }
 
     //NACHB: beendet alle laufenden Threads
@@ -40,6 +42,18 @@ public class Simulation {
             System.out.println(b.toString());
         }
         }
+    }
+
+    public void changeNrOfThread(int change){
+        countBarkThreads += change;
+    }
+
+    public void resetNrOfThreads(){
+        countBarkThreads = 0;
+    }
+
+    public int getNrOfBarkThreads(){
+        return countBarkThreads;
     }
 
     public synchronized void print(String message){
