@@ -19,7 +19,7 @@ public class AntBeetle implements Beetle {
     private Field currentField;
     private int stepsToStarvation;
     private Simulation thisSim;
-    private List<Beetle> theBeetlesList; //ToDo: das ist die TheBeetle-List Referenz, oder?
+    private List<Beetle> theBeetlesList;
     private Thread currentThread;
     private boolean running;
 
