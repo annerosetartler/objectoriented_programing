@@ -3,17 +3,29 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class AntBeetle implements Beetle {
+    //KOMMENTAR: AntBeetles sind Beetles, die andere Beetles fressen. Als solche können sie sich selbst von einem Baum zum
+    //           nächsten Bewegen. Treffen sie auf Beute, so vertilgen sie diese. Im Gegensatz zu anderen Käfern beruht
+    //           ihre Populationsstrategie demnach nur zum Teil auf Fortpflanzung und sie pflanzen sich pro Jahr nur mit
+    //           einmal fort (eine Population pro Ausführung der while-Schleife in der Methode run). Hat ein Ameisenbuntkäfer zu
+    //           lange nichts gefressen (stepsToStarvation < 0), so stirbt er ab
+    //           Ameisenbuntkäfer leben immer auf einem Feld mit Baum. Sie laufen von einem Baum zum nächsten und pflanzen sich
+    //           so lange fort, bis ihr currentThread interrupted wird (wird zur Vermeidung von synchronisierungsproblemen
+    //           auch mit dem boolean running gesichert). Anschließend haben sie keine Funktionalität mehr, das AntBeetle-Objekt dient
+    //           nur mehr der Ausgabe der Informationen bei Beendigung der Simulation
 
+    //INV: currentField != null && currentField.hasTree()
+    //     3 >= stepsToStarvation >= 0
+    //     thisSim != null && antBList != null & currentThread != null
     private Field currentField;
     private int stepsToStarvation;
     private Simulation thisSim;
-    private List<Beetle> antBList;
+    private List<Beetle> theBeetlesList; //ToDo: das ist die TheBeetle-List Referenz, oder?
     private Thread currentThread;
     private boolean running;
 
 
     public AntBeetle(Simulation s, int x, int y, List<Beetle> aB) {
-        antBList = aB;
+        theBeetlesList = aB;
         thisSim = s;
         currentField = s.getField(x, y);
         currentField.setBeetle(this);
@@ -22,6 +34,13 @@ public class AntBeetle implements Beetle {
         running = false;
     }
 
+    //NACHB: Verwaltet den Lebenszyklus eines AntBeetle so lange, bis dieser terminiert, weil er entweder verhungert ist,
+    //       oder das Programm beendet wurde
+    //       Bei jedem Durchlauf der while-Schleife bewegt sich der AntBeetle ein Feld weiter, wenn ihm das möglich ist
+    //       (= es gibt einen Platz mit Baum und ohne AntBeetle im Umkreis)
+    //       Trifft der AntBeetle auf dem neuen Platz auf ein BarkBeetle, so frisst er dieses (= Beendigung des
+    //       BarkBeetle-Threads auf dem entsprechenden Platz)
+    //       Zusätzlich vermehrt er sich jeweils einmal (= Erzeugung eines neuen AntBeetle-Objekts)
     @Override
     public void run() {
         running = true;
@@ -43,6 +62,9 @@ public class AntBeetle implements Beetle {
         }
     }
 
+    //NACHB: Versetzt dieses Objekt auf ein anderes Feld, falls ein passendes (= mit Baum, aber ohne AntBeetle) verfügbar ist
+    //       currentField wird aufs entsprechende neue Feld gesetzt
+    //       Falls sich auf dem Feld ein BarkBeetle befand, so wird dieser gefressen (= entsprechender Thread beendet)
     private void tryToMove(){
         List<Field> neighbourFields = getMoveNeighbours();
         if (neighbourFields.size() == 1){
@@ -53,6 +75,9 @@ public class AntBeetle implements Beetle {
         }
     }
 
+    //VORB: field != null && field.hasTree() && (field.getBeetle == null || field.getBeetle().isPrey())
+    //NACHB: Setzt diesen AntBeetle-Thread vom Feld, auf dem es gerade sitzt auf field und setzt auch die currentField Referenz um
+    //       Befand sich auf dem neuen Feld ein BarkBeetle, so wird dieser gefressen
     private void attackMove(Field field){
         if (field.getBeetle() != null){
             field.getBeetle().endThread();
@@ -65,6 +90,7 @@ public class AntBeetle implements Beetle {
         currentField = field;
     }
 
+    //NACHB: Setzt ein neues AntBeetle-Objekt auf einen geeigneten (= freien) Platz, falls ein solcher vorhanden ist
     private void spawnChildren(){
         List<Field> childFields = getFreeNeighbours();
         if (childFields.size() == 1){
@@ -75,18 +101,22 @@ public class AntBeetle implements Beetle {
         }
     }
 
+    //VORB: field != null && field.hasTree() && field.getBeetle == null
+    //NACHB: Setzt einen neuen AntBeetle-Thread auf field, fügt ihn in die antBList ein und startet seinen Thread
     private void spawnChild(Field field){
-        AntBeetle a = new AntBeetle(thisSim, field.getxPos(), field.getyPos(), antBList);//toDO: theBeetlesLIST!
-        antBList.add(a);
+        AntBeetle a = new AntBeetle(thisSim, field.getxPos(), field.getyPos(), theBeetlesList);
+        theBeetlesList.add(a);
         new Thread(a, "AntBeetle").start();
     }
 
+    //NACHB: Gibt eine List mit einem Nachbarfeld aus, das entweder genau einen Baum beinhaltet, auf dem derzeit keine
+    //       Käferpopulation lebt, oder aber (wenn es keinen geeigneten Nachbarn gibt) die keinen Baum beinhaltet
     private List<Field> getFreeNeighbours(){
         List<Field> neighbours = currentField.getNeighbours();
         Collections.shuffle(neighbours);
         List<Field> selection = new LinkedList<Field>();
         for (Field f : neighbours) {
-            if (f.hasTree() && f.getBeetle() == null && f.getLock().tryLock()){ //ToDo: barkbeetles
+            if (f.hasTree() && f.getBeetle() == null && f.getLock().tryLock()){
                 selection.add(f);
                 break;
             }
@@ -94,12 +124,14 @@ public class AntBeetle implements Beetle {
         return selection;
     }
 
+    //NACHB: Gibt eine List mit einem Nachbarfeld aus, das entweder genau einen Baum beinhaltet, auf dem derzeit keine
+    //       Ameisenbuntkäferpopulation lebt, oder aber (wenn es keinen geeigneten Nachbarn gibt) die keinen Baum beinhaltet
     private List<Field> getMoveNeighbours(){
         List<Field> neighbours = currentField.getNeighbours();
         Collections.shuffle(neighbours);
         List<Field> selection = new LinkedList<Field>();
         for (Field f : neighbours) {
-            if (f.hasTree() && (f.getBeetle() == null || f.getBeetle().isPrey()) && f.getLock().tryLock()){ //ToDo: barkbeetles
+            if (f.hasTree() && (f.getBeetle() == null || f.getBeetle().isPrey()) && f.getLock().tryLock()){
                 selection.add(f);
                 break;
             }
@@ -107,6 +139,9 @@ public class AntBeetle implements Beetle {
         return selection;
     }
 
+    //NACHB: gibt true aus, wenn der in diesem Objekt beinhaltete Thread weiter laufen soll, false sonst
+    //       false kann entweder durch "eigene" Objektzustände erreicht werden (wenn der Thread beendet wurde oder gerade
+    //       in Beendigung ist, wenn der Käfer verhungert), aber auch durch einen globalen Interrupt
     private boolean beetleActive(){
         if (Thread.currentThread().isInterrupted()){
             return false;
@@ -123,15 +158,19 @@ public class AntBeetle implements Beetle {
         return true;
     }
 
+    @Override
     public boolean isPrey(){
         return false;
     }
 
+    //NACHB: Gibt das für unsere Simukation gewählte charakteristische Zeichen des Ameisenbuntkäfers (+) aus
     @Override
     public String getCharacter() {
         return "+";
     }
 
+    //NACHB: Beendet currentThread, wenn dieser nicht gerade schon beendet wird
+    //       Der Beetle-Tread auf currentField wird in Zuge dessen auf "null" zurückgesetzt
     public void endThread() {
         if (!running){
             return;
@@ -145,6 +184,6 @@ public class AntBeetle implements Beetle {
     }
 
     public String toString() {
-        return "Ameisenbuntkäfer: Hungrigkeit: " + (stepsToStarvation == 3 ? "satt" : (stepsToStarvation == 2 ? "mäßig hungrig" : "sehr hungrig")) + "Feldkoordinaten: " + currentField.getxPos() + ", " + currentField.getyPos() + "\n";
+        return "Ameisenbuntkäfer: Hungrigkeit: " + (stepsToStarvation == 3 ? "satt. " : (stepsToStarvation == 2 ? "mäßig hungrig. " : "sehr hungrig. ")) + "Feldkoordinaten: " + currentField.getxPos() + ", " + currentField.getyPos() + "\n";
     }
 }
