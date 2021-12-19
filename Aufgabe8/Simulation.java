@@ -7,25 +7,20 @@ import java.util.List;
 
 public class Simulation {
     private final Forest forest;
-    private List<BarkBeetle> barkBeetles;
-    private List<AntBeetle> antBeetles;
+    private List<Beetle> theBeetles;
 
     //VORB: forest != null
     //      alle Zeilen sind gleich lang & es gibt keine null-Einträge
     public Simulation(Forest forest){
         this.forest = forest;
-        barkBeetles = Collections.synchronizedList(new ArrayList<BarkBeetle>());
-        antBeetles = Collections.synchronizedList(new ArrayList<AntBeetle>());
+        theBeetles = Collections.synchronizedList(new ArrayList<Beetle>());
     }
 
     //NACHB: beendet alle laufenden Threads
     public synchronized void endAll(){ //ToDo: ist hier das Problem, dass die Simulation-Referenz in dem BArkBeetle, von dem aus wir das aufrufen, iwie nicht mehr "funktioniert"
         System.out.println("Finaler Zustand der Käferpopulationen:");
-            for(AntBeetle a : antBeetles){
-                if(a != null)a.endThread();
-            }
-            for(BarkBeetle b : barkBeetles){
-                if(b != null)b.endThread();
+            for(Beetle b : theBeetles){
+                if(b != null) b.endThread();
             }
         BarkBeetle.countThreads = 0;
         stats();
@@ -35,11 +30,8 @@ public class Simulation {
     //NACHB: gibt toString aller BarkBeetles und aller antBeetles aus
     public void stats(){
         System.out.println("Finaler Zustand der Käferpopulationen: ");
-        for(BarkBeetle b : barkBeetles){
+        for(Beetle b : theBeetles){
             System.out.println(b.toString());
-        }
-        for(AntBeetle a : antBeetles){
-            System.out.println(a.toString());
         }
     }
 
@@ -49,10 +41,10 @@ public class Simulation {
 
     public void populate(int[][] BarkBInfo, int[][] AntBInfo){
         for (int[] info : BarkBInfo) {
-            barkBeetles.add(new BarkBeetle(this, info[0], info[1], info[2], barkBeetles));
+            theBeetles.add(new BarkBeetle(this, info[0], info[1], info[2], theBeetles));
         }
         for (int[] info : AntBInfo) {
-            antBeetles.add(new AntBeetle(this, info[0], info[1], antBeetles));
+            theBeetles.add(new AntBeetle(this, info[0], info[1], theBeetles));
         }
     }
 
@@ -65,14 +57,9 @@ public class Simulation {
     //NACHB: startet die Simulation mit den in bB enthaltenen Borkenkäferpopulationen und den in
     //       aB enthaltenen Ameisenbuntkäferpopulationen auf dem Wald(=Forest) der Simulation
     public void startSim(){
-        synchronized (barkBeetles){
-            for (BarkBeetle b : barkBeetles) {
-                new Thread(b, "BarkBeetle").start();
-            }
-        }
-        synchronized (antBeetles){
-            for (AntBeetle a : antBeetles) {
-                new Thread(a, "AntBeetle").start();
+        synchronized (theBeetles){
+            for (Beetle b : theBeetles) {
+                new Thread(b, "Beetle").start();
             }
         }
     }

@@ -1,20 +1,20 @@
 import java.util.LinkedList;
 import java.util.List;
 
-public class AntBeetle implements Runnable {
+public class AntBeetle implements Beetle {
 
     private Field occupiedField;
     private int stepsToStarvation;
     private int reproductionCount;
     private Simulation simRef;
-    private List<AntBeetle> antBList;
+    private List<Beetle> antBList;
 
     private Field nextField;
     private Field childField;
     private Thread aBeetle;
 
 
-    public AntBeetle(Simulation s, int x, int y, List<AntBeetle> aB) {
+    public AntBeetle(Simulation s, int x, int y, List<Beetle> aB) {
         antBList = aB;
         simRef = s;
         occupiedField = s.getField(x, y);
@@ -39,9 +39,11 @@ public class AntBeetle implements Runnable {
                         if (Thread.currentThread().isInterrupted()) {
                             break;
                         }
-                        gotFood = nextField.antBeetleMove();
+                        gotFood = nextField.antBeetleMove(this);
                         occupiedField.setContent('*');
+                        occupiedField.setBeetle(null);
                         occupiedField = nextField;
+                        occupiedField.setBeetle(this);
                         nextField = null;
 
                         if (reproductionCount * Math.random() >= 2) {  //Evtl andere Zahl, wenn es sich nicht oft genug vermehrt
@@ -55,6 +57,7 @@ public class AntBeetle implements Runnable {
                                     AntBeetle child = new AntBeetle(simRef, childField.getxPos(), childField.getyPos(), antBList);
                                     //simRef.addABeetleAndStart(child);
                                     addToAntBList(child);
+                                    childField.setBeetle(child);
                                     childField = null;
                                 }
                             }
@@ -91,8 +94,17 @@ public class AntBeetle implements Runnable {
         new Thread(childA, "AntBeetle").start();
     }
 
+    public boolean isPrey(){
+        return false;
+    }
+
     private void setContent() {
         occupiedField.setContent('+');
+    }
+
+    @Override
+    public String getCharacter() {
+        return "+";
     }
 
     private synchronized Field getFreeField(boolean hungryBeetle) { //ToDo: Hab grad beim Debugging anschauen gemerkt, dass ja hier die ergebnisse nicht mehr stimmen, wenn wir es verwenden (muss man wohl auch "sperren") - mein Bug hat sich grad auf ein X gesetzt...

@@ -1,7 +1,8 @@
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
-public class BarkBeetle implements Runnable {
+public class BarkBeetle implements Beetle {
 
     private Field currentField;
     private int waitingCount;
@@ -10,107 +11,119 @@ public class BarkBeetle implements Runnable {
     private final Simulation thisSim;
     public static int countThreads;
     public static Object lock = new Object();
-    private static boolean interrupted;
-    private List<BarkBeetle> barkBList;
+    private static boolean globalInterrupt;
+    private List<Beetle> barkBList;
 
     private Field childField1;
     private Field childField2;
-    private Thread bBeetle;
+    private Thread currentThread;
 
     //TODO: könnte sein, dass der Thread bereits im Konstruktor auf das Feld gesetzt werden muss
-    public BarkBeetle(Simulation s, int x, int y, int generation, List<BarkBeetle> bB) {
+    public BarkBeetle(Simulation s, int x, int y, int generation, List<Beetle> bB) {
         barkBList = bB;
         thisSim = s;
         currentField = s.getField(x, y);
+        currentField.setBeetle(this);
         waitingCount = 0;
         this.generation = generation;
-        setContent();
+        synchronized (BarkBeetle.class) {
+            countThreads++;
+        }
+        currentThread = Thread.currentThread();
     }
 
     @Override
     public void run() {
-        try {
-            synchronized (lock) {
-                countThreads++;
+        while (beetleActive()){
+
+            spawnChildren();
+
+            try {
+                if (currentField.getLock().tryLock(1, TimeUnit.MILLISECONDS)){
+                    currentField.damageTree();
+                    currentField.getLock().unlock();
+                }
+            } catch (InterruptedException e) {
+                System.out.println(e);
             }
-            bBeetle = Thread.currentThread();
-            currentField.setBarkBThread(Thread.currentThread());
-            while (!bBeetle.isInterrupted() && waitingCount < maxWaitingTime && generation < 32 && countThreads > 0 && !interrupted) {
-                synchronized (currentField) {
-                    getChildFields();
-                    if (childField1 != null && childField2 != null) {
-                        synchronized (childField1) {
-                            synchronized (childField2) {
-                                if (Thread.currentThread().isInterrupted() || interrupted) {
-                                    break;
-                                }
-                                int newGen = generation + 1;
-                                BarkBeetle bChild1 = new BarkBeetle(thisSim, childField1.getxPos(), childField1.getyPos(), newGen,barkBList);
-                                BarkBeetle bChild2 = new BarkBeetle(thisSim, childField2.getxPos(), childField2.getyPos(), newGen,barkBList);
-                                addToBarkBList(bChild1,bChild2);
-                            }
-                        }
-                    }
-                }
-                long waitTime = (long) (Math.random() * 45 + 5);
-                try {
-                    Thread.sleep(waitTime);
-                } catch (InterruptedException e) {
-                    return;
-                }
-                waitingCount++;
-                generation++;
-                thisSim.print("Borkenkäfer haben gewartet: ");
-                if (waitingCount >= maxWaitingTime) {
-                    currentField.setContent('X');
-                    currentField.setBarkBThread(null);
-                    this.endThread();
-                    synchronized (this) {
-                        countThreads--;
-                    }
-                }
+
+            long waitTime = (long) (Math.random() * 45 + 5);
+            try {
+                Thread.sleep(waitTime);
+            } catch (InterruptedException e) {
+                System.out.println(e);
             }
+            thisSim.print("Borkenkäfer haben gewartet: ");
+
+            waitingCount++;
+            generation++;
+
             if (countThreads <= 0 || generation >= 32) {
-                interrupted = true;
+                globalInterrupt = true;
                 thisSim.endAll();
             }
-        }catch (InterruptedException e){
-            System.out.println(e + "Borkenkäferalarm!");
         }
     }
 
-    private void addToBarkBList(BarkBeetle b1, BarkBeetle b2){
-        barkBList.add(b1);
-        barkBList.add(b2);
-        new Thread(b1, "BarkBeetle").start();
-        new Thread(b2, "BarkBeetle").start();
+    public boolean isPrey(){
+        return true;
     }
 
-
-    private void setContent() {
-        currentField.setContent('0');
+    @Override
+    public String getCharacter() {
+        return "0";
     }
 
-    private void getChildFields() throws InterruptedException{
+    private boolean beetleActive(){
+        if (Thread.currentThread().isInterrupted()){
+            return false;
+        }
+        if (waitingCount >= maxWaitingTime){
+            return false;
+        }
+        if (globalInterrupt){
+            return false;
+        }
+        return true;
+    }
+
+    private void spawnChildren(){
+        List<Field> childFields = getCFields();
+        if (childFields.size() == 2){
+            spawnChild(childFields.get(0));
+            spawnChild(childFields.get(1));
+        }
+        for (Field f : childFields) {
+            f.getLock().unlock();
+        }
+    }
+
+    private void spawnChild(Field field){
+        BarkBeetle b = new BarkBeetle(thisSim, field.getxPos(), field.getyPos(), generation + 1, barkBList); //toDO: theBeetlesLIST!
+        barkBList.add(b);
+        new Thread(b, "BarkBeetle").start();
+    }
+
+    private List<Field> getCFields(){
         List<Field> neighbours = currentField.getNeighbours();
-        List<Field> firstSelection = new LinkedList<Field>();
+        List<Field> selection = new LinkedList<Field>();
         for (Field f : neighbours) {
-            if (f.getContent() == '*') {
-                firstSelection.add(f);
+            if (f.hasTree() && f.getBeetle() == null && f.getLock().tryLock()){
+                selection.add(f);
+            }
+            if (selection.size() >= 2){
+                return selection;
             }
         }
-        if (firstSelection.size() >= 2) {
-            childField1 = firstSelection.get(0);
-            childField2 = firstSelection.get(1);
-        } else {
-            childField1 = null;
-            childField2 = null;
-        }
+        return selection;
     }
 
     public void endThread() {
-        if (!bBeetle.isInterrupted()) {
-            bBeetle.interrupt();
+        if (!currentThread.isInterrupted()) {
+            currentThread.interrupt();
+            synchronized (BarkBeetle.class) {
+                countThreads--;
+            }
         }
     }
 

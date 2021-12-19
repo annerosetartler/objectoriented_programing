@@ -1,5 +1,7 @@
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class Field {
     //KOMMENTAR: Field repräsentiert ein Feld in einem Wald. Ein Feld ist entweder leer (= 'X'), hat etnweder einen Baum
@@ -11,59 +13,67 @@ public class Field {
     //      content = ein Element aus der Menge: {'X','*','0','+'}
     //      barkBThread = null || barkBThread ist ein BarkBeetle-Thread
     private final Field[][] forest;
-    private char content;
+    //private char content;
     private final int xPos;
     private final int yPos;
-    private Thread barkBThread;
+    private int treeVitality;
+    private Beetle beetle;
+    private Lock lock;
 
     //VORB: f != null; alle Zeilen von f sind gleich lang; f hat keine Null-Einträge
     //      x >= 0 & x <= f[0].length-1
     //      y >= 0 & y <= f.length-1
     //      c = 'X' || c = '*'
-    public Field(Field[][] f, int x, int y, char c){
+    public Field(Field[][] f, int x, int y, char c) {
         forest = f;
         xPos = x;
         yPos = y;
-        content = c;
+        treeVitality = (c == '*') ? 3 : 0;
+        lock = new ReentrantLock();
+        //content = c;
     }
 
+    //ToDo: schleife oder Liste mit nachbarn statt feld
     //VORB: xPos >= 1 & xPos <= forest[0].length-2
     //      yPos >= 1 & yPos <= forest.length-2
     //NACHB: gibt eine Liste aller 8 Nachbarn eines Felds zurück, die nicht leer sind
-    public List<Field> getNeighbours(){
+    public List<Field> getNeighbours() {
         List<Field> freeFields = new LinkedList<Field>();
-        if(getField(xPos-1,yPos-1).content != 'X'){
-            freeFields.add(getField(xPos-1,yPos-1));
-        }
-        if(getField(xPos-1,yPos).content != 'X'){
-            freeFields.add(getField(xPos-1,yPos));
-        }
-        if(getField(xPos-1,yPos+1).content != 'X'){
-            freeFields.add(getField(xPos-1,yPos+1));
-        }
-        if(getField(xPos,yPos-1).content != 'X'){
-            freeFields.add(getField(xPos,yPos-1));
-        }
-        if(getField(xPos,yPos+1).content != 'X'){
-            freeFields.add(getField(xPos,yPos+1));
-        }
-        if(getField(xPos+1,yPos-1).content != 'X'){
-            freeFields.add(getField(xPos+1,yPos-1));
-        }
-        if(getField(xPos+1,yPos).content != 'X'){
-            freeFields.add(getField(xPos+1,yPos));
-        }
-        if(getField(xPos+1,yPos+1).content != 'X'){
-            freeFields.add(getField(xPos+1,yPos+1));
-        }
+        freeFields.add(getField(xPos - 1, yPos - 1));
+        freeFields.add(getField(xPos - 1, yPos));
+        freeFields.add(getField(xPos - 1, yPos + 1));
+        freeFields.add(getField(xPos, yPos - 1));
+        freeFields.add(getField(xPos, yPos + 1));
+        freeFields.add(getField(xPos + 1, yPos - 1));
+        freeFields.add(getField(xPos + 1, yPos));
+        freeFields.add(getField(xPos + 1, yPos + 1));
         return freeFields;
     }
 
     //VORB: bBthread ist ein Thread von BarkBeetle || bBthread = null
     //NACHB: setzt einen BarkBeetle-Thread auf dieses Feld
     //       oder setzt barkBThread auf null
-    public void setBarkBThread(Thread bBthread){
-        this.barkBThread = bBthread;
+    public void setBeetle(Beetle b) {
+        this.beetle = b;
+    }
+
+    public Lock getLock(){
+        return lock;
+    }
+
+    public boolean hasTree(){
+        return treeVitality > 0;
+    }
+
+    public Beetle getBeetle(){
+        return beetle;
+    }
+
+    public void damageTree() {
+        treeVitality--;
+        if (treeVitality <= 0) {
+            beetle.endThread();
+        }
     }
 
     //NACHB: simuliert, wenn sich eine Ameisenbuntkäferpopulation auf dieses Feld bewegt
@@ -71,11 +81,10 @@ public class Field {
     //       falls sich auf diesem Feld ein derartiger Thread befindet (= Ameisenbuntkäferpopulation
     //       frisst Borkenkäferpopulation)
     //       Gibt true aus, wenn sich eine Borkenkäferpopulation auf dem Feld befunden hat
-    public boolean antBeetleMove(){
-        content = '+';
-        if(barkBThread != null){
-            barkBThread.interrupt();
-            barkBThread = null;
+    public boolean antBeetleMove(Beetle b) {
+        if (beetle.isPrey()) {
+            beetle.endThread();
+            setBeetle(b);
             synchronized (BarkBeetle.lock) {
                 BarkBeetle.countThreads--;
             }
@@ -84,35 +93,26 @@ public class Field {
         return false;
     }
 
-    //VORB: c = 'X' || c = '*' || c = '+' || c = '0'
-    //NACHB: setzt den Inhalt dieses Felds auf c
-    public void setContent(char c){
-        content = c;
-    }
-
-    //NACHB: gibt den Inhalt des Felds zurück
-    public char getContent(){
-        return content;
-    }
-
     //NACHB: gibt die x-Koordinate dieses Felds zurück
-    public int getxPos(){
+    public int getxPos() {
         return xPos;
     }
 
     //NACHB: gibt die y-Koordinate dieses Felds zurück
-    public int getyPos(){
+    public int getyPos() {
         return yPos;
     }
 
     //NACHB: gibt den Inhalt dieses Felds als String zurück,
     //       wenn content = 'X', dann wird ein Leerzeichen zurückgegeben
-    public String toString(){
-        if(content == 'X'){
-            return " ";
-        }else{
-            return "" + content;
+    public String toString() {
+        if (beetle != null) {
+            return beetle.getCharacter();
         }
+        if (treeVitality > 0) {
+            return "*";
+        }
+        return " ";
     }
 
     //VORB: xPos >= 1 & yPos >= 1
@@ -132,7 +132,7 @@ public class Field {
     //VORB: x >= 0 & x <= forest[0].length-1
     //      y >= 0 & y <= forest.length-1
     //NACHB: gibt das Feld an den Koordinaten x,y zurück
-    private Field getField(int x, int y){
+    private Field getField(int x, int y) {
         return forest[y][x];
     }
 
