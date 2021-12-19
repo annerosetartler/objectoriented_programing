@@ -1,6 +1,5 @@
 import java.util.*;
 
-
 public class Simulation {
     private final Forest forest;
     private List<Beetle> theBeetles;
@@ -27,8 +26,6 @@ public class Simulation {
             for (Beetle b : theBeetles) {
                 if (b != null) b.endThread();
             }
-
-
         }
         //BarkBeetle.countThreads = 0;
         stats();

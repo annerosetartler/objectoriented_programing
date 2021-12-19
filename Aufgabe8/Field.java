@@ -31,7 +31,6 @@ public class Field {
         lock = new ReentrantLock();
     }
 
-    //ToDo: schleife oder Liste mit nachbarn statt feld
     //VORB: xPos >= 1 & xPos <= forest[0].length-2
     //      yPos >= 1 & yPos <= forest.length-2
     //NACHB: gibt eine Liste aller 8 Nachbarn eines Felds zurück, die nicht leer sind
@@ -94,20 +93,6 @@ public class Field {
             return "*";
         }
         return " ";
-    }
-
-    //VORB: xPos >= 1 & yPos >= 1
-    //NACHB: gibt den Wald (ohne Grenzfelder) beginnend ab diesem Feld als String zurück
-    public synchronized String print() {
-        if (xPos != forest[0].length - 2) {
-            return this + getField(xPos + 1, yPos).print();
-        } else {
-            if (yPos != forest.length - 2) {
-                return this + "\n" + getField(1, yPos + 1).print();
-            } else {
-                return "" + this;
-            }
-        }
     }
 
     //VORB: x >= 0 & x <= forest[0].length-1
