@@ -2,7 +2,7 @@ public class Test {
     public static void main(String[] args) {
 
 
-
+        System.out.println("********************************************1");
         System.out.println("Kleiner Wald - 3x3 Wald-Grundfläche:"); //5 mit Rand
         Forest forest1 = new Forest(
                 new char[][]{
@@ -20,20 +20,24 @@ public class Test {
         };
 
         Simulation s1 = new Simulation(forest1);
+        System.out.println("********************************************2");
 
         s1.populate(barkBeetleInfo1, antBeetleInfo1);
         s1.startSim();
 
+        System.out.println("********************************************3");
         try {
-            Thread.sleep(5000);
+            System.out.println("********************************************4");
+            Thread.sleep(50);
+            System.out.println("********************************************5");
         } catch (InterruptedException ignored) {
+            System.out.println("return statement1");
             return;
         }
 
 
 
-
-        System.out.println("********************************************");
+        System.out.println("********************************************6");
 
         System.out.println("Mittelgroßer Wald - 6x6 Wald Grundfläche:"); //8 mit Rand
         Forest forest2 = new Forest(
@@ -65,6 +69,7 @@ public class Test {
         try {
             Thread.sleep(5000);
         } catch (InterruptedException e) {
+            System.out.println("return statement2");
             return;
         }
 
