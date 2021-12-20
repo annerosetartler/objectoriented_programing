@@ -16,15 +16,14 @@ public class BarkBeetle implements Beetle {
     private Field currentField;
     private int generation;
     private final Simulation thisSim;
-    private List<Beetle> barkBList;
+    private List<Beetle> theBeetlesList;
     private boolean running;
     private Thread currentThread;
-    private int counter;//TODO: den Löschen, wenn du ihn für die Ausgabe nicht mehr brauchst
 
     //VORB: s != null & x >= 1 & y >= 1 & generation >= 1 & bB != null
     //HISTORY-CONSTRAINT: bei jedem Aufruf des Konstruktors wird die Anzahl aller Borkenkäfer in der Simulation erhöht
     public BarkBeetle(Simulation s, int x, int y, int generation, List<Beetle> bB) {
-        barkBList = bB;
+        theBeetlesList = bB;
         thisSim = s;
         currentField = s.getField(x, y);
         currentField.setBeetle(this);
@@ -34,7 +33,6 @@ public class BarkBeetle implements Beetle {
         }
         currentThread = Thread.currentThread();
         running = false;
-        counter = 0;
     }
 
     //NACHB: verwaltet den Lebenszyklus einer Borkenkäferpopulation, bis dieser terminiert, weil etnweder ein BarkBeetle
@@ -52,9 +50,7 @@ public class BarkBeetle implements Beetle {
                 Thread.sleep(waitTime);
             } catch (InterruptedException ignored) {
             }
-            //if (counter == 1) {//TODO: den Löschen, wenn du ihn für die Ausgabe nicht mehr brauchst
                 thisSim.print("Borkenkäfer haben gewartet: ");
-            //}//TODO: den Löschen, wenn du ihn für die Ausgabe nicht mehr brauchst
 
             spawnChildren();
 
@@ -68,7 +64,6 @@ public class BarkBeetle implements Beetle {
             } catch (InterruptedException ignored) {}
 
             generation++;
-            //counter++;//TODO: den Löschen, wenn du ihn für die Ausgabe nicht mehr brauchst
 
             synchronized (thisSim) {//TODO: findest du es macht Sinn hier die Simulation zu locken? was anderes sinnvolles fällt mir nicht ein
                 if (thisSim.getNrOfBarkThreads() <= 0 || generation >= 32) {
@@ -126,8 +121,8 @@ public class BarkBeetle implements Beetle {
     //NACHB: erzeugt ein neues BarkBeetle auf einem Feld, fügt dieses der Liste aller Borkenkäferpopulationen hinzu und
     //       startet den Thread des soeben erzeugten BarkBeetles
     private void spawnChild(Field field){
-        BarkBeetle b = new BarkBeetle(thisSim, field.getxPos(), field.getyPos(), generation + 1, barkBList); //toDO: theBeetlesLIST!
-        barkBList.add(b);
+        BarkBeetle b = new BarkBeetle(thisSim, field.getxPos(), field.getyPos(), generation + 1, theBeetlesList);
+        theBeetlesList.add(b);
         new Thread(b, "BarkBeetle").start();
     }
 

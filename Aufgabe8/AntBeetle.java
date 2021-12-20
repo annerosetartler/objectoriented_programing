@@ -51,7 +51,7 @@ public class AntBeetle implements Beetle {
             } catch (InterruptedException ignored) {
             }
 
-            if(beetleActive()){//TODO: hab ich hier noch hinzugefügt, damit sich noch aktive AntBeetles nicht vermehren können
+            if(beetleActive()){
                 tryToMove();
                 spawnChildren();
             }
@@ -67,7 +67,7 @@ public class AntBeetle implements Beetle {
     //       currentField wird aufs entsprechende neue Feld gesetzt
     //       Falls sich auf dem Feld ein BarkBeetle befand, so wird dieser gefressen (= entsprechender Thread beendet)
     private void tryToMove(){
-        List<Field> neighbourFields = getMoveNeighbours();
+        List<Field> neighbourFields = getFittingNeighbours(true);
         if (neighbourFields.size() == 1){
             attackMove(neighbourFields.get(0));
         }
@@ -93,7 +93,7 @@ public class AntBeetle implements Beetle {
 
     //NACHB: Setzt ein neues AntBeetle-Objekt auf einen geeigneten (= freien) Platz, falls ein solcher vorhanden ist
     private void spawnChildren(){
-        List<Field> childFields = getFreeNeighbours();
+        List<Field> childFields = getFittingNeighbours(false);
         if (childFields.size() == 1){
             spawnChild(childFields.get(0));
         }
@@ -110,29 +110,16 @@ public class AntBeetle implements Beetle {
         new Thread(a, "AntBeetle").start();
     }
 
-    //NACHB: Gibt eine List mit einem Nachbarfeld aus, das entweder genau einen Baum beinhaltet, auf dem derzeit keine
-    //       Käferpopulation lebt, oder aber (wenn es keinen geeigneten Nachbarn gibt) die keinen Baum beinhaltet
-    private List<Field> getFreeNeighbours(){
+    //VORB: canEat ist false, wenn die Methode fürs Erzeugen eines neuen Threads (= spawnChildren) aufgerufen wird, true sonst
+    //NACHB: Gibt eine List mit entweder keinem Nachbarfeld, oder genau einem Nachbarfeld, das einen Baum beinhaltet, aus.
+    //       Wenn can eat true ist, darf sich auf dem gewählten Nachbarfeld ein BarkBeetle befinden, ansonsten muss der Baum
+    //       unbesiedelt sein
+    private List<Field> getFittingNeighbours(boolean canEat){
         List<Field> neighbours = currentField.getNeighbours();
         Collections.shuffle(neighbours);
         List<Field> selection = new LinkedList<Field>();
         for (Field f : neighbours) {
-            if (f.hasTree() && f.getBeetle() == null && f.getLock().tryLock()){
-                selection.add(f);
-                break;
-            }
-        }
-        return selection;
-    }
-
-    //NACHB: Gibt eine List mit einem Nachbarfeld aus, das entweder genau einen Baum beinhaltet, auf dem derzeit keine
-    //       Ameisenbuntkäferpopulation lebt, oder aber (wenn es keinen geeigneten Nachbarn gibt) die keinen Baum beinhaltet
-    private List<Field> getMoveNeighbours(){
-        List<Field> neighbours = currentField.getNeighbours();
-        Collections.shuffle(neighbours);
-        List<Field> selection = new LinkedList<Field>();
-        for (Field f : neighbours) {
-            if (f.hasTree() && (f.getBeetle() == null || f.getBeetle().isPrey()) && f.getLock().tryLock()){
+            if (f.hasTree() && (f.getBeetle() == null || (canEat && f.getBeetle().isPrey())) && f.getLock().tryLock()){
                 selection.add(f);
                 break;
             }
@@ -164,7 +151,7 @@ public class AntBeetle implements Beetle {
         return false;
     }
 
-    //NACHB: Gibt das für unsere Simukation gewählte charakteristische Zeichen des Ameisenbuntkäfers (+) aus
+    //NACHB: Gibt das für unsere Simulation gewählte charakteristische Zeichen des Ameisenbuntkäfers "+" aus
     @Override
     public String getValueAsString() {
         return "+";

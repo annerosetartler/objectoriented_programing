@@ -3,9 +3,6 @@ public class Test {
 
     public static void main(String[] args) {
 
-        Object o = new Object(); //ToDo: Not too happy with that
-
-        System.out.println("********************************************1");
         System.out.println("Kleiner Wald - 3x3 Wald-Grundfläche:"); //5 mit Rand
         Forest forest1 = new Forest(
                 new char[][]{
@@ -14,7 +11,7 @@ public class Test {
                         {'*', '*', '*'},
                 });
 
-        int[][] barkBeetleInfo1 = new int[][] {
+        int[][] barkBeetleInfo1 = new int[][]{
                 {2, 2, 1}
         };
 
@@ -22,26 +19,16 @@ public class Test {
                 {1, 1}
         };
 
-        synchronized (o) {
-            Simulation s1 = new Simulation(forest1);
-            System.out.println("********************************************2");
+        Simulation s1 = new Simulation(forest1);
 
-            s1.populate(barkBeetleInfo1, antBeetleInfo1);
-            s1.startSim();
-        }
+        s1.populate(barkBeetleInfo1, antBeetleInfo1);
+        s1.startSim();
 
-        System.out.println("********************************************3");
         try {
-            System.out.println("********************************************4");
             Thread.sleep(5000);
-            System.out.println("********************************************5");
         } catch (InterruptedException ignored) {
-            System.out.println("return statement1");
         }
 
-
-
-        System.out.println("********************************************6");
 
         System.out.println("Mittelgroßer Wald - 6x6 Wald Grundfläche:"); //8 mit Rand
         Forest forest2 = new Forest(
@@ -55,32 +42,23 @@ public class Test {
                 });
 
 
-        int[][] barkBeetleInfo2 = new int[][] {
+        int[][] barkBeetleInfo2 = new int[][]{
                 {3, 2, 1},
                 {6, 6, 1},
                 {3, 5, 1}
         };
 
-        int[][] antBeetleInfo2 = new int[][] {
+        int[][] antBeetleInfo2 = new int[][]{
                 {4, 4}
         };
 
-        synchronized (o) {
-            Simulation s2 = new Simulation(forest2);
-            s2.populate(barkBeetleInfo2, antBeetleInfo2);
-            s2.startSim();
-        }
+        Simulation s2 = new Simulation(forest2);
+        s2.populate(barkBeetleInfo2, antBeetleInfo2);
+        s2.startSim();
 
         try {
             Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            System.out.println("return statement2");
-
-        }
-
-        System.out.println("********************************************");
-
-
+        } catch (InterruptedException ignored) {}
 
         System.out.println("Großer Wald - 27x27 Wald Grundfläche:"); //29 mit Rand
         Forest forest3 = new Forest(
@@ -94,7 +72,7 @@ public class Test {
                         {'*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', 'X', 'X', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', 'X', '*', '*'},
                         {'*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', 'X', 'X', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*'},
                         {'*', '*', '*', '*', '*', '*', 'X', 'X', 'X', '*', '*', 'X', 'X', 'X', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*'},
-                        {'*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*','*', '*', '*', '*', 'X', 'X', 'X', '*', '*', '*', '*', '*'},
+                        {'*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', 'X', 'X', 'X', '*', '*', '*', '*', '*'},
                         {'*', 'X', '*', 'X', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', 'X', 'X', '*', '*', 'X', 'X', '*', '*', 'X', 'X', '*', '*'},
                         {'*', '*', '*', '*', '*', '*', '*', 'X', 'X', 'X', '*', '*', '*', '*', 'X', 'X', 'X', '*', '*', 'X', '*', 'X', '*', 'X', 'X', '*', '*'},
                         {'*', '*', '*', '*', '*', '*', '*', '*', 'X', 'X', '*', '*', '*', '*', 'X', 'X', '*', '*', '*', '*', '*', '*', '*', 'X', 'X', '*', '*'},
@@ -114,7 +92,7 @@ public class Test {
                         {'*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*'},
                 });
 
-        int[][] barkBeetleInfo = new int[][] {
+        int[][] barkBeetleInfo = new int[][]{
                 {3, 2, 1},
                 //{9, 10, 1},
                 //{1, 17, 1},
@@ -125,7 +103,7 @@ public class Test {
                 //{25, 25, 1}
         };
 
-        int[][] antBeetleInfo = new int[][] { //ToDo: vlt. hier einmal dieselbe Sim mit vielem einmal mit wenigen?
+        int[][] antBeetleInfo = new int[][]{
                 {7, 12} /*,
                 {13, 4},
                 {22, 7},
@@ -134,12 +112,10 @@ public class Test {
                 */
         };
 
-        synchronized (o) {
-            Simulation s3 = new Simulation(forest3);
+        Simulation s3 = new Simulation(forest3);
 
-            s3.populate(barkBeetleInfo, antBeetleInfo);
-            s3.startSim();
-        }
+        s3.populate(barkBeetleInfo, antBeetleInfo);
+        s3.startSim();
     }
 
 }
