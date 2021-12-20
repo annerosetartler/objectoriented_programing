@@ -19,7 +19,7 @@ public class BarkBeetle implements Beetle {
         currentField = s.getField(x, y);
         currentField.setBeetle(this);
         this.generation = generation;
-        synchronized (BarkBeetle.class) {
+        synchronized (thisSim) {
             thisSim.changeNrOfThread(1);
             //countThreads++;
         }
@@ -56,7 +56,7 @@ public class BarkBeetle implements Beetle {
             generation++;
             //counter++;
 
-            synchronized (BarkBeetle.class) {
+            synchronized (thisSim) {
                 //if (countThreads <= 0 || generation >= 32) {
                 if (thisSim.getNrOfBarkThreads() <= 0 || generation >= 32) {
                     thisSim.interruptGlobally();
@@ -71,7 +71,7 @@ public class BarkBeetle implements Beetle {
     }
 
     @Override
-    public String getCharacter() {
+    public String getValueAsString() {
         return "0";
     }
 
@@ -125,7 +125,7 @@ public class BarkBeetle implements Beetle {
         }
         running = false;
         currentThread.interrupt();
-        synchronized (BarkBeetle.class) {
+        synchronized (thisSim) {
             //countThreads--;
             thisSim.changeNrOfThread(-1);
         }

@@ -4,5 +4,5 @@ public interface Beetle extends Runnable {
 
     boolean isPrey();
 
-    String getCharacter();
+    String getValueAsString();
 }

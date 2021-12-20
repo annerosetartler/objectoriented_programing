@@ -165,7 +165,7 @@ public class AntBeetle implements Beetle {
 
     //NACHB: Gibt das für unsere Simukation gewählte charakteristische Zeichen des Ameisenbuntkäfers (+) aus
     @Override
-    public String getCharacter() {
+    public String getValueAsString() {
         return "+";
     }
 

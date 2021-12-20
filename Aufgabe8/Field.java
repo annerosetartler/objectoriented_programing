@@ -87,7 +87,7 @@ public class Field {
     //       wenn content = 'X', dann wird ein Leerzeichen zurückgegeben
     public String toString() {
         if (beetle != null) {
-            return beetle.getCharacter();
+            return beetle.getValueAsString();
         }
         if (treeVitality > 0) {
             return "*";

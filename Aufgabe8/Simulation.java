@@ -1,6 +1,8 @@
 import java.util.*;
 
 public class Simulation {
+    //KOMMENTAR: simuliert Käferpopulationen auf einem Wald (= forest)
+
     private final Forest forest;
     private List<Beetle> theBeetles;
     private boolean running;
@@ -15,10 +17,9 @@ public class Simulation {
         running = false;
         globalInterrupt = false;
         countBarkThreads = 0;
-        //BarkBeetle.resetCountThreads();
     }
 
-    //NACHB: beendet alle laufenden Threads
+    //NACHB: beendet alle laufenden Threads & gibt den Zustand aller Käferpopulationen sowie den Zustand des Walds aus
     public void endAll(){
         if (!running){
             return;
