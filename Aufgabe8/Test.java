@@ -119,10 +119,10 @@ public class Test {
                 {9, 10, 1},
                 {1, 17, 1},
                 {23, 7, 1},
-                {9, 6, 1},
-                {22, 4, 1},
-                {22, 23, 1},
-                {25, 25, 1}
+                //{9, 6, 1},
+                //{22, 4, 1},
+                //{22, 23, 1},
+                //{25, 25, 1}
         };
 
         int[][] antBeetleInfo = new int[][] { //ToDo: vlt. hier einmal dieselbe Sim mit vielem einmal mit wenigen?
