@@ -94,7 +94,7 @@ public class Test {
 
         int[][] barkBeetleInfo = new int[][]{
                 {3, 2, 1},
-                //{9, 10, 1},
+                {9, 10, 1},
                 //{1, 17, 1},
                 //{23, 7, 1},
                 //{9, 6, 1},
@@ -123,12 +123,11 @@ public class Test {
 ************************************************************************************************************************
 Arbeitsaufteilung Aufgabe 8:
 
-Konzeption Programmstruktur: Annerose, Maria
+Konzeption Programmstruktur: Annerose, Maria, David
 Zusicherungen und Implementierung von Field, Forest, Simulation, BarkBeetle: Maria
 Zusicherungen und Implementierung von AntBeetle: Annerose
 Schreiben der Tests: David
-Synchronisation & Debugging von Field, Forest, Simulation, BarkBeetle, AntBeetle: Annerose, Maria
-Debugging Test: Annerose
+Synchronisation & Debugging (samt Überarbeitung) von Field, Forest, Simulation, BarkBeetle, AntBeetle, Test: Annerose, Maria
 
 **************************************************************************************************************************
  */

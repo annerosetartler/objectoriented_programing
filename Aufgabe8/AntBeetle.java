@@ -57,7 +57,7 @@ public class AntBeetle implements Beetle {
             }
 
             stepsToStarvation--;
-            if (stepsToStarvation < 0){
+            if (!beetleActive()){
                 endThread();
             }
         }
@@ -107,9 +107,7 @@ public class AntBeetle implements Beetle {
     private void spawnChild(Field field){
         AntBeetle a = new AntBeetle(thisSim, field.getxPos(), field.getyPos(), theBeetlesList);
         theBeetlesList.add(a);
-        synchronized (thisSim.getBeetleThreads()) {
-            new Thread(thisSim.getBeetleThreads(), a, "AntBeetle", 16).start();
-        }
+        new Thread(thisSim.getBeetleThreads(), a, "AntBeetle", 16).start();
     }
 
     //VORB: canEat ist false, wenn die Methode fürs Erzeugen eines neuen Threads (= spawnChildren) aufgerufen wird, true sonst

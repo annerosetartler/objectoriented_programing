@@ -12,7 +12,7 @@ public class Field {
     //      yPos >= 0 & yPos <= forest.length-1
     //      beetle = ein BarkBeetle || beetle = ein AntBeetle || beetle = null
     //KOMMENTAR: jedes Feld besitzt ein Lock, damit Felder möglichst rasch gelockt werden können und gleichzeitig auf
-    //           keine gelockten Felder zugegriffen werden kann //TODO: bitte nur kurz durchlesen, ob der Satz so verständlich ist
+    //           keine gelockten Felder zugegriffen werden kann
     private final Field[][] forest;
     private final int xPos;
     private final int yPos;

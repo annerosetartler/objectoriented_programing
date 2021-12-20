@@ -30,16 +30,13 @@ public class Simulation {
         }
         running = false;
         System.out.println("Finaler Zustand der Käferpopulationen:");
-        /*
+
         synchronized (theBeetles) {
             for (Beetle b : theBeetles) {
                 if (b != null) b.endThread();
             }
         }
-         */
-        synchronized (beetleThreads){
-            beetleThreads.interrupt();
-        }
+        beetleThreads.interrupt();//falls noch Threads in der Zwischenzeit aktiv geworden sind
         stats();
         print("Finaler Zustand des Walds: ");
     }

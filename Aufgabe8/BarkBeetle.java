@@ -28,7 +28,7 @@ public class BarkBeetle implements Beetle {
         currentField = s.getField(x, y);
         currentField.setBeetle(this);
         this.generation = generation;
-        synchronized (thisSim) {//TODO: findest du es macht Sinn hier die Simulation zu locken? was anderes sinnvolles fällt mir nicht ein
+        synchronized (thisSim) {
             thisSim.changeNrOfThread(1);
         }
         currentThread = Thread.currentThread();
@@ -65,7 +65,7 @@ public class BarkBeetle implements Beetle {
 
             generation++;
 
-            synchronized (thisSim) {//TODO: findest du es macht Sinn hier die Simulation zu locken? was anderes sinnvolles fällt mir nicht ein
+            synchronized (thisSim) {
                 if (thisSim.getNrOfBarkThreads() <= 0 || generation >= 32) {
                     thisSim.interruptGlobally();
                     thisSim.endAll();
@@ -123,10 +123,7 @@ public class BarkBeetle implements Beetle {
     private void spawnChild(Field field){
         BarkBeetle b = new BarkBeetle(thisSim, field.getxPos(), field.getyPos(), generation + 1, theBeetlesList);
         theBeetlesList.add(b);
-        synchronized (thisSim.getBeetleThreads()){
-            new Thread(thisSim.getBeetleThreads(),b, "BarkBeetle",16).start();
-        }
-
+        new Thread(thisSim.getBeetleThreads(),b, "BarkBeetle",16).start();
     }
 
     //NACHB: gibt eine Liste mit Nachbarsfeldern zurück, auf denen ein Baum steht und
@@ -156,7 +153,7 @@ public class BarkBeetle implements Beetle {
         }
         running = false;
         currentThread.interrupt();
-        synchronized (thisSim) {//TODO: findest du es macht Sinn hier die Simulation zu locken? was anderes sinnvolles fällt mir nicht ein
+        synchronized (thisSim) {
             thisSim.changeNrOfThread(-1);
         }
 
