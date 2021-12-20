@@ -51,11 +51,12 @@ public class AntBeetle implements Beetle {
             } catch (InterruptedException ignored) {
             }
 
-            tryToMove();
-            spawnChildren();
+            if(beetleActive()){//TODO: hab ich hier noch hinzugefügt, damit sich noch aktive AntBeetles nicht vermehren können
+                tryToMove();
+                spawnChildren();
+            }
 
             stepsToStarvation--;
-
             if (stepsToStarvation < 0){
                 endThread();
             }
@@ -170,7 +171,7 @@ public class AntBeetle implements Beetle {
     }
 
     //NACHB: Beendet currentThread, wenn dieser nicht gerade schon beendet wird
-    //       Der Beetle-Tread auf currentField wird in Zuge dessen auf "null" zurückgesetzt
+    //       Der Beetle-Thread auf currentField wird in Zuge dessen auf "null" zurückgesetzt
     public void endThread() {
         if (!running){
             return;

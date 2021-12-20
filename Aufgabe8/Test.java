@@ -151,7 +151,7 @@ Konzeption Programmstruktur: Annerose, Maria
 Zusicherungen und Implementierung von Field, Forest, Simulation, BarkBeetle: Maria
 Zusicherungen und Implementierung von AntBeetle: Annerose
 Schreiben der Tests: David
-Synchronisation & Debugging von Field, Forest, Simulation, BarkBeetle, AntBeelte: Annerose, Maria
+Synchronisation & Debugging von Field, Forest, Simulation, BarkBeetle, AntBeetle: Annerose, Maria
 Debugging Test: Annerose
 
 **************************************************************************************************************************

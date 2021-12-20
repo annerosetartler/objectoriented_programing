@@ -45,9 +45,7 @@ public class Forest {
     }
 
     //NACHB: Gibt den Zustand des Walds auf der Konsole aus
-    //       ruft dafür die synchronisierte Methode in Field auf;
-    //       wenn es sich vom Stack her nicht ausgeht, wird
-    //       die nicht synchronisierte Methode printWald() aufgerufen --> kann inkonsistent sein
+    //       kann inkonsistent sein --> siehe printWald()
     public void print(String message){
         System.out.println(message);
         System.out.println(printWald());

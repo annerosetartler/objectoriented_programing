@@ -3,31 +3,45 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class BarkBeetle implements Beetle {
+    //KOMMENTAR: BarkBeetle repräsentiert eine Borkenkäferpopulation. Diese knabbert über drei Generationen an einem
+    //           Baum. Dann stirbt dieser, genauso wie die darauf fressende Borkenkäferpopulation, ab. Zu Lebzeiten der
+    //           Population vermehrt sich diese. Dabei erzeugt sie in jeder Generation zwei weitere Generationen auf
+    //           Nachbarsbäumen. Borkenkäfer stehen als Leibspeise von Ameisenbuntkäfern aber unter Gefahr gefressen
+    //           werden zu können.
 
+    //INV:  currentField != null
+    //      generation >= 1
+    //      thisSim != null
+    //      barkBList != null
     private Field currentField;
     private int generation;
     private final Simulation thisSim;
-    //private static int countThreads;
     private List<Beetle> barkBList;
     private boolean running;
     private Thread currentThread;
-    private int counter;
+    private int counter;//TODO: den Löschen, wenn du ihn für die Ausgabe nicht mehr brauchst
 
+    //VORB: s != null & x >= 1 & y >= 1 & generation >= 1 & bB != null
+    //HISTORY-CONSTRAINT: bei jedem Aufruf des Konstruktors wird die Anzahl aller Borkenkäfer in der Simulation erhöht
     public BarkBeetle(Simulation s, int x, int y, int generation, List<Beetle> bB) {
         barkBList = bB;
         thisSim = s;
         currentField = s.getField(x, y);
         currentField.setBeetle(this);
         this.generation = generation;
-        synchronized (thisSim) {
+        synchronized (thisSim) {//TODO: findest du es macht Sinn hier die Simulation zu locken? was anderes sinnvolles fällt mir nicht ein
             thisSim.changeNrOfThread(1);
-            //countThreads++;
         }
         currentThread = Thread.currentThread();
         running = false;
         counter = 0;
     }
 
+    //NACHB: verwaltet den Lebenszyklus einer Borkenkäferpopulation, bis dieser terminiert, weil etnweder ein BarkBeetle
+    //       die Generation 32 erreicht hat, der Baum von diesem BarkBeetle zu Tode gefressen wurde, dieser BarkBeetle von
+    //       einem AntBeetle gefressen wurde oder das Programm aufgrund keiner lebenden Borkenkäferpopulationen beendet wurde
+    //       innerhalb eines Lebenszyklus knabbert eine Borkenkäferpopulation an ihre Baum und vermehrt sich über den Aufruf
+    //       von spawnChildren() auf zwei Nachbarsbäume, auf denen wiederum neue BarkBeetles gestartet werden
     @Override
     public void run() {
         running = true;
@@ -38,9 +52,9 @@ public class BarkBeetle implements Beetle {
                 Thread.sleep(waitTime);
             } catch (InterruptedException ignored) {
             }
-            //if (counter == 1) {
+            //if (counter == 1) {//TODO: den Löschen, wenn du ihn für die Ausgabe nicht mehr brauchst
                 thisSim.print("Borkenkäfer haben gewartet: ");
-            //}
+            //}//TODO: den Löschen, wenn du ihn für die Ausgabe nicht mehr brauchst
 
             spawnChildren();
 
@@ -54,10 +68,9 @@ public class BarkBeetle implements Beetle {
             } catch (InterruptedException ignored) {}
 
             generation++;
-            //counter++;
+            //counter++;//TODO: den Löschen, wenn du ihn für die Ausgabe nicht mehr brauchst
 
-            synchronized (thisSim) {
-                //if (countThreads <= 0 || generation >= 32) {
+            synchronized (thisSim) {//TODO: findest du es macht Sinn hier die Simulation zu locken? was anderes sinnvolles fällt mir nicht ein
                 if (thisSim.getNrOfBarkThreads() <= 0 || generation >= 32) {
                     thisSim.interruptGlobally();
                     thisSim.endAll();
@@ -66,15 +79,23 @@ public class BarkBeetle implements Beetle {
         }
     }
 
+    //NACHB: gibt true zurück, da Borkenkäfer von Ameisenbuntkäfern gerne gefressen werden
     public boolean isPrey(){
         return true;
     }
 
+    //NACHB: gibt den für eine Borkenkäferpopulation charakteristischen String "0" zurück
     @Override
     public String getValueAsString() {
         return "0";
     }
 
+    //NACHB: gibt true zurück, wenn keine Abbruchbedingung erfüllt wird
+    //       folgende Abbruchbedingungen werden geprüft:
+    //       - ob der Thread dieses BarkBeetle abgebrochen wurde
+    //       - ob das Programm in der Simulation beendet wurde(= globale Interrupt)
+    //       - ob dieser BarkBeetle-Thread noch läuft (mit running abgefragt)
+    //       wenn eine der Abbruchbedingungen erfüllt wird, wird false zurückgegeben
     private boolean beetleActive(){
         if (Thread.currentThread().isInterrupted()){
             return false;
@@ -88,6 +109,8 @@ public class BarkBeetle implements Beetle {
         return true;
     }
 
+    //NACHB: erzeugt zwei neue BarkBeetle-Threads auf zwei Nachbarsfeldern, wenn genau zwei solche freie (nicht gelockte)
+    //       Nachbarsfelder mit Bäumen gefunden werden und gibt die Felder anschließend wieder frei (unlock)
     private void spawnChildren(){
         List<Field> childFields = getCFields();
         if (childFields.size() == 2){
@@ -99,12 +122,18 @@ public class BarkBeetle implements Beetle {
         }
     }
 
+    //VORB: field != null & field ist gelockt
+    //NACHB: erzeugt ein neues BarkBeetle auf einem Feld, fügt dieses der Liste aller Borkenkäferpopulationen hinzu und
+    //       startet den Thread des soeben erzeugten BarkBeetles
     private void spawnChild(Field field){
         BarkBeetle b = new BarkBeetle(thisSim, field.getxPos(), field.getyPos(), generation + 1, barkBList); //toDO: theBeetlesLIST!
         barkBList.add(b);
         new Thread(b, "BarkBeetle").start();
     }
 
+    //NACHB: gibt eine Liste mit Nachbarsfeldern zurück, auf denen ein Baum steht und
+    //       die frei(nicht gelockt) sind
+    //       werden zwei solcher Felder gefunden, dann wird früher abgebrochen und eine Liste mit diesen zwei zurückgegeben
     private List<Field> getCFields(){
         List<Field> neighbours = currentField.getNeighbours();
         List<Field> selection = new LinkedList<Field>();
@@ -119,14 +148,17 @@ public class BarkBeetle implements Beetle {
         return selection;
     }
 
+    //NACHB: beendet diesen Thread(= currentThread), wenn dieser nicht schon beendet wurde
+    //       beim ersten Aufruf wird auch der Beetle des currentFields auf null gesetzt
+    //       & running auf false gesetzt
+    //HISTORY-CONSTRAINT: verringert beim ersten Aufruf die Anzahl der Borkenkäferpopulationen in der Simulation um 1
     public void endThread() {
         if (!running){
             return;
         }
         running = false;
         currentThread.interrupt();
-        synchronized (thisSim) {
-            //countThreads--;
+        synchronized (thisSim) {//TODO: findest du es macht Sinn hier die Simulation zu locken? was anderes sinnvolles fällt mir nicht ein
             thisSim.changeNrOfThread(-1);
         }
 
@@ -136,12 +168,7 @@ public class BarkBeetle implements Beetle {
         }
     }
 
-    public void resetCountThreads(){
-        thisSim.resetNrOfThreads();
-        //countThreads = 0;
-    }
-
     public String toString() {
-        return "Borkenkäfer: Generationen: " + generation + "; Feldkoordinaten: " + currentField.getxPos() + ", " + currentField.getyPos() + "\n";
+        return "Borkenkäfer: Generation: " + generation + "; Feldkoordinaten: " + currentField.getxPos() + ", " + currentField.getyPos() + "\n";
     }
 }
