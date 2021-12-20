@@ -123,7 +123,10 @@ public class BarkBeetle implements Beetle {
     private void spawnChild(Field field){
         BarkBeetle b = new BarkBeetle(thisSim, field.getxPos(), field.getyPos(), generation + 1, theBeetlesList);
         theBeetlesList.add(b);
-        new Thread(b, "BarkBeetle").start();
+        synchronized (thisSim.getBeetleThreads()){
+            new Thread(thisSim.getBeetleThreads(),b, "BarkBeetle",16).start();
+        }
+
     }
 
     //NACHB: gibt eine Liste mit Nachbarsfeldern zurück, auf denen ein Baum steht und

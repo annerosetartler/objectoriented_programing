@@ -10,6 +10,7 @@ public class Simulation {
     private boolean running;
     private boolean globalInterrupt;
     private int countBarkThreads;
+    private ThreadGroup beetleThreads;
 
     //VORB: forest != null
     //      alle Zeilen sind gleich lang & es gibt keine null-Einträge
@@ -19,6 +20,7 @@ public class Simulation {
         running = false;
         globalInterrupt = false;
         countBarkThreads = 0;//= Anzahl der aktiven Borkenkäfer-Threads
+        beetleThreads = new ThreadGroup("TheBeetles");
     }
 
     //NACHB: beendet alle laufenden Threads & gibt den Zustand aller Käferpopulationen sowie den Zustand des Walds aus
@@ -28,10 +30,15 @@ public class Simulation {
         }
         running = false;
         System.out.println("Finaler Zustand der Käferpopulationen:");
+        /*
         synchronized (theBeetles) {
             for (Beetle b : theBeetles) {
                 if (b != null) b.endThread();
             }
+        }
+         */
+        synchronized (beetleThreads){
+            beetleThreads.interrupt();
         }
         stats();
         print("Finaler Zustand des Walds: ");
@@ -87,7 +94,7 @@ public class Simulation {
         running = true;
         synchronized (theBeetles){
             for (Beetle b : theBeetles) {
-                new Thread(b, "Beetle").start();
+                new Thread(beetleThreads,b, "Beetle",16).start();
             }
         }
     }
@@ -102,6 +109,9 @@ public class Simulation {
     public void interruptGlobally(){
         globalInterrupt = true;
     }
+
+    //NACHB: gibt eine Referenz auf beetleThreads zurück
+    public ThreadGroup getBeetleThreads(){return beetleThreads;}
 
     //VORB: x >= 0 & x <= forest[0].length-1
     //      y >= 0 & y <= forest.length-1
