@@ -33,7 +33,7 @@ public class Test {
         System.out.println("********************************************3");
         try {
             System.out.println("********************************************4");
-            Thread.sleep(50);
+            Thread.sleep(5000);
             System.out.println("********************************************5");
         } catch (InterruptedException ignored) {
             System.out.println("return statement1");
