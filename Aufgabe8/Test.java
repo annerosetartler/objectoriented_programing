@@ -93,8 +93,8 @@ public class Test {
                 });
 
         int[][] barkBeetleInfo = new int[][]{
-                {3, 2, 1},
-                {9, 10, 1},
+                {3, 2, 1},//bei zu vielen Borkenkäfern, wird die Ausgabe zu lang
+                //{9, 10, 1},
                 //{1, 17, 1},
                 //{23, 7, 1},
                 //{9, 6, 1},
