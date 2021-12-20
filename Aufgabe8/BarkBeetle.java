@@ -38,9 +38,9 @@ public class BarkBeetle implements Beetle {
                 Thread.sleep(waitTime);
             } catch (InterruptedException ignored) {
             }
-            if (counter == 1) {
+            //if (counter == 1) {
                 thisSim.print("Borkenkäfer haben gewartet: ");
-            }
+            //}
 
             spawnChildren();
 
@@ -54,7 +54,7 @@ public class BarkBeetle implements Beetle {
             } catch (InterruptedException ignored) {}
 
             generation++;
-            counter++;
+            //counter++;
 
             synchronized (BarkBeetle.class) {
                 //if (countThreads <= 0 || generation >= 32) {
